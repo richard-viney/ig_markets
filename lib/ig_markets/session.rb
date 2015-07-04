@@ -48,6 +48,8 @@ module IGMarkets
     end
 
     def request_headers
+      headers = {}
+
       headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
       headers['X-IG-API-KEY'] = @api_key
 
