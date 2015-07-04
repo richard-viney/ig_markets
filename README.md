@@ -1,4 +1,4 @@
-# Ruby Client for the IG Markets Dealing Platform
+# Ruby IG Markets Dealing Platform Gem
 
 [![Build Status][travis-ci-badge]][travis-ci-home]
 
@@ -31,10 +31,10 @@ Then run
 ## Usage
 
     dealing_platform = IGMarkets::DealingPlatform.new
-    dealing_platform.login username: '...', password: '...', api_key: '...', api: :demo # Switch to :live when ready
+    dealing_platform.login username: '...', password: '...', api_key: '...', api: :demo
 
-    accounts = dealing_platform.accounts
-    positions = dealing_platform.positions
+    puts dealing_platform.accounts.inspect
+    puts dealing_platform.positions.inspect
 
 ## Legal
 
