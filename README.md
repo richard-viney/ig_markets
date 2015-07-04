@@ -1,7 +1,7 @@
-# Ruby Client for the IG Markets Dealing API
+# Ruby Client for the IG Markets Dealing Platform
 
-Easy programmatic access from Ruby to the IG Markets dealing API. Supports accessing to an account's positions,
-history, working orders, current profit/loss, and many other parts of the IG Markets dealing platform.
+Easily access the IG Markets dealing platform from Ruby. Supports accessing an account's positions, history, transactions,
+working orders, current profit/loss, and many other parts of the IG Markets dealing platform.
 
 A live IG Markets account or a demo account is needed in order to use this gem. This gem is provided under the
 MIT license (see the `LICENSE` file), with the explicit condition that contributors have no responsibility for
