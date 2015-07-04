@@ -1,5 +1,7 @@
 # Ruby Client for the IG Markets Dealing Platform
 
+[![Build Status][travis-ci-badge]][travis-ci-home]
+
 Easily access the IG Markets dealing platform from Ruby. Supports accessing an account's positions, history, transactions,
 working orders, current profit/loss, and many other parts of the IG Markets dealing platform.
 
@@ -8,6 +10,9 @@ MIT license (see the `LICENSE` file), with the explicit condition that contribut
 any financial losses resulting from use or mis-use of this software.
 
 Written against the offical REST API available at http://labs.ig.com/rest-trading-api-reference.
+
+[travis-ci-home]: http://travis-ci.org/rviney/ig_markets
+[travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
 
 ## Requirements
 
