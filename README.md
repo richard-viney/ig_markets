@@ -7,7 +7,7 @@ working orders, current profit/loss, and other parts of the IG Markets Dealing P
 
 Written against the offical REST API available at http://labs.ig.com/rest-trading-api-reference.
 
-A IG Markets live or demo account is needed in order to use this gem.
+An IG Markets live or demo account is needed in order to use this gem.
 
 [travis-ci-home]: http://travis-ci.org/rviney/ig_markets
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
@@ -40,4 +40,4 @@ Then run
 
 ## Contributors
 
-This gem was originally written by Richard Viney. Other contributors will be warmly welcomed.
+This gem was originally written by Richard Viney.
