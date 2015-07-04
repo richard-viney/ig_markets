@@ -48,11 +48,8 @@ module IGMarkets
     end
 
     def request_headers
-      headers = {
-        content_type:   'application/json; charset=UTF-8',
-        accept:         'application/json; charset=UTF-8',
-        'X-IG-API-KEY': @api_key
-      }
+      headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
+      headers['X-IG-API-KEY'] = @api_key
 
       headers[:cst] = @cst if @cst
       headers[:x_security_token] = @x_security_token if @x_security_token
