@@ -58,13 +58,29 @@ module IGMarkets
 
     def positions
       gather :positions do |attributes|
-        Position.new attributes.fetch(:position).merge(market: Market.new(attributes.fetch(:market)))
+        position_attributes = attributes.fetch(:position)
+        position_attributes[:market] = Market.new attributes.fetch(:market)
+
+        Position.new position_attributes
       end
     end
 
     def position(options = {})
       _, result = session.get("/positions/#{options.fetch(:deal_id)}")
-      Position.new result.fetch(:position).merge(market: Market.new(result.fetch(:market)))
+
+      position_attributes = result.fetch(:position)
+      position_attributes[:market] = Market.new result.fetch(:market)
+
+      Position.new position_attributes
+    end
+
+    def working_orders
+      gather :workingOrders do |attributes|
+        working_order_attributes = attributes.fetch(:workingOrderData)
+        working_order_attributes[:market] = Market.new attributes.fetch(:marketData)
+
+        WorkingOrder.new working_order_attributes
+      end
     end
 
     ### Watchlists
@@ -91,7 +107,7 @@ module IGMarkets
     private
 
     def gather(collection, url = nil)
-      _, result = session.get(url || "/#{collection}")
+      _, result = session.get(url || "/#{collection.to_s.downcase}")
 
       result.fetch(collection).map do |attributes|
         yield attributes
