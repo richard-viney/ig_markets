@@ -4,12 +4,10 @@ module IGMarkets
       d.strftime('%d-%m-%Y')
     end
 
-    def hash_with_snake_case_keys(hash)
-      hash.each_with_object({}) do |(k, v), new_hash|
-        new_hash[k.to_s.gsub(/(.)([A-Z])/, '\1_\2').downcase.to_sym] = v
-      end
+    def format_date_time(dt)
+      dt.strftime('%Y:%m:%d-%H:%M:%S')
     end
 
-    module_function :format_date, :hash_with_snake_case_keys
+    module_function :format_date, :format_date_time
   end
 end

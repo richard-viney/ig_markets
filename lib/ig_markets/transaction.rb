@@ -13,9 +13,5 @@ module IGMarkets
     attribute :reference
     attribute :size
     attribute :transaction_type
-
-    def initialize(options = {})
-      self.attributes = Helper.hash_with_snake_case_keys(options)
-    end
   end
 end

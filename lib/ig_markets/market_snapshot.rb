@@ -1,22 +1,19 @@
 module IGMarkets
-  class Market
+  class MarketSnapshot
     include ActiveAttr::Model
 
     attribute :bid, type: Float
+    attribute :binary_odds, type: Float
+    attribute :controlled_risk_extra_spread, type: Float
+    attribute :decimal_places_factor, type: Float
     attribute :delay_time, type: Float
-    attribute :epic
-    attribute :expiry
     attribute :high, type: Float
-    attribute :instrument_name
-    attribute :instrument_type
-    attribute :lot_size
     attribute :low, type: Float
     attribute :market_status
     attribute :net_change, type: Float
     attribute :offer, type: Float
     attribute :percentage_change, type: Float
     attribute :scaling_factor, type: Float
-    attribute :streaming_prices_available, type: Boolean
     attribute :update_time
   end
 end

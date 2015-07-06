@@ -1,5 +1,5 @@
 module IGMarkets
-  class Activity
+  class AccountActivity
     include ActiveAttr::Model
 
     attribute :action_status
@@ -19,9 +19,5 @@ module IGMarkets
     attribute :stop
     attribute :stop_type
     attribute :time
-
-    def initialize(options = {})
-      self.attributes = Helper.hash_with_snake_case_keys(options)
-    end
   end
 end

@@ -2,12 +2,24 @@
 
 [![Build Status][travis-ci-badge]][travis-ci-home]
 
-Easily access the IG Markets Dealing Platform from Ruby. Supports accessing an account's positions, history, transactions,
-working orders, current profit/loss, and other parts of the IG Markets Dealing Platform.
+Easily access the IG Markets Dealing Platform from Ruby. Currently supports read-only access to the following:
+
+* Accounts
+* Activity history
+* Transaction history
+* Positions
+* Sprint market positions
+* Working orders
+* Markets
+* Market hierarchy
+* Market searches
+* Historical prices
+* Watchlists
+* Client sentiment
 
 Written against the offical REST API available at http://labs.ig.com/rest-trading-api-reference.
 
-An IG Markets live or demo account is needed in order to use this gem.
+An IG Markets production or demo account is needed in order to use this gem.
 
 [travis-ci-home]: http://travis-ci.org/rviney/ig_markets
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
@@ -32,12 +44,37 @@ Then run
 
 ## Usage
 
-    dealing_platform = IGMarkets::DealingPlatform.new
-    dealing_platform.login username: '...', password: '...', api_key: '...', api: :demo
+    ig = IGMarkets::DealingPlatform.new
 
-    puts dealing_platform.accounts.inspect
-    puts dealing_platform.positions.inspect
+    # Login
+    ig.login 'username', 'password', 'api_key', :demo
+
+    # Account
+    puts ig.accounts.inspect
+    puts ig.activities_in_date_range(Date.today.prev_month).inspect
+    puts ig.transactions_in_date_range(Date.today.prev_month).inspect
+
+    # Dealing
+    puts ig.positions.inspect
+    puts ig.sprint_market_positions.inspect
+    puts ig.working_orders.inspect
+
+    # Markets
+    puts ig.market_hierarchy.inspect
+    puts ig.market('UA.D.AAPL.CASH.IP').inspect
+    puts ig.market_search('APPL').inspect
+    puts ig.prices('CS.D.EURUSD.MINI.IP', :day, 10).inspect
+
+    # Watchlists
+    puts ig.watchlists.inspect
+
+    # Client sentiment
+    puts ig.client_sentiment('EURUSD').inspect
+    puts ig.client_sentiment_related('EURUSD').inspect
+
+    # General
+    puts ig.applications.inspect
 
 ## Contributors
 
-This gem was originally written by Richard Viney.
+Gem created by Richard Viney. All contributions welcome.

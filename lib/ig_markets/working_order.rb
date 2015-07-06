@@ -20,10 +20,6 @@ module IGMarkets
     attribute :trailing_trigger_distance, type: Float
     attribute :trailing_trigger_increment, type: Float
 
-    attribute :market
-
-    def initialize(options = {})
-      self.attributes = Helper.hash_with_snake_case_keys(options)
-    end
+    attribute :market, typecaster: proc { |attributes| Market.new attributes }
   end
 end

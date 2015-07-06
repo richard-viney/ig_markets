@@ -2,23 +2,19 @@ module IGMarkets
   class Position
     include ActiveAttr::Model
 
-    attribute :contract_size
-    attribute :controlled_risk
+    attribute :contract_size, type: Float
+    attribute :controlled_risk, type: Boolean
     attribute :created_date, type: DateTime
     attribute :currency
     attribute :deal_id
-    attribute :deal_size
+    attribute :deal_size, type: Float
     attribute :direction
-    attribute :limit_level
-    attribute :open_level
-    attribute :stop_level
-    attribute :trailing_step
-    attribute :trailing_stop_distance
+    attribute :limit_level, type: Float
+    attribute :open_level, type: Float
+    attribute :stop_level, type: Float
+    attribute :trailing_step, type: Float
+    attribute :trailing_stop_distance, type: Float
 
-    attribute :market
-
-    def initialize(options = {})
-      self.attributes = Helper.hash_with_snake_case_keys(options)
-    end
+    attribute :market, typecaster: proc { |attributes| Market.new attributes }
   end
 end
