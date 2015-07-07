@@ -7,13 +7,18 @@ module IGMarkets
       production: 'https://api.ig.com/gateway/deal'
     }
 
+    API_VERSION_1 = 1
+    API_VERSION_2 = 2
+
     def login(username, password, api_key, platform)
       fail ArgumentError, 'platform must be :demo or :production' unless HOST_URLS.key?(platform)
 
       @host_url = HOST_URLS[platform]
       @api_key = api_key
 
-      response, result = post '/session', identifier: username, password: password, encryptedPassword: false
+      password = encrypt_password(password)
+
+      response, result = post '/session', identifier: username, password: password, encryptedPassword: true
 
       @cst = response.headers.fetch(:cst)
       @x_security_token = response.headers.fetch(:x_security_token)
@@ -26,34 +31,29 @@ module IGMarkets
 
       delete '/session'
 
-      @host_url = nil
-      @api_key = nil
-      @cst = nil
-      @x_security_token = nil
+      @host_url = @api_key = @cst = @x_security_token = nil
     end
 
     def alive?
       !@cst.nil? && !@x_security_token.nil?
     end
 
-    def post(url, body)
-      request method: :post, url: url, payload: body.to_json
+    def post(url, body, api_version = API_VERSION_1)
+      request method: :post, url: url, payload: body.to_json, api_version: api_version
     end
 
-    def get(url)
-      request method: :get, url: url
+    def get(url, api_version = API_VERSION_1)
+      request method: :get, url: url, api_version: api_version
     end
 
-    def delete(url)
-      request method: :delete, url: url
+    def delete(url, api_version = API_VERSION_1)
+      request method: :delete, url: url, api_version: api_version
     end
 
-    def gather(collection, url)
-      _, result = get(url)
+    def gather(collection, url, api_version = API_VERSION_1)
+      _, result = get url, api_version
 
-      result.fetch(collection).map do |attributes|
-        yield attributes
-      end
+      result.fetch(collection).map { |attributes| yield attributes }
     end
 
     def inspect
@@ -62,19 +62,25 @@ module IGMarkets
 
     private
 
+    def encrypt_password(password)
+      _, result = get '/session/encryptionKey'
+
+      decoded_encryption_key = Base64.strict_decode64(result.fetch(:encryption_key))
+      public_key = OpenSSL::PKey::RSA.new(decoded_encryption_key)
+
+      encrypted_password = public_key.public_encrypt(Base64.strict_encode64("#{password}|#{result.fetch(:time_stamp)}"))
+
+      Base64.strict_encode64(encrypted_password)
+    end
+
     def request(options)
       options[:url] = "#{@host_url}#{options[:url]}"
-      options[:headers] = request_headers
+      options[:headers] = request_headers(options)
 
       print_request options
 
-      response = begin
-        RestClient::Request.execute options
-      rescue RestClient::Exception => e
-        e.response
-      end
-
-      result = parse_response(response)
+      response = execute_request(options)
+      result = process_response(response)
 
       fail "Request failed, code: #{response.code}, error: #{result[:error_code] || result}" unless response.code == 200
 
@@ -85,7 +91,26 @@ module IGMarkets
       puts "#{options[:method].upcase} #{options[:url]}" if print_requests
     end
 
-    def parse_response(response)
+    def request_headers(options)
+      headers = {}
+
+      headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
+      headers['X-IG-API-KEY'] = @api_key
+      headers[:version] = options.delete(:api_version)
+
+      headers[:cst] = @cst if @cst
+      headers[:x_security_token] = @x_security_token if @x_security_token
+
+      headers
+    end
+
+    def execute_request(options)
+      RestClient::Request.execute options
+    rescue RestClient::Exception => e
+      e.response
+    end
+
+    def process_response(response)
       result = begin
         JSON.parse(response.body, symbolize_names: true)
       rescue JSON::ParserError
@@ -93,19 +118,6 @@ module IGMarkets
       end
 
       snake_case_hash_keys(result)
-    end
-
-    def request_headers
-      headers = {}
-
-      headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
-      headers['X-IG-API-KEY'] = @api_key
-      headers[:version] = 1
-
-      headers[:cst] = @cst if @cst
-      headers[:x_security_token] = @x_security_token if @x_security_token
-
-      headers
     end
 
     def snake_case_hash_keys(object)

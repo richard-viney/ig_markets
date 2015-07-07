@@ -5,11 +5,12 @@ module IGMarkets
     attribute :bid, type: Float
     attribute :delay_time, type: Float
     attribute :epic
+    attribute :exchange_id
     attribute :expiry
     attribute :high, type: Float
     attribute :instrument_name
     attribute :instrument_type
-    attribute :lot_size
+    attribute :lot_size, type: Float
     attribute :low, type: Float
     attribute :market_status
     attribute :net_change, type: Float

@@ -7,10 +7,10 @@ module IGMarkets
     attribute :created_date, type: DateTime
     attribute :currency
     attribute :deal_id
-    attribute :deal_size, type: Float
     attribute :direction
+    attribute :level, type: Float
     attribute :limit_level, type: Float
-    attribute :open_level, type: Float
+    attribute :size, type: Float
     attribute :stop_level, type: Float
     attribute :trailing_step, type: Float
     attribute :trailing_stop_distance, type: Float

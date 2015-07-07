@@ -1,8 +1,9 @@
 # Ruby IG Markets Dealing Platform Gem
 
-[![Build Status][travis-ci-badge]][travis-ci-home]
+[![Build Status][travis-ci-badge]][travis-ci-link] [![MIT License][license-badge]][license-link]
 
-Easily access the IG Markets Dealing Platform from Ruby. Currently supports read-only access to the following:
+Easily access the IG Markets Dealing Platform from Ruby with this gem which is written against the offical REST API
+available [here](http://labs.ig.com/rest-trading-api-reference). Includes support for
 
 * Accounts
 * Activity history
@@ -17,16 +18,16 @@ Easily access the IG Markets Dealing Platform from Ruby. Currently supports read
 * Watchlists
 * Client sentiment
 
-Written against the offical REST API available at http://labs.ig.com/rest-trading-api-reference.
-
 An IG Markets production or demo account is needed in order to use this gem.
 
-[travis-ci-home]: http://travis-ci.org/rviney/ig_markets
+[travis-ci-link]: http://travis-ci.org/rviney/ig_markets
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
+[license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE
+[license-badge]: https://img.shields.io/badge/license-MIT-yellow.svg
 
 ## License
 
-This software is licensed under the MIT license. You must read and agree to this license in order to use this software.
+Licensed under the MIT license. You must read and agree to its terms to use this software.
 
 ## Requirements
 
@@ -74,6 +75,9 @@ Then run
 
     # General
     puts ig.applications.inspect
+
+    # Logout
+    ig.logout
 
 ## Contributors
 

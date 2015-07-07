@@ -11,7 +11,7 @@ module IGMarkets
     attribute :expiry
     attribute :expiry_details, typecaster: proc { |attributes| InstrumentExpiryDetails.new attributes }
     attribute :force_open_allowed, type: Boolean
-    attribute :lot_size
+    attribute :lot_size, type: Float
     attribute :margin_deposit_bands, typecaster: proc { |o| o.map { |attributes| MarginDepositBand.new attributes } }
     attribute :margin_factor, type: Float
     attribute :margin_factor_unit
@@ -19,7 +19,7 @@ module IGMarkets
     attribute :name
     attribute :news_code
     attribute :one_pip_means
-    attribute :opening_hours, typecaster: proc { |o| o.map { |attributes| OpeningHours.new attributes } }
+    attribute :opening_hours, typecaster: proc { |o| o[:market_times].map { |attributes| OpeningHours.new attributes } }
     attribute :rollover_details, typecaster: proc { |attributes| InstrumentRolloverDetails.new attributes }
     attribute :slippage_factor, typecaster: proc { |attributes| InstrumentSlippageFactor.new attributes }
     attribute :special_info

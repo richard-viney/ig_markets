@@ -18,43 +18,33 @@ module IGMarkets
 
   module AccountMethods
     def accounts
-      session.gather :accounts, '/accounts' do |attributes|
-        Account.new attributes
-      end
+      session.gather(:accounts, '/accounts') { |attributes| Account.new attributes }
     end
 
     def activities_in_date_range(from_date, to_date = Date.today)
-      from_date = Helper.format_date(from_date)
-      to_date = Helper.format_date(to_date)
+      from_date = format_activity_date(from_date)
+      to_date = format_activity_date(to_date)
 
-      session.gather :activities, "/history/activity/#{from_date}/#{to_date}" do |attributes|
-        AccountActivity.new attributes
-      end
+      gather_activities "/history/activity/#{from_date}/#{to_date}"
     end
 
     def activities_in_recent_period(milliseconds)
-      session.gather :activities, "/history/activity/#{milliseconds.to_i}" do |attributes|
-        AccountActivity.new attributes
-      end
+      gather_activities "/history/activity/#{milliseconds.to_i}"
     end
 
     def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
-      from_date = Helper.format_date(from_date)
-      to_date = Helper.format_date(to_date)
+      from_date = format_activity_date(from_date)
+      to_date = format_activity_date(to_date)
 
       validate_transaction_type! transaction_type
 
-      session.gather :transactions, "/history/transactions/#{transaction_type}/#{from_date}/#{to_date}" do |attributes|
-        Transaction.new attributes
-      end
+      gather_transactions "/history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}"
     end
 
     def transactions_in_recent_period(milliseconds, transaction_type = :all)
       validate_transaction_type! transaction_type
 
-      session.gather :transactions, "/history/transactions/#{transaction_type}/#{milliseconds}" do |attributes|
-        Transaction.new attributes
-      end
+      gather_transactions "/history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}"
     end
 
     private
@@ -64,17 +54,29 @@ module IGMarkets
     def validate_transaction_type!(type)
       fail ArgumentError, 'transaction_type is invalid' unless ALLOWED_TRANSACTION_TYPES.include? type
     end
+
+    def gather_activities(url)
+      session.gather(:activities, url) { |attributes| AccountActivity.new attributes }
+    end
+
+    def gather_transactions(url)
+      session.gather(:transactions, url) { |attributes| Transaction.new attributes }
+    end
+
+    def format_activity_date(d)
+      d.strftime '%d-%m-%Y'
+    end
   end
 
   module DealingMethods
     def positions
-      session.gather :positions, '/positions' do |attributes|
-        Position.new attributes.merge(market: attributes.fetch(:market))
+      session.gather :positions, '/positions', Session::API_VERSION_2 do |attributes|
+        Position.new attributes.fetch(:position).merge(market: attributes.fetch(:market))
       end
     end
 
     def position(deal_id)
-      _, result = session.get("/positions/#{deal_id}")
+      _, result = session.get("/positions/#{deal_id}", Session::API_VERSION_2)
 
       Position.new result.fetch(:position).merge(market: result.fetch(:market))
     end
@@ -86,8 +88,8 @@ module IGMarkets
     end
 
     def working_orders
-      session.gather :working_orders, '/workingorders' do |attributes|
-        WorkingOrder.new attributes.merge(market: attributes.fetch(:market_data))
+      session.gather :working_orders, '/workingorders', Session::API_VERSION_2 do |attributes|
+        WorkingOrder.new attributes.fetch(:working_order_data).merge(market: attributes.fetch(:market_data))
       end
     end
   end
@@ -104,14 +106,18 @@ module IGMarkets
       }
     end
 
-    def market(*epics)
+    def market(epic)
+      markets(epic)[0]
+    end
+
+    def markets(*epics)
       fail ArgumentError, 'at least one epic must be specified' if epics.empty?
 
       _, result = session.get("/markets?epics=#{epics.join(',')}")
 
       result.fetch(:market_details).map do |attributes|
         {
-          dealing_rules: parse_market_dealing_rules(attributes.fetch(:dealing_rules)),
+          dealing_rules: parse_dealing_rules(attributes.fetch(:dealing_rules)),
           instrument: Instrument.new(attributes.fetch(:instrument)),
           snapshot: MarketSnapshot.new(attributes.fetch(:snapshot))
         }
@@ -127,30 +133,19 @@ module IGMarkets
     def prices(epic, resolution, num_points)
       validate_historical_price_resolution! resolution
 
-      gather_prices "/prices/#{epic}/#{resolution}/#{num_points.to_i}"
+      gather_prices "/prices/#{epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
     end
 
     def prices_in_date_range(epic, resolution, start_date_time, end_date_time = DateTime.now)
       validate_historical_price_resolution! resolution
 
-      start_date_time = Helper.format_date_time(start_date_time)
-      end_date_time = Helper.format_date_time(end_date_time)
+      start_date_time = format_historical_price_date_time(start_date_time)
+      end_date_time = format_historical_price_date_time(end_date_time)
 
-      gather_prices "/prices/#{epic}/#{resolution}?startdate=#{start_date_time}&enddate=#{end_date_time}"
+      gather_prices "/prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
     end
 
     private
-
-    def parse_market_dealing_rules(raw_dealing_rules)
-      dealing_rules = {}
-
-      raw_dealing_rules.each do |k, v|
-        v = DealingRule.new(v) if v.is_a? Hash
-        dealing_rules[k] = v
-      end
-
-      dealing_rules
-    end
 
     ALLOWED_HISTORICAL_PRICE_RESOLUTIONS = [
       :minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30,
@@ -158,12 +153,29 @@ module IGMarkets
       :day, :week, :month
     ]
 
+    def parse_dealing_rules(raw_dealing_rules)
+      dealing_rules = {
+        market_order_preference: raw_dealing_rules.delete(:market_order_preference),
+        trailing_stops_preference: raw_dealing_rules.delete(:trailing_stops_preference)
+      }
+
+      raw_dealing_rules.each do |k, v|
+        dealing_rules[k] = DealingRule.new(v)
+      end
+
+      dealing_rules
+    end
+
     def validate_historical_price_resolution!(resolution)
       fail ArgumentError, 'resolution is invalid' unless ALLOWED_HISTORICAL_PRICE_RESOLUTIONS.include? resolution
     end
 
+    def format_historical_price_date_time(dt)
+      "#{dt.strftime('%Y-%m-%d')}%20#{dt.strftime('%H:%M:%S')}"
+    end
+
     def gather_prices(url)
-      _, result = session.get(url)
+      _, result = session.get(url, Session::API_VERSION_2)
 
       {
         allowance: HistoricalPriceDataAllowance.new(result.fetch(:allowance)),
@@ -175,15 +187,11 @@ module IGMarkets
 
   module WatchlistMethods
     def watchlists
-      session.gather :watchlists, '/watchlists' do |attributes|
-        Watchlist.new attributes
-      end
+      session.gather(:watchlists, '/watchlists') { |attributes| Watchlist.new attributes }
     end
 
     def watchlist_markets(watchlist_id)
-      session.gather :markets, "/watchlists/#{watchlist_id}" do |attributes|
-        Market.new attributes
-      end
+      session.gather(:markets, "/watchlists/#{watchlist_id}") { |attributes| Market.new attributes }
     end
   end
 
@@ -204,9 +212,7 @@ module IGMarkets
     def applications
       _, result = session.get('/operations/application')
 
-      result.map do |attributes|
-        Application.new attributes
-      end
+      result.map { |attributes| Application.new attributes }
     end
   end
 
