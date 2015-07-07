@@ -7,13 +7,13 @@ module IGMarkets
       production: 'https://api.ig.com/gateway/deal'
     }
 
-    def create(username, password, api_key, platform)
+    def login(username, password, api_key, platform)
       fail ArgumentError, 'platform must be :demo or :production' unless HOST_URLS.key?(platform)
 
       @host_url = HOST_URLS[platform]
       @api_key = api_key
 
-      response, result = post '/session', identifier: username, password: password
+      response, result = post '/session', identifier: username, password: password, encryptedPassword: false
 
       @cst = response.headers.fetch(:cst)
       @x_security_token = response.headers.fetch(:x_security_token)
@@ -21,16 +21,31 @@ module IGMarkets
       result
     end
 
+    def logout
+      return unless alive?
+
+      delete '/session'
+
+      @host_url = nil
+      @api_key = nil
+      @cst = nil
+      @x_security_token = nil
+    end
+
     def alive?
       !@cst.nil? && !@x_security_token.nil?
     end
 
     def post(url, body)
-      request :post, "#{@host_url}#{url}", body.to_json
+      request method: :post, url: url, payload: body.to_json
     end
 
     def get(url)
-      request :get, "#{@host_url}#{url}"
+      request method: :get, url: url
+    end
+
+    def delete(url)
+      request method: :delete, url: url
     end
 
     def gather(collection, url)
@@ -47,11 +62,14 @@ module IGMarkets
 
     private
 
-    def request(method, *params)
-      print_request method, *params
+    def request(options)
+      options[:url] = "#{@host_url}#{options[:url]}"
+      options[:headers] = request_headers
+
+      print_request options
 
       response = begin
-        RestClient.send method, *(params << request_headers)
+        RestClient::Request.execute options
       rescue RestClient::Exception => e
         e.response
       end
@@ -63,8 +81,8 @@ module IGMarkets
       [response, result]
     end
 
-    def print_request(method, *params)
-      puts [method.upcase, params.join(', ')].join(' ') if print_requests
+    def print_request(options)
+      puts "#{options[:method].upcase} #{options[:url]}" if print_requests
     end
 
     def parse_response(response)
@@ -82,6 +100,7 @@ module IGMarkets
 
       headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
       headers['X-IG-API-KEY'] = @api_key
+      headers[:version] = 1
 
       headers[:cst] = @cst if @cst
       headers[:x_security_token] = @x_security_token if @x_security_token

@@ -5,9 +5,14 @@ module IGMarkets
     # @param username [String] the login username
     # @param password [String] the login password
     # @param api_key [String] the login API key
-    # @param api [Symbol] the platform to log into, `:production` or `:demo`
+    # @param api [:production, :demo] the platform to log into
     def login(username, password, api_key, platform = :demo)
-      session.create username, password, api_key, platform
+      session.login username, password, api_key, platform
+    end
+
+    # Logs out of the IG Markets Dealing Platform
+    def logout
+      session.logout
     end
   end
 
