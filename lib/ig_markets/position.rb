@@ -15,6 +15,6 @@ module IGMarkets
     attribute :trailing_step, type: Float
     attribute :trailing_stop_distance, type: Float
 
-    attribute :market, typecaster: proc { |attributes| Market.new attributes }
+    attribute :market, typecaster: AttributeTypecasters.market
   end
 end

@@ -17,6 +17,6 @@ module IGMarkets
     attribute :stop_distance, type: Float
     attribute :time_in_force
 
-    attribute :market, typecaster: proc { |attributes| Market.new attributes }
+    attribute :market, typecaster: AttributeTypecasters.market
   end
 end

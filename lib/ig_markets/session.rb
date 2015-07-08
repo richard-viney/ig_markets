@@ -27,9 +27,7 @@ module IGMarkets
     end
 
     def logout
-      return unless alive?
-
-      delete '/session'
+      delete '/session' if alive?
 
       @host_url = @api_key = @cst = @x_security_token = nil
     end
