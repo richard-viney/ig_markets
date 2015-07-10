@@ -1,7 +1,5 @@
 module IGMarkets
-  class SprintMarketPosition
-    include ActiveAttr::Model
-
+  class SprintMarketPosition < Model
     attribute :created_date, type: DateTime
     attribute :currency
     attribute :deal_id

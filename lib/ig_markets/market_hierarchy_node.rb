@@ -1,7 +1,5 @@
 module IGMarkets
-  class MarketHierarchyNode
-    include ActiveAttr::Model
-
+  class MarketHierarchyNode < Model
     attribute :id
     attribute :name
   end

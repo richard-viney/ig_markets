@@ -1,7 +1,5 @@
 module IGMarkets
-  class MarketSnapshot
-    include ActiveAttr::Model
-
+  class MarketSnapshot < Model
     attribute :bid, type: Float
     attribute :binary_odds, type: Float
     attribute :controlled_risk_extra_spread, type: Float

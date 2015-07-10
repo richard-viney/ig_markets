@@ -1,7 +1,5 @@
 module IGMarkets
-  class AccountBalance
-    include ActiveAttr::Model
-
+  class AccountBalance < Model
     attribute :available,   type: Float
     attribute :deposit,     type: Float
     attribute :profit_loss, type: Float

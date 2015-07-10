@@ -1,7 +1,5 @@
 module IGMarkets
-  class InstrumentRolloverDetails
-    include ActiveAttr::Model
-
+  class InstrumentRolloverDetails < Model
     attribute :last_rollover_time
     attribute :rollover_info
   end

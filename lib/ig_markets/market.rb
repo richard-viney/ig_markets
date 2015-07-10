@@ -1,7 +1,5 @@
 module IGMarkets
-  class Market
-    include ActiveAttr::Model
-
+  class Market < Model
     attribute :bid, type: Float
     attribute :delay_time, type: Float
     attribute :epic

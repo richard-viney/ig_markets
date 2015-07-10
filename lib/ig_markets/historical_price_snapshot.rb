@@ -1,7 +1,5 @@
 module IGMarkets
-  class HistoricalPriceSnapshot
-    include ActiveAttr::Model
-
+  class HistoricalPriceSnapshot < Model
     attribute :close_price, typecaster: AttributeTypecasters.price
     attribute :high_price, typecaster: AttributeTypecasters.price
     attribute :last_traded_volume, type: Float

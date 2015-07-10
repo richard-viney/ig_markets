@@ -1,7 +1,5 @@
 module IGMarkets
-  class InstrumentSlippageFactor
-    include ActiveAttr::Model
-
+  class InstrumentSlippageFactor < Model
     attribute :unit
     attribute :value, type: Float
   end

@@ -1,7 +1,5 @@
 module IGMarkets
-  class Transaction
-    include ActiveAttr::Model
-
+  class Transaction < Model
     attribute :cash_transaction, type: Boolean
     attribute :close_level
     attribute :currency

@@ -1,6 +1,7 @@
 require 'active_attr'
 require 'rest-client'
 
+require 'ig_markets/model'
 require 'ig_markets/attribute_typecasters'
 require 'ig_markets/account'
 require 'ig_markets/account_activity'

@@ -1,7 +1,5 @@
 module IGMarkets
-  class MarginDepositBand
-    include ActiveAttr::Model
-
+  class MarginDepositBand < Model
     attribute :currency
     attribute :margin, type: Float
     attribute :max, type: Float

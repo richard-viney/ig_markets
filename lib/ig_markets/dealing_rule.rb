@@ -1,7 +1,5 @@
 module IGMarkets
-  class DealingRule
-    include ActiveAttr::Model
-
+  class DealingRule < Model
     attribute :unit
     attribute :value, type: Float
   end

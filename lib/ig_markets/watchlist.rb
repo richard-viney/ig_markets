@@ -1,7 +1,5 @@
 module IGMarkets
-  class Watchlist
-    include ActiveAttr::Model
-
+  class Watchlist < Model
     attribute :id
     attribute :name
     attribute :editable

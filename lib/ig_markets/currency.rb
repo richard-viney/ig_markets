@@ -1,7 +1,5 @@
 module IGMarkets
-  class Currency
-    include ActiveAttr::Model
-
+  class Currency < Model
     attribute :base_exchange_rate, type: Float
     attribute :code
     attribute :exchange_rate, type: Float

@@ -1,7 +1,5 @@
 module IGMarkets
-  class Account
-    include ActiveAttr::Model
-
+  class Account < Model
     attribute :account_alias
     attribute :account_id
     attribute :account_name

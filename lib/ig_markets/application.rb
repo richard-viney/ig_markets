@@ -1,7 +1,5 @@
 module IGMarkets
-  class Application
-    include ActiveAttr::Model
-
+  class Application < Model
     attribute :allow_equities, type: Boolean
     attribute :allow_quote_orders, type: Boolean
     attribute :allowance_account_historical_data, type: Float

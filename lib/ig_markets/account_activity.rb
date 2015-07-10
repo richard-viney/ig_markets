@@ -1,7 +1,5 @@
 module IGMarkets
-  class AccountActivity
-    include ActiveAttr::Model
-
+  class AccountActivity < Model
     attribute :action_status
     attribute :activity
     attribute :activity_history_id

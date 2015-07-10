@@ -1,7 +1,5 @@
 module IGMarkets
-  class WorkingOrder
-    include ActiveAttr::Model
-
+  class WorkingOrder < Model
     attribute :created_date, type: DateTime
     attribute :currency_code
     attribute :deal_id

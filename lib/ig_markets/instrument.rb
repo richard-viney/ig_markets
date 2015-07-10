@@ -1,7 +1,5 @@
 module IGMarkets
-  class Instrument
-    include ActiveAttr::Model
-
+  class Instrument < Model
     attribute :chart_code
     attribute :contract_size
     attribute :controlled_risk_allowed, type: Boolean

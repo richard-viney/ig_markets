@@ -1,7 +1,5 @@
 module IGMarkets
-  class Position
-    include ActiveAttr::Model
-
+  class Position < Model
     attribute :contract_size, type: Float
     attribute :controlled_risk, type: Boolean
     attribute :created_date, type: DateTime
