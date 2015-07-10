@@ -48,9 +48,8 @@ module IGMarkets
       request method: :delete, url: url, api_version: api_version
     end
 
-    def gather(collection, url, api_version = API_VERSION_1)
+    def gather(url, collection, api_version = API_VERSION_1)
       _, result = get url, api_version
-
       result.fetch(collection).map { |attributes| yield attributes }
     end
 
@@ -72,7 +71,7 @@ module IGMarkets
     end
 
     def request(options)
-      options[:url] = "#{@host_url}#{options[:url]}"
+      options[:url] = "#{@host_url}#{URI.escape(options[:url])}"
       options[:headers] = request_headers(options)
 
       print_request options

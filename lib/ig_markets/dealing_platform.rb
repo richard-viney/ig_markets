@@ -18,50 +18,36 @@ module IGMarkets
 
   module AccountMethods
     def accounts
-      session.gather(:accounts, '/accounts') { |attributes| Account.new attributes }
+      gather '/accounts', :accounts, Account
     end
 
     def activities_in_date_range(from_date, to_date = Date.today)
       from_date = format_activity_date(from_date)
       to_date = format_activity_date(to_date)
 
-      gather_activities "/history/activity/#{from_date}/#{to_date}"
+      gather "/history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
     end
 
     def activities_in_recent_period(milliseconds)
-      gather_activities "/history/activity/#{milliseconds.to_i}"
+      gather "/history/activity/#{milliseconds.to_i}", :activities, AccountActivity
     end
 
     def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
+      Validate.transaction_type! transaction_type
+
       from_date = format_activity_date(from_date)
       to_date = format_activity_date(to_date)
 
-      validate_transaction_type! transaction_type
-
-      gather_transactions "/history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}"
+      gather "/history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}", :transactions, Transaction
     end
 
     def transactions_in_recent_period(milliseconds, transaction_type = :all)
-      validate_transaction_type! transaction_type
+      Validate.transaction_type! transaction_type
 
-      gather_transactions "/history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}"
+      gather "/history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}", :transactions, Transaction
     end
 
     private
-
-    ALLOWED_TRANSACTION_TYPES = [:all, :all_deal, :deposit, :withdrawal]
-
-    def validate_transaction_type!(type)
-      fail ArgumentError, 'transaction_type is invalid' unless ALLOWED_TRANSACTION_TYPES.include? type
-    end
-
-    def gather_activities(url)
-      session.gather(:activities, url) { |attributes| AccountActivity.new attributes }
-    end
-
-    def gather_transactions(url)
-      session.gather(:transactions, url) { |attributes| Transaction.new attributes }
-    end
 
     def format_activity_date(d)
       d.strftime '%d-%m-%Y'
@@ -70,7 +56,7 @@ module IGMarkets
 
   module DealingMethods
     def positions
-      session.gather :positions, '/positions', Session::API_VERSION_2 do |attributes|
+      session.gather '/positions', :positions, Session::API_VERSION_2 do |attributes|
         Position.new merge_market_attributes(attributes, :position)
       end
     end
@@ -82,13 +68,11 @@ module IGMarkets
     end
 
     def sprint_market_positions
-      session.gather :sprint_market_positions, '/positions/sprintmarkets' do |attributes|
-        SprintMarketPosition.new attributes
-      end
+      gather '/positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
     end
 
     def working_orders
-      session.gather :working_orders, '/workingorders', Session::API_VERSION_2 do |attributes|
+      session.gather '/workingorders', :working_orders, Session::API_VERSION_2 do |attributes|
         WorkingOrder.new merge_market_attributes(attributes, :working_order_data)
       end
     end
@@ -123,6 +107,8 @@ module IGMarkets
     def markets(*epics)
       fail ArgumentError, 'at least one epic must be specified' if epics.empty?
 
+      Validate.epic! epics
+
       _, result = session.get("/markets?epics=#{epics.join(',')}")
 
       result.fetch(:market_details).map do |attributes|
@@ -135,19 +121,19 @@ module IGMarkets
     end
 
     def market_search(search_term)
-      session.gather :markets, "/markets?searchTerm=#{search_term}" do |attributes|
-        Market.new attributes
-      end
+      gather "/markets?searchTerm=#{search_term}", :markets, Market
     end
 
     def prices(epic, resolution, num_points)
-      validate_historical_price_resolution! resolution
+      Validate.epic! epic
+      Validate.historical_price_resolution! resolution
 
       gather_prices "/prices/#{epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
     end
 
     def prices_in_date_range(epic, resolution, start_date_time, end_date_time = DateTime.now)
-      validate_historical_price_resolution! resolution
+      Validate.epic! epic
+      Validate.historical_price_resolution! resolution
 
       start_date_time = format_historical_price_date_time(start_date_time)
       end_date_time = format_historical_price_date_time(end_date_time)
@@ -156,12 +142,6 @@ module IGMarkets
     end
 
     private
-
-    ALLOWED_HISTORICAL_PRICE_RESOLUTIONS = [
-      :minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30,
-      :hour, :hour_2, :hour_3, :hour_4,
-      :day, :week, :month
-    ]
 
     def parse_dealing_rules(raw_dealing_rules)
       dealing_rules = {
@@ -176,12 +156,8 @@ module IGMarkets
       dealing_rules
     end
 
-    def validate_historical_price_resolution!(resolution)
-      fail ArgumentError, 'resolution is invalid' unless ALLOWED_HISTORICAL_PRICE_RESOLUTIONS.include? resolution
-    end
-
     def format_historical_price_date_time(dt)
-      "#{dt.strftime('%Y-%m-%d')}%20#{dt.strftime('%H:%M:%S')}"
+      dt.strftime '%Y-%m-%d %H:%M:%S'
     end
 
     def gather_prices(url)
@@ -197,11 +173,11 @@ module IGMarkets
 
   module WatchlistMethods
     def watchlists
-      session.gather(:watchlists, '/watchlists') { |attributes| Watchlist.new attributes }
+      gather '/watchlists', :watchlists, Watchlist
     end
 
     def watchlist_markets(watchlist_id)
-      session.gather(:markets, "/watchlists/#{watchlist_id}") { |attributes| Market.new attributes }
+      gather "/watchlists/#{watchlist_id}", :markets, Market
     end
   end
 
@@ -212,9 +188,7 @@ module IGMarkets
     end
 
     def client_sentiment_related(market_id)
-      session.gather :client_sentiments, "/clientsentiment/related/#{market_id}" do |attributes|
-        ClientSentiment.new attributes
-      end
+      gather "/clientsentiment/related/#{market_id}", :client_sentiments, ClientSentiment
     end
   end
 
@@ -231,6 +205,10 @@ module IGMarkets
 
     def initialize
       @session = Session.new
+    end
+
+    def gather(url, collection, klass, api_version = Session::API_VERSION_1)
+      session.gather(url, collection, api_version) { |attributes| klass.new attributes }
     end
 
     include LoginMethods
