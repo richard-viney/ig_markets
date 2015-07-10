@@ -22,8 +22,8 @@ An IG Markets production or demo trading account is needed in order to use this 
 
 [travis-ci-link]: http://travis-ci.org/rviney/ig_markets
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
-[code-climate-link]: https://codeclimate.com/repos/559c75f4e30ba05fab0005a8/feed
-[code-climate-badge]: https://codeclimate.com/repos/559c75f4e30ba05fab0005a8/badges/8846b8d359408c78d35d/gpa.svg
+[code-climate-link]: https://codeclimate.com/github/rviney/ig_markets
+[code-climate-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/gpa.svg
 [license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-yellow.svg
 
