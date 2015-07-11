@@ -62,12 +62,7 @@ module IGMarkets
     def encrypt_password(password)
       _, result = get '/session/encryptionKey'
 
-      decoded_encryption_key = Base64.strict_decode64(result.fetch(:encryption_key))
-      public_key = OpenSSL::PKey::RSA.new(decoded_encryption_key)
-
-      encrypted_password = public_key.public_encrypt(Base64.strict_encode64("#{password}|#{result.fetch(:time_stamp)}"))
-
-      Base64.strict_encode64(encrypted_password)
+      PasswordEncryptor.new(result.fetch(:encryption_key), result.fetch(:time_stamp)).encrypt(password)
     end
 
     def request(options)
