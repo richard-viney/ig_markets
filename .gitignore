@@ -1,6 +1,7 @@
 *.gem
 *.rbc
 .bundle
+coverage
 Gemfile.lock
 tmp
 vendor
