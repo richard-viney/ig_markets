@@ -1,6 +1,6 @@
 # Ruby IG Markets Dealing Platform Gem
 
-[![Build Status][travis-ci-badge]][travis-ci-link] [![Code Climate][code-climate-badge]][code-climate-link] [![MIT License][license-badge]][license-link]
+[![Build Status][travis-ci-badge]][travis-ci-link] [![Code Climate][code-climate-badge]][code-climate-link] [![Test Coverage][test-coverage-badge]][test-coverage-link] [![MIT License][license-badge]][license-link]
 
 Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the official REST API
 available [here](http://labs.ig.com/rest-trading-api-reference). Includes support for
@@ -24,6 +24,8 @@ An IG Markets production or demo trading account is needed in order to use this 
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
 [code-climate-link]: https://codeclimate.com/github/rviney/ig_markets
 [code-climate-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/gpa.svg
+[test-coverage-link]: https://codeclimate.com/github/rviney/ig_markets/coverage
+[test-coverage-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/coverage.svg
 [license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-yellow.svg
 
