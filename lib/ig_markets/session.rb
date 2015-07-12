@@ -21,10 +21,11 @@ module IGMarkets
       login_payload = { identifier: username, password: password, encryptedPassword: true }
       login_result = request method: :post, url: 'session', payload: login_payload
 
-      @cst = login_result[:response].headers[:cst]
-      @x_security_token = login_result[:response].headers[:x_security_token]
+      headers = login_result.fetch(:response).headers
+      @cst = headers.fetch(:cst)
+      @x_security_token = headers.fetch(:x_security_token)
 
-      login_result[:result]
+      login_result.fetch(:result)
     end
 
     def logout
