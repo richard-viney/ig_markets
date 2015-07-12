@@ -80,11 +80,11 @@ module IGMarkets
     private
 
     def merge_market_attributes(attributes, base_key)
-      market_attrributes = attributes[:market] || attributes[:market_data]
+      market_attributes = attributes[:market] || attributes[:market_data]
 
-      fail 'no market data in attributes' unless market_attrributes
+      fail 'no market data in attributes' unless market_attributes
 
-      attributes.fetch(base_key).merge(market_attrributes)
+      attributes.fetch(base_key).merge(market_attributes)
     end
   end
 
