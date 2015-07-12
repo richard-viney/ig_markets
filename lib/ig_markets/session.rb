@@ -3,8 +3,8 @@ module IGMarkets
     attr_accessor :print_requests
 
     HOST_URLS = {
-      demo:       'https://demo-api.ig.com/gateway/deal',
-      production: 'https://api.ig.com/gateway/deal'
+      demo:       'https://demo-api.ig.com/gateway/deal/',
+      production: 'https://api.ig.com/gateway/deal/'
     }
 
     API_VERSION_1 = 1
@@ -16,18 +16,19 @@ module IGMarkets
       @host_url = HOST_URLS[platform]
       @api_key = api_key
 
-      password = encrypt_password(password)
+      password = password_encryptor.encrypt(password)
 
-      response, result = post '/session', identifier: username, password: password, encryptedPassword: true
+      login_payload = { identifier: username, password: password, encryptedPassword: true }
+      login_result = request method: :post, url: 'session', payload: login_payload
 
-      @cst = response.headers.fetch(:cst)
-      @x_security_token = response.headers.fetch(:x_security_token)
+      @cst = login_result[:response].headers[:cst]
+      @x_security_token = login_result[:response].headers[:x_security_token]
 
-      result
+      login_result[:result]
     end
 
     def logout
-      delete '/session' if alive?
+      delete 'session' if alive?
 
       @host_url = @api_key = @cst = @x_security_token = nil
     end
@@ -37,20 +38,19 @@ module IGMarkets
     end
 
     def post(url, body, api_version = API_VERSION_1)
-      request method: :post, url: url, payload: body.to_json, api_version: api_version
+      request(method: :post, url: url, payload: body, api_version: api_version).fetch(:result)
     end
 
     def get(url, api_version = API_VERSION_1)
-      request method: :get, url: url, api_version: api_version
+      request(method: :get, url: url, api_version: api_version).fetch(:result)
     end
 
     def delete(url, api_version = API_VERSION_1)
-      request method: :delete, url: url, api_version: api_version
+      request(method: :delete, url: url, api_version: api_version).fetch(:result)
     end
 
     def gather(url, collection, api_version = API_VERSION_1)
-      _, result = get url, api_version
-      result.fetch(collection).map { |attributes| yield attributes }
+      get(url, api_version).fetch(collection).map { |attributes| yield attributes }
     end
 
     def inspect
@@ -59,35 +59,34 @@ module IGMarkets
 
     private
 
-    def encrypt_password(password)
-      _, result = get '/session/encryptionKey'
+    def password_encryptor
+      result = get 'session/encryptionKey'
 
-      PasswordEncryptor.new(result.fetch(:encryption_key), result.fetch(:time_stamp)).encrypt(password)
+      encryptor = PasswordEncryptor.new
+      encryptor.encoded_public_key = result.fetch(:encryption_key)
+      encryptor.time_stamp = result.fetch(:time_stamp)
+
+      encryptor
     end
 
     def request(options)
       options[:url] = "#{@host_url}#{URI.escape(options[:url])}"
       options[:headers] = request_headers(options)
+      options[:payload] = options[:payload].to_json if options[:payload]
 
       print_request options
 
       response = execute_request(options)
       result = process_response(response)
 
-      fail "Request failed, code: #{response.code}, error: #{result[:error_code] || result}" unless response.code == 200
-
-      [response, result]
-    end
-
-    def print_request(options)
-      puts "#{options[:method].upcase} #{options[:url]}" if print_requests
+      { response: response, result: result }
     end
 
     def request_headers(options)
       headers = {}
 
       headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
-      headers['X-IG-API-KEY'] = @api_key
+      headers[:'X-IG-API-KEY'] = @api_key
       headers[:version] = options.delete(:api_version)
 
       headers[:cst] = @cst if @cst
@@ -102,6 +101,10 @@ module IGMarkets
       e.response
     end
 
+    def print_request(options)
+      puts "#{options[:method].upcase} #{options[:url]}" if print_requests
+    end
+
     def process_response(response)
       result = begin
         JSON.parse(response.body, symbolize_names: true)
@@ -109,7 +112,11 @@ module IGMarkets
         {}
       end
 
-      snake_case_hash_keys(result)
+      result = snake_case_hash_keys(result)
+
+      fail "Request failed, code: #{response.code}, error: #{result[:error_code] || result}" unless response.code == 200
+
+      result
     end
 
     def snake_case_hash_keys(object)

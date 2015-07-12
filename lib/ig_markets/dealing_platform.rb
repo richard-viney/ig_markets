@@ -18,18 +18,18 @@ module IGMarkets
 
   module AccountMethods
     def accounts
-      gather '/accounts', :accounts, Account
+      gather 'accounts', :accounts, Account
     end
 
     def activities_in_date_range(from_date, to_date = Date.today)
       from_date = format_activity_date(from_date)
       to_date = format_activity_date(to_date)
 
-      gather "/history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
+      gather "history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
     end
 
     def activities_in_recent_period(milliseconds)
-      gather "/history/activity/#{milliseconds.to_i}", :activities, AccountActivity
+      gather "history/activity/#{milliseconds.to_i}", :activities, AccountActivity
     end
 
     def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
@@ -38,13 +38,13 @@ module IGMarkets
       from_date = format_activity_date(from_date)
       to_date = format_activity_date(to_date)
 
-      gather "/history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}", :transactions, Transaction
+      gather "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}", :transactions, Transaction
     end
 
     def transactions_in_recent_period(milliseconds, transaction_type = :all)
       Validate.transaction_type! transaction_type
 
-      gather "/history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}", :transactions, Transaction
+      gather "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}", :transactions, Transaction
     end
 
     private
@@ -56,23 +56,23 @@ module IGMarkets
 
   module DealingMethods
     def positions
-      session.gather '/positions', :positions, Session::API_VERSION_2 do |attributes|
+      session.gather 'positions', :positions, Session::API_VERSION_2 do |attributes|
         Position.new merge_market_attributes(attributes, :position)
       end
     end
 
     def position(deal_id)
-      _, result = session.get("/positions/#{deal_id}", Session::API_VERSION_2)
+      result = session.get("positions/#{deal_id}", Session::API_VERSION_2)
 
       Position.new result.fetch(:position).merge(market: result.fetch(:market))
     end
 
     def sprint_market_positions
-      gather '/positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
+      gather 'positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
     end
 
     def working_orders
-      session.gather '/workingorders', :working_orders, Session::API_VERSION_2 do |attributes|
+      session.gather 'workingorders', :working_orders, Session::API_VERSION_2 do |attributes|
         WorkingOrder.new merge_market_attributes(attributes, :working_order_data)
       end
     end
@@ -90,9 +90,9 @@ module IGMarkets
 
   module MarketMethods
     def market_hierarchy(node_id = nil)
-      url = ['/marketnavigation', node_id].compact.join('/')
+      url = ['marketnavigation', node_id].compact.join('')
 
-      _, result = session.get(url)
+      result = session.get(url)
 
       {
         markets: (result.fetch(:markets) || []).map { |attributes| Market.new attributes },
@@ -109,7 +109,7 @@ module IGMarkets
 
       Validate.epic! epics
 
-      _, result = session.get("/markets?epics=#{epics.join(',')}")
+      result = session.get("markets?epics=#{epics.join(',')}")
 
       result.fetch(:market_details).map do |attributes|
         {
@@ -121,14 +121,14 @@ module IGMarkets
     end
 
     def market_search(search_term)
-      gather "/markets?searchTerm=#{search_term}", :markets, Market
+      gather "markets?searchTerm=#{search_term}", :markets, Market
     end
 
     def prices(epic, resolution, num_points)
       Validate.epic! epic
       Validate.historical_price_resolution! resolution
 
-      gather_prices "/prices/#{epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
+      gather_prices "prices/#{epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
     end
 
     def prices_in_date_range(epic, resolution, start_date_time, end_date_time = DateTime.now)
@@ -138,7 +138,7 @@ module IGMarkets
       start_date_time = format_historical_price_date_time(start_date_time)
       end_date_time = format_historical_price_date_time(end_date_time)
 
-      gather_prices "/prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
+      gather_prices "prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
     end
 
     private
@@ -161,7 +161,7 @@ module IGMarkets
     end
 
     def gather_prices(url)
-      _, result = session.get(url, Session::API_VERSION_2)
+      result = session.get(url, Session::API_VERSION_2)
 
       {
         allowance: HistoricalPriceDataAllowance.new(result.fetch(:allowance)),
@@ -173,28 +173,28 @@ module IGMarkets
 
   module WatchlistMethods
     def watchlists
-      gather '/watchlists', :watchlists, Watchlist
+      gather 'watchlists', :watchlists, Watchlist
     end
 
     def watchlist_markets(watchlist_id)
-      gather "/watchlists/#{watchlist_id}", :markets, Market
+      gather "watchlists/#{watchlist_id}", :markets, Market
     end
   end
 
   module ClientSentimentMethods
     def client_sentiment(market_id)
-      _, result = session.get("/clientsentiment/#{market_id}")
+      result = session.get("clientsentiment/#{market_id}")
       ClientSentiment.new result
     end
 
     def client_sentiment_related(market_id)
-      gather "/clientsentiment/related/#{market_id}", :client_sentiments, ClientSentiment
+      gather "clientsentiment/related/#{market_id}", :client_sentiments, ClientSentiment
     end
   end
 
   module GeneralMethods
     def applications
-      _, result = session.get('/operations/application')
+      result = session.get('operations/application')
 
       result.map { |attributes| Application.new attributes }
     end
