@@ -27,7 +27,7 @@ An IG Markets production or demo trading account is needed in order to use this 
 [test-coverage-link]: https://codeclimate.com/github/rviney/ig_markets/coverage
 [test-coverage-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/coverage.svg
 [license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE
-[license-badge]: https://img.shields.io/badge/license-MIT-yellow.svg
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 
 ## License
 
