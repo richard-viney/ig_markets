@@ -10,12 +10,9 @@ describe IGMarkets::Session do
   end
 
   def request_params(method, url, payload = nil)
-    h = {}
-    h[:method] = method
-    h[:url] = url
-    h[:headers] = request_headers
-    h[:payload] = payload.to_json if payload
-    h
+    { method: method, url: url, headers: request_headers }.tap do |h|
+      h[:payload] = payload.to_json if payload
+    end
   end
 
   before(:each) do
