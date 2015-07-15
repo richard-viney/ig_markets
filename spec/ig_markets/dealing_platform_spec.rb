@@ -169,7 +169,7 @@ describe IGMarkets::DealingPlatform do
     expect(@platform.market_search('USD')).to eq(markets)
   end
 
-  it 'can get a specified number of historical prices for an epic' do
+  it 'can retrieve a specified number of historical prices for an epic' do
     allowance = build(:historical_price_data_allowance)
     type = 'SHARES'
     prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
@@ -184,7 +184,7 @@ describe IGMarkets::DealingPlatform do
     expect(@platform.prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
   end
 
-  it 'can get a date range of historical prices for an epic' do
+  it 'can retrieve a date range of historical prices for an epic' do
     from_date = DateTime.new(2014, 1, 2, 3, 4, 5)
     to_date = DateTime.new(2014, 2, 3, 4, 5, 6)
 
@@ -204,5 +204,55 @@ describe IGMarkets::DealingPlatform do
 
     expect(@platform.prices_in_date_range('ABCDEF', :day, from_date, to_date))
       .to eq(allowance: allowance, instrument_type: type, prices: prices)
+  end
+
+  it 'can retrieve the watchlists' do
+    watchlists = [build(:watchlist)]
+
+    expect(@session).to receive(:get)
+      .with('watchlists', IGMarkets::API_VERSION_1)
+      .and_return(watchlists: watchlists.map(&:attributes))
+
+    expect(@platform.watchlists).to eq(watchlists)
+  end
+
+  it 'can retrieve the markets for a watchlist' do
+    markets = [build(:market)]
+
+    expect(@session).to receive(:get)
+      .with('watchlists/1', IGMarkets::API_VERSION_1)
+      .and_return(markets: markets.map(&:attributes))
+
+    expect(@platform.watchlist_markets('1')).to eq(markets)
+  end
+
+  it 'can retrieve the client sentiment for a market' do
+    client_sentiment = build(:client_sentiment)
+
+    expect(@session).to receive(:get)
+      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
+      .and_return(client_sentiment.attributes)
+
+    expect(@platform.client_sentiment('1')).to eq(client_sentiment)
+  end
+
+  it 'can retrieve the related client sentiments for a market' do
+    client_sentiments = [build(:client_sentiment), build(:client_sentiment)]
+
+    expect(@session).to receive(:get)
+      .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
+      .and_return(client_sentiments: client_sentiments.map(&:attributes))
+
+    expect(@platform.client_sentiment_related('1')).to eq(client_sentiments)
+  end
+
+  it 'can retrieve the current applications' do
+    applications = [build(:application)]
+
+    expect(@session).to receive(:get)
+      .with('operations/application', IGMarkets::API_VERSION_1)
+      .and_return(applications.map(&:attributes))
+
+    expect(@platform.applications).to eq(applications)
   end
 end
