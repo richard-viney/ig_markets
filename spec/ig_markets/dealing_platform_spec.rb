@@ -111,4 +111,51 @@ describe IGMarkets::DealingPlatform do
     expect(@session).to receive(:get).with('workingorders', IGMarkets::API_VERSION_2).and_return(get_result)
     expect(@platform.working_orders).to eq(orders)
   end
+
+  it 'can retrieve the market hierarchy root' do
+    markets = [build(:market)]
+    nodes = [build(:market_hierarchy_node)]
+
+    get_result = {
+      markets: markets.map(&:attributes),
+      nodes: nodes.map(&:attributes)
+    }
+
+    expect(@session).to receive(:get).with('marketnavigation', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(@platform.market_hierarchy).to eq(markets: markets, nodes: nodes)
+  end
+
+  it 'can retrieve an empty market hierarchy node' do
+    get_result = { markets: nil, nodes: nil }
+
+    expect(@session).to receive(:get).with('marketnavigation/1', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(@platform.market_hierarchy(1)).to eq(markets: [], nodes: [])
+  end
+
+  it 'can retrieve a market from an epic' do
+    dealing_rules = {
+      market_order_preference: 'AVAILABLE_DEFAULT_ON',
+      trailing_stops_preference: 'AVAILABLE',
+      max_stop_or_limit_distance: build(:dealing_rule),
+      min_controlled_risk_stop_distance: build(:dealing_rule),
+      min_deal_size: build(:dealing_rule),
+      min_normal_stop_or_limit_distance: build(:dealing_rule),
+      min_step_distance: build(:dealing_rule)
+    }
+    instrument = build(:instrument)
+    snapshot = build(:market_snapshot)
+
+    get_result = {
+      market_details: [{
+        dealing_rules: dealing_rules.each_with_object({}) do |(k, v), new_rules|
+          new_rules[k] = v.is_a?(IGMarkets::DealingRule) ? v.attributes : v
+        end,
+        instrument: instrument.attributes,
+        snapshot: snapshot.attributes
+      }]
+    }
+
+    expect(@session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(@platform.market('ABCDEF')).to eq(dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot)
+  end
 end

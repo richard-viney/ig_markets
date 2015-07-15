@@ -55,7 +55,7 @@ describe IGMarkets::Session do
     it 'passes correct details for a post request' do
       expect(@response).to receive_messages(code: 200, body: { id: 1 }.to_json)
       expect(@session).to receive(:execute_request).with(request_params(:post, 'the_url', id: 0)).and_return(@response)
-      expect(@session.post('the_url', id: 0)).to eq(id: 1)
+      expect(@session.post('the_url', { id: 0 }, IGMarkets::API_VERSION_1)).to eq(id: 1)
     end
 
     it 'can logout' do
@@ -68,7 +68,7 @@ describe IGMarkets::Session do
     it 'fails when the HTTP response is not 200' do
       expect(@response).to receive_messages(code: 404, body: '')
       expect(@session).to receive(:execute_request).with(request_params(:get, 'url')).and_return(@response)
-      expect { @session.get('url') }.to raise_error(RuntimeError)
+      expect { @session.get('url', IGMarkets::API_VERSION_1) }.to raise_error(RuntimeError)
     end
 
     it 'inspects correctly' do

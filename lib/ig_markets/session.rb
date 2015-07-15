@@ -18,7 +18,7 @@ module IGMarkets
       password = password_encryptor.encrypt(password)
 
       login_payload = { identifier: username, password: password, encryptedPassword: true }
-      login_result = request method: :post, url: 'session', payload: login_payload
+      login_result = request method: :post, url: 'session', payload: login_payload, api_version: API_VERSION_1
 
       headers = login_result.fetch(:response).headers
       @cst = headers.fetch(:cst)
@@ -28,7 +28,7 @@ module IGMarkets
     end
 
     def logout
-      delete 'session' if alive?
+      delete('session', API_VERSION_1) if alive?
 
       @host_url = @api_key = @cst = @x_security_token = nil
     end
@@ -37,15 +37,15 @@ module IGMarkets
       !cst.nil? && !x_security_token.nil?
     end
 
-    def post(url, body, api_version = API_VERSION_1)
+    def post(url, body, api_version)
       request(method: :post, url: url, payload: body, api_version: api_version).fetch(:result)
     end
 
-    def get(url, api_version = API_VERSION_1)
+    def get(url, api_version)
       request(method: :get, url: url, api_version: api_version).fetch(:result)
     end
 
-    def delete(url, api_version = API_VERSION_1)
+    def delete(url, api_version)
       request(method: :delete, url: url, api_version: api_version).fetch(:result)
     end
 
@@ -56,7 +56,7 @@ module IGMarkets
     private
 
     def password_encryptor
-      result = get 'session/encryptionKey'
+      result = get('session/encryptionKey', API_VERSION_1)
 
       encryptor = PasswordEncryptor.new
       encryptor.encoded_public_key = result.fetch(:encryption_key)

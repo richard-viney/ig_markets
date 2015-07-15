@@ -29,7 +29,9 @@ module IGMarkets
     end
 
     def opening_hours
-      ->(o) { o.fetch(:market_times).map { |attributes| OpeningHours.from attributes } }
+      lambda do |o|
+        (o.is_a?(Hash) ? o.fetch(:market_times) : o).map { |attributes| OpeningHours.from attributes }
+      end
     end
 
     def price

@@ -82,7 +82,7 @@ module IGMarkets
     def market_hierarchy(node_id = nil)
       url = ['marketnavigation', node_id].compact.join('/')
 
-      result = session.get(url)
+      result = session.get(url, API_VERSION_1)
 
       {
         markets: (result.fetch(:markets) || []).map { |attributes| Market.new attributes },
@@ -99,7 +99,7 @@ module IGMarkets
 
       Validate.epic! epics
 
-      result = session.get("markets?epics=#{epics.join(',')}")
+      result = session.get("markets?epics=#{epics.join(',')}", API_VERSION_1)
 
       result.fetch(:market_details).map do |attributes|
         {
@@ -133,17 +133,16 @@ module IGMarkets
 
     private
 
-    def parse_dealing_rules(raw_dealing_rules)
-      dealing_rules = {
-        market_order_preference: raw_dealing_rules.delete(:market_order_preference),
-        trailing_stops_preference: raw_dealing_rules.delete(:trailing_stops_preference)
+    def parse_dealing_rules(rules)
+      {
+        market_order_preference: rules.fetch(:market_order_preference),
+        trailing_stops_preference: rules.fetch(:trailing_stops_preference),
+        max_stop_or_limit_distance: DealingRule.new(rules.fetch(:max_stop_or_limit_distance)),
+        min_controlled_risk_stop_distance: DealingRule.new(rules.fetch(:min_controlled_risk_stop_distance)),
+        min_deal_size: DealingRule.new(rules.fetch(:min_deal_size)),
+        min_normal_stop_or_limit_distance: DealingRule.new(rules.fetch(:min_normal_stop_or_limit_distance)),
+        min_step_distance: DealingRule.new(rules.fetch(:min_step_distance))
       }
-
-      raw_dealing_rules.each do |k, v|
-        dealing_rules[k] = DealingRule.new(v)
-      end
-
-      dealing_rules
     end
 
     def format_historical_price_date_time(dt)
@@ -173,7 +172,7 @@ module IGMarkets
 
   module ClientSentimentMethods
     def client_sentiment(market_id)
-      result = session.get("clientsentiment/#{market_id}")
+      result = session.get("clientsentiment/#{market_id}", API_VERSION_1)
       ClientSentiment.new result
     end
 
@@ -184,7 +183,7 @@ module IGMarkets
 
   module GeneralMethods
     def applications
-      result = session.get('operations/application')
+      result = session.get('operations/application', API_VERSION_1)
 
       result.map { |attributes| Application.new attributes }
     end
