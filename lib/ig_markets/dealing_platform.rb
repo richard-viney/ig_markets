@@ -56,13 +56,13 @@ module IGMarkets
 
   module DealingMethods
     def positions
-      session.gather 'positions', :positions, Session::API_VERSION_2 do |attributes|
+      session.gather 'positions', :positions, API_VERSION_2 do |attributes|
         Position.new merge_market_attributes(attributes, :position)
       end
     end
 
     def position(deal_id)
-      result = session.get("positions/#{deal_id}", Session::API_VERSION_2)
+      result = session.get("positions/#{deal_id}", API_VERSION_2)
 
       Position.new result.fetch(:position).merge(market: result.fetch(:market))
     end
@@ -72,7 +72,7 @@ module IGMarkets
     end
 
     def working_orders
-      session.gather 'workingorders', :working_orders, Session::API_VERSION_2 do |attributes|
+      session.gather 'workingorders', :working_orders, API_VERSION_2 do |attributes|
         WorkingOrder.new merge_market_attributes(attributes, :working_order_data)
       end
     end
@@ -161,7 +161,7 @@ module IGMarkets
     end
 
     def gather_prices(url)
-      result = session.get(url, Session::API_VERSION_2)
+      result = session.get(url, API_VERSION_2)
 
       {
         allowance: HistoricalPriceDataAllowance.new(result.fetch(:allowance)),
@@ -207,7 +207,7 @@ module IGMarkets
       @session = Session.new
     end
 
-    def gather(url, collection, klass, api_version = Session::API_VERSION_1)
+    def gather(url, collection, klass, api_version = API_VERSION_1)
       session.gather(url, collection, api_version) { |attributes| klass.new attributes }
     end
 

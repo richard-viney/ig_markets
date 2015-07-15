@@ -7,9 +7,6 @@ module IGMarkets
       production: 'https://api.ig.com/gateway/deal/'
     }
 
-    API_VERSION_1 = 1
-    API_VERSION_2 = 2
-
     def login(username, password, api_key, platform)
       fail ArgumentError, 'platform must be :demo or :production' unless HOST_URLS.key?(platform)
 

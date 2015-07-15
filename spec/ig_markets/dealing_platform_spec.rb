@@ -19,7 +19,7 @@ describe IGMarkets::DealingPlatform do
   it 'can retrieve accounts' do
     accounts = [build(:account), build(:account)]
 
-    expect(@session).to receive(:gather).with('accounts', :accounts, 1).and_return(accounts)
+    expect(@session).to receive(:gather).with('accounts', :accounts, IGMarkets::API_VERSION_1).and_return(accounts)
     expect(@platform.accounts).to eq(accounts)
   end
 end
