@@ -49,10 +49,6 @@ module IGMarkets
       request(method: :delete, url: url, api_version: api_version).fetch(:result)
     end
 
-    def gather(url, collection, api_version = API_VERSION_1)
-      get(url, api_version).fetch(collection).map { |attributes| yield attributes }
-    end
-
     def inspect
       "#<#{self.class.name} #{cst}, #{x_security_token}>"
     end

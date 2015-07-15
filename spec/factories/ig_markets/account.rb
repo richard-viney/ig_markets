@@ -4,7 +4,7 @@ FactoryGirl.define do
     account_id 'id'
     account_name 'name'
     account_type 'type'
-    balance(available: 0.0, balance: 0.0, deposit: 0.0, profitLoss: 0.0)
+    balance { build(:account_balance) }
     can_transfer_from true
     can_transfer_to true
     currency 'USD'

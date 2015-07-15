@@ -1,39 +1,39 @@
 module IGMarkets
   module AttributeTypecasters
     def account_balance
-      ->(attributes) { IGMarkets::AccountBalance.new attributes }
+      ->(attributes) { IGMarkets::AccountBalance.from attributes }
     end
 
     def currencies
-      ->(o) { o.map { |attributes| Currency.new attributes } }
+      ->(o) { o.map { |attributes| Currency.from attributes } }
     end
 
     def instrument_expiry_details
-      ->(attributes) { InstrumentExpiryDetails.new attributes }
+      ->(attributes) { InstrumentExpiryDetails.from attributes }
     end
 
     def instrument_rollover_details
-      ->(attributes) { InstrumentRolloverDetails.new attributes }
+      ->(attributes) { InstrumentRolloverDetails.from attributes }
     end
 
     def instrument_slippage_factor
-      ->(attributes) { InstrumentSlippageFactor.new attributes }
+      ->(attributes) { InstrumentSlippageFactor.from attributes }
     end
 
     def margin_deposit_bands
-      ->(o) { o.map { |attributes| MarginDepositBand.new attributes } }
+      ->(o) { o.map { |attributes| MarginDepositBand.from attributes } }
     end
 
     def market
-      ->(attributes) { Market.new attributes }
+      ->(attributes) { Market.from attributes }
     end
 
     def opening_hours
-      ->(o) { o.fetch(:market_times).map { |attributes| OpeningHours.new attributes } }
+      ->(o) { o.fetch(:market_times).map { |attributes| OpeningHours.from attributes } }
     end
 
     def price
-      ->(attributes) { Price.new attributes }
+      ->(attributes) { Price.from attributes }
     end
 
     module_function :account_balance, :currencies, :instrument_expiry_details, :instrument_rollover_details,

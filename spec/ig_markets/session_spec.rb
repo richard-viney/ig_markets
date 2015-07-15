@@ -65,12 +65,6 @@ describe IGMarkets::Session do
       expect(@session.alive?).to eq(false)
     end
 
-    it 'can gather elements in a collection' do
-      expect(@response).to receive_messages(code: 200, body: { theItems: %w(1 2) }.to_json)
-      expect(@session).to receive(:execute_request).with(request_params(:get, 'url')).and_return(@response)
-      expect(@session.gather('url', :the_items) { |i| Integer(i) }).to eq([1, 2])
-    end
-
     it 'fails when the HTTP response is not 200' do
       expect(@response).to receive_messages(code: 404, body: '')
       expect(@session).to receive(:execute_request).with(request_params(:get, 'url')).and_return(@response)

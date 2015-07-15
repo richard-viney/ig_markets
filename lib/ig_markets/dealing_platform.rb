@@ -56,8 +56,8 @@ module IGMarkets
 
   module DealingMethods
     def positions
-      session.gather 'positions', :positions, API_VERSION_2 do |attributes|
-        Position.new merge_market_attributes(attributes, :position)
+      session.get('positions', API_VERSION_2).fetch(:positions).map do |attributes|
+        Position.new attributes.fetch(:position).merge(market: attributes.fetch(:market))
       end
     end
 
@@ -72,19 +72,9 @@ module IGMarkets
     end
 
     def working_orders
-      session.gather 'workingorders', :working_orders, API_VERSION_2 do |attributes|
-        WorkingOrder.new merge_market_attributes(attributes, :working_order_data)
+      session.get('workingorders', API_VERSION_2).fetch(:working_orders).map do |attributes|
+        WorkingOrder.new attributes.fetch(:working_order_data).merge(market: attributes.fetch(:market_data))
       end
-    end
-
-    private
-
-    def merge_market_attributes(attributes, base_key)
-      market_attributes = attributes[:market] || attributes[:market_data]
-
-      fail 'no market data in attributes' unless market_attributes
-
-      attributes.fetch(base_key).merge(market_attributes)
     end
   end
 
@@ -208,7 +198,9 @@ module IGMarkets
     end
 
     def gather(url, collection, klass, api_version = API_VERSION_1)
-      session.gather(url, collection, api_version) { |attributes| klass.new attributes }
+      session.get(url, api_version).fetch(collection).map do |attributes|
+        klass.new attributes
+      end
     end
 
     include LoginMethods
