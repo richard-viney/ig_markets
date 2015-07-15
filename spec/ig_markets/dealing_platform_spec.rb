@@ -66,13 +66,16 @@ describe IGMarkets::DealingPlatform do
     expect(@platform.transactions_in_recent_period 1000, :deposit).to eq(transactions)
   end
 
-  it 'can retrieve all current positions' do
+  it 'can retrieve the current positions' do
     positions = [build(:position)]
 
-    expect(@session).to receive(:get)
-      .with('positions', IGMarkets::API_VERSION_2)
-      .and_return(positions: positions.map(&:attributes).map { |a| { market: a.delete('market'), position: a } })
+    get_result = {
+      positions: positions.map(&:attributes).map do |a|
+        { market: a['market'], position: a }
+      end
+    }
 
+    expect(@session).to receive(:get).with('positions', IGMarkets::API_VERSION_2).and_return(get_result)
     expect(@platform.positions).to eq(positions)
   end
 
@@ -84,5 +87,28 @@ describe IGMarkets::DealingPlatform do
       .and_return(position: position.attributes, market: position.market)
 
     expect(@platform.position(position.deal_id)).to eq(position)
+  end
+
+  it 'can retrieve the current sprint market positions' do
+    positions = [build(:sprint_market_position)]
+
+    expect(@session).to receive(:get)
+      .with('positions/sprintmarkets', IGMarkets::API_VERSION_1)
+      .and_return(sprint_market_positions: positions.map(&:attributes))
+
+    expect(@platform.sprint_market_positions).to eq(positions)
+  end
+
+  it 'can retrieve the current working orders' do
+    orders = [build(:working_order)]
+
+    get_result = {
+      working_orders: orders.map(&:attributes).map do |a|
+        { market_data: a['market'], working_order_data: a }
+      end
+    }
+
+    expect(@session).to receive(:get).with('workingorders', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(@platform.working_orders).to eq(orders)
   end
 end
