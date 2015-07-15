@@ -90,7 +90,7 @@ module IGMarkets
 
   module MarketMethods
     def market_hierarchy(node_id = nil)
-      url = ['marketnavigation', node_id].compact.join('')
+      url = ['marketnavigation', node_id].compact.join('/')
 
       result = session.get(url)
 
