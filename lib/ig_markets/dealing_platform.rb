@@ -57,14 +57,14 @@ module IGMarkets
   module DealingMethods
     def positions
       session.get('positions', API_VERSION_2).fetch(:positions).map do |attributes|
-        Position.new attributes.fetch(:position).merge(market: attributes.fetch(:market))
+        Position.new attributes_with_market(attributes, :position, :market)
       end
     end
 
     def position(deal_id)
-      result = session.get("positions/#{deal_id}", API_VERSION_2)
+      attributes = session.get("positions/#{deal_id}", API_VERSION_2)
 
-      Position.new result.fetch(:position).merge(market: result.fetch(:market))
+      Position.new attributes_with_market(attributes, :position, :market)
     end
 
     def sprint_market_positions
@@ -73,8 +73,14 @@ module IGMarkets
 
     def working_orders
       session.get('workingorders', API_VERSION_2).fetch(:working_orders).map do |attributes|
-        WorkingOrder.new attributes.fetch(:working_order_data).merge(market: attributes.fetch(:market_data))
+        WorkingOrder.new attributes_with_market(attributes, :working_order_data, :market_data)
       end
+    end
+
+    private
+
+    def attributes_with_market(attributes, base_attribute, market_attribute)
+      attributes.fetch(base_attribute).merge(market: attributes.fetch(market_attribute))
     end
   end
 
