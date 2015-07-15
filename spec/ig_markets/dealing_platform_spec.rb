@@ -1,21 +1,25 @@
 describe IGMarkets::DealingPlatform do
-  before(:each) do
+  before :each do
     @session = IGMarkets::Session.new
 
     @platform = IGMarkets::DealingPlatform.new
     @platform.instance_variable_set :@session, @session
+  end
 
-    @response = instance_double 'RestClient::Response'
-    allow(@response).to receive(:code).and_return(200)
+  it 'can log in' do
+    expect(@session).to receive(:login).with('username', 'password', 'api_key', :demo).and_return({})
+    expect(@platform.login('username', 'password', 'api_key', :demo)).to eq({})
+  end
 
-    expect(@session).to receive(:execute_request).and_return(@response)
+  it 'can log out' do
+    expect(@session).to receive(:logout).and_return(nil)
+    expect(@platform.logout).to eq(nil)
   end
 
   it 'can retrieve accounts' do
-    response_body = { accounts: [build(:account_response), build(:account_response)] }
-    accounts = response_body[:accounts].map { |a| IGMarkets::ResponseParser.parse(a) }
+    accounts = [build(:account), build(:account)]
 
-    expect(@response).to receive(:body).and_return(response_body.to_json)
-    expect(@platform.accounts.map(&:deep_attributes_hash)).to eq(accounts)
+    expect(@session).to receive(:gather).with('accounts', :accounts, 1).and_return(accounts)
+    expect(@platform.accounts).to eq(accounts)
   end
 end
