@@ -5,6 +5,6 @@ module IGMarkets
     attribute :last_traded_volume, type: Float
     attribute :low_price, typecaster: AttributeTypecasters.price
     attribute :open_price, typecaster: AttributeTypecasters.price
-    attribute :snapshot_time, typecaster: ->(value) { DateTime.strptime(value, '%Y/%m/%d %H:%M:%S') }
+    attribute :snapshot_time, typecaster: AttributeTypecasters.date_time('%Y/%m/%d %H:%M:%S')
   end
 end

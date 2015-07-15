@@ -158,4 +158,51 @@ describe IGMarkets::DealingPlatform do
     expect(@session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_1).and_return(get_result)
     expect(@platform.market('ABCDEF')).to eq(dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot)
   end
+
+  it 'can search for markets' do
+    markets = [build(:market)]
+
+    expect(@session).to receive(:get)
+      .with('markets?searchTerm=USD', IGMarkets::API_VERSION_1)
+      .and_return(markets: markets.map(&:attributes))
+
+    expect(@platform.market_search('USD')).to eq(markets)
+  end
+
+  it 'can get a specified number of historical prices for an epic' do
+    allowance = build(:historical_price_data_allowance)
+    type = 'SHARES'
+    prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
+
+    get_result = {
+      allowance: allowance.attributes,
+      instrument_type: type,
+      prices: prices.map(&:attributes)
+    }
+
+    expect(@session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(@platform.prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
+  end
+
+  it 'can get a date range of historical prices for an epic' do
+    from_date = DateTime.new(2014, 1, 2, 3, 4, 5)
+    to_date = DateTime.new(2014, 2, 3, 4, 5, 6)
+
+    allowance = build(:historical_price_data_allowance)
+    type = 'SHARES'
+    prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
+
+    get_result = {
+      allowance: allowance.attributes,
+      instrument_type: type,
+      prices: prices.map(&:attributes)
+    }
+
+    expect(@session).to receive(:get)
+      .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_VERSION_2)
+      .and_return(get_result)
+
+    expect(@platform.prices_in_date_range('ABCDEF', :day, from_date, to_date))
+      .to eq(allowance: allowance, instrument_type: type, prices: prices)
+  end
 end

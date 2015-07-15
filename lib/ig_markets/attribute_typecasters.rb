@@ -8,6 +8,12 @@ module IGMarkets
       ->(o) { o.map { |attributes| Currency.from attributes } }
     end
 
+    def date_time(format_string)
+      lambda do |value|
+        value.is_a?(String) ? DateTime.strptime(value, format_string) : value
+      end
+    end
+
     def instrument_expiry_details
       ->(attributes) { InstrumentExpiryDetails.from attributes }
     end
@@ -38,7 +44,7 @@ module IGMarkets
       ->(attributes) { Price.from attributes }
     end
 
-    module_function :account_balance, :currencies, :instrument_expiry_details, :instrument_rollover_details,
+    module_function :account_balance, :currencies, :date_time, :instrument_expiry_details, :instrument_rollover_details,
                     :instrument_slippage_factor, :margin_deposit_bands, :market, :opening_hours, :price
   end
 end
