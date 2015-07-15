@@ -2,6 +2,8 @@ module IGMarkets
   class Session
     attr_accessor :print_requests
 
+    attr_reader :host_url, :api_key, :cst, :x_security_token
+
     HOST_URLS = {
       demo:       'https://demo-api.ig.com/gateway/deal/',
       production: 'https://api.ig.com/gateway/deal/'
@@ -32,7 +34,7 @@ module IGMarkets
     end
 
     def alive?
-      !@cst.nil? && !@x_security_token.nil?
+      !cst.nil? && !x_security_token.nil?
     end
 
     def post(url, body, api_version = API_VERSION_1)
@@ -52,7 +54,7 @@ module IGMarkets
     end
 
     def inspect
-      "#<#{self.class.name} #{@cst}, #{@x_security_token}>"
+      "#<#{self.class.name} #{cst}, #{x_security_token}>"
     end
 
     private
@@ -68,7 +70,7 @@ module IGMarkets
     end
 
     def request(options)
-      options[:url] = "#{@host_url}#{URI.escape(options[:url])}"
+      options[:url] = "#{host_url}#{URI.escape(options[:url])}"
       options[:headers] = request_headers(options)
       options[:payload] = options[:payload].to_json if options[:payload]
 
@@ -84,11 +86,11 @@ module IGMarkets
       headers = {}
 
       headers[:content_type] = headers[:accept] = 'application/json; charset=UTF-8'
-      headers[:'X-IG-API-KEY'] = @api_key
+      headers[:'X-IG-API-KEY'] = api_key
       headers[:version] = options.delete(:api_version)
 
-      headers[:cst] = @cst if @cst
-      headers[:x_security_token] = @x_security_token if @x_security_token
+      headers[:cst] = cst if cst
+      headers[:x_security_token] = x_security_token if x_security_token
 
       headers
     end

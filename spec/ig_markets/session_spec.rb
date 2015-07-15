@@ -10,7 +10,7 @@ describe IGMarkets::Session do
   end
 
   def request_params(method, url, payload = nil)
-    { method: method, url: url, headers: request_headers }.tap do |h|
+    { method: method, url: "test://#{url}", headers: request_headers }.tap do |h|
       h[:payload] = payload.to_json if payload
     end
   end
@@ -31,6 +31,11 @@ describe IGMarkets::Session do
 
     expect(session).to receive(:execute_request).twice.and_return(@response)
     expect(session.login('username', 'password', 'api_key', :demo)).to eq(id: 1)
+    expect(session.host_url).to match(/^https:/)
+    expect(session.api_key).to eq('api_key')
+    expect(session.cst).to eq('1')
+    expect(session.x_security_token).to match('2')
+    expect(session.alive?).to eq(true)
   end
 
   context 'a logged in session' do
@@ -39,6 +44,7 @@ describe IGMarkets::Session do
         s.instance_variable_set :@cst, 'cst'
         s.instance_variable_set :@x_security_token, 'x_security_token'
         s.instance_variable_set :@api_key, 'api_key'
+        s.instance_variable_set :@host_url, 'test://'
       end
     end
 
