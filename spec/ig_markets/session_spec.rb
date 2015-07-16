@@ -1,5 +1,5 @@
 describe IGMarkets::Session do
-  def request_headers
+  def headers
     h = {}
     h[:accept] = h[:content_type] = 'application/json; charset=UTF-8'
     h[:version] = 1
@@ -9,14 +9,18 @@ describe IGMarkets::Session do
     h
   end
 
-  def request_params(method, url, payload = nil)
-    { method: method, url: "test://#{url}", headers: request_headers }.tap do |h|
-      h[:payload] = payload.to_json if payload
-    end
+  def params(method, url, payload = nil)
+    params = {}
+    params[:method] = method
+    params[:url] = "test://#{url}"
+    params[:headers] = headers
+    params[:payload] = payload.to_json if payload
+    params
   end
 
   before(:each) do
     @response = instance_double 'RestClient::Response'
+    @rest_client = RestClient::Request
   end
 
   it 'can log in' do
@@ -29,7 +33,7 @@ describe IGMarkets::Session do
       { id: 1 }.to_json
     )
 
-    expect(session).to receive(:execute_request).twice.and_return(@response)
+    expect(@rest_client).to receive(:execute).twice.and_return(@response)
     expect(session.login('username', 'password', 'api_key', :demo)).to eq(id: 1)
     expect(session.host_url).to match(/^https:/)
     expect(session.api_key).to eq('api_key')
@@ -54,20 +58,20 @@ describe IGMarkets::Session do
 
     it 'passes correct details for a post request' do
       expect(@response).to receive_messages(code: 200, body: { ids: [1, 2] }.to_json)
-      expect(@session).to receive(:execute_request).with(request_params(:post, 'the_url', id: 1)).and_return(@response)
+      expect(@rest_client).to receive(:execute).with(params(:post, 'the_url', id: 1)).and_return(@response)
       expect(@session.post('the_url', { id: 1 }, IGMarkets::API_VERSION_1)).to eq(ids: [1, 2])
     end
 
     it 'can logout' do
       expect(@response).to receive_messages(code: 200, body: {}.to_json)
-      expect(@session).to receive(:execute_request).with(request_params(:delete, 'session')).and_return(@response)
+      expect(@rest_client).to receive(:execute).with(params(:delete, 'session')).and_return(@response)
       expect(@session.logout).to eq(nil)
       expect(@session.alive?).to eq(false)
     end
 
     it 'fails when the HTTP response is not 200' do
       expect(@response).to receive_messages(code: 404, body: '')
-      expect(@session).to receive(:execute_request).with(request_params(:get, 'url')).and_return(@response)
+      expect(@rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, @response)
       expect { @session.get('url', IGMarkets::API_VERSION_1) }.to raise_error(RuntimeError)
     end
 
