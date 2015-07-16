@@ -8,9 +8,9 @@ module IGMarkets
       ->(o) { o.map { |attributes| Currency.from attributes } }
     end
 
-    def date_time(format_string)
+    def date_time(format_string, klass = DateTime)
       lambda do |value|
-        value.is_a?(String) ? DateTime.strptime(value, format_string) : value
+        value.is_a?(String) ? klass.strptime(value, format_string) : value
       end
     end
 

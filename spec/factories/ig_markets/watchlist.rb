@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :watchlist, class: IGMarkets::Watchlist do
-    id '1'
-    name 'name'
+    id '2547731'
+    name 'Markets'
     editable false
     deleteable false
     default_system_watchlist false

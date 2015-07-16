@@ -5,6 +5,6 @@ FactoryGirl.define do
     last_traded_volume 100
     low_price { build(:price) }
     open_price { build(:price) }
-    snapshot_time DateTime.new(2014, 10, 22, 18, 30, 45)
+    snapshot_time '2015/06/16 00:00:00'
   end
 end
