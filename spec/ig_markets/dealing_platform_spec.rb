@@ -1,69 +1,69 @@
 describe IGMarkets::DealingPlatform do
-  before :each do
-    @session = IGMarkets::Session.new
-
-    @platform = IGMarkets::DealingPlatform.new
-    @platform.instance_variable_set :@session, @session
+  let(:session) { IGMarkets::Session.new }
+  let(:platform) do
+    IGMarkets::DealingPlatform.new.tap do |platform|
+      platform.instance_variable_set :@session, session
+    end
   end
 
   it 'can log in' do
-    expect(@session).to receive(:login).with('username', 'password', 'api_key', :demo).and_return({})
-    expect(@platform.login('username', 'password', 'api_key', :demo)).to eq({})
+    expect(session).to receive(:login).with('username', 'password', 'api_key', :demo).and_return({})
+    expect(platform.login('username', 'password', 'api_key', :demo)).to eq({})
   end
 
   it 'can log out' do
-    expect(@session).to receive(:logout).and_return(nil)
-    expect(@platform.logout).to eq(nil)
+    expect(session).to receive(:logout).and_return(nil)
+    expect(platform.logout).to eq(nil)
   end
 
   it 'can retrieve accounts' do
     accounts = [build(:account)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('accounts', IGMarkets::API_VERSION_1)
       .and_return(accounts: accounts.map(&:attributes))
 
-    expect(@platform.accounts).to eq(accounts)
+    expect(platform.accounts).to eq(accounts)
   end
 
   it 'can retrieve activities in a date range' do
     activities = [build(:account_activity)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
       .and_return(activities: activities.map(&:attributes))
 
-    expect(@platform.activities_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27)).to eq(activities)
+    expect(platform.activities_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27)).to eq(activities)
   end
 
   it 'can retrieve activities in recent period' do
     activities = [build(:account_activity)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('history/activity/1000', IGMarkets::API_VERSION_1)
       .and_return(activities: activities.map(&:attributes))
 
-    expect(@platform.activities_in_recent_period 1000).to eq(activities)
+    expect(platform.activities_in_recent_period 1000).to eq(activities)
   end
 
   it 'can retrieve transactions in a date range' do
     transactions = [build(:transaction)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
       .and_return(transactions: transactions.map(&:attributes))
 
-    expect(@platform.transactions_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all).to eq(transactions)
+    expect(platform.transactions_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all).to eq(transactions)
   end
 
   it 'can retrieve transactions in recent period' do
     transactions = [build(:transaction)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('history/transactions/DEPOSIT/1000', IGMarkets::API_VERSION_1)
       .and_return(transactions: transactions.map(&:attributes))
 
-    expect(@platform.transactions_in_recent_period 1000, :deposit).to eq(transactions)
+    expect(platform.transactions_in_recent_period 1000, :deposit).to eq(transactions)
   end
 
   it 'can retrieve the current positions' do
@@ -75,28 +75,28 @@ describe IGMarkets::DealingPlatform do
       end
     }
 
-    expect(@session).to receive(:get).with('positions', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(@platform.positions).to eq(positions)
+    expect(session).to receive(:get).with('positions', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(platform.positions).to eq(positions)
   end
 
   it 'can retrieve a single position' do
     position = build(:position)
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with("positions/#{position.deal_id}", IGMarkets::API_VERSION_2)
       .and_return(position: position.attributes, market: position.market)
 
-    expect(@platform.position(position.deal_id)).to eq(position)
+    expect(platform.position(position.deal_id)).to eq(position)
   end
 
   it 'can retrieve the current sprint market positions' do
     positions = [build(:sprint_market_position)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('positions/sprintmarkets', IGMarkets::API_VERSION_1)
       .and_return(sprint_market_positions: positions.map(&:attributes))
 
-    expect(@platform.sprint_market_positions).to eq(positions)
+    expect(platform.sprint_market_positions).to eq(positions)
   end
 
   it 'can retrieve the current working orders' do
@@ -108,8 +108,8 @@ describe IGMarkets::DealingPlatform do
       end
     }
 
-    expect(@session).to receive(:get).with('workingorders', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(@platform.working_orders).to eq(orders)
+    expect(session).to receive(:get).with('workingorders', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(platform.working_orders).to eq(orders)
   end
 
   it 'can retrieve the market hierarchy root' do
@@ -121,15 +121,15 @@ describe IGMarkets::DealingPlatform do
       nodes: nodes.map(&:attributes)
     }
 
-    expect(@session).to receive(:get).with('marketnavigation', IGMarkets::API_VERSION_1).and_return(get_result)
-    expect(@platform.market_hierarchy).to eq(markets: markets, nodes: nodes)
+    expect(session).to receive(:get).with('marketnavigation', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(platform.market_hierarchy).to eq(markets: markets, nodes: nodes)
   end
 
   it 'can retrieve an empty market hierarchy node' do
     get_result = { markets: nil, nodes: nil }
 
-    expect(@session).to receive(:get).with('marketnavigation/1', IGMarkets::API_VERSION_1).and_return(get_result)
-    expect(@platform.market_hierarchy(1)).to eq(markets: [], nodes: [])
+    expect(session).to receive(:get).with('marketnavigation/1', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(platform.market_hierarchy(1)).to eq(markets: [], nodes: [])
   end
 
   it 'can retrieve a market from an epic' do
@@ -155,18 +155,18 @@ describe IGMarkets::DealingPlatform do
       }]
     }
 
-    expect(@session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_1).and_return(get_result)
-    expect(@platform.market('ABCDEF')).to eq(dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot)
+    expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(platform.market('ABCDEF')).to eq(dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot)
   end
 
   it 'can search for markets' do
     markets = [build(:market)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('markets?searchTerm=USD', IGMarkets::API_VERSION_1)
       .and_return(markets: markets.map(&:attributes))
 
-    expect(@platform.market_search('USD')).to eq(markets)
+    expect(platform.market_search('USD')).to eq(markets)
   end
 
   it 'can retrieve a specified number of historical prices for an epic' do
@@ -180,8 +180,8 @@ describe IGMarkets::DealingPlatform do
       prices: prices.map(&:attributes)
     }
 
-    expect(@session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(@platform.prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
+    expect(session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(platform.prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
   end
 
   it 'can retrieve a date range of historical prices for an epic' do
@@ -198,61 +198,61 @@ describe IGMarkets::DealingPlatform do
       prices: prices.map(&:attributes)
     }
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_VERSION_2)
       .and_return(get_result)
 
-    expect(@platform.prices_in_date_range('ABCDEF', :day, from_date, to_date))
+    expect(platform.prices_in_date_range('ABCDEF', :day, from_date, to_date))
       .to eq(allowance: allowance, instrument_type: type, prices: prices)
   end
 
   it 'can retrieve the watchlists' do
     watchlists = [build(:watchlist)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('watchlists', IGMarkets::API_VERSION_1)
       .and_return(watchlists: watchlists.map(&:attributes))
 
-    expect(@platform.watchlists).to eq(watchlists)
+    expect(platform.watchlists).to eq(watchlists)
   end
 
   it 'can retrieve the markets for a watchlist' do
     markets = [build(:market)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('watchlists/1', IGMarkets::API_VERSION_1)
       .and_return(markets: markets.map(&:attributes))
 
-    expect(@platform.watchlist_markets('1')).to eq(markets)
+    expect(platform.watchlist_markets('1')).to eq(markets)
   end
 
   it 'can retrieve the client sentiment for a market' do
     client_sentiment = build(:client_sentiment)
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('clientsentiment/1', IGMarkets::API_VERSION_1)
       .and_return(client_sentiment.attributes)
 
-    expect(@platform.client_sentiment('1')).to eq(client_sentiment)
+    expect(platform.client_sentiment('1')).to eq(client_sentiment)
   end
 
   it 'can retrieve the related client sentiments for a market' do
     client_sentiments = [build(:client_sentiment), build(:client_sentiment)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
       .and_return(client_sentiments: client_sentiments.map(&:attributes))
 
-    expect(@platform.client_sentiment_related('1')).to eq(client_sentiments)
+    expect(platform.client_sentiment_related('1')).to eq(client_sentiments)
   end
 
   it 'can retrieve the current applications' do
     applications = [build(:application)]
 
-    expect(@session).to receive(:get)
+    expect(session).to receive(:get)
       .with('operations/application', IGMarkets::API_VERSION_1)
       .and_return(applications.map(&:attributes))
 
-    expect(@platform.applications).to eq(applications)
+    expect(platform.applications).to eq(applications)
   end
 end
