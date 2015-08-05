@@ -1,9 +1,35 @@
 module IGMarkets
   class Model
-    include ActiveAttr::Model
+    attr_reader :attributes
 
-    def self.from(attributes)
-      attributes.is_a?(Hash) ? new(attributes) : attributes
+    def initialize(attributes = {})
+      attributes.each { |name, value| send("#{name}=", value) }
+    end
+
+    def ==(other)
+      attributes == other.attributes
+    end
+
+    class << self
+      def attribute(name, options = {})
+        name = name.to_sym
+
+        define_method name do
+          @attributes ||= {}
+          @attributes[name]
+        end
+
+        define_method "#{name}=" do |value|
+          value = options[:typecaster].call(value) if options[:typecaster]
+
+          @attributes ||= {}
+          @attributes[name] = value
+        end
+      end
+
+      def from(source)
+        source.is_a?(Hash) ? new(source) : source
+      end
     end
   end
 end

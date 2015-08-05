@@ -4,14 +4,26 @@ module IGMarkets
       ->(attributes) { IGMarkets::AccountBalance.from attributes }
     end
 
+    def boolean
+      ->(value) { { true => true, false => false }.fetch(value) }
+    end
+
     def currencies
       ->(o) { o.map { |attributes| Currency.from attributes } }
     end
 
-    def date_time(format_string, klass = DateTime)
+    def date_time(format_string)
       lambda do |value|
-        value.is_a?(String) ? klass.strptime(value, format_string) : value
+        if value.is_a?(String)
+          value == '' ? nil : DateTime.strptime(value, format_string)
+        else
+          value
+        end
       end
+    end
+
+    def float
+      ->(value) { value && Float(value) }
     end
 
     def instrument_expiry_details
@@ -44,7 +56,8 @@ module IGMarkets
       ->(attributes) { Price.from attributes }
     end
 
-    module_function :account_balance, :currencies, :date_time, :instrument_expiry_details, :instrument_rollover_details,
-                    :instrument_slippage_factor, :margin_deposit_bands, :market, :opening_hours, :price
+    module_function :account_balance, :boolean, :currencies, :date_time, :float, :instrument_expiry_details,
+                    :instrument_rollover_details, :instrument_slippage_factor, :margin_deposit_bands, :market,
+                    :opening_hours, :price
   end
 end

@@ -1,18 +1,18 @@
 module IGMarkets
   class WorkingOrder < Model
-    attribute :created_date, type: DateTime
+    attribute :created_date, typecaster: AttributeTypecasters.date_time('%Y/%m/%d %H:%M:%S:%L')
     attribute :currency_code
     attribute :deal_id
     attribute :direction
-    attribute :dma, type: Boolean
+    attribute :dma, typecaster: AttributeTypecasters.boolean
     attribute :epic
-    attribute :good_till_date, type: DateTime
-    attribute :guaranteed_stop, type: Boolean
-    attribute :limit_distance, type: Float
-    attribute :order_level, type: Float
-    attribute :order_size, type: Float
+    attribute :good_till_date, typecaster: AttributeTypecasters.date_time('%Y/%m/%d %H:%M')
+    attribute :guaranteed_stop, typecaster: AttributeTypecasters.boolean
+    attribute :limit_distance, typecaster: AttributeTypecasters.float
+    attribute :order_level, typecaster: AttributeTypecasters.float
+    attribute :order_size, typecaster: AttributeTypecasters.float
     attribute :order_type
-    attribute :stop_distance, type: Float
+    attribute :stop_distance, typecaster: AttributeTypecasters.float
     attribute :time_in_force
 
     attribute :market, typecaster: AttributeTypecasters.market

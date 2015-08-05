@@ -1,4 +1,4 @@
-require 'active_attr'
+require 'base64'
 require 'rest-client'
 
 require 'ig_markets/model'

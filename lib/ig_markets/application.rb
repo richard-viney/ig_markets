@@ -1,11 +1,11 @@
 module IGMarkets
   class Application < Model
-    attribute :allow_equities, type: Boolean
-    attribute :allow_quote_orders, type: Boolean
-    attribute :allowance_account_historical_data, type: Float
-    attribute :allowance_account_overall, type: Float
-    attribute :allowance_account_trading, type: Float
-    attribute :allowance_application_overall, type: Float
+    attribute :allow_equities, typecaster: AttributeTypecasters.boolean
+    attribute :allow_quote_orders, typecaster: AttributeTypecasters.boolean
+    attribute :allowance_account_historical_data, typecaster: AttributeTypecasters.float
+    attribute :allowance_account_overall, typecaster: AttributeTypecasters.float
+    attribute :allowance_account_trading, typecaster: AttributeTypecasters.float
+    attribute :allowance_application_overall, typecaster: AttributeTypecasters.float
     attribute :api_key
     attribute :name
     attribute :status

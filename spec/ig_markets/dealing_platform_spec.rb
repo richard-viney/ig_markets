@@ -33,7 +33,7 @@ describe IGMarkets::DealingPlatform do
       .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
       .and_return(activities: activities.map(&:attributes))
 
-    expect(platform.activities_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27)).to eq(activities)
+    expect(platform.activities_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27))).to eq(activities)
   end
 
   it 'can retrieve activities in recent period' do
@@ -43,7 +43,7 @@ describe IGMarkets::DealingPlatform do
       .with('history/activity/1000', IGMarkets::API_VERSION_1)
       .and_return(activities: activities.map(&:attributes))
 
-    expect(platform.activities_in_recent_period 1000).to eq(activities)
+    expect(platform.activities_in_recent_period(1000)).to eq(activities)
   end
 
   it 'can retrieve transactions in a date range' do
@@ -53,7 +53,7 @@ describe IGMarkets::DealingPlatform do
       .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
       .and_return(transactions: transactions.map(&:attributes))
 
-    expect(platform.transactions_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all).to eq(transactions)
+    expect(platform.transactions_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all)).to eq(transactions)
   end
 
   it 'can retrieve transactions in recent period' do
@@ -63,7 +63,7 @@ describe IGMarkets::DealingPlatform do
       .with('history/transactions/DEPOSIT/1000', IGMarkets::API_VERSION_1)
       .and_return(transactions: transactions.map(&:attributes))
 
-    expect(platform.transactions_in_recent_period 1000, :deposit).to eq(transactions)
+    expect(platform.transactions_in_recent_period(1000, :deposit)).to eq(transactions)
   end
 
   it 'can retrieve the current positions' do
@@ -71,7 +71,7 @@ describe IGMarkets::DealingPlatform do
 
     get_result = {
       positions: positions.map(&:attributes).map do |a|
-        { market: a['market'], position: a }
+        { market: a[:market], position: a }
       end
     }
 
@@ -104,7 +104,7 @@ describe IGMarkets::DealingPlatform do
 
     get_result = {
       working_orders: orders.map(&:attributes).map do |a|
-        { market_data: a['market'], working_order_data: a }
+        { market_data: a[:market], working_order_data: a }
       end
     }
 
