@@ -19,6 +19,13 @@ module IGMarkets
         define_attribute_writer name, options
       end
 
+      def apply_typecaster(type, value, options)
+        send_args = [type, value]
+        send_args << options if AttributeTypecasters.method(type).arity == 2
+
+        AttributeTypecasters.send(*send_args)
+      end
+
       def from(source)
         source.is_a?(Hash) ? new(source) : source
       end
@@ -35,12 +42,7 @@ module IGMarkets
         type = options.delete :type
 
         define_method "#{name}=" do |value|
-          if type
-            send_args = [type, value]
-            send_args << options if AttributeTypecasters.method(type).arity == 2
-
-            value = AttributeTypecasters.send(*send_args)
-          end
+          value = self.class.apply_typecaster(type, value, options) if type
 
           @attributes[name] = value
         end
