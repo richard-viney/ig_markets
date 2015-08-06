@@ -1,6 +1,6 @@
 module IGMarkets
   class SprintMarketPosition < Model
-    attribute :created_date, typecaster: AttributeTypecasters.date_time('%Y-%m-%d')
+    attribute :created_date, type: :date_time, format: '%Y-%m-%d'
     attribute :currency
     attribute :deal_id
     attribute :description
@@ -9,8 +9,8 @@ module IGMarkets
     attribute :expiry_time
     attribute :instrument_name
     attribute :market_status
-    attribute :payout_amount, typecaster: AttributeTypecasters.float
-    attribute :size, typecaster: AttributeTypecasters.float
-    attribute :strike_level, typecaster: AttributeTypecasters.float
+    attribute :payout_amount, type: :float
+    attribute :size, type: :float
+    attribute :strike_level, type: :float
   end
 end

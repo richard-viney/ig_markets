@@ -3,6 +3,7 @@ module IGMarkets
     attr_reader :attributes
 
     def initialize(attributes = {})
+      @attributes = {}
       attributes.each { |name, value| send("#{name}=", value) }
     end
 
@@ -15,14 +16,12 @@ module IGMarkets
         name = name.to_sym
 
         define_method name do
-          @attributes ||= {}
           @attributes[name]
         end
 
         define_method "#{name}=" do |value|
-          value = options[:typecaster].call(value) if options[:typecaster]
+          value = AttributeTypecasters.send(options[:type], value, options) if options.key? :type
 
-          @attributes ||= {}
           @attributes[name] = value
         end
       end

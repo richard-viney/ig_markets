@@ -1,9 +1,9 @@
 module IGMarkets
   class Transaction < Model
-    attribute :cash_transaction, typecaster: AttributeTypecasters.boolean
+    attribute :cash_transaction, type: :boolean
     attribute :close_level
     attribute :currency
-    attribute :date, typecaster: AttributeTypecasters.date_time('%d/%m/%y')
+    attribute :date, type: :date_time, format: '%d/%m/%y'
     attribute :instrument_name
     attribute :open_level
     attribute :period

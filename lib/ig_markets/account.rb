@@ -4,11 +4,11 @@ module IGMarkets
     attribute :account_id
     attribute :account_name
     attribute :account_type
-    attribute :balance, typecaster: AttributeTypecasters.account_balance
-    attribute :can_transfer_from, typecaster: AttributeTypecasters.boolean
-    attribute :can_transfer_to, typecaster: AttributeTypecasters.boolean
+    attribute :balance, type: :account_balance
+    attribute :can_transfer_from, type: :boolean
+    attribute :can_transfer_to, type: :boolean
     attribute :currency
-    attribute :preferred, typecaster: AttributeTypecasters.boolean
+    attribute :preferred, type: :boolean
     attribute :status
   end
 end

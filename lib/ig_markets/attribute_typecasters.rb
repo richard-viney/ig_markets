@@ -1,59 +1,55 @@
 module IGMarkets
   module AttributeTypecasters
-    def account_balance
-      ->(attributes) { IGMarkets::AccountBalance.from attributes }
+    def account_balance(value, options)
+      IGMarkets::AccountBalance.from value
     end
 
-    def boolean
-      ->(value) { { true => true, false => false }.fetch(value) }
+    def boolean(value, options)
+      { true => true, false => false }.fetch(value)
     end
 
-    def currencies
-      ->(o) { o.map { |attributes| Currency.from attributes } }
+    def currencies(value, options)
+      value.map { |attributes| Currency.from attributes }
     end
 
-    def date_time(format_string)
-      lambda do |value|
-        if value.is_a?(String)
-          value == '' ? nil : DateTime.strptime(value, format_string)
-        else
-          value
-        end
+    def date_time(value, options)
+      if value.is_a?(String)
+        value == '' ? nil : DateTime.strptime(value, options.fetch(:format))
+      else
+        value
       end
     end
 
-    def float
-      ->(value) { value && Float(value) }
+    def float(value, options)
+      value && Float(value)
     end
 
-    def instrument_expiry_details
-      ->(attributes) { InstrumentExpiryDetails.from attributes }
+    def instrument_expiry_details(value, options)
+      InstrumentExpiryDetails.from value
     end
 
-    def instrument_rollover_details
-      ->(attributes) { InstrumentRolloverDetails.from attributes }
+    def instrument_rollover_details(value, options)
+      InstrumentRolloverDetails.from value
     end
 
-    def instrument_slippage_factor
-      ->(attributes) { InstrumentSlippageFactor.from attributes }
+    def instrument_slippage_factor(value, options)
+      InstrumentSlippageFactor.from value
     end
 
-    def margin_deposit_bands
-      ->(o) { o.map { |attributes| MarginDepositBand.from attributes } }
+    def margin_deposit_bands(value, options)
+      value.map { |attributes| MarginDepositBand.from attributes }
     end
 
-    def market
-      ->(attributes) { Market.from attributes }
+    def market(value, options)
+      Market.from value
     end
 
-    def opening_hours
-      lambda do |o|
-        (o.is_a?(Hash) ? o.fetch(:market_times) : o).map { |attributes| OpeningHours.from attributes }
-      end
+    def opening_hours(value, options)
+      (value.is_a?(Hash) ? value.fetch(:market_times) : value).map { |attributes| OpeningHours.from attributes }
     end
 
-    def price
-      ->(attributes) { Price.from attributes }
+    def price(value, options)
+      Price.from value
     end
 
     module_function :account_balance, :boolean, :currencies, :date_time, :float, :instrument_expiry_details,

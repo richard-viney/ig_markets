@@ -1,8 +1,8 @@
 module IGMarkets
   class AccountBalance < Model
-    attribute :available, typecaster: AttributeTypecasters.float
-    attribute :balance, typecaster: AttributeTypecasters.float
-    attribute :deposit, typecaster: AttributeTypecasters.float
-    attribute :profit_loss, typecaster: AttributeTypecasters.float
+    attribute :available, type: :float
+    attribute :balance, type: :float
+    attribute :deposit, type: :float
+    attribute :profit_loss, type: :float
   end
 end

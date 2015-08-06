@@ -1,21 +1,21 @@
 module IGMarkets
   class Market < Model
-    attribute :bid, typecaster: AttributeTypecasters.float
-    attribute :delay_time, typecaster: AttributeTypecasters.float
+    attribute :bid, type: :float
+    attribute :delay_time, type: :float
     attribute :epic
     attribute :exchange_id
     attribute :expiry
-    attribute :high, typecaster: AttributeTypecasters.float
+    attribute :high, type: :float
     attribute :instrument_name
     attribute :instrument_type
-    attribute :lot_size, typecaster: AttributeTypecasters.float
-    attribute :low, typecaster: AttributeTypecasters.float
+    attribute :lot_size, type: :float
+    attribute :low, type: :float
     attribute :market_status
-    attribute :net_change, typecaster: AttributeTypecasters.float
-    attribute :offer, typecaster: AttributeTypecasters.float
-    attribute :percentage_change, typecaster: AttributeTypecasters.float
-    attribute :scaling_factor, typecaster: AttributeTypecasters.float
-    attribute :streaming_prices_available, typecaster: AttributeTypecasters.boolean
+    attribute :net_change, type: :float
+    attribute :offer, type: :float
+    attribute :percentage_change, type: :float
+    attribute :scaling_factor, type: :float
+    attribute :streaming_prices_available, type: :boolean
     attribute :update_time
   end
 end

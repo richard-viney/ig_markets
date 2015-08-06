@@ -1,8 +1,8 @@
 module IGMarkets
   class MarginDepositBand < Model
     attribute :currency
-    attribute :margin, typecaster: AttributeTypecasters.float
-    attribute :max, typecaster: AttributeTypecasters.float
-    attribute :min, typecaster: AttributeTypecasters.float
+    attribute :margin, type: :float
+    attribute :max, type: :float
+    attribute :min, type: :float
   end
 end

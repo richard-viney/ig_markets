@@ -1,18 +1,18 @@
 module IGMarkets
   class Position < Model
-    attribute :contract_size, typecaster: AttributeTypecasters.float
-    attribute :controlled_risk, typecaster: AttributeTypecasters.boolean
-    attribute :created_date, typecaster: AttributeTypecasters.date_time('%d-%m-%Y')
+    attribute :contract_size, type: :float
+    attribute :controlled_risk, type: :boolean
+    attribute :created_date, type: :date_time, format: '%d-%m-%Y'
     attribute :currency
     attribute :deal_id
     attribute :direction
-    attribute :level, typecaster: AttributeTypecasters.float
-    attribute :limit_level, typecaster: AttributeTypecasters.float
-    attribute :size, typecaster: AttributeTypecasters.float
-    attribute :stop_level, typecaster: AttributeTypecasters.float
-    attribute :trailing_step, typecaster: AttributeTypecasters.float
-    attribute :trailing_stop_distance, typecaster: AttributeTypecasters.float
+    attribute :level, type: :float
+    attribute :limit_level, type: :float
+    attribute :size, type: :float
+    attribute :stop_level, type: :float
+    attribute :trailing_step, type: :float
+    attribute :trailing_stop_distance, type: :float
 
-    attribute :market, typecaster: AttributeTypecasters.market
+    attribute :market, type: :market
   end
 end
