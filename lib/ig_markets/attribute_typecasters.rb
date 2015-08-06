@@ -1,14 +1,16 @@
 module IGMarkets
   module AttributeTypecasters
-    def account_balance(value, options)
+    module_function
+
+    def account_balance(value)
       IGMarkets::AccountBalance.from value
     end
 
-    def boolean(value, options)
+    def boolean(value)
       { true => true, false => false }.fetch(value)
     end
 
-    def currencies(value, options)
+    def currencies(value)
       value.map { |attributes| Currency.from attributes }
     end
 
@@ -20,40 +22,36 @@ module IGMarkets
       end
     end
 
-    def float(value, options)
+    def float(value)
       value && Float(value)
     end
 
-    def instrument_expiry_details(value, options)
+    def instrument_expiry_details(value)
       InstrumentExpiryDetails.from value
     end
 
-    def instrument_rollover_details(value, options)
+    def instrument_rollover_details(value)
       InstrumentRolloverDetails.from value
     end
 
-    def instrument_slippage_factor(value, options)
+    def instrument_slippage_factor(value)
       InstrumentSlippageFactor.from value
     end
 
-    def margin_deposit_bands(value, options)
+    def margin_deposit_bands(value)
       value.map { |attributes| MarginDepositBand.from attributes }
     end
 
-    def market(value, options)
+    def market(value)
       Market.from value
     end
 
-    def opening_hours(value, options)
+    def opening_hours(value)
       (value.is_a?(Hash) ? value.fetch(:market_times) : value).map { |attributes| OpeningHours.from attributes }
     end
 
-    def price(value, options)
+    def price(value)
       Price.from value
     end
-
-    module_function :account_balance, :boolean, :currencies, :date_time, :float, :instrument_expiry_details,
-                    :instrument_rollover_details, :instrument_slippage_factor, :margin_deposit_bands, :market,
-                    :opening_hours, :price
   end
 end

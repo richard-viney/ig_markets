@@ -15,19 +15,35 @@ module IGMarkets
       def attribute(name, options = {})
         name = name.to_sym
 
-        define_method name do
-          @attributes[name]
-        end
-
-        define_method "#{name}=" do |value|
-          value = AttributeTypecasters.send(options[:type], value, options) if options.key? :type
-
-          @attributes[name] = value
-        end
+        define_attribute_reader name
+        define_attribute_writer name, options
       end
 
       def from(source)
         source.is_a?(Hash) ? new(source) : source
+      end
+
+      private
+
+      def define_attribute_reader(name)
+        define_method name do
+          @attributes[name]
+        end
+      end
+
+      def define_attribute_writer(name, options)
+        type = options.delete :type
+
+        define_method "#{name}=" do |value|
+          if type
+            send_args = [type, value]
+            send_args << options if AttributeTypecasters.method(type).arity == 2
+
+            value = AttributeTypecasters.send(*send_args)
+          end
+
+          @attributes[name] = value
+        end
       end
     end
   end
