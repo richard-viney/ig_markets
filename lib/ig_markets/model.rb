@@ -11,6 +11,10 @@ module IGMarkets
       attributes == other.attributes
     end
 
+    def inspect
+      "#<#{self.class.name} #{attributes.map { |k, v| "#{k}: #{v}" }.join(', ')}>"
+    end
+
     class << self
       def attribute(name, options = {})
         name = name.to_sym
