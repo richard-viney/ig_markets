@@ -1,6 +1,6 @@
 module IGMarkets
   class Session
-    attr_accessor :print_requests
+    attr_accessor :print_requests?
 
     attr_reader :platform, :api_key, :cst, :x_security_token
 
@@ -68,7 +68,7 @@ module IGMarkets
       options[:headers] = request_headers(options)
       options[:payload] = options[:payload].to_json if options.key? :payload
 
-      print_request options
+      print_request options if print_requests?
 
       response = execute_request options
       result = process_response response
@@ -96,7 +96,7 @@ module IGMarkets
     end
 
     def print_request(options)
-      puts "#{options[:method].upcase} #{options[:url]}" if print_requests
+      puts "#{options[:method].upcase} #{options[:url]}"
     end
 
     def process_response(response)
