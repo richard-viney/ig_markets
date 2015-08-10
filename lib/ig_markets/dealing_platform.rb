@@ -1,18 +1,18 @@
 module IGMarkets
-  module LoginMethods
-    # Logs into the IG Markets Dealing Platform, either the production platform or the demo platform.
+  module SessionMethods
+    # Signs in to the IG Markets Dealing Platform, either the production platform or the demo platform.
     #
-    # @param username [String] the login username
-    # @param password [String] the login password
-    # @param api_key [String] the login API key
+    # @param username [String] the account username
+    # @param password [String] the account password
+    # @param api_key [String] the account API key
     # @param platform [:production, :demo] the platform to log into
-    def login(username, password, api_key, platform = :demo)
-      session.login username, password, api_key, platform
+    def sign_in(username, password, api_key, platform = :demo)
+      session.sign_in username, password, api_key, platform
     end
 
-    # Logs out of the IG Markets Dealing Platform
-    def logout
-      session.logout
+    # Signs out of the IG Markets Dealing Platform
+    def sign_out
+      session.sign_out
     end
   end
 
@@ -35,8 +35,8 @@ module IGMarkets
     def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
       Validate.transaction_type! transaction_type
 
-      from_date = format_activity_date(from_date)
-      to_date = format_activity_date(to_date)
+      from_date = format_activity_date from_date
+      to_date = format_activity_date to_date
 
       gather "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}", :transactions, Transaction
     end
@@ -62,7 +62,7 @@ module IGMarkets
     end
 
     def position(deal_id)
-      attributes = session.get("positions/#{deal_id}", API_VERSION_2)
+      attributes = session.get "positions/#{deal_id}", API_VERSION_2
 
       Position.new attributes_with_market(attributes, :position, :market)
     end
@@ -86,7 +86,7 @@ module IGMarkets
 
   module MarketMethods
     def market_hierarchy(node_id = nil)
-      url = ['marketnavigation', node_id].compact.join('/')
+      url = ['marketnavigation', node_id].compact.join '/'
 
       result = session.get(url, API_VERSION_1)
 
@@ -105,7 +105,7 @@ module IGMarkets
 
       Validate.epic! epics
 
-      result = session.get("markets?epics=#{epics.join(',')}", API_VERSION_1)
+      result = session.get "markets?epics=#{epics.join(',')}", API_VERSION_1
 
       result.fetch(:market_details).map do |attributes|
         {
@@ -131,8 +131,8 @@ module IGMarkets
       Validate.epic! epic
       Validate.historical_price_resolution! resolution
 
-      start_date_time = format_historical_price_date_time(start_date_time)
-      end_date_time = format_historical_price_date_time(end_date_time)
+      start_date_time = format_historical_price_date_time start_date_time
+      end_date_time = format_historical_price_date_time end_date_time
 
       gather_prices "prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
     end
@@ -156,7 +156,7 @@ module IGMarkets
     end
 
     def gather_prices(url)
-      result = session.get(url, API_VERSION_2)
+      result = session.get url, API_VERSION_2
 
       {
         allowance: HistoricalPriceDataAllowance.new(result.fetch(:allowance)),
@@ -178,7 +178,7 @@ module IGMarkets
 
   module ClientSentimentMethods
     def client_sentiment(market_id)
-      result = session.get("clientsentiment/#{market_id}", API_VERSION_1)
+      result = session.get "clientsentiment/#{market_id}", API_VERSION_1
       ClientSentiment.new result
     end
 
@@ -189,7 +189,7 @@ module IGMarkets
 
   module GeneralMethods
     def applications
-      result = session.get('operations/application', API_VERSION_1)
+      result = session.get 'operations/application', API_VERSION_1
 
       result.map { |attributes| Application.new attributes }
     end
@@ -208,7 +208,7 @@ module IGMarkets
       end
     end
 
-    include LoginMethods
+    include SessionMethods
     include AccountMethods
     include DealingMethods
     include MarketMethods

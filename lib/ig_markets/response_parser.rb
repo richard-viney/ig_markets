@@ -1,5 +1,7 @@
 module IGMarkets
   module ResponseParser
+    module_function
+
     def parse(object)
       snake_case_hash_keys object
     end
@@ -15,7 +17,5 @@ module IGMarkets
         object
       end
     end
-
-    module_function :parse, :snake_case_hash_keys
   end
 end

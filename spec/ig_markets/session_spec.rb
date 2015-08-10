@@ -13,8 +13,8 @@ describe IGMarkets::Session do
     )
     expect(rest_client).to receive(:execute).twice.and_return(response)
 
-    expect(session.login('username', 'password', 'api_key', :demo)).to eq(id: 1)
-    expect(session.host_url).to match(/^https:/)
+    expect(session.sign_in('username', 'password', 'api_key', :production)).to eq(id: 1)
+    expect(session.platform).to eq(:production)
     expect(session.api_key).to eq('api_key')
     expect(session.cst).to eq('1')
     expect(session.x_security_token).to match('2')
@@ -27,7 +27,7 @@ describe IGMarkets::Session do
         s.instance_variable_set :@cst, 'cst'
         s.instance_variable_set :@x_security_token, 'x_security_token'
         s.instance_variable_set :@api_key, 'api_key'
-        s.instance_variable_set :@host_url, 'test://'
+        s.instance_variable_set :@platform, :production
       end
     end
 
@@ -46,7 +46,7 @@ describe IGMarkets::Session do
       expect(response).to receive_messages(code: 200, body: {}.to_json)
       expect(rest_client).to receive(:execute).with(params(:delete, 'session')).and_return(response)
 
-      expect(session.logout).to eq(nil)
+      expect(session.sign_out).to eq(nil)
       expect(session.alive?).to eq(false)
     end
 
@@ -54,7 +54,7 @@ describe IGMarkets::Session do
       expect(response).to receive_messages(code: 404, body: '')
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
 
-      expect { session.get('url', IGMarkets::API_VERSION_1) }.to raise_error(RuntimeError)
+      expect { session.get('url', IGMarkets::API_VERSION_1) }.to raise_error(IGMarkets::RequestFailedError)
     end
 
     it 'inspects correctly' do
@@ -74,7 +74,7 @@ describe IGMarkets::Session do
     def params(method, url, payload = nil)
       hash = {}
       hash[:method] = method
-      hash[:url] = "test://#{url}"
+      hash[:url] = "https://api.ig.com/gateway/deal/#{url}"
       hash[:headers] = headers
       hash[:payload] = payload.to_json if payload
       hash

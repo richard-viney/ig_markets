@@ -7,13 +7,13 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'can log in' do
-    expect(session).to receive(:login).with('username', 'password', 'api_key', :demo).and_return({})
-    expect(platform.login('username', 'password', 'api_key', :demo)).to eq({})
+    expect(session).to receive(:sign_in).with('username', 'password', 'api_key', :production).and_return({})
+    expect(platform.sign_in('username', 'password', 'api_key', :production)).to eq({})
   end
 
-  it 'can log out' do
-    expect(session).to receive(:logout).and_return(nil)
-    expect(platform.logout).to eq(nil)
+  it 'can sign out' do
+    expect(session).to receive(:sign_out).and_return(nil)
+    expect(platform.sign_out).to eq(nil)
   end
 
   it 'can retrieve accounts' do
@@ -80,7 +80,7 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'can retrieve a single position' do
-    position = build(:position)
+    position = build :position
 
     expect(session).to receive(:get)
       .with("positions/#{position.deal_id}", IGMarkets::API_VERSION_2)
@@ -142,8 +142,8 @@ describe IGMarkets::DealingPlatform do
       min_normal_stop_or_limit_distance: build(:dealing_rule),
       min_step_distance: build(:dealing_rule)
     }
-    instrument = build(:instrument)
-    snapshot = build(:market_snapshot)
+    instrument = build :instrument
+    snapshot = build :market_snapshot
 
     get_result = {
       market_details: [{
@@ -170,7 +170,7 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'can retrieve a specified number of historical prices for an epic' do
-    allowance = build(:historical_price_data_allowance)
+    allowance = build :historical_price_data_allowance
     type = 'SHARES'
     prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
 
@@ -188,7 +188,7 @@ describe IGMarkets::DealingPlatform do
     from_date = DateTime.new(2014, 1, 2, 3, 4, 5)
     to_date = DateTime.new(2014, 2, 3, 4, 5, 6)
 
-    allowance = build(:historical_price_data_allowance)
+    allowance = build :historical_price_data_allowance
     type = 'SHARES'
     prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
 

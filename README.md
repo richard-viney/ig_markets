@@ -57,8 +57,8 @@ bundle install
 ```ruby
 ig = IGMarkets::DealingPlatform.new
 
-# Login
-ig.login 'username', 'password', 'api_key', :demo
+# Sign in
+ig.sign_in 'username', 'password', 'api_key', :demo
 
 # Account
 puts ig.accounts.inspect
@@ -86,8 +86,8 @@ puts ig.client_sentiment_related('EURUSD').inspect
 # General
 puts ig.applications.inspect
 
-# Logout
-ig.logout
+# Sign out
+ig.sign_out
 ```
 
 ## Documentation
