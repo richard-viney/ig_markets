@@ -7,16 +7,24 @@ module IGMarkets
     end
 
     def boolean(value)
-      { true => true, false => false }.fetch(value)
+      return value if [nil, true, false].include? value
+
+      fail ArgumentError, "Invalid boolean value: #{value}"
     end
 
     def currencies(value)
-      value.map { |attributes| Currency.from attributes }
+      Array(value).map do |attributes|
+        Currency.from attributes
+      end
     end
 
     def date_time(value, options)
-      if value.is_a?(String)
-        value == '' ? nil : DateTime.strptime(value, options.fetch(:format))
+      fail ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
+
+      value = nil if value == ''
+
+      if value.is_a? String
+        DateTime.strptime(value, options[:format])
       else
         value
       end
@@ -39,7 +47,9 @@ module IGMarkets
     end
 
     def margin_deposit_bands(value)
-      value.map { |attributes| MarginDepositBand.from attributes }
+      Array(value).map do |attributes|
+        MarginDepositBand.from attributes
+      end
     end
 
     def market(value)
@@ -47,7 +57,9 @@ module IGMarkets
     end
 
     def opening_hours(value)
-      (value.is_a?(Hash) ? value.fetch(:market_times) : value).map { |attributes| OpeningHours.from attributes }
+      Array(value.is_a?(Hash) ? value.fetch(:market_times) : value).map do |attributes|
+        OpeningHours.from attributes
+      end
     end
 
     def price(value)

@@ -4,7 +4,15 @@ module IGMarkets
 
     def initialize(attributes = {})
       @attributes = {}
-      attributes.each { |name, value| send("#{name}=", value) }
+
+      defined_attributes = (self.class.defined_attributes || {}).keys
+
+      defined_attributes.each do |name|
+        send "#{name}=", attributes[name]
+      end
+
+      invalid_attributes = attributes.keys - defined_attributes
+      fail ArgumentError, "Unknown attributes: #{invalid_attributes.join ', '}" unless invalid_attributes.empty?
     end
 
     def ==(other)
@@ -16,11 +24,16 @@ module IGMarkets
     end
 
     class << self
+      attr_accessor :defined_attributes
+
       def attribute(name, options = {})
         name = name.to_sym
 
         define_attribute_reader name
         define_attribute_writer name, options
+
+        self.defined_attributes ||= {}
+        self.defined_attributes[name] = options
       end
 
       def apply_typecaster(type, value, options)
@@ -31,7 +44,15 @@ module IGMarkets
       end
 
       def from(source)
-        source.is_a?(Hash) ? new(source) : source
+        if source.nil?
+          nil
+        elsif source.is_a? Hash
+          new source
+        elsif source.is_a? self
+          source.dup
+        else
+          fail ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
+        end
       end
 
       private
