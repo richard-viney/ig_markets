@@ -17,7 +17,7 @@ FactoryGirl.define do
     name 'instrument'
     news_code 'news_code'
     one_pip_means ''
-    opening_hours { [build(:opening_hours)] }
+    opening_hours { { market_times: [build(:opening_hours)] } }
     rollover_details { build(:instrument_rollover_details) }
     slippage_factor { build(:instrument_slippage_factor) }
     special_info %w(info_0 info_1)

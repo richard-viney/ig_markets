@@ -4,7 +4,11 @@ module IGMarkets
     attribute :open_time
 
     def self.from(value)
-      super value.is_a?(Hash) ? value.fetch(:market_times) : value
+      if value.is_a?(Hash) && value.keys == [:market_times]
+        super value[:market_times]
+      else
+        super
+      end
     end
   end
 end
