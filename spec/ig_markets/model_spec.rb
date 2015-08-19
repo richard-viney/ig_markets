@@ -26,8 +26,16 @@ describe IGMarkets::Model do
     expect(model.attributes).to eq(id: nil, bool: nil, date: nil, cost: nil)
   end
 
-  it 'inspects correctly' do
-    expect(model.inspect).to eq('#<TestModel id: , bool: , date: , cost: >')
+  it 'inspects attributes' do
+    expect(model.inspect).to eq('#<TestModel id: nil, bool: nil, date: nil, cost: nil>')
+  end
+
+  it 'inspects attributes in nested models' do
+    model.id = TestModel.new
+
+    expect(model.inspect).to eq('#<TestModel ' \
+      'id: #<TestModel id: nil, bool: nil, date: nil, cost: nil>, ' \
+      'bool: nil, date: nil, cost: nil>')
   end
 
   it '#from accepts nil' do
@@ -84,8 +92,8 @@ describe IGMarkets::Model do
       expect(model.attributes).to eq(id: 'test', bool: true, date: DateTime.new(2015, 1, 10), cost: 1.0)
     end
 
-    it 'inspects correctly' do
-      expect(model.inspect).to eq('#<TestModel id: test, bool: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
+    it 'inspects attributes' do
+      expect(model.inspect).to eq('#<TestModel id: "test", bool: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
     end
   end
 end

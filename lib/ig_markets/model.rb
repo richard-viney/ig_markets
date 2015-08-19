@@ -5,7 +5,7 @@ module IGMarkets
     def initialize(attributes = {})
       @attributes = {}
 
-      defined_attributes = (self.class.defined_attributes || {}).keys
+      defined_attributes = self.class.defined_attributes || []
 
       defined_attributes.each do |name|
         send "#{name}=", attributes[name]
@@ -20,7 +20,14 @@ module IGMarkets
     end
 
     def inspect
-      "#<#{self.class.name} #{attributes.map { |k, v| "#{k}: #{v}" }.join(', ')}>"
+      formatted_attributes = self.class.defined_attributes.map do |attribute|
+        value = send attribute
+        value = value.inspect unless value.is_a? DateTime
+
+        "#{attribute}: #{value}"
+      end
+
+      "#<#{self.class.name} #{formatted_attributes.join ', '}>"
     end
 
     class << self
@@ -32,8 +39,8 @@ module IGMarkets
         define_attribute_reader name
         define_attribute_writer name, options
 
-        self.defined_attributes ||= {}
-        self.defined_attributes[name] = options
+        self.defined_attributes ||= []
+        self.defined_attributes << name
       end
 
       def from(source)
