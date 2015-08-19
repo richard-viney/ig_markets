@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :position, class: IGMarkets::Position do
     contract_size 1000.0
     controlled_risk false
-    created_date '22-01-2015'
+    created_date '2015/08/17 10:27:28:000'
     currency 'USD'
     deal_id 'DIAAAAA8JKPFTVA'
     direction 'BUY'

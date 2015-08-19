@@ -2,7 +2,7 @@ module IGMarkets
   class Position < Model
     attribute :contract_size, type: :float
     attribute :controlled_risk, type: :boolean
-    attribute :created_date, type: :date_time, format: '%d-%m-%Y'
+    attribute :created_date, type: :date_time, format: '%Y/%m/%d %H:%M:%S:%L'
     attribute :currency
     attribute :deal_id
     attribute :direction
