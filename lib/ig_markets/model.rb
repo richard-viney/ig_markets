@@ -84,10 +84,12 @@ module IGMarkets
       def typecaster_date_time(value, options)
         fail ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
 
-        value = nil if value == ''
-
         if value.is_a? String
-          DateTime.strptime(value, options[:format])
+          begin
+            DateTime.strptime(value, options[:format])
+          rescue ArgumentError
+            raise ArgumentError, "Failed parsing date '#{value}' with format '#{options[:format]}'"
+          end
         else
           value
         end
