@@ -1,17 +1,16 @@
 module IGMarkets
   class Session
-    attr_reader :platform, :api_key, :cst, :x_security_token
+    attr_accessor :username, :password, :api_key, :platform
+
+    attr_reader :cst, :x_security_token
 
     HOST_URLS = {
       demo:       'https://demo-api.ig.com/gateway/deal/',
       production: 'https://api.ig.com/gateway/deal/'
     }
 
-    def sign_in(username, password, api_key, platform)
-      fail ArgumentError, 'platform must be :demo or :production' unless HOST_URLS.key? platform
-
-      @platform = platform
-      @api_key = api_key
+    def sign_in
+      validate_authentication
 
       payload = { identifier: username, password: password_encryptor.encrypt(password), encryptedPassword: true }
 
@@ -27,7 +26,7 @@ module IGMarkets
     def sign_out
       delete 'session', API_VERSION_1 if alive?
 
-      @platform = @api_key = @cst = @x_security_token = nil
+      @cst = @x_security_token = nil
     end
 
     def alive?
@@ -52,6 +51,14 @@ module IGMarkets
 
     private
 
+    def validate_authentication
+      %i(username password api_key).each do |attribute|
+        fail ArgumentError, "#{attribute} is not set" if send(attribute).to_s.empty?
+      end
+
+      fail ArgumentError, 'platform is invalid' unless HOST_URLS.key? platform
+    end
+
     def password_encryptor
       result = get 'session/encryptionKey', API_VERSION_1
 
@@ -62,7 +69,7 @@ module IGMarkets
     end
 
     def request(options)
-      options[:url] = "#{HOST_URLS[platform]}#{URI.escape(options[:url])}"
+      options[:url] = "#{HOST_URLS.fetch(platform)}#{URI.escape(options[:url])}"
       options[:headers] = request_headers(options)
       options[:payload] = options[:payload].to_json if options.key? :payload
 

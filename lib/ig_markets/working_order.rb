@@ -15,6 +15,6 @@ module IGMarkets
     attribute :stop_distance, type: :float
     attribute :time_in_force
 
-    attribute :market, type: :market
+    attribute :market, type: Market
   end
 end

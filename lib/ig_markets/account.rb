@@ -4,7 +4,7 @@ module IGMarkets
     attribute :account_id
     attribute :account_name
     attribute :account_type
-    attribute :balance, type: :account_balance
+    attribute :balance, type: AccountBalance
     attribute :can_transfer_from, type: :boolean
     attribute :can_transfer_to, type: :boolean
     attribute :currency

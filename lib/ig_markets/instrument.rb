@@ -4,22 +4,22 @@ module IGMarkets
     attribute :contract_size
     attribute :controlled_risk_allowed, type: :boolean
     attribute :country
-    attribute :currencies, type: :currencies
+    attribute :currencies, type: Currency
     attribute :epic
     attribute :expiry
-    attribute :expiry_details, type: :instrument_expiry_details
+    attribute :expiry_details, type: InstrumentExpiryDetails
     attribute :force_open_allowed, type: :boolean
     attribute :lot_size, type: :float
-    attribute :margin_deposit_bands, type: :margin_deposit_bands
+    attribute :margin_deposit_bands, type: MarginDepositBand
     attribute :margin_factor, type: :float
     attribute :margin_factor_unit
     attribute :market_id
     attribute :name
     attribute :news_code
     attribute :one_pip_means
-    attribute :opening_hours, type: :opening_hours
-    attribute :rollover_details, type: :instrument_rollover_details
-    attribute :slippage_factor, type: :instrument_slippage_factor
+    attribute :opening_hours, type: OpeningHours
+    attribute :rollover_details, type: InstrumentRolloverDetails
+    attribute :slippage_factor, type: InstrumentSlippageFactor
     attribute :special_info
     attribute :sprint_markets_maximum_expiry_time, type: :float
     attribute :sprint_markets_minimum_expiry_time, type: :float

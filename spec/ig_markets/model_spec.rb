@@ -1,32 +1,33 @@
 describe IGMarkets::Model do
   class TestModel < IGMarkets::Model
-    attribute :name
-    attribute :enabled, type: :boolean
-    attribute :starts_at, type: :date_time, format: '%Y-%m-%d'
+    attribute :id
+    attribute :on, type: :boolean
+    attribute :date, type: :date_time, format: '%Y-%m-%d'
+    attribute :cost, type: :float
   end
 
   let(:model) { TestModel.new }
 
   it 'initializes with specified attribute values' do
-    expect(TestModel.new(name: 'test', enabled: true).attributes).to eq(name: 'test', enabled: true, starts_at: nil)
+    expect(TestModel.new(id: 'test', on: true).attributes).to eq(id: 'test', on: true, date: nil, cost: nil)
   end
 
   it 'fails when initialized with an unknown attribute' do
-    expect { TestModel.new name: 'test', unknown: '' }.to raise_error(ArgumentError)
+    expect { TestModel.new id: 'test', unknown: '' }.to raise_error(ArgumentError)
   end
 
   it 'has the correct getter and setter methods' do
-    [:name, :name=, :enabled, :enabled=, :starts_at, :starts_at=].each do |name|
-      expect(model.respond_to?(name)).to eq(true)
+    [:id, :id=, :on, :on=, :date, :date=, :cost, :cost=].each do |id|
+      expect(model.respond_to?(id)).to eq(true)
     end
   end
 
   it 'has the correct attributes hash' do
-    expect(model.attributes).to eq(name: nil, enabled: nil, starts_at: nil)
+    expect(model.attributes).to eq(id: nil, on: nil, date: nil, cost: nil)
   end
 
   it 'inspects correctly' do
-    expect(model.inspect).to eq('#<TestModel name: , enabled: , starts_at: >')
+    expect(model.inspect).to eq('#<TestModel id: , on: , date: , cost: >')
   end
 
   it '#from accepts nil' do
@@ -34,48 +35,57 @@ describe IGMarkets::Model do
   end
 
   it '#from accepts an attributes hash' do
-    expect(TestModel.from(name: 'test').attributes).to eq(name: 'test', enabled: nil, starts_at: nil)
+    expect(TestModel.from(id: 'test').attributes).to eq(id: 'test', on: nil, date: nil, cost: nil)
   end
 
   it '#from accepts an instance and creates a copy' do
-    instance = TestModel.new(name: 'test')
+    instance = TestModel.new(id: 'test')
 
     expect(TestModel.from(instance)).to eq(instance)
     expect(TestModel.from(instance)).not_to eql(instance)
   end
 
+  it '#from accepts an Array of attributes hashes' do
+    expect(TestModel.from([{ id: 'a' }, { id: 'b' }])).to eq([TestModel.new(id: 'a'), TestModel.new(id: 'b')])
+  end
+
   it '#from raises on invalid inputs' do
-    ['', IGMarkets::Model.new].each do |invalid_input|
+    ['', DateTime.new, IGMarkets::Model.new].each do |invalid_input|
       expect { TestModel.from(invalid_input) }.to raise_error(ArgumentError)
     end
   end
 
   it 'raises ArgumentError for an invalid boolean' do
-    expect { model.enabled = '' }.to raise_error(ArgumentError)
+    expect { model.on = '' }.to raise_error(ArgumentError)
   end
 
   it 'correctly parses a date in the expected format' do
-    model.starts_at = '2015-01-10'
-    expect(model.starts_at).to eq(DateTime.new(2015, 1, 10))
+    model.date = '2015-01-10'
+    expect(model.date).to eq(DateTime.new(2015, 1, 10))
   end
 
   it 'raises ArgumentError for an invalid date' do
-    expect { model.starts_at = '2015-29-01' }.to raise_error(ArgumentError)
+    expect { model.date = '2015-29-01' }.to raise_error(ArgumentError)
+  end
+
+  it 'raises ArgumentError for an invalid float' do
+    expect { model.cost = 'a' }.to raise_error(ArgumentError)
   end
 
   context 'with all attributes set' do
     before do
-      model.name = 'test'
-      model.enabled = true
-      model.starts_at = '2015-01-10'
+      model.id = 'test'
+      model.on = true
+      model.date = '2015-01-10'
+      model.cost = '1.0'
     end
 
     it 'has the correct attributes hash' do
-      expect(model.attributes).to eq(name: 'test', enabled: true, starts_at: DateTime.new(2015, 1, 10))
+      expect(model.attributes).to eq(id: 'test', on: true, date: DateTime.new(2015, 1, 10), cost: 1.0)
     end
 
     it 'inspects correctly' do
-      expect(model.inspect).to eq('#<TestModel name: test, enabled: true, starts_at: 2015-01-10T00:00:00+00:00>')
+      expect(model.inspect).to eq('#<TestModel id: test, on: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
     end
   end
 end

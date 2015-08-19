@@ -2,26 +2,45 @@ describe IGMarkets::Session do
   let(:response) { instance_double 'RestClient::Response' }
   let(:rest_client) { RestClient::Request }
 
-  it 'can log in' do
-    session = IGMarkets::Session.new
+  context 'a non-signed in session' do
+    let(:session) do
+      IGMarkets::Session.new.tap do |session|
+        session.username = 'username'
+        session.password = 'password'
+        session.api_key = 'api_key'
+        session.platform = :production
+      end
+    end
 
-    expect(response).to receive(:code).twice.and_return(200)
-    expect(response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
-    expect(response).to receive(:body).twice.and_return(
-      { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
-      { id: 1 }.to_json
-    )
-    expect(rest_client).to receive(:execute).twice.and_return(response)
+    it 'is not alive' do
+      expect(session.alive?).to eq(false)
+    end
 
-    expect(session.sign_in('username', 'password', 'api_key', :production)).to eq(id: 1)
-    expect(session.platform).to eq(:production)
-    expect(session.api_key).to eq('api_key')
-    expect(session.cst).to eq('1')
-    expect(session.x_security_token).to match('2')
-    expect(session.alive?).to eq(true)
+    it 'can sign in' do
+      expect(response).to receive(:code).twice.and_return(200)
+      expect(response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
+      expect(response).to receive(:body).twice.and_return(
+        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
+        { id: 1 }.to_json
+      )
+      expect(rest_client).to receive(:execute).twice.and_return(response)
+
+      expect(session.sign_in).to eq(id: 1)
+
+      expect(session.cst).to eq('1')
+      expect(session.x_security_token).to match('2')
+      expect(session.alive?).to eq(true)
+    end
+
+    it 'fails to sign in when required attributes are missing' do
+      %i(username password api_key platform).each do |attribute|
+        session.send "#{attribute}=", nil
+        expect { session.sign_in }.to raise_error(ArgumentError)
+      end
+    end
   end
 
-  context 'a logged in session' do
+  context 'a signed in session' do
     let(:session) do
       IGMarkets::Session.new.tap do |s|
         s.instance_variable_set :@cst, 'cst'
@@ -42,7 +61,7 @@ describe IGMarkets::Session do
       expect(session.post('the_url', { id: 1 }, IGMarkets::API_VERSION_1)).to eq(ids: [1, 2])
     end
 
-    it 'can logout' do
+    it 'can sign out' do
       expect(response).to receive_messages(code: 200, body: {}.to_json)
       expect(rest_client).to receive(:execute).with(params(:delete, 'session')).and_return(response)
 

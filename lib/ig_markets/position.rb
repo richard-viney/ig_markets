@@ -13,6 +13,6 @@ module IGMarkets
     attribute :trailing_step, type: :float
     attribute :trailing_stop_distance, type: :float
 
-    attribute :market, type: :market
+    attribute :market, type: Market
   end
 end

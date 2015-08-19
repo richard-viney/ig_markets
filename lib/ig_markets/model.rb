@@ -36,23 +36,13 @@ module IGMarkets
         self.defined_attributes[name] = options
       end
 
-      def apply_typecaster(type, value, options)
-        send_args = [type, value]
-        send_args << options if AttributeTypecasters.method(type).arity == 2
-
-        AttributeTypecasters.send(*send_args)
-      end
-
       def from(source)
-        if source.nil?
-          nil
-        elsif source.is_a? Hash
-          new source
-        elsif source.is_a? self
-          source.dup
-        else
-          fail ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
-        end
+        return nil if source.nil?
+        return new source if source.is_a? Hash
+        return source.dup if source.is_a? self
+        return source.map { |item| from item } if source.is_a? Array
+
+        fail ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
       end
 
       private
@@ -66,11 +56,38 @@ module IGMarkets
       def define_attribute_writer(name, options)
         type = options.delete :type
 
-        define_method "#{name}=" do |value|
-          value = self.class.apply_typecaster(type, value, options) if type
-
-          @attributes[name] = value
+        typecaster = nil
+        if type.is_a? Symbol
+          typecaster = method "typecaster_#{type}"
+        elsif type.respond_to? :from
+          typecaster = -> (value, _options) { type.from value }
         end
+
+        define_method "#{name}=" do |value|
+          @attributes[name] = typecaster ? typecaster.call(value, options) : value
+        end
+      end
+
+      def typecaster_boolean(value, _options)
+        return value if [nil, true, false].include? value
+
+        fail ArgumentError, "Invalid boolean value: #{value}"
+      end
+
+      def typecaster_date_time(value, options)
+        fail ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
+
+        value = nil if value == ''
+
+        if value.is_a? String
+          DateTime.strptime(value, options[:format])
+        else
+          value
+        end
+      end
+
+      def typecaster_float(value, _options)
+        value && Float(value)
       end
     end
   end

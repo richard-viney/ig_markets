@@ -6,9 +6,15 @@ describe IGMarkets::DealingPlatform do
     end
   end
 
-  it 'can log in' do
-    expect(session).to receive(:sign_in).with('username', 'password', 'api_key', :production).and_return({})
+  it 'can sign in' do
+    expect(session).to receive(:sign_in).and_return({})
+
     expect(platform.sign_in('username', 'password', 'api_key', :production)).to eq({})
+
+    expect(session.username).to eq('username')
+    expect(session.password).to eq('password')
+    expect(session.api_key).to eq('api_key')
+    expect(session.platform).to eq(:production)
   end
 
   it 'can sign out' do

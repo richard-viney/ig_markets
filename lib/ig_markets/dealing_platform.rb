@@ -5,9 +5,14 @@ module IGMarkets
     # @param username [String] the account username
     # @param password [String] the account password
     # @param api_key [String] the account API key
-    # @param platform [:production, :demo] the platform to log into
+    # @param platform [:production, :demo] the platform to use
     def sign_in(username, password, api_key, platform = :demo)
-      session.sign_in username, password, api_key, platform
+      session.username = username
+      session.password = password
+      session.api_key = api_key
+      session.platform = platform
+
+      session.sign_in
     end
 
     # Signs out of the IG Markets Dealing Platform
@@ -196,11 +201,7 @@ module IGMarkets
   end
 
   class DealingPlatform
-    attr_reader :session
-
-    def initialize
-      @session = Session.new
-    end
+    attr_accessor :session
 
     def gather(url, collection, klass, api_version = API_VERSION_1)
       session.get(url, api_version).fetch(collection).map do |attributes|
