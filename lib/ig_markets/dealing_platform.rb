@@ -96,8 +96,8 @@ module IGMarkets
       result = session.get(url, API_VERSION_1)
 
       {
-        markets: (result.fetch(:markets) || []).map { |attributes| Market.new attributes },
-        nodes:   (result.fetch(:nodes) || []).map   { |attributes| MarketHierarchyNode.new attributes }
+        markets: Market.from(result.fetch(:markets) || []),
+        nodes:   MarketHierarchyNode.from(result.fetch(:nodes) || [])
       }
     end
 
@@ -166,7 +166,7 @@ module IGMarkets
       {
         allowance: HistoricalPriceDataAllowance.new(result.fetch(:allowance)),
         instrument_type: result.fetch(:instrument_type),
-        prices: result.fetch(:prices).map { |attributes| HistoricalPriceSnapshot.new attributes }
+        prices: HistoricalPriceSnapshot.from(result.fetch(:prices))
       }
     end
   end
@@ -196,7 +196,7 @@ module IGMarkets
     def applications
       result = session.get 'operations/application', API_VERSION_1
 
-      result.map { |attributes| Application.new attributes }
+      Application.from result
     end
   end
 
@@ -218,9 +218,7 @@ module IGMarkets
     private
 
     def gather(url, collection, klass, api_version = API_VERSION_1)
-      session.get(url, api_version).fetch(collection).map do |attributes|
-        klass.new attributes
-      end
+      klass.from session.get(url, api_version).fetch(collection)
     end
   end
 end
