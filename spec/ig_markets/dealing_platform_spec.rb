@@ -6,6 +6,10 @@ describe IGMarkets::DealingPlatform do
     end
   end
 
+  it 'has a valid session' do
+    expect(IGMarkets::DealingPlatform.new.session).to be_an_instance_of(IGMarkets::Session)
+  end
+
   it 'can sign in' do
     expect(session).to receive(:sign_in).and_return({})
 

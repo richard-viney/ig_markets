@@ -201,12 +201,10 @@ module IGMarkets
   end
 
   class DealingPlatform
-    attr_accessor :session
+    attr_reader :session
 
-    def gather(url, collection, klass, api_version = API_VERSION_1)
-      session.get(url, api_version).fetch(collection).map do |attributes|
-        klass.new attributes
-      end
+    def initialize
+      @session = Session.new
     end
 
     include SessionMethods
@@ -216,5 +214,13 @@ module IGMarkets
     include WatchlistMethods
     include ClientSentimentMethods
     include GeneralMethods
+
+    private
+
+    def gather(url, collection, klass, api_version = API_VERSION_1)
+      session.get(url, api_version).fetch(collection).map do |attributes|
+        klass.new attributes
+      end
+    end
   end
 end
