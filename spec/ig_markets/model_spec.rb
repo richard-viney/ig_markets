@@ -1,7 +1,7 @@
 describe IGMarkets::Model do
   class TestModel < IGMarkets::Model
     attribute :id
-    attribute :on, type: :boolean
+    attribute :bool, type: :boolean
     attribute :date, type: :date_time, format: '%Y-%m-%d'
     attribute :cost, type: :float
   end
@@ -9,7 +9,7 @@ describe IGMarkets::Model do
   let(:model) { TestModel.new }
 
   it 'initializes with specified attribute values' do
-    expect(TestModel.new(id: 'test', on: true).attributes).to eq(id: 'test', on: true, date: nil, cost: nil)
+    expect(TestModel.new(id: 'test', bool: true).attributes).to eq(id: 'test', bool: true, date: nil, cost: nil)
   end
 
   it 'fails when initialized with an unknown attribute' do
@@ -17,17 +17,17 @@ describe IGMarkets::Model do
   end
 
   it 'has the correct getter and setter methods' do
-    [:id, :id=, :on, :on=, :date, :date=, :cost, :cost=].each do |id|
+    [:id, :id=, :bool, :bool=, :date, :date=, :cost, :cost=].each do |id|
       expect(model.respond_to?(id)).to eq(true)
     end
   end
 
   it 'has the correct attributes hash' do
-    expect(model.attributes).to eq(id: nil, on: nil, date: nil, cost: nil)
+    expect(model.attributes).to eq(id: nil, bool: nil, date: nil, cost: nil)
   end
 
   it 'inspects correctly' do
-    expect(model.inspect).to eq('#<TestModel id: , on: , date: , cost: >')
+    expect(model.inspect).to eq('#<TestModel id: , bool: , date: , cost: >')
   end
 
   it '#from accepts nil' do
@@ -35,7 +35,7 @@ describe IGMarkets::Model do
   end
 
   it '#from accepts an attributes hash' do
-    expect(TestModel.from(id: 'test').attributes).to eq(id: 'test', on: nil, date: nil, cost: nil)
+    expect(TestModel.from(id: 'test').attributes).to eq(id: 'test', bool: nil, date: nil, cost: nil)
   end
 
   it '#from accepts an instance and creates a copy' do
@@ -56,7 +56,7 @@ describe IGMarkets::Model do
   end
 
   it 'raises ArgumentError for an invalid boolean' do
-    expect { model.on = '' }.to raise_error(ArgumentError)
+    expect { model.bool = '' }.to raise_error(ArgumentError)
   end
 
   it 'correctly parses a date in the expected format' do
@@ -75,17 +75,17 @@ describe IGMarkets::Model do
   context 'with all attributes set' do
     before do
       model.id = 'test'
-      model.on = true
+      model.bool = true
       model.date = '2015-01-10'
       model.cost = '1.0'
     end
 
     it 'has the correct attributes hash' do
-      expect(model.attributes).to eq(id: 'test', on: true, date: DateTime.new(2015, 1, 10), cost: 1.0)
+      expect(model.attributes).to eq(id: 'test', bool: true, date: DateTime.new(2015, 1, 10), cost: 1.0)
     end
 
     it 'inspects correctly' do
-      expect(model.inspect).to eq('#<TestModel id: test, on: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
+      expect(model.inspect).to eq('#<TestModel id: test, bool: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
     end
   end
 end

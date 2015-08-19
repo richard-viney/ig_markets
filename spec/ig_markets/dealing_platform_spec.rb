@@ -233,7 +233,7 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'can retrieve the client sentiment for a market' do
-    client_sentiment = build(:client_sentiment)
+    client_sentiment = build :client_sentiment
 
     expect(session).to receive(:get)
       .with('clientsentiment/1', IGMarkets::API_VERSION_1)
