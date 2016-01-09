@@ -11,8 +11,12 @@ module IGMarkets
         send "#{name}=", attributes[name]
       end
 
-      invalid_attributes = attributes.keys - defined_attributes
-      fail ArgumentError, "Unknown attributes: #{invalid_attributes.join ', '}" unless invalid_attributes.empty?
+      (attributes.keys - defined_attributes).map do |attribute|
+        value = attributes[attribute]
+        value = value.inspect unless value.is_a? DateTime
+
+        fail ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{value}"
+      end
     end
 
     def ==(other)
