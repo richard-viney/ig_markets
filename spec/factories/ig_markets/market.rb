@@ -17,5 +17,6 @@ FactoryGirl.define do
     scaling_factor 10.0
     streaming_prices_available true
     update_time '01:09:48'
+    update_time_utc '04:09:48'
   end
 end

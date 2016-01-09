@@ -17,5 +17,6 @@ module IGMarkets
     attribute :scaling_factor, type: :float
     attribute :streaming_prices_available, type: :boolean
     attribute :update_time
+    attribute :update_time_utc
   end
 end
