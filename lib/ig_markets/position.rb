@@ -3,6 +3,7 @@ module IGMarkets
     attribute :contract_size, type: :float
     attribute :controlled_risk, type: :boolean
     attribute :created_date, type: :date_time, format: '%Y/%m/%d %H:%M:%S:%L'
+    attribute :created_date_utc, type: :date_time, format: '%Y-%m-%dT%H:%M:%S'
     attribute :currency
     attribute :deal_id
     attribute :direction

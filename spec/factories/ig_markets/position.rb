@@ -3,6 +3,7 @@ FactoryGirl.define do
     contract_size 1000.0
     controlled_risk false
     created_date '2015/08/17 10:27:28:000'
+    created_date_utc '2015-07-24T09:12:37'
     currency 'USD'
     deal_id 'DIAAAAA8JKPFTVA'
     direction 'BUY'
