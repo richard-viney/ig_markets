@@ -60,6 +60,11 @@ module IGMarkets
   end
 
   module DealingMethods
+    def deal_confirmation(deal_reference)
+      result = session.get "confirms/#{deal_reference}", API_VERSION_1
+      DealConfirmation.new result
+    end
+
     def positions
       session.get('positions', API_VERSION_2).fetch(:positions).map do |attributes|
         Position.new attributes_with_market(attributes, :position, :market)

@@ -76,6 +76,15 @@ describe IGMarkets::DealingPlatform do
     expect(platform.transactions_in_recent_period(1000, :deposit)).to eq(transactions)
   end
 
+  it 'can retrieve a deal confirmation' do
+    deal_confirmation = build :deal_confirmation
+
+    get_result = deal_confirmation.attributes
+
+    expect(session).to receive(:get).with('confirms/deal_id', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(platform.deal_confirmation('deal_id')).to eq(deal_confirmation)
+  end
+
   it 'can retrieve the current positions' do
     positions = [build(:position)]
 
