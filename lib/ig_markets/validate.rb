@@ -14,13 +14,13 @@ module IGMarkets
       :minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30,
       :hour, :hour_2, :hour_3, :hour_4,
       :day, :week, :month
-    ]
+    ].freeze
 
     def historical_price_resolution!(resolution)
       fail ArgumentError, 'resolution is invalid' unless HISTORICAL_PRICE_RESOLUTIONS.include? resolution
     end
 
-    TRANSACTION_TYPES = [:all, :all_deal, :deposit, :withdrawal]
+    TRANSACTION_TYPES = [:all, :all_deal, :deposit, :withdrawal].freeze
 
     def transaction_type!(type)
       fail ArgumentError, 'transaction type is invalid' unless TRANSACTION_TYPES.include? type

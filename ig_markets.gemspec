@@ -3,7 +3,7 @@ require 'ig_markets/version'
 
 Gem::Specification.new do |s|
   s.name        = 'ig_markets'
-  s.version     = IGMarkets::VERSION.dup
+  s.version     = IGMarkets::VERSION
   s.platform    = Gem::Platform::RUBY
   s.license     = 'MIT'
   s.summary     = 'IG Markets API client'

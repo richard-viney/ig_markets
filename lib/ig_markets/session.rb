@@ -7,7 +7,7 @@ module IGMarkets
     HOST_URLS = {
       demo:       'https://demo-api.ig.com/gateway/deal/',
       production: 'https://api.ig.com/gateway/deal/'
-    }
+    }.freeze
 
     def sign_in
       validate_authentication
