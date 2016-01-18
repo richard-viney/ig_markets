@@ -92,7 +92,7 @@ ig.sign_out
 
 ## Documentation
 
-API documentation is available [here](http://www.rubydoc.info/github/rviney/ig_markets).
+API documentation is available [here](http://www.rubydoc.info/github/rviney/ig_markets/master).
 
 ## Contributors
 
