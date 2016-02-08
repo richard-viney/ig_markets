@@ -15,7 +15,7 @@ module IGMarkets
         value = attributes[attribute]
         value = value.inspect unless value.is_a? DateTime
 
-        fail ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{value}"
+        raise ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{value}"
       end
     end
 
@@ -53,7 +53,7 @@ module IGMarkets
         return source.dup if source.is_a? self
         return source.map { |item| from item } if source.is_a? Array
 
-        fail ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
+        raise ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
       end
 
       private
@@ -82,11 +82,11 @@ module IGMarkets
       def typecaster_boolean(value, _options)
         return value if [nil, true, false].include? value
 
-        fail ArgumentError, "Invalid boolean value: #{value}"
+        raise ArgumentError, "Invalid boolean value: #{value}"
       end
 
       def typecaster_date_time(value, options)
-        fail ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
+        raise ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
 
         if value.is_a? String
           begin

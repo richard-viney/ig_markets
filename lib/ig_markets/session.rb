@@ -53,10 +53,10 @@ module IGMarkets
 
     def validate_authentication
       %i(username password api_key).each do |attribute|
-        fail ArgumentError, "#{attribute} is not set" if send(attribute).to_s.empty?
+        raise ArgumentError, "#{attribute} is not set" if send(attribute).to_s.empty?
       end
 
-      fail ArgumentError, 'platform is invalid' unless HOST_URLS.key? platform
+      raise ArgumentError, 'platform is invalid' unless HOST_URLS.key? platform
     end
 
     def password_encryptor
@@ -107,7 +107,7 @@ module IGMarkets
 
       result = ResponseParser.parse result
 
-      fail RequestFailedError, response unless response.code == 200
+      raise RequestFailedError, response unless response.code == 200
 
       result
     end

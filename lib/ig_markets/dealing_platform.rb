@@ -111,7 +111,7 @@ module IGMarkets
     end
 
     def markets(*epics)
-      fail ArgumentError, 'at least one epic must be specified' if epics.empty?
+      raise ArgumentError, 'at least one epic must be specified' if epics.empty?
 
       Validate.epic! epics
 
