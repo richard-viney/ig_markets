@@ -43,8 +43,7 @@ module IGMarkets
         define_attribute_reader name
         define_attribute_writer name, options
 
-        self.defined_attributes ||= []
-        self.defined_attributes << name
+        self.defined_attributes = (defined_attributes || []) << name
       end
 
       def from(source)

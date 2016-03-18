@@ -62,9 +62,9 @@ module IGMarkets
     def password_encryptor
       result = get 'session/encryptionKey', API_VERSION_1
 
-      PasswordEncryptor.new.tap do |e|
-        e.encoded_public_key = result.fetch :encryption_key
-        e.time_stamp = result.fetch :time_stamp
+      PasswordEncryptor.new.tap do |encryptor|
+        encryptor.encoded_public_key = result.fetch :encryption_key
+        encryptor.time_stamp = result.fetch :time_stamp
       end
     end
 
@@ -94,8 +94,8 @@ module IGMarkets
 
     def execute_request(options)
       RestClient::Request.execute options
-    rescue RestClient::Exception => e
-      e.response
+    rescue RestClient::Exception => exception
+      exception.response
     end
 
     def process_response(response)

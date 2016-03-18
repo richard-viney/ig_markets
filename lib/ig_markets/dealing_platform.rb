@@ -54,8 +54,8 @@ module IGMarkets
 
     private
 
-    def format_activity_date(d)
-      d.strftime '%d-%m-%Y'
+    def format_activity_date(date)
+      date.strftime '%d-%m-%Y'
     end
   end
 
@@ -161,8 +161,8 @@ module IGMarkets
       }
     end
 
-    def format_historical_price_date_time(dt)
-      dt.strftime '%Y-%m-%d %H:%M:%S'
+    def format_historical_price_date_time(datetime)
+      datetime.strftime '%Y-%m-%d %H:%M:%S'
     end
 
     def gather_prices(url)

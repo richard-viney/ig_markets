@@ -8,12 +8,12 @@ module IGMarkets
 
     def snake_case_hash_keys(object)
       if object.is_a? Hash
-        object.each_with_object({}) do |(k, v), new_hash|
-          new_key = k.to_s.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z])([a-z])/, '\1_\2\3')
-          new_hash[new_key.downcase.to_sym] = snake_case_hash_keys(v)
+        object.each_with_object({}) do |(key, value), new_hash|
+          new_key = key.to_s.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z])([a-z])/, '\1_\2\3')
+          new_hash[new_key.downcase.to_sym] = snake_case_hash_keys(value)
         end
       elsif object.is_a? Enumerable
-        object.map { |a| snake_case_hash_keys a }
+        object.map { |item| snake_case_hash_keys item }
       else
         object
       end
