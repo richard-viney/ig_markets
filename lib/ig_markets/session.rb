@@ -41,6 +41,10 @@ module IGMarkets
       request(method: :get, url: url, api_version: api_version).fetch :result
     end
 
+    def put(url, payload, api_version)
+      request(method: :put, url: url, payload: payload, api_version: api_version).fetch :result
+    end
+
     def delete(url, payload, api_version)
       request(method: :delete, url: url, payload: payload, api_version: api_version).fetch :result
     end

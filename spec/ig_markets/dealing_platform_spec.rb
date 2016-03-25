@@ -245,6 +245,57 @@ describe IGMarkets::DealingPlatform do
     expect(platform.watchlist_markets('1')).to eq(markets)
   end
 
+  it 'can create a watchlist' do
+    name = 'New Watchlist'
+    epics = ['ABCDEF']
+
+    result = { watchlist_id: '1000', status: 'SUCCESS' }
+
+    expect(session).to receive(:post)
+      .with('watchlists', { name: name, epics: epics }, IGMarkets::API_VERSION_1)
+      .and_return(result)
+
+    expect(platform.watchlist_create(name, epics)).to eq(result)
+  end
+
+  it 'can delete a watchlist' do
+    watchlist_id = '1000'
+
+    result = { status: 'SUCCESS' }
+
+    expect(session).to receive(:delete)
+      .with("watchlists/#{watchlist_id}", nil, IGMarkets::API_VERSION_1)
+      .and_return(result)
+
+    expect(platform.watchlist_delete(watchlist_id)).to eq(result)
+  end
+
+  it 'can add a market to a watchlist' do
+    watchlist_id = '1000'
+    epic = 'ABCDEF'
+
+    result = { status: 'SUCCESS' }
+
+    expect(session).to receive(:put)
+      .with("watchlists/#{watchlist_id}", { epic: epic }, IGMarkets::API_VERSION_1)
+      .and_return(result)
+
+    expect(platform.watchlist_add_market(watchlist_id, epic)).to eq(result)
+  end
+
+  it 'can remove a market from a watchlist' do
+    watchlist_id = '1000'
+    epic = 'ABCDEF'
+
+    result = { status: 'SUCCESS' }
+
+    expect(session).to receive(:delete)
+      .with("watchlists/#{watchlist_id}/#{epic}", nil, IGMarkets::API_VERSION_1)
+      .and_return(result)
+
+    expect(platform.watchlist_remove_market(watchlist_id, epic)).to eq(result)
+  end
+
   it 'can retrieve the client sentiment for a market' do
     client_sentiment = build :client_sentiment
 

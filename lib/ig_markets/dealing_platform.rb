@@ -184,6 +184,26 @@ module IGMarkets
     def watchlist_markets(watchlist_id)
       gather "watchlists/#{watchlist_id}", :markets, Market
     end
+
+    def watchlist_create(name, epics = [])
+      payload = { name: name, epics: Array(epics) }
+
+      session.post 'watchlists', payload, API_VERSION_1
+    end
+
+    def watchlist_delete(watchlist_id)
+      session.delete "watchlists/#{watchlist_id}", nil, API_VERSION_1
+    end
+
+    def watchlist_add_market(watchlist_id, epic)
+      payload = { epic: epic }
+
+      session.put "watchlists/#{watchlist_id}", payload, API_VERSION_1
+    end
+
+    def watchlist_remove_market(watchlist_id, epic)
+      session.delete "watchlists/#{watchlist_id}/#{epic}", nil, API_VERSION_1
+    end
   end
 
   module ClientSentimentMethods

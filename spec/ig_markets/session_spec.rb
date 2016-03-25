@@ -56,9 +56,9 @@ describe IGMarkets::Session do
 
     it 'passes correct details for a post request' do
       expect(response).to receive_messages(code: 200, body: { ids: [1, 2] }.to_json)
-      expect(rest_client).to receive(:execute).with(params(:post, 'the_url', id: 1)).and_return(response)
+      expect(rest_client).to receive(:execute).with(params(:post, 'url', id: 1)).and_return(response)
 
-      expect(session.post('the_url', { id: 1 }, IGMarkets::API_VERSION_1)).to eq(ids: [1, 2])
+      expect(session.post('url', { id: 1 }, IGMarkets::API_VERSION_1)).to eq(ids: [1, 2])
     end
 
     it 'can sign out' do
@@ -74,6 +74,13 @@ describe IGMarkets::Session do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
 
       expect { session.get('url', IGMarkets::API_VERSION_1) }.to raise_error(IGMarkets::RequestFailedError)
+    end
+
+    it 'can process a PUT request' do
+      expect(response).to receive_messages(code: 200, body: '')
+      expect(rest_client).to receive(:execute).with(params(:put, 'url', id: 1)).and_return(response)
+
+      expect(session.put('url', { id: 1 }, IGMarkets::API_VERSION_1)).to eq({})
     end
 
     it 'inspects correctly' do
