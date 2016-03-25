@@ -24,7 +24,7 @@ module IGMarkets
     end
 
     def sign_out
-      delete 'session', API_VERSION_1 if alive?
+      delete 'session', nil, API_VERSION_1 if alive?
 
       @cst = @x_security_token = nil
     end
@@ -33,16 +33,16 @@ module IGMarkets
       !cst.nil? && !x_security_token.nil?
     end
 
-    def post(url, body, api_version)
-      request(method: :post, url: url, payload: body, api_version: api_version).fetch :result
+    def post(url, payload, api_version)
+      request(method: :post, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
     def get(url, api_version)
       request(method: :get, url: url, api_version: api_version).fetch :result
     end
 
-    def delete(url, api_version)
-      request(method: :delete, url: url, api_version: api_version).fetch :result
+    def delete(url, payload, api_version)
+      request(method: :delete, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
     def inspect
@@ -71,7 +71,7 @@ module IGMarkets
     def request(options)
       options[:url] = "#{HOST_URLS.fetch(platform)}#{URI.escape(options[:url])}"
       options[:headers] = request_headers(options)
-      options[:payload] = options[:payload].to_json if options.key? :payload
+      options[:payload] = options[:payload] && options[:payload].to_json
 
       response = execute_request options
       result = process_response response

@@ -95,7 +95,7 @@ describe IGMarkets::Session do
       hash[:method] = method
       hash[:url] = "https://api.ig.com/gateway/deal/#{url}"
       hash[:headers] = headers
-      hash[:payload] = payload.to_json if payload
+      hash[:payload] = payload && payload.to_json
       hash
     end
   end
