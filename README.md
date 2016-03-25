@@ -31,7 +31,7 @@ An IG Markets production or demo trading account is needed in order to use this 
 [code-climate-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/gpa.svg
 [dependencies-link]: https://gemnasium.com/rviney/ig_markets
 [dependencies-badge]: https://gemnasium.com/rviney/ig_markets.svg
-[license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE
+[license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 
 ## License
