@@ -2,14 +2,17 @@ describe IGMarkets::Model do
   class TestModel < IGMarkets::Model
     attribute :id
     attribute :bool, type: :boolean
+    attribute :string, type: :string, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
     attribute :date, type: :date_time, format: '%Y-%m-%d'
-    attribute :cost, type: :float
+    attribute :float, type: :float
+    attribute :symbol, type: :symbol, allowed_values: [:a, :b]
   end
 
   let(:model) { TestModel.new }
 
   it 'initializes with specified attribute values' do
-    expect(TestModel.new(id: 'test', bool: true).attributes).to eq(id: 'test', bool: true, date: nil, cost: nil)
+    expect(TestModel.new(id: 'test', bool: true).attributes).to eq(
+      id: 'test', bool: true, string: nil, date: nil, float: nil, symbol: nil)
   end
 
   it 'fails when initialized with an unknown attribute' do
@@ -17,25 +20,25 @@ describe IGMarkets::Model do
   end
 
   it 'has the correct getter and setter methods' do
-    [:id, :id=, :bool, :bool=, :date, :date=, :cost, :cost=].each do |id|
+    [:id, :id=, :bool, :bool=, :string, :string=, :date, :date=, :float, :float=, :symbol, :symbol=].each do |id|
       expect(model.respond_to?(id)).to eq(true)
     end
   end
 
   it 'has the correct attributes hash' do
-    expect(model.attributes).to eq(id: nil, bool: nil, date: nil, cost: nil)
+    expect(model.attributes).to eq(id: nil, bool: nil, string: nil, date: nil, float: nil, symbol: nil)
   end
 
   it 'inspects attributes' do
-    expect(model.inspect).to eq('#<TestModel id: nil, bool: nil, date: nil, cost: nil>')
+    expect(model.inspect).to eq('#<TestModel id: nil, bool: nil, string: nil, date: nil, float: nil, symbol: nil>')
   end
 
   it 'inspects attributes in nested models' do
     model.id = TestModel.new
 
     expect(model.inspect).to eq('#<TestModel ' \
-      'id: #<TestModel id: nil, bool: nil, date: nil, cost: nil>, ' \
-      'bool: nil, date: nil, cost: nil>')
+      'id: #<TestModel id: nil, bool: nil, string: nil, date: nil, float: nil, symbol: nil>, ' \
+      'bool: nil, string: nil, date: nil, float: nil, symbol: nil>')
   end
 
   it '#from accepts nil' do
@@ -43,7 +46,8 @@ describe IGMarkets::Model do
   end
 
   it '#from accepts an attributes hash' do
-    expect(TestModel.from(id: 'test').attributes).to eq(id: 'test', bool: nil, date: nil, cost: nil)
+    expect(TestModel.from(id: 'test').attributes).to eq(
+      id: 'test', bool: nil, string: nil, date: nil, float: nil, symbol: nil)
   end
 
   it '#from accepts an instance and creates a copy' do
@@ -67,9 +71,8 @@ describe IGMarkets::Model do
     expect { model.bool = '' }.to raise_error(ArgumentError)
   end
 
-  it 'correctly parses a date in the expected format' do
-    model.date = '2015-01-10'
-    expect(model.date).to eq(DateTime.new(2015, 1, 10))
+  it 'raises ArgumentError when string value does not match the regex' do
+    expect { model.string = 'abc' }.to raise_error(ArgumentError)
   end
 
   it 'raises ArgumentError for an invalid date' do
@@ -77,23 +80,41 @@ describe IGMarkets::Model do
   end
 
   it 'raises ArgumentError for an invalid float' do
-    expect { model.cost = 'a' }.to raise_error(ArgumentError)
+    expect { model.float = 'a' }.to raise_error(ArgumentError)
+  end
+
+  it 'raises ArgumentError for an invalid symbol' do
+    expect { model.symbol = :invalid }.to raise_error(ArgumentError)
+  end
+
+  it 'sets attribute to nil when value matches a nil_if' do
+    model.string = '-'
+    expect(model.string).to eq(nil)
+  end
+
+  it 'correctly parses a date in the expected format' do
+    model.date = '2015-01-10'
+    expect(model.date).to eq(DateTime.new(2015, 1, 10))
   end
 
   context 'with all attributes set' do
     before do
-      model.id = 'test'
+      model.id = 'id'
       model.bool = true
+      model.string = 'ABC'
       model.date = '2015-01-10'
-      model.cost = '1.0'
+      model.float = '1.0'
+      model.symbol = 'a'
     end
 
     it 'has the correct attributes hash' do
-      expect(model.attributes).to eq(id: 'test', bool: true, date: DateTime.new(2015, 1, 10), cost: 1.0)
+      expect(model.attributes).to eq(
+        id: 'id', bool: true, string: 'ABC', date: DateTime.new(2015, 1, 10), float: 1.0, symbol: :a)
     end
 
     it 'inspects attributes' do
-      expect(model.inspect).to eq('#<TestModel id: "test", bool: true, date: 2015-01-10T00:00:00+00:00, cost: 1.0>')
+      expect(model.inspect).to eq(
+        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-10T00:00:00+00:00, float: 1.0, symbol: :a>')
     end
   end
 end
