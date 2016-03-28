@@ -3,6 +3,7 @@ module IGMarkets
     attribute :close_time
     attribute :open_time
 
+    # (See {Model.from}).
     def self.from(value)
       if value.is_a?(Hash) && value.keys == [:market_times]
         super value[:market_times]

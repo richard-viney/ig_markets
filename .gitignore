@@ -1,7 +1,9 @@
-*.gem
+/*.gem
 *.rbc
-.bundle
-coverage
-Gemfile.lock
-tmp
-vendor
+/.bundle
+/.yardoc
+/coverage
+/doc
+/Gemfile.lock
+/tmp
+/vendor

@@ -75,9 +75,9 @@ puts ig.working_orders.inspect
 
 # Markets
 puts ig.market_hierarchy.inspect
-puts ig.market('UA.D.AAPL.CASH.IP').inspect
+puts ig.markets('UA.D.AAPL.CASH.IP').inspect
 puts ig.market_search('APPL').inspect
-puts ig.prices('CS.D.EURUSD.MINI.IP', :day, 10).inspect
+puts ig.recent_prices('CS.D.EURUSD.MINI.IP', :day, 10).inspect
 
 # Watchlists
 puts ig.watchlists.inspect

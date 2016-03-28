@@ -4,4 +4,10 @@ describe IGMarkets::ResponseParser do
 
     expect(parsed).to eq(update: 1, update_time: 1, update_time_utc: 1, update_utc_time: 1)
   end
+
+  it 'parses arrays' do
+    parsed = IGMarkets::ResponseParser.parse([{ aB: 1 }, { cD: 2 }])
+
+    expect(parsed).to eq([{ a_b: 1 }, { c_d: 2 }])
+  end
 end

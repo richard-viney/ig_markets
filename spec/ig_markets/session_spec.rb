@@ -21,11 +21,11 @@ describe IGMarkets::Session do
       expect(response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
       expect(response).to receive(:body).twice.and_return(
         { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
-        { id: 1 }.to_json
+        {}.to_json
       )
       expect(rest_client).to receive(:execute).twice.and_return(response)
 
-      expect(session.sign_in).to eq(id: 1)
+      expect(session.sign_in).to eq(nil)
 
       expect(session.cst).to eq('1')
       expect(session.x_security_token).to match('2')

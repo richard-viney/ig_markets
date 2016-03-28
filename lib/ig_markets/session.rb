@@ -1,14 +1,16 @@
 module IGMarkets
+  # Manages a session with the IG Markets REST API, including signing in, signing out, and the sending of requests.
+  # In order to sign in, {#username}, {#password}, {#api_key} and {#platform} must be set. {#platform} must be
+  # either `:demo` or `:production` depending on which platform is being targeted.
   class Session
     attr_accessor :username, :password, :api_key, :platform
 
     attr_reader :cst, :x_security_token
 
-    HOST_URLS = {
-      demo:       'https://demo-api.ig.com/gateway/deal/',
-      production: 'https://api.ig.com/gateway/deal/'
-    }.freeze
-
+    # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
+    # occurs then {RequestFailedError} will be raised.
+    #
+    # @return [void]
     def sign_in
       validate_authentication
 
@@ -20,40 +22,82 @@ module IGMarkets
       @cst = headers.fetch :cst
       @x_security_token = headers.fetch :x_security_token
 
-      sign_in_result.fetch :result
+      nil
     end
 
+    # Signs out of IG Markets, ending the current session (if any). If an error occurs then {RequestFailedError} will be
+    # raised.
+    #
+    # @return [void]
     def sign_out
       delete 'session', nil, API_VERSION_1 if alive?
 
       @cst = @x_security_token = nil
     end
 
+    # Returns whether this session is currently alive and successfully signed in.
+    #
+    # @return [Boolean]
     def alive?
       !cst.nil? && !x_security_token.nil?
     end
 
+    # Sends a POST request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
+    #
+    # @param [String] url The URL to send the POST request to.
+    # @param [nil, String, Hash] payload The payload to include with the POST request, this will be encoded as JSON.
+    # @param [1, 2] api_version The API version to target.
+    #
+    # @return [Hash] The response from the IG Markets API.
     def post(url, payload, api_version)
       request(method: :post, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
+    # Sends a GET request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
+    #
+    # @param [String] url The URL to send the GET request to.
+    # @param [1, 2] api_version The API version to target.
+    #
+    # @return [Hash] The response from the IG Markets API.
     def get(url, api_version)
       request(method: :get, url: url, api_version: api_version).fetch :result
     end
 
+    # Sends a PUT request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
+    #
+    # @param [String] url The URL to send the PUT request to.
+    # @param [nil, String, Hash] payload The payload to include with the PUT request, this will be encoded as JSON.
+    # @param [1, 2] api_version The API version to target.
+    #
+    # @return [Hash] The response from the IG Markets API.
     def put(url, payload, api_version)
       request(method: :put, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
+    # Sends a DELETE request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
+    #
+    # @param [String] url The URL to send the DELETE request to.
+    # @param [nil, String, Hash] payload The payload to include with the DELETE request, this will be encoded as JSON.
+    # @param [1, 2] api_version The API version to target.
+    #
+    # @return [Hash] The response from the IG Markets API.
     def delete(url, payload, api_version)
       request(method: :delete, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
+    # Returns a human-readable string containing this session's details.
+    #
+    # @return [String]
     def inspect
       "#<#{self.class.name} #{cst}, #{x_security_token}>"
     end
 
     private
+
+    HOST_URLS = {
+      demo: 'https://demo-api.ig.com/gateway/deal/',
+      production: 'https://api.ig.com/gateway/deal/'
+    }.freeze
 
     def validate_authentication
       %i(username password api_key).each do |attribute|

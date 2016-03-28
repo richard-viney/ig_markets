@@ -166,8 +166,8 @@ describe IGMarkets::DealingPlatform do
 
     get_result = {
       market_details: [{
-        dealing_rules: dealing_rules.each_with_object({}) do |(k, v), new_rules|
-          new_rules[k] = v.is_a?(IGMarkets::DealingRule) ? v.attributes : v
+        dealing_rules: dealing_rules.each_with_object({}) do |(key, value), new_rules|
+          new_rules[key] = value.is_a?(IGMarkets::DealingRule) ? value.attributes : value
         end,
         instrument: instrument.attributes,
         snapshot: snapshot.attributes
@@ -175,7 +175,8 @@ describe IGMarkets::DealingPlatform do
     }
 
     expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_1).and_return(get_result)
-    expect(platform.market('ABCDEF')).to eq(dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot)
+    expect(platform.markets('ABCDEF')).to eq(
+      [{ dealing_rules: dealing_rules, instrument: instrument, snapshot: snapshot }])
   end
 
   it 'can search for markets' do
@@ -190,7 +191,7 @@ describe IGMarkets::DealingPlatform do
 
   it 'can retrieve a specified number of historical prices for an epic' do
     allowance = build :historical_price_data_allowance
-    type = 'SHARES'
+    type = :currencies
     prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
 
     get_result = {
@@ -200,15 +201,15 @@ describe IGMarkets::DealingPlatform do
     }
 
     expect(session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(platform.prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
+    expect(platform.recent_prices('ABCDEF', :day, 5)).to eq(allowance: allowance, instrument_type: type, prices: prices)
   end
 
   it 'can retrieve a date range of historical prices for an epic' do
-    from_date = DateTime.new(2014, 1, 2, 3, 4, 5)
-    to_date = DateTime.new(2014, 2, 3, 4, 5, 6)
+    from_date = DateTime.new 2014, 1, 2, 3, 4, 5
+    to_date = DateTime.new 2014, 2, 3, 4, 5, 6
 
     allowance = build :historical_price_data_allowance
-    type = 'SHARES'
+    type = :currencies
     prices = [build(:historical_price_snapshot), build(:historical_price_snapshot)]
 
     get_result = {
