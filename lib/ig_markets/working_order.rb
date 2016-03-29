@@ -1,20 +1,22 @@
 module IGMarkets
   class WorkingOrder < Model
-    attribute :created_date, type: :date_time, format: '%Y/%m/%d %H:%M:%S:%L'
-    attribute :currency_code
+    attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
+    attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
+    attribute :currency_code, String, regex: Validate::CURRENCY_REGEX
     attribute :deal_id
-    attribute :direction
-    attribute :dma, type: :boolean
-    attribute :epic
-    attribute :good_till_date, type: :date_time, format: '%Y/%m/%d %H:%M'
-    attribute :guaranteed_stop, type: :boolean
-    attribute :limit_distance, type: :float
-    attribute :order_level, type: :float
-    attribute :order_size, type: :float
-    attribute :order_type
-    attribute :stop_distance, type: :float
-    attribute :time_in_force
+    attribute :direction, Symbol, allowed_values: [:buy, :sell]
+    attribute :dma, Boolean
+    attribute :epic, String, regex: Validate::EPIC_REGEX
+    attribute :good_till_date, DateTime, format: '%Y/%m/%d %H:%M'
+    attribute :good_till_date_iso, DateTime, format: '%Y-%m-%dT%H:%M'
+    attribute :guaranteed_stop, Boolean
+    attribute :limit_distance, Float
+    attribute :order_level, Float
+    attribute :order_size, Float
+    attribute :order_type, Symbol, allowed_values: [:limit, :stop]
+    attribute :stop_distance, Float
+    attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
 
-    attribute :market, type: Market
+    attribute :market, Market
   end
 end

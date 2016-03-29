@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :account_balance, class: IGMarkets::AccountBalance do
+  factory :account_balance, class: IGMarkets::Account::Balance do
     available 5000.0
     balance 5000.0
     deposit 0.0

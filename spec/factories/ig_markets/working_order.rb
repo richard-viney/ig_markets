@@ -5,8 +5,9 @@ FactoryGirl.define do
     deal_id 'deal_id'
     direction 'BUY'
     dma false
-    epic 'epic'
-    good_till_date '2015/10/20 00:00'
+    epic 'UA.D.AAPL.CASH.IP'
+    good_till_date '2015/10/20 10:45:29:000'
+    good_till_date_iso '2015-10-30T12:59'
     guaranteed_stop false
     limit_distance 1.0
     order_level 100.0

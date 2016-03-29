@@ -1,21 +1,21 @@
 module IGMarkets
   class AccountActivity < Model
-    attribute :action_status
+    attribute :action_status, Symbol, allowed_values: [:accept, :reject, :manual, :not_set]
     attribute :activity
     attribute :activity_history_id
     attribute :channel
     attribute :currency
-    attribute :date
+    attribute :date, DateTime, format: '%d/%m/%y'
     attribute :deal_id
-    attribute :epic
-    attribute :level
-    attribute :limit
+    attribute :epic, String, regex: Validate::EPIC_REGEX
+    attribute :level, Float
+    attribute :limit, Float, nil_if: '-'
     attribute :market_name
-    attribute :period
+    attribute :period, String, nil_if: '-'
     attribute :result
     attribute :size
-    attribute :stop
-    attribute :stop_type
+    attribute :stop, String, nil_if: '-'
+    attribute :stop_type, String, nil_if: '-', allowed_values: %w(G N T(50))
     attribute :time
   end
 end

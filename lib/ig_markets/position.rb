@@ -1,19 +1,19 @@
 module IGMarkets
   class Position < Model
-    attribute :contract_size, type: :float
-    attribute :controlled_risk, type: :boolean
-    attribute :created_date, type: :date_time, format: '%Y/%m/%d %H:%M:%S:%L'
-    attribute :created_date_utc, type: :date_time, format: '%Y-%m-%dT%H:%M:%S'
-    attribute :currency
+    attribute :contract_size, Float
+    attribute :controlled_risk, Boolean
+    attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
+    attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
+    attribute :currency, String, regex: Validate::CURRENCY_REGEX
     attribute :deal_id
-    attribute :direction
-    attribute :level, type: :float
-    attribute :limit_level, type: :float
-    attribute :size, type: :float
-    attribute :stop_level, type: :float
-    attribute :trailing_step, type: :float
-    attribute :trailing_stop_distance, type: :float
+    attribute :direction, Symbol, allowed_values: [:buy, :sell]
+    attribute :level, Float
+    attribute :limit_level, Float
+    attribute :size, Float
+    attribute :stop_level, Float
+    attribute :trailing_step, Float
+    attribute :trailing_stop_distance, Float
 
-    attribute :market, type: Market
+    attribute :market, Market
   end
 end

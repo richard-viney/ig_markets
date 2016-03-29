@@ -1,28 +1,4 @@
 describe IGMarkets::Validate do
-  describe '.currency_code!' do
-    it 'accepts valid currency codes' do
-      expect { IGMarkets::Validate.currency_code! 'USD' }.not_to raise_error
-    end
-
-    it 'fails on invalid currency codes' do
-      expect { IGMarkets::Validate.currency_code! 'ABCD' }.to raise_error(ArgumentError)
-    end
-  end
-
-  describe '.direction!' do
-    it 'accepts valid directions' do
-      [:buy, :sell].each do |direction|
-        expect { IGMarkets::Validate.direction! direction }.not_to raise_error
-      end
-    end
-
-    it 'fails on invalid directions' do
-      [nil, '', :bye].each do |direction|
-        expect { IGMarkets::Validate.direction! direction }.to raise_error(ArgumentError)
-      end
-    end
-  end
-
   describe '.epic!' do
     let(:appl_epic) { 'UA.D.AAPL.CASH.IP' }
     let(:msft_epic) { 'UA.D.MSFT.CASH.IP' }
@@ -108,34 +84,6 @@ describe IGMarkets::Validate do
     it 'fails on invalid types' do
       [nil, '', :invalid_type].each do |type|
         expect { IGMarkets::Validate.transaction_type! type }.to raise_error(ArgumentError)
-      end
-    end
-  end
-
-  describe 'working_order_time_in_force!' do
-    it 'accepts valid options' do
-      [:good_till_cancelled, :good_till_date].each do |option|
-        expect { IGMarkets::Validate.working_order_time_in_force! option }.not_to raise_error
-      end
-    end
-
-    it 'fails on invalid options' do
-      [nil, '', :unknown].each do |option|
-        expect { IGMarkets::Validate.working_order_time_in_force! option }.to raise_error(ArgumentError)
-      end
-    end
-  end
-
-  describe '.working_order_type!' do
-    it 'accepts valid types' do
-      [:limit, :stop].each do |type|
-        expect { IGMarkets::Validate.working_order_type! type }.not_to raise_error
-      end
-    end
-
-    it 'fails on invalid types' do
-      [nil, '', :invalid_type].each do |type|
-        expect { IGMarkets::Validate.working_order_type! type }.to raise_error(ArgumentError)
       end
     end
   end

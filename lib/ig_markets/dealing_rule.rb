@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingRule < Model
     attribute :unit
-    attribute :value, type: :float
+    attribute :value, Float
   end
 end

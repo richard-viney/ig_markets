@@ -1,17 +1,17 @@
 module IGMarkets
   class MarketSnapshot < Model
-    attribute :bid, type: :float
-    attribute :binary_odds, type: :float
-    attribute :controlled_risk_extra_spread, type: :float
-    attribute :decimal_places_factor, type: :float
-    attribute :delay_time, type: :float
-    attribute :high, type: :float
-    attribute :low, type: :float
-    attribute :market_status
-    attribute :net_change, type: :float
-    attribute :offer, type: :float
-    attribute :percentage_change, type: :float
-    attribute :scaling_factor, type: :float
+    attribute :bid, Float
+    attribute :binary_odds, Float
+    attribute :controlled_risk_extra_spread, Float
+    attribute :decimal_places_factor, Float
+    attribute :delay_time, Float
+    attribute :high, Float
+    attribute :low, Float
+    attribute :market_status, Symbol, allowed_values: Market.defined_attributes[:market_status][:allowed_values]
+    attribute :net_change, Float
+    attribute :offer, Float
+    attribute :percentage_change, Float
+    attribute :scaling_factor, Float
     attribute :update_time
   end
 end

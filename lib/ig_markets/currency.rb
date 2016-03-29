@@ -1,9 +1,9 @@
 module IGMarkets
   class Currency < Model
-    attribute :base_exchange_rate, type: :float
+    attribute :base_exchange_rate, Float
     attribute :code
-    attribute :exchange_rate, type: :float
-    attribute :is_default, type: :boolean
+    attribute :exchange_rate, Float
+    attribute :is_default, Boolean
     attribute :symbol
   end
 end

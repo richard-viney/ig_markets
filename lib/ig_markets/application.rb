@@ -1,21 +1,21 @@
 module IGMarkets
   class Application < Model
-    attribute :id
-    attribute :client_id
-    attribute :name
-    attribute :tier
+    attribute :allow_equities, Boolean
+    attribute :allow_quote_orders, Boolean
+    attribute :allowance_account_historical_data, Fixnum
+    attribute :allowance_account_overall, Fixnum
+    attribute :allowance_account_trading, Fixnum
+    attribute :allowance_application_overall, Fixnum
     attribute :api_key
-    attribute :status
-    attribute :allowance_application_overall, type: :float
-    attribute :allowance_account_trading, type: :float
-    attribute :allowance_account_overall, type: :float
-    attribute :allowance_account_historical_data, type: :float
-    attribute :concurrent_subscriptions_limit
-    attribute :created_date
-    attribute :allow_equities, type: :boolean
-    attribute :allow_quote_orders, type: :boolean
-    attribute :restricted_to_self
-    attribute :terms_accepted_date
-    attribute :fast_markets_settlement_price_enabled, type: :boolean
+    attribute :client_id
+    attribute :concurrent_subscriptions_limit, Fixnum
+    attribute :created_date, DateTime, format: '%Q'
+    attribute :fast_markets_settlement_price_enabled, Boolean
+    attribute :id
+    attribute :name
+    attribute :restricted_to_self, Boolean
+    attribute :status, Symbol, allowed_values: [:disabled, :enabled, :revoked]
+    attribute :terms_accepted_date, DateTime, format: '%Q'
+    attribute :tier
   end
 end

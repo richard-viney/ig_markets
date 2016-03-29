@@ -5,19 +5,19 @@ FactoryGirl.define do
     controlled_risk_allowed false
     country 'US'
     currencies { [build(:currency)] }
-    epic 'epic'
+    epic 'UA.D.AAPL.CASH.IP'
     expiry 'expiry'
     expiry_details { build(:instrument_expiry_details) }
     force_open_allowed false
     lot_size 1000.0
-    margin_deposit_bands { [build(:margin_deposit_band)] }
+    margin_deposit_bands { [build(:instrument_margin_deposit_band)] }
     margin_factor 0.01
     margin_factor_unit 'PERCENTAGE'
     market_id 'market'
     name 'instrument'
     news_code 'news_code'
     one_pip_means ''
-    opening_hours { { market_times: [build(:opening_hours)] } }
+    opening_hours { { market_times: [build(:instrument_opening_hours)] } }
     rollover_details { build(:instrument_rollover_details) }
     slippage_factor { build(:instrument_slippage_factor) }
     special_info %w(info_0 info_1)

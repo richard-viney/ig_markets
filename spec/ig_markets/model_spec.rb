@@ -1,11 +1,11 @@
 describe IGMarkets::Model do
   class TestModel < IGMarkets::Model
     attribute :id
-    attribute :bool, type: :boolean
-    attribute :string, type: :string, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
-    attribute :date, type: :date_time, format: '%Y-%m-%d'
-    attribute :float, type: :float
-    attribute :symbol, type: :symbol, allowed_values: [:a, :b]
+    attribute :bool, IGMarkets::Boolean
+    attribute :string, String, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
+    attribute :date, DateTime, format: '%Y-%m-%d'
+    attribute :float, Float
+    attribute :symbol, Symbol, allowed_values: [:a, :b]
   end
 
   let(:model) { TestModel.new }
@@ -34,11 +34,14 @@ describe IGMarkets::Model do
   end
 
   it 'inspects attributes in nested models' do
-    model.id = TestModel.new
+    class TestModel2 < IGMarkets::Model
+      attribute :test, TestModel
+    end
 
-    expect(model.inspect).to eq('#<TestModel ' \
-      'id: #<TestModel id: nil, bool: nil, string: nil, date: nil, float: nil, symbol: nil>, ' \
-      'bool: nil, string: nil, date: nil, float: nil, symbol: nil>')
+    model = TestModel2.new test: TestModel.new
+
+    expect(model.inspect).to eq(
+      '#<TestModel2 test: #<TestModel id: nil, bool: nil, string: nil, date: nil, float: nil, symbol: nil>>')
   end
 
   it '#from accepts nil' do
