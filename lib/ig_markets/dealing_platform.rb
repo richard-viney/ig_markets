@@ -1,6 +1,11 @@
 # rubocop:disable Metrics/ClassLength
 
+# This module contains all the code for the IG Markets gem. See the {DealingPlatform} class to get started.
 module IGMarkets
+  # This is the primary class for interacting with the IG Markets API. Sign in using {#sign_in}, then call other
+  # instance methods are required to perform the actions you are interested in. See `README.md` for a usage example.
+  #
+  # If any errors occur while executing requests to the IG Markets API then {RequestFailedError} will be raised.
   class DealingPlatform
     attr_reader :session
 
@@ -16,7 +21,7 @@ module IGMarkets
     # @param [:production, :demo] platform The platform to use.
     #
     # @return [void]
-    def sign_in(username, password, api_key, platform = :demo)
+    def sign_in(username, password, api_key, platform)
       session.username = username
       session.password = password
       session.api_key = api_key
