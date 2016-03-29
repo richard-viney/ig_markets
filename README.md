@@ -33,7 +33,7 @@ An IG Markets production or demo trading account is needed in order to use this 
 [dependencies-badge]: https://gemnasium.com/rviney/ig_markets.svg
 [license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[docs-link]: http://www.rubydoc.info/github/rviney/ig_markets/master
+[docs-link]: https://inch-ci.org/github/rviney/ig_markets
 [docs-badge]: http://inch-ci.org/github/rviney/ig_markets.svg?branch=master
 
 ## License
