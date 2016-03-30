@@ -1,5 +1,5 @@
 module IGMarkets
-  class Transaction < Model
+  class AccountTransaction < Model
     attribute :cash_transaction, Boolean
     attribute :close_level
     attribute :currency

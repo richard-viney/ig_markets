@@ -26,56 +26,6 @@ describe IGMarkets::DealingPlatform do
     expect(platform.sign_out).to eq(nil)
   end
 
-  it 'can retrieve accounts' do
-    accounts = [build(:account)]
-
-    expect(session).to receive(:get)
-      .with('accounts', IGMarkets::API_VERSION_1)
-      .and_return(accounts: accounts.map(&:attributes))
-
-    expect(platform.accounts).to eq(accounts)
-  end
-
-  it 'can retrieve activities in a date range' do
-    activities = [build(:account_activity)]
-
-    expect(session).to receive(:get)
-      .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
-      .and_return(activities: activities.map(&:attributes))
-
-    expect(platform.activities_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27))).to eq(activities)
-  end
-
-  it 'can retrieve activities in recent period' do
-    activities = [build(:account_activity)]
-
-    expect(session).to receive(:get)
-      .with('history/activity/1000', IGMarkets::API_VERSION_1)
-      .and_return(activities: activities.map(&:attributes))
-
-    expect(platform.activities_in_recent_period(1000)).to eq(activities)
-  end
-
-  it 'can retrieve transactions in a date range' do
-    transactions = [build(:transaction)]
-
-    expect(session).to receive(:get)
-      .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
-      .and_return(transactions: transactions.map(&:attributes))
-
-    expect(platform.transactions_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all)).to eq(transactions)
-  end
-
-  it 'can retrieve transactions in recent period' do
-    transactions = [build(:transaction)]
-
-    expect(session).to receive(:get)
-      .with('history/transactions/DEPOSIT/1000', IGMarkets::API_VERSION_1)
-      .and_return(transactions: transactions.map(&:attributes))
-
-    expect(platform.transactions_in_recent_period(1000, :deposit)).to eq(transactions)
-  end
-
   it 'can retrieve a deal confirmation' do
     deal_confirmation = build :deal_confirmation
 
@@ -83,52 +33,6 @@ describe IGMarkets::DealingPlatform do
 
     expect(session).to receive(:get).with('confirms/deal_id', IGMarkets::API_VERSION_1).and_return(get_result)
     expect(platform.deal_confirmation('deal_id')).to eq(deal_confirmation)
-  end
-
-  it 'can retrieve the current positions' do
-    positions = [build(:position)]
-
-    get_result = {
-      positions: positions.map(&:attributes).map do |a|
-        { market: a[:market], position: a }
-      end
-    }
-
-    expect(session).to receive(:get).with('positions', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(platform.positions).to eq(positions)
-  end
-
-  it 'can retrieve a single position' do
-    position = build :position
-
-    expect(session).to receive(:get)
-      .with("positions/#{position.deal_id}", IGMarkets::API_VERSION_2)
-      .and_return(position: position.attributes, market: position.market)
-
-    expect(platform.position(position.deal_id)).to eq(position)
-  end
-
-  it 'can retrieve the current sprint market positions' do
-    positions = [build(:sprint_market_position)]
-
-    expect(session).to receive(:get)
-      .with('positions/sprintmarkets', IGMarkets::API_VERSION_1)
-      .and_return(sprint_market_positions: positions.map(&:attributes))
-
-    expect(platform.sprint_market_positions).to eq(positions)
-  end
-
-  it 'can retrieve the current working orders' do
-    orders = [build(:working_order)]
-
-    get_result = {
-      working_orders: orders.map(&:attributes).map do |a|
-        { market_data: a[:market], working_order_data: a }
-      end
-    }
-
-    expect(session).to receive(:get).with('workingorders', IGMarkets::API_VERSION_2).and_return(get_result)
-    expect(platform.working_orders).to eq(orders)
   end
 
   it 'can retrieve the market hierarchy root' do
@@ -224,77 +128,6 @@ describe IGMarkets::DealingPlatform do
 
     expect(platform.prices_in_date_range('ABCDEF', :day, from_date, to_date))
       .to eq(allowance: allowance, instrument_type: type, prices: prices)
-  end
-
-  it 'can retrieve the watchlists' do
-    watchlists = [build(:watchlist)]
-
-    expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
-      .and_return(watchlists: watchlists.map(&:attributes))
-
-    expect(platform.watchlists).to eq(watchlists)
-  end
-
-  it 'can retrieve the markets for a watchlist' do
-    markets = [build(:market)]
-
-    expect(session).to receive(:get)
-      .with('watchlists/1', IGMarkets::API_VERSION_1)
-      .and_return(markets: markets.map(&:attributes))
-
-    expect(platform.watchlist_markets('1')).to eq(markets)
-  end
-
-  it 'can create a watchlist' do
-    name = 'New Watchlist'
-    epics = ['ABCDEF']
-
-    result = { watchlist_id: '1000', status: 'SUCCESS' }
-
-    expect(session).to receive(:post)
-      .with('watchlists', { name: name, epics: epics }, IGMarkets::API_VERSION_1)
-      .and_return(result)
-
-    expect(platform.watchlist_create(name, epics)).to eq(result)
-  end
-
-  it 'can delete a watchlist' do
-    watchlist_id = '1000'
-
-    result = { status: 'SUCCESS' }
-
-    expect(session).to receive(:delete)
-      .with("watchlists/#{watchlist_id}", nil, IGMarkets::API_VERSION_1)
-      .and_return(result)
-
-    expect(platform.watchlist_delete(watchlist_id)).to eq(result)
-  end
-
-  it 'can add a market to a watchlist' do
-    watchlist_id = '1000'
-    epic = 'ABCDEF'
-
-    result = { status: 'SUCCESS' }
-
-    expect(session).to receive(:put)
-      .with("watchlists/#{watchlist_id}", { epic: epic }, IGMarkets::API_VERSION_1)
-      .and_return(result)
-
-    expect(platform.watchlist_add_market(watchlist_id, epic)).to eq(result)
-  end
-
-  it 'can remove a market from a watchlist' do
-    watchlist_id = '1000'
-    epic = 'ABCDEF'
-
-    result = { status: 'SUCCESS' }
-
-    expect(session).to receive(:delete)
-      .with("watchlists/#{watchlist_id}/#{epic}", nil, IGMarkets::API_VERSION_1)
-      .and_return(result)
-
-    expect(platform.watchlist_remove_market(watchlist_id, epic)).to eq(result)
   end
 
   it 'can retrieve the client sentiment for a market' do

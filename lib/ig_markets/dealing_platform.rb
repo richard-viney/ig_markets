@@ -1,5 +1,3 @@
-# rubocop:disable Metrics/ClassLength
-
 # This module contains all the code for the IG Markets gem. See the {DealingPlatform} class to get started.
 module IGMarkets
   # This is the primary class for interacting with the IG Markets API. Sign in using {#sign_in}, then call other
@@ -7,11 +5,23 @@ module IGMarkets
   #
   # If any errors occur while executing requests to the IG Markets API then {RequestFailedError} will be raised.
   class DealingPlatform
+    # @return [Session] The session used by this dealing platform.
     attr_reader :session
 
-    def initialize
-      @session = Session.new
-    end
+    # @return [AccountMethods] Helper for working with the logged in account.
+    attr_reader :account
+
+    # @return [PositionMethods] Helper for working with positions.
+    attr_reader :positions
+
+    # @return [SprintMarketPositionMethods] Helper for working with sprint market positions.
+    attr_reader :sprint_market_positions
+
+    # @return [WatchlistMethods] Helper for working with watchlists.
+    attr_reader :watchlists
+
+    # @return [WorkingOrderMethods] Helper for working with working orders.
+    attr_reader :working_orders
 
     # Signs in to the IG Markets Dealing Platform, either the production platform or the demo platform.
     #
@@ -37,61 +47,14 @@ module IGMarkets
       session.sign_out
     end
 
-    # Returns all accounts.
-    #
-    # @return [Array<Account>]
-    def accounts
-      gather 'accounts', :accounts, Account
-    end
+    def initialize
+      @session = Session.new
 
-    # Returns all account activities that occurred in the specified date range.
-    #
-    # @param [Date] from_date The start date of the desired date range.
-    # @param [Date] to_date  The end date of the desired date range.
-    #
-    # @return [Array<AccountActivity>]
-    def activities_in_date_range(from_date, to_date = Date.today)
-      from_date = format_activity_date(from_date)
-      to_date = format_activity_date(to_date)
-
-      gather "history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
-    end
-
-    # Returns all account activities that occurred in the last specified number of milliseconds.
-    #
-    # @param [Integer] milliseconds The number of milliseconds to return recent activities for.
-    #
-    # @return [Array<AccountActivity>]
-    def activities_in_recent_period(milliseconds)
-      gather "history/activity/#{milliseconds.to_i}", :activities, AccountActivity
-    end
-
-    # Returns all transactions that occurred in the specified date range.
-    #
-    # @param [Date] from_date The start date of the desired date range.
-    # @param [Date] to_date  The end date of the desired date range.
-    # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
-    #
-    # @return [Array<Transaction>]
-    def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
-      Validate.transaction_type! transaction_type
-
-      from_date = format_activity_date from_date
-      to_date = format_activity_date to_date
-
-      gather "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}", :transactions, Transaction
-    end
-
-    # Returns all transactions that occurred in the last specified number of milliseconds.
-    #
-    # @param [Integer] milliseconds The number of milliseconds to return recent transactions for.
-    # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
-    #
-    # @return [Array<Transaction>]
-    def transactions_in_recent_period(milliseconds, transaction_type = :all)
-      Validate.transaction_type! transaction_type
-
-      gather "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds}", :transactions, Transaction
+      @account ||= AccountMethods.new self
+      @positions ||= PositionMethods.new self
+      @sprint_market_positions ||= SprintMarketPositionMethods.new self
+      @watchlists ||= WatchlistMethods.new self
+      @working_orders ||= WorkingOrderMethods.new self
     end
 
     # Returns a full deal confirmation for the specified deal reference.
@@ -100,40 +63,6 @@ module IGMarkets
     def deal_confirmation(deal_reference)
       result = session.get "confirms/#{deal_reference}", API_VERSION_1
       DealConfirmation.new result
-    end
-
-    # Returns all open positions.
-    #
-    # @return [Array<Position>]
-    def positions
-      session.get('positions', API_VERSION_2).fetch(:positions).map do |attributes|
-        Position.new attributes_with_market(attributes, :position, :market)
-      end
-    end
-
-    # Returns position information for the specified deal ID.
-    #
-    # @return [Position]
-    def position(deal_id)
-      attributes = session.get "positions/#{deal_id}", API_VERSION_2
-
-      Position.new attributes_with_market(attributes, :position, :market)
-    end
-
-    # Returns all current sprint market positions.
-    #
-    # @return [Array<SprintMarketPosition>] an array of current sprint market positions.
-    def sprint_market_positions
-      gather 'positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
-    end
-
-    # Returns all working orders.
-    #
-    # @return [Array<WorkingOrder>]
-    def working_orders
-      session.get('workingorders', API_VERSION_2).fetch(:working_orders).map do |attributes|
-        WorkingOrder.new attributes_with_market(attributes, :working_order_data, :market_data)
-      end
     end
 
     # Returns details on the market hierarchy directly under a single node.
@@ -224,62 +153,6 @@ module IGMarkets
       gather_prices "prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
     end
 
-    # Returns all watchlists.
-    #
-    # @return [Array<Watchlist>]
-    def watchlists
-      gather 'watchlists', :watchlists, Watchlist
-    end
-
-    # Returns the markets for a watchlist.
-    #
-    # @param [String] watchlist_id The ID of the watchlist to return the markets for.
-    #
-    # @return [Array<Market>]
-    def watchlist_markets(watchlist_id)
-      gather "watchlists/#{watchlist_id}", :markets, Market
-    end
-
-    # Creates a new watchlist with a name and an initial set of markets.
-    #
-    # @return [String] The ID of the new watchlist.
-    def watchlist_create(name, epics = [])
-      payload = { name: name, epics: Array(epics) }
-
-      session.post 'watchlists', payload, API_VERSION_1
-    end
-
-    # Deletes a watchlist.
-    #
-    # @param [String] watchlist_id The ID of the watchlist to delete.
-    #
-    # @return [void]
-    def watchlist_delete(watchlist_id)
-      session.delete "watchlists/#{watchlist_id}", nil, API_VERSION_1
-    end
-
-    # Adds a market to a watchlist.
-    #
-    # @param [String] watchlist_id The ID of the watchlist to add a market to.
-    # @param [String] epic The EPIC of the market to add to the watchlist.
-    #
-    # @return [void]
-    def watchlist_add_market(watchlist_id, epic)
-      payload = { epic: epic }
-
-      session.put "watchlists/#{watchlist_id}", payload, API_VERSION_1
-    end
-
-    # Removes a market from a watchlist.
-    #
-    # @param [String] watchlist_id The ID of the watchlist to remove a market from.
-    # @param [String] epic The EPIC of the market to remove from the watchlist.
-    #
-    # @return [void]
-    def watchlist_remove_market(watchlist_id, epic)
-      session.delete "watchlists/#{watchlist_id}/#{epic}", nil, API_VERSION_1
-    end
-
     # Returns the client sentiment for a market.
     #
     # @param [String] market_id The ID of the market to return client sentiment for.
@@ -308,19 +181,25 @@ module IGMarkets
       Application.from result
     end
 
-    private
-
+    # Sends a GET request to a URL then takes a single key from the returned hash and converts its contents to an array
+    # of type `klass`.
+    #
+    # @param [String] url The URL to send a GET request to.
+    # @param [Symbol] collection The name of the top level symbol that contains the array of data to return.
+    # @param [Class] klass The type to return
+    # @param [API_VERSION_1, API_VERSION_2] api_version The API version to target for the request
+    #
+    # @return [Array]
     def gather(url, collection, klass, api_version = API_VERSION_1)
-      klass.from session.get(url, api_version).fetch(collection)
+      klass.from(session.get(url, api_version).fetch(collection)).tap do |result|
+        # Set @dealing_platform on all the results
+        result.each do |item|
+          item.instance_variable_set :@dealing_platform, self
+        end
+      end
     end
 
-    def format_activity_date(date)
-      date.strftime '%d-%m-%Y'
-    end
-
-    def attributes_with_market(attributes, base_attribute, market_attribute)
-      attributes.fetch(base_attribute).merge(market: attributes.fetch(market_attribute))
-    end
+    private
 
     def parse_dealing_rules(rules)
       {

@@ -1,6 +1,8 @@
 # Ruby IG Markets Dealing Platform Gem
 
-[![Build Status][travis-ci-badge]][travis-ci-link] [![Test Coverage][test-coverage-badge]][test-coverage-link] [![Code Climate][code-climate-badge]][code-climate-link] [![Dependencies][dependencies-badge]][dependencies-link] [![MIT License][license-badge]][license-link] [![Documentation][docs-badge]][docs-link]
+[![Build Status][travis-ci-badge]][travis-ci-link] [![Test Coverage][test-coverage-badge]][test-coverage-link]
+[![Code Climate][code-climate-badge]][code-climate-link] [![Dependencies][dependencies-badge]][dependencies-link]
+[![MIT License][license-badge]][license-link] [![Documentation][docs-badge]][docs-link]
 
 Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the
 [official REST API](http://labs.ig.com/rest-trading-api-reference).
@@ -62,37 +64,51 @@ bundle install
 ```ruby
 ig = IGMarkets::DealingPlatform.new
 
-# Sign in
+# Session
 ig.sign_in 'username', 'password', 'api_key', :demo
+ig.sign_out
 
 # Account
-puts ig.accounts.inspect
-puts ig.activities_in_date_range(Date.today.prev_month).inspect
-puts ig.transactions_in_date_range(Date.today.prev_month).inspect
+ig.account.all
+ig.account.recent_activities 24 * 60 * 60
+ig.account.recent_transactions 24 * 60 * 60
+ig.account.activities_in_date_range Date.today.prev_month(2), Date.today.prev_month(1)
+ig.account.transactions_in_date_range Date.today.prev_month(2), Date.today.prev_month(1)
 
 # Dealing
-puts ig.positions.inspect
-puts ig.sprint_market_positions.inspect
-puts ig.working_orders.inspect
+ig.deal_confirmation 'deal_reference'
+
+# Positions
+ig.positions.all
+ig.positions['deal_id']
+
+# Sprint market positions
+ig.sprint_market_positions.all
+
+# Working orders
+ig.working_orders.all
 
 # Markets
-puts ig.market_hierarchy.inspect
-puts ig.markets('UA.D.AAPL.CASH.IP').inspect
-puts ig.market_search('APPL').inspect
-puts ig.recent_prices('CS.D.EURUSD.MINI.IP', :day, 10).inspect
+ig.market_hierarchy
+ig.markets 'UA.D.AAPL.CASH.IP'
+ig.market_search 'APPL'
+ig.recent_prices 'CS.D.EURUSD.MINI.IP', :day, 10
+ig.prices_in_date_range 'CS.D.EURUSD.MINI.IP', :day, Date.today.prev_month(2), Date.today.prev_month(1)
 
 # Watchlists
-puts ig.watchlists.inspect
+ig.watchlists.all
+ig.watchlists.create 'test', 'CS.D.EURUSD.MINI.IP', 'UA.D.AAPL.CASH.IP'
+ig.watchlists['watchlist_id'].delete
+ig.watchlists['watchlist_id'].markets
+ig.watchlists['watchlist_id'].add_market 'UA.D.AAPL.CASH.IP'
+ig.watchlists['watchlist_id'].remove_market 'UA.D.AAPL.CASH.IP'
 
 # Client sentiment
-puts ig.client_sentiment('EURUSD').inspect
-puts ig.client_sentiment_related('EURUSD').inspect
+ig.client_sentiment 'EURUSD'
+ig.client_sentiment_related 'EURUSD'
 
-# General
-puts ig.applications.inspect
-
-# Sign out
-ig.sign_out
+# Miscellaneous
+ig.applications
 ```
 
 ## Documentation
