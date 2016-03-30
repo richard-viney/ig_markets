@@ -2,8 +2,8 @@
 
 [![Build Status][travis-ci-badge]][travis-ci-link] [![Test Coverage][test-coverage-badge]][test-coverage-link] [![Code Climate][code-climate-badge]][code-climate-link] [![Dependencies][dependencies-badge]][dependencies-link] [![MIT License][license-badge]][license-link] [![Documentation][docs-badge]][docs-link]
 
-Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the official REST API
-available [here](http://labs.ig.com/rest-trading-api-reference).
+Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the
+[official REST API](http://labs.ig.com/rest-trading-api-reference).
 
 Includes support for:
 
