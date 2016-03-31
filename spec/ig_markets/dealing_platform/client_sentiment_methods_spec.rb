@@ -1,0 +1,32 @@
+describe IGMarkets::DealingPlatform::ClientSentimentMethods do
+  let(:session) { IGMarkets::Session.new }
+  let(:platform) do
+    IGMarkets::DealingPlatform.new.tap do |platform|
+      platform.instance_variable_set :@session, session
+    end
+  end
+
+  it 'can retrieve the client sentiment for a market' do
+    client_sentiment = build :client_sentiment
+
+    expect(session).to receive(:get)
+      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
+      .and_return(client_sentiment.attributes)
+
+    expect(platform.client_sentiment['1']).to eq(client_sentiment)
+  end
+
+  it 'can retrieve the related client sentiments for a market' do
+    client_sentiment = build :client_sentiment, market_id: '1'
+    related_client_sentiments = [build(:client_sentiment), build(:client_sentiment)]
+
+    expect(session).to receive(:get)
+      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
+      .and_return(client_sentiment.attributes)
+    expect(session).to receive(:get)
+      .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
+      .and_return(client_sentiments: related_client_sentiments.map(&:attributes))
+
+    expect(platform.client_sentiment['1'].related).to eq(related_client_sentiments)
+  end
+end

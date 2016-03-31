@@ -130,26 +130,6 @@ describe IGMarkets::DealingPlatform do
       .to eq(allowance: allowance, instrument_type: type, prices: prices)
   end
 
-  it 'can retrieve the client sentiment for a market' do
-    client_sentiment = build :client_sentiment
-
-    expect(session).to receive(:get)
-      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiment.attributes)
-
-    expect(platform.client_sentiment('1')).to eq(client_sentiment)
-  end
-
-  it 'can retrieve the related client sentiments for a market' do
-    client_sentiments = [build(:client_sentiment), build(:client_sentiment)]
-
-    expect(session).to receive(:get)
-      .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiments: client_sentiments.map(&:attributes))
-
-    expect(platform.client_sentiment_related('1')).to eq(client_sentiments)
-  end
-
   it 'can retrieve the current applications' do
     applications = [build(:application)]
 

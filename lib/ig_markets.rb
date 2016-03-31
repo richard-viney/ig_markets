@@ -32,6 +32,7 @@ require 'ig_markets/working_order'
 
 require 'ig_markets/dealing_platform'
 require 'ig_markets/dealing_platform/account_methods'
+require 'ig_markets/dealing_platform/client_sentiment_methods'
 require 'ig_markets/dealing_platform/position_methods'
 require 'ig_markets/dealing_platform/sprint_market_position_methods'
 require 'ig_markets/dealing_platform/watchlist_methods'

@@ -104,8 +104,8 @@ ig.watchlists['watchlist_id'].add_market 'UA.D.AAPL.CASH.IP'
 ig.watchlists['watchlist_id'].remove_market 'UA.D.AAPL.CASH.IP'
 
 # Client sentiment
-ig.client_sentiment 'EURUSD'
-ig.client_sentiment_related 'EURUSD'
+ig.client_sentiment['EURUSD']
+ig.client_sentiment['EURUSD'].related
 
 # Miscellaneous
 ig.applications

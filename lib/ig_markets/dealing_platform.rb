@@ -11,6 +11,9 @@ module IGMarkets
     # @return [AccountMethods] Helper for working with the logged in account.
     attr_reader :account
 
+    # @return [ClientSentimentMethods] Helper for working with client sentiment.
+    attr_reader :client_sentiment
+
     # @return [PositionMethods] Helper for working with positions.
     attr_reader :positions
 
@@ -51,6 +54,7 @@ module IGMarkets
       @session = Session.new
 
       @account ||= AccountMethods.new self
+      @client_sentiment ||= ClientSentimentMethods.new self
       @positions ||= PositionMethods.new self
       @sprint_market_positions ||= SprintMarketPositionMethods.new self
       @watchlists ||= WatchlistMethods.new self
@@ -151,25 +155,6 @@ module IGMarkets
       end_date_time = format_historical_price_date_time end_date_time
 
       gather_prices "prices/#{epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
-    end
-
-    # Returns the client sentiment for a market.
-    #
-    # @param [String] market_id The ID of the market to return client sentiment for.
-    #
-    # @return [ClientSentiment]
-    def client_sentiment(market_id)
-      result = session.get "clientsentiment/#{market_id}", API_VERSION_1
-      ClientSentiment.new result
-    end
-
-    # Returns an array of client sentiments related to a market.
-    #
-    # @param [String] market_id The ID of the market to return related client sentiments for.
-    #
-    # @return [Array<ClientSentiment>]
-    def client_sentiment_related(market_id)
-      gather "clientsentiment/related/#{market_id}", :client_sentiments, ClientSentiment
     end
 
     # Returns details on the IG Markets application for this account.
