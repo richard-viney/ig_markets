@@ -16,7 +16,7 @@ module IGMarkets
     attribute :balance, Balance
     attribute :can_transfer_from, Boolean
     attribute :can_transfer_to, Boolean
-    attribute :currency, String, regex: Validate::CURRENCY_REGEX
+    attribute :currency, String, regex: Regex::CURRENCY
     attribute :preferred, Boolean
     attribute :status, Symbol, allowed_values: [:disabled, :enabled, :suspended_from_dealing]
   end

@@ -10,7 +10,7 @@ module IGMarkets
     attribute :currency
     attribute :date, DateTime, format: '%d/%m/%y'
     attribute :deal_id
-    attribute :epic, String, regex: Validate::EPIC_REGEX
+    attribute :epic, String, regex: Regex::EPIC
     attribute :level, Float
     attribute :limit, Float, nil_if: '-'
     attribute :market_name

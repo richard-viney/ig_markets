@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :market_snapshot, class: IGMarkets::MarketSnapshot do
+  factory :market_snapshot, class: IGMarkets::Market::Snapshot do
     bid 100.0
     binary_odds 0.5
     controlled_risk_extra_spread 0.01

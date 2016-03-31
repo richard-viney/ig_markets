@@ -55,7 +55,7 @@ gem 'ig_markets', git: 'https://github.com/rviney/ig_markets.git'
 ```
 Then run
 
-```
+```ruby
 bundle install
 ```
 
@@ -89,11 +89,11 @@ ig.sprint_market_positions.all
 ig.working_orders.all
 
 # Markets
-ig.market_hierarchy
-ig.markets 'UA.D.AAPL.CASH.IP'
-ig.market_search 'APPL'
-ig.recent_prices 'CS.D.EURUSD.MINI.IP', :day, 10
-ig.prices_in_date_range 'CS.D.EURUSD.MINI.IP', :day, Date.today.prev_month(2), Date.today.prev_month(1)
+ig.markets.hierarchy
+ig.markets.search 'APPL'
+ig.markets['UA.D.AAPL.CASH.IP']
+ig.markets['CS.D.EURUSD.MINI.IP'].recent_prices :day, 10
+ig.markets['CS.D.EURUSD.MINI.IP'].prices_in_date_range :day, Date.today.prev_month(2), Date.today.prev_month(1)
 
 # Watchlists
 ig.watchlists.all

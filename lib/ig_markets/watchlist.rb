@@ -11,7 +11,7 @@ module IGMarkets
     #
     # @return [Array<Market>]
     def markets
-      @dealing_platform.gather "watchlists/#{id}", :markets, Market
+      @dealing_platform.gather "watchlists/#{id}", :markets, MarketOverview
     end
 
     # Deletes this watchlist.

@@ -5,7 +5,7 @@ FactoryGirl.define do
     controlled_risk_allowed false
     country 'US'
     currencies { [build(:currency)] }
-    epic 'UA.D.AAPL.CASH.IP'
+    epic 'ABCDEF'
     expiry 'expiry'
     expiry_details { build(:instrument_expiry_details) }
     force_open_allowed false

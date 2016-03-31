@@ -11,20 +11,20 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
 
     expect(session).to receive(:get)
       .with('watchlists', IGMarkets::API_VERSION_1)
-      .and_return(watchlists: watchlists.map(&:attributes))
+      .and_return(watchlists: watchlists)
 
     expect(platform.watchlists.all).to eq(watchlists)
   end
 
   it 'can retrieve the markets for a watchlist' do
-    markets = [build(:market)]
+    markets = [build(:market_overview)]
 
     expect(session).to receive(:get)
       .with('watchlists', IGMarkets::API_VERSION_1)
       .and_return(watchlists: [{ id: 1 }])
     expect(session).to receive(:get)
       .with('watchlists/1', IGMarkets::API_VERSION_1)
-      .and_return(markets: markets.map(&:attributes))
+      .and_return(markets: markets)
 
     expect(platform.watchlists['1'].markets).to eq(markets)
   end

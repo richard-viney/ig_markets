@@ -90,6 +90,10 @@ describe IGMarkets::Model do
     expect { model.symbol = :invalid }.to raise_error(ArgumentError)
   end
 
+  it 'returns the correct set of allowed values for an attribute' do
+    expect(TestModel.allowed_values(:symbol)).to eq([:a, :b])
+  end
+
   it 'sets attribute to nil when value matches a nil_if' do
     model.string = '-'
     expect(model.string).to eq(nil)

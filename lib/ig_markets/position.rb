@@ -4,7 +4,7 @@ module IGMarkets
     attribute :controlled_risk, Boolean
     attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
     attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
-    attribute :currency, String, regex: Validate::CURRENCY_REGEX
+    attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :level, Float
@@ -14,6 +14,6 @@ module IGMarkets
     attribute :trailing_step, Float
     attribute :trailing_stop_distance, Float
 
-    attribute :market, Market
+    attribute :market, MarketOverview
   end
 end

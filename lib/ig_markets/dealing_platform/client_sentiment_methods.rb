@@ -14,7 +14,7 @@ module IGMarkets
       def [](market_id)
         result = @dealing_platform.session.get "clientsentiment/#{market_id}", API_VERSION_1
 
-        ClientSentiment.new(result).tap do |client_sentiment|
+        ClientSentiment.from(result).tap do |client_sentiment|
           client_sentiment.instance_variable_set :@dealing_platform, @dealing_platform
         end
       end

@@ -6,7 +6,7 @@ module IGMarkets
     end
 
     class MarginDepositBand < Model
-      attribute :currency, String, regex: Validate::CURRENCY_REGEX
+      attribute :currency, String, regex: Regex::CURRENCY
       attribute :margin, Float
       attribute :max, Float
       attribute :min, Float
@@ -41,14 +41,14 @@ module IGMarkets
     attribute :controlled_risk_allowed, Boolean
     attribute :country
     attribute :currencies, Currency
-    attribute :epic, String, regex: Validate::EPIC_REGEX
+    attribute :epic, String, regex: Regex::EPIC
     attribute :expiry, String, nil_if: '-'
     attribute :expiry_details, ExpiryDetails
     attribute :force_open_allowed, Boolean
     attribute :lot_size, Float
     attribute :margin_deposit_bands, MarginDepositBand
     attribute :margin_factor, Float
-    attribute :margin_factor_unit
+    attribute :margin_factor_unit, Symbol, allowed_values: [:percentage, :points]
     attribute :market_id
     attribute :name
     attribute :news_code

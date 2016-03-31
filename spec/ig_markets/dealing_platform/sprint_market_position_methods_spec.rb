@@ -11,7 +11,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
 
     expect(session).to receive(:get)
       .with('positions/sprintmarkets', IGMarkets::API_VERSION_1)
-      .and_return(sprint_market_positions: positions.map(&:attributes))
+      .and_return(sprint_market_positions: positions)
 
     expect(platform.sprint_market_positions.all).to eq(positions)
   end

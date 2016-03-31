@@ -11,7 +11,7 @@ describe IGMarkets::DealingPlatform::ClientSentimentMethods do
 
     expect(session).to receive(:get)
       .with('clientsentiment/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiment.attributes)
+      .and_return(client_sentiment)
 
     expect(platform.client_sentiment['1']).to eq(client_sentiment)
   end
@@ -22,10 +22,10 @@ describe IGMarkets::DealingPlatform::ClientSentimentMethods do
 
     expect(session).to receive(:get)
       .with('clientsentiment/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiment.attributes)
+      .and_return(client_sentiment)
     expect(session).to receive(:get)
       .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiments: related_client_sentiments.map(&:attributes))
+      .and_return(client_sentiments: related_client_sentiments)
 
     expect(platform.client_sentiment['1'].related).to eq(related_client_sentiments)
   end

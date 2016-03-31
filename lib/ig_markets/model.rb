@@ -57,6 +57,13 @@ module IGMarkets
         (defined_attributes || {}).keys
       end
 
+      # Returns the array of allowed values for the specified attribute that was passed to {attribute}.
+      #
+      # @return [Array]
+      def allowed_values(attribute_name)
+        defined_attributes.fetch(attribute_name).fetch(:allowed_values)
+      end
+
       # Defines setter and getter methods for a new attribute on this class.
       #
       # @param [Symbol] name The name of the new attribute.
@@ -107,9 +114,7 @@ module IGMarkets
       private
 
       def define_attribute_reader(name)
-        define_method name do
-          @attributes[name]
-        end
+        define_method(name) { @attributes[name] }
       end
 
       def define_attribute_writer(name, type, options)
@@ -146,13 +151,11 @@ module IGMarkets
       def typecaster_string(value, options)
         return nil if value.nil?
 
-        string = value.to_s
-
         if options.key? :regex
-          raise ArgumentError, "Invalid string value: #{string}" unless options[:regex].match string
+          raise ArgumentError, "Invalid string value: #{value}" unless options[:regex].match value.to_s
         end
 
-        string
+        value.to_s
       end
 
       def typecaster_fixnum(value, _options)
