@@ -1,4 +1,5 @@
 module IGMarkets
+  # Contains details on an IG Markets application configuration. Returned by {DealingPlatform#applications}.
   class Application < Model
     attribute :allow_equities, Boolean
     attribute :allow_quote_orders, Boolean

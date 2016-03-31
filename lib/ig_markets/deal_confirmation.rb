@@ -1,4 +1,5 @@
 module IGMarkets
+  # Contains details on a single dealing event. Returned by {DealingPlatform#deal_confirmation}.
   class DealConfirmation < Model
     class AffectedDeal < Model
       attribute :deal_id

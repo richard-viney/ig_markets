@@ -72,9 +72,9 @@ module IGMarkets
       DealConfirmation.from session.get "confirms/#{deal_reference}", API_VERSION_1
     end
 
-    # Returns details on the IG Markets application for this account.
+    # Returns details on the IG Markets applications for the accounts associated with this login.
     #
-    # @return [Application]
+    # @return [Array<Application>]
     def applications
       Application.from session.get 'operations/application', API_VERSION_1
     end

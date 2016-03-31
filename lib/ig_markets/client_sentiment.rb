@@ -1,4 +1,6 @@
 module IGMarkets
+  # Contains details on client sentiment for a single market. Returned by {DealingPlatform::ClientSentimentMethods#[]}
+  # and {#related}.
   class ClientSentiment < Model
     attribute :long_position_percentage, Float
     attribute :market_id
