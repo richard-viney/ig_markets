@@ -50,6 +50,7 @@ module IGMarkets
     end
 
     class << self
+      # @return [Hash] A hash containing details of all attributes that have been defined on this model.
       attr_accessor :defined_attributes
 
       # Returns the names of all currently defined attributes for this model.

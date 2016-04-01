@@ -1,7 +1,10 @@
 module IGMarkets
   # Encrypts account passwords in the manner required for authentication with the IG Markets API.
   class PasswordEncryptor
+    # @return [OpenSSL::PKey::RSA] The public key used by {#encrypt}, usually set using {#encoded_public_key=}.
     attr_accessor :public_key
+
+    # @return [String] The timestamp used by {#encrypt}.
     attr_accessor :time_stamp
 
     # Takes an encoded public key and sets this encryptor's `public_key` attribute with the decoded key.
