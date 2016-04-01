@@ -26,11 +26,13 @@ module IGMarkets
       end
     end
 
-    # Compares this model's attributes to another's.
+    # Compares this model to another, the attributes and class must match for them to be considered equal.
     #
-    # @return [Boolean]
+    # @param [#class, #attributes] other The other model to compare to.
+    #
+    # @return [Boolean] The equality comparison result.
     def ==(other)
-      attributes == other.attributes
+      self.class == other.class && attributes == other.attributes
     end
 
     # Returns a human-readable string containing this model's type and all its current attribute values.

@@ -68,7 +68,6 @@ module IGMarkets
 
     private
 
-    # Validates the passed historical price resolution, raising `ArgumentError` if it is invalid.
     def validate_historical_price_resolution!(resolution)
       resolutions = [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
                      :hour_3, :hour_4, :day, :week, :month]
