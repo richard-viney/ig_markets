@@ -1,5 +1,10 @@
 module IGMarkets
   class Market < Model
+    class DealingRule < Model
+      attribute :unit, Symbol, allowed_values: [:percentage, :points]
+      attribute :value, Float
+    end
+
     class DealingRules < Model
       attribute :market_order_preference, Symbol, allowed_values: [
         :available_default_off, :available_default_on, :not_available]

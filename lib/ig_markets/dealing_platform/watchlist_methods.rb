@@ -2,6 +2,7 @@ module IGMarkets
   class DealingPlatform
     # Helper class that provides methods for interacting with watchlists.
     class WatchlistMethods
+      # Initializes this helper class with the specified dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

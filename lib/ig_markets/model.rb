@@ -3,6 +3,7 @@ module IGMarkets
   # attribute is defined by a call to {attribute}. Attributes have standard getter and setter methods and can also
   # be subject to a variety of constraints and validations, see {attribute} for further details.
   class Model
+    # @return [Hash] The current attribute values set on this model.
     attr_reader :attributes
 
     # Initializes this new model with the given attribute values. Attributes not known to this model will raise
@@ -41,9 +42,8 @@ module IGMarkets
     def inspect
       formatted_attributes = self.class.defined_attribute_names.map do |attribute|
         value = send attribute
-        value = value.inspect unless value.is_a? DateTime
 
-        "#{attribute}: #{value}"
+        "#{attribute}: #{value.is_a?(DateTime) ? value : value.inspect}"
       end
 
       "#<#{self.class.name} #{formatted_attributes.join ', '}>"
