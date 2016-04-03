@@ -15,4 +15,25 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
 
     expect(platform.sprint_market_positions.all).to eq(positions)
   end
+
+  it 'can create a sprint market position' do
+    attributes = {
+      direction: :buy,
+      epic: 'CS.D.EURUSD.MINI.IP',
+      expiry_period: :five_minutes,
+      size: 2.0
+    }
+
+    payload = {
+      direction: 'BUY',
+      epic: 'CS.D.EURUSD.MINI.IP',
+      expiryPeriod: 'FIVE_MINUTES',
+      size: 2.0
+    }
+
+    result = { deal_reference: 'reference' }
+
+    expect(session).to receive(:post).with('positions/sprintmarkets', payload, IGMarkets::API_V1).and_return(result)
+    expect(platform.sprint_market_positions.create(attributes)).to eq(result.fetch(:deal_reference))
+  end
 end
