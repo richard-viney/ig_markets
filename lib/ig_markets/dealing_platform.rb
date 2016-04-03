@@ -8,25 +8,25 @@ module IGMarkets
     # @return [Session] The session used by this dealing platform.
     attr_reader :session
 
-    # @return [AccountMethods] Helper for working with the logged in account.
+    # @return [AccountMethods] Methods for working with the logged in account.
     attr_reader :account
 
-    # @return [ClientSentimentMethods] Helper for working with client sentiment.
+    # @return [ClientSentimentMethods] Methods for working with client sentiment.
     attr_reader :client_sentiment
 
-    # @return [MarketMethods] Helper for working with markets.
+    # @return [MarketMethods] Methods for working with markets.
     attr_reader :markets
 
-    # @return [PositionMethods] Helper for working with positions.
+    # @return [PositionMethods] Methods for working with positions.
     attr_reader :positions
 
-    # @return [SprintMarketPositionMethods] Helper for working with sprint market positions.
+    # @return [SprintMarketPositionMethods] Methods for working with sprint market positions.
     attr_reader :sprint_market_positions
 
-    # @return [WatchlistMethods] Helper for working with watchlists.
+    # @return [WatchlistMethods] Methods for working with watchlists.
     attr_reader :watchlists
 
-    # @return [WorkingOrderMethods] Helper for working with working orders.
+    # @return [WorkingOrderMethods] Methods for working with working orders.
     attr_reader :working_orders
 
     def initialize
