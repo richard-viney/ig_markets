@@ -72,6 +72,9 @@ module IGMarkets
 
       private
 
+      # Validates whether the passed argument is a valid transaction type.
+      #
+      # @param [Symbol] type The candidate transaction type to validate.
       def validate_transaction_type!(type)
         raise ArgumentError, 'transaction type is invalid' unless [:all, :all_deal, :deposit, :withdrawal].include? type
       end

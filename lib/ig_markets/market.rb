@@ -79,6 +79,9 @@ module IGMarkets
 
     private
 
+    # Validates whether the passed argument is a valid historical price resolution.
+    #
+    # @param [Symbol] resolution The candidate historical price resolution to validate.
     def validate_historical_price_resolution!(resolution)
       resolutions = [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
                      :hour_3, :hour_4, :day, :week, :month]
