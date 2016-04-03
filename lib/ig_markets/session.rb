@@ -30,7 +30,7 @@ module IGMarkets
 
       payload = { identifier: username, password: password_encryptor.encrypt(password), encryptedPassword: true }
 
-      sign_in_result = request method: :post, url: 'session', payload: payload, api_version: API_VERSION_1
+      sign_in_result = request method: :post, url: 'session', payload: payload, api_version: API_V1
 
       headers = sign_in_result.fetch(:response).headers
       @cst = headers.fetch :cst
@@ -44,7 +44,7 @@ module IGMarkets
     #
     # @return [void]
     def sign_out
-      delete 'session', nil, API_VERSION_1 if alive?
+      delete 'session', nil, API_V1 if alive?
 
       @cst = @x_security_token = nil
     end
@@ -122,7 +122,7 @@ module IGMarkets
     end
 
     def password_encryptor
-      result = get 'session/encryptionKey', API_VERSION_1
+      result = get 'session/encryptionKey', API_V1
 
       PasswordEncryptor.new.tap do |encryptor|
         encryptor.encoded_public_key = result.fetch :encryption_key

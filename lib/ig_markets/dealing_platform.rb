@@ -69,14 +69,14 @@ module IGMarkets
     #
     # @return [DealConfirmation]
     def deal_confirmation(deal_reference)
-      DealConfirmation.from session.get "confirms/#{deal_reference}", API_VERSION_1
+      DealConfirmation.from session.get "confirms/#{deal_reference}", API_V1
     end
 
     # Returns details on the IG Markets applications for the accounts associated with this login.
     #
     # @return [Array<Application>]
     def applications
-      Application.from session.get 'operations/application', API_VERSION_1
+      Application.from session.get 'operations/application', API_V1
     end
 
     # Sends a GET request to a URL then takes a single key from the returned hash and converts its contents to an array
@@ -85,10 +85,10 @@ module IGMarkets
     # @param [String] url The URL to send a GET request to.
     # @param [Symbol] collection The name of the top level symbol that contains the array of data to return.
     # @param [Class] klass The type to return
-    # @param [API_VERSION_1, API_VERSION_2] api_version The API version to target for the request
+    # @param [API_V1, API_V2] api_version The API version to target for the request
     #
     # @return [Array]
-    def gather(url, collection, klass, api_version = API_VERSION_1)
+    def gather(url, collection, klass, api_version = API_V1)
       klass.from(session.get(url, api_version).fetch(collection)).tap do |result|
         # Set @dealing_platform on all the results
         result.each do |item|

@@ -9,9 +9,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve accounts' do
     accounts = [build(:account)]
 
-    expect(session).to receive(:get)
-      .with('accounts', IGMarkets::API_VERSION_1)
-      .and_return(accounts: accounts)
+    expect(session).to receive(:get).with('accounts', IGMarkets::API_V1).and_return(accounts: accounts)
 
     expect(platform.account.all).to eq(accounts)
   end
@@ -20,7 +18,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:account_activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
+      .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_V1)
       .and_return(activities: activities)
 
     expect(platform.account.activities_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27))).to eq(activities)
@@ -30,7 +28,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:account_activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity/1000000', IGMarkets::API_VERSION_1)
+      .with('history/activity/1000000', IGMarkets::API_V1)
       .and_return(activities: activities)
 
     expect(platform.account.recent_activities(1000)).to eq(activities)
@@ -40,7 +38,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:account_transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_VERSION_1)
+      .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_V1)
       .and_return(transactions: transactions)
 
     result = platform.account.transactions_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all
@@ -52,7 +50,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:account_transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions/DEPOSIT/1000000', IGMarkets::API_VERSION_1)
+      .with('history/transactions/DEPOSIT/1000000', IGMarkets::API_V1)
       .and_return(transactions: transactions)
 
     expect(platform.account.recent_transactions(1000, :deposit)).to eq(transactions)

@@ -87,21 +87,27 @@ ig.sprint_market_positions.all
 
 # Working orders
 ig.working_orders.all
+ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.MINI.IP', level: 0.99,
+                         size: 1, time_in_force: :good_till_cancelled, type: :limit
+ig.working_orders['deal_id']
+ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 0.02
+ig.working_orders['deal_id'].delete
 
 # Markets
 ig.markets.hierarchy
-ig.markets.search 'APPL'
-ig.markets['UA.D.AAPL.CASH.IP']
+ig.markets.search 'EURUSD'
+ig.markets['CS.D.EURUSD.MINI.IP']
 ig.markets['CS.D.EURUSD.MINI.IP'].recent_prices :day, 10
 ig.markets['CS.D.EURUSD.MINI.IP'].prices_in_date_range :day, Date.today.prev_month(2), Date.today.prev_month(1)
 
 # Watchlists
 ig.watchlists.all
-ig.watchlists.create 'test', 'CS.D.EURUSD.MINI.IP', 'UA.D.AAPL.CASH.IP'
-ig.watchlists['watchlist_id'].delete
+ig.watchlists.create 'New Watchlist', 'CS.D.EURUSD.MINI.IP', 'UA.D.AAPL.CASH.IP'
+ig.watchlists['watchlist_id']
 ig.watchlists['watchlist_id'].markets
-ig.watchlists['watchlist_id'].add_market 'UA.D.AAPL.CASH.IP'
-ig.watchlists['watchlist_id'].remove_market 'UA.D.AAPL.CASH.IP'
+ig.watchlists['watchlist_id'].add_market 'CS.D.EURUSD.MINI.IP'
+ig.watchlists['watchlist_id'].remove_market 'CS.D.EURUSD.MINI.IP'
+ig.watchlists['watchlist_id'].delete
 
 # Client sentiment
 ig.client_sentiment['EURUSD']

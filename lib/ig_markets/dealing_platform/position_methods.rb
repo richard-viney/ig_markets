@@ -13,18 +13,18 @@ module IGMarkets
       #
       # @return [Array<Position>]
       def all
-        @dealing_platform.session.get('positions', API_VERSION_2).fetch(:positions).map do |attributes|
+        @dealing_platform.session.get('positions', API_V2).fetch(:positions).map do |attributes|
           position_from_attributes attributes
         end
       end
 
-      # Returns the position that has the specified deal ID.
+      # Returns the position with the specified deal ID.
       #
-      # @param [String] deal_id The deal ID for the position.
+      # @param [String] deal_id The deal ID of the working order to return.
       #
-      # @return [Position]
+      # @return [Position] The position with the specified deal ID, or `nil` if there is no position with that ID.
       def [](deal_id)
-        attributes = @dealing_platform.session.get "positions/#{deal_id}", API_VERSION_2
+        attributes = @dealing_platform.session.get "positions/#{deal_id}", API_V2
 
         position_from_attributes attributes
       end

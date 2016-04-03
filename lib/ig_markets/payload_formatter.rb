@@ -14,24 +14,24 @@ module IGMarkets
       model.class.defined_attributes.each_with_object({}) do |(name, options), formatted|
         value = model.send name
 
-        if value
-          value = value.to_s.upcase if options[:type] == Symbol
-          value = value.strftime(options.fetch(:format)) if options[:type] == DateTime
-        end
+        next if value.nil?
 
-        formatted[snake_case_to_camel_case(name).to_sym] = value
+        value = value.to_s.upcase if options[:type] == Symbol
+        value = value.strftime(options.fetch(:format)) if options[:type] == DateTime
+
+        formatted[snake_case_to_camel_case(name)] = value
       end
     end
 
-    # Takes a string or symbol that uses snake case and converts it to camel case.
+    # Takes a string or symbol that uses snake case and converts it to a camel case symbol.
     #
-    # @param [String, Symbol] value The string or symbol to convert to camel case
+    # @param [String, Symbol] value The string or symbol to convert to camel case.
     #
-    # @return [String] The camel case version of `value`.
+    # @return [Symbol] The camel case version of `value`.
     def snake_case_to_camel_case(value)
       pieces = value.to_s.split '_'
 
-      pieces[0] + pieces[1..-1].map(&:capitalize).join
+      (pieces[0] + pieces[1..-1].map(&:capitalize).join).to_sym
     end
   end
 end

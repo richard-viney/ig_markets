@@ -10,7 +10,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
     positions = [build(:sprint_market_position)]
 
     expect(session).to receive(:get)
-      .with('positions/sprintmarkets', IGMarkets::API_VERSION_1)
+      .with('positions/sprintmarkets', IGMarkets::API_V1)
       .and_return(sprint_market_positions: positions)
 
     expect(platform.sprint_market_positions.all).to eq(positions)

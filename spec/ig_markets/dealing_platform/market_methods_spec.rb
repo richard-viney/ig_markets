@@ -12,18 +12,18 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       nodes: [build(:market_hierarchy_node)]
     }
 
-    expect(session).to receive(:get).with('marketnavigation', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(session).to receive(:get).with('marketnavigation', IGMarkets::API_V1).and_return(get_result)
     expect(platform.markets.hierarchy).to eq(get_result)
   end
 
   it 'can retrieve a market hierarchy node' do
     get_result = { markets: nil, nodes: nil }
 
-    expect(session).to receive(:get).with('marketnavigation/1', IGMarkets::API_VERSION_1).and_return(get_result)
+    expect(session).to receive(:get).with('marketnavigation/1', IGMarkets::API_V1).and_return(get_result)
     expect(platform.markets.hierarchy(1)).to eq(markets: [], nodes: [])
   end
 
-  it 'can retrieve a market from an epic' do
+  it 'can retrieve a market from an EPIC' do
     get_result = {
       market_details: [{
         dealing_rules: build(:market_dealing_rules),
@@ -32,17 +32,14 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       }]
     }
 
-    expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(get_result)
     expect(platform.markets['ABCDEF']).to eq(IGMarkets::Market.from(get_result[:market_details])[0])
   end
 
   it 'can search for markets' do
     markets = [build(:market_overview)]
 
-    expect(session).to receive(:get)
-      .with('markets?searchTerm=USD', IGMarkets::API_VERSION_1)
-      .and_return(markets: markets)
-
+    expect(session).to receive(:get).with('markets?searchTerm=USD', IGMarkets::API_V1).and_return(markets: markets)
     expect(platform.markets.search('USD')).to eq(markets)
   end
 
@@ -61,14 +58,8 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       prices: [build(:historical_price_snapshot), build(:historical_price_snapshot)]
     }
 
-    expect(session).to receive(:get)
-      .with('markets?epics=ABCDEF', IGMarkets::API_VERSION_2)
-      .and_return(markets_get_result)
-
-    expect(session).to receive(:get)
-      .with('prices/ABCDEF/DAY/5', IGMarkets::API_VERSION_2)
-      .and_return(prices_get_result)
-
+    expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
+    expect(session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_V2).and_return(prices_get_result)
     expect(platform.markets['ABCDEF'].recent_prices(:day, 5)).to eq(prices_get_result)
   end
 
@@ -90,12 +81,9 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       prices: [build(:historical_price_snapshot), build(:historical_price_snapshot)]
     }
 
+    expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
     expect(session).to receive(:get)
-      .with('markets?epics=ABCDEF', IGMarkets::API_VERSION_2)
-      .and_return(markets_get_result)
-
-    expect(session).to receive(:get)
-      .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_VERSION_2)
+      .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_V2)
       .and_return(prices_get_result)
 
     expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_date, to_date)).to eq(prices_get_result)

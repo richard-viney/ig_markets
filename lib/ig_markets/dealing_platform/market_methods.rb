@@ -19,7 +19,7 @@ module IGMarkets
       def hierarchy(node_id = nil)
         url = ['marketnavigation', node_id].compact.join '/'
 
-        result = @dealing_platform.session.get(url, API_VERSION_1)
+        result = @dealing_platform.session.get(url, API_V1)
 
         {
           markets: MarketOverview.from(result.fetch(:markets) || []),
@@ -33,13 +33,13 @@ module IGMarkets
       #
       # @return [Array<Market>]
       def find(*epics)
-        raise ArgumentError, 'at least one epic must be specified' if epics.empty?
+        raise ArgumentError, 'at least one EPIC must be specified' if epics.empty?
 
         epics.each do |epic|
-          raise ArgumentError, "invalid epic: #{epic}" unless epic.to_s =~ Regex::EPIC
+          raise ArgumentError, "invalid EPIC: #{epic}" unless epic.to_s =~ Regex::EPIC
         end
 
-        @dealing_platform.gather "markets?epics=#{epics.join(',')}", :market_details, Market, API_VERSION_2
+        @dealing_platform.gather "markets?epics=#{epics.join(',')}", :market_details, Market, API_V2
       end
 
       # Searches markets based on a query string.
@@ -55,7 +55,7 @@ module IGMarkets
       #
       # @param [String] epic The EPIC of the market to return details for.
       #
-      # @return [Market]
+      # @return [Market] The market with the specified EPIC, or `nil` if there is no market with that EPIC.
       def [](epic)
         find(epic)[0]
       end

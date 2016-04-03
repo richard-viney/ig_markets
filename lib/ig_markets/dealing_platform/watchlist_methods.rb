@@ -20,22 +20,20 @@ module IGMarkets
       #
       # @return [Watchlist] The new watchlist.
       def create(name, *epics)
-        result = @dealing_platform.session.post 'watchlists', { name: name, epics: epics.flatten }, API_VERSION_1
+        result = @dealing_platform.session.post 'watchlists', { name: name, epics: epics.flatten }, API_V1
 
         all.detect { |watchlist| watchlist.id == result.fetch(:watchlist_id) }
       end
 
-      # Returns the watchlist that has the specified ID. Raises ArgumentError if the ID is unrecognized.
+      # Returns the watchlist that has the specified ID.
       #
-      # @param [String] watchlist_id The ID of the watchlist to retrieve.
+      # @param [String] watchlist_id The ID of the watchlist to return.
       #
-      # @return [Watchlist]
+      # @return [Watchlist] The watchlist with the specified ID, or `nil` if there is no watchlist with that ID.
       def [](watchlist_id)
-        watchlist = all.detect { |w| w.id == watchlist_id }
-
-        raise ArgumentError, "Unrecognized watchlist ID: #{watchlist_id}" unless watchlist
-
-        watchlist
+        all.detect do |watchlist|
+          watchlist.id == watchlist_id
+        end
       end
     end
   end

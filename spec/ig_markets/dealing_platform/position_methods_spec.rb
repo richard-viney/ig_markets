@@ -15,7 +15,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
       end
     }
 
-    expect(session).to receive(:get).with('positions', IGMarkets::API_VERSION_2).and_return(get_result)
+    expect(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
     expect(platform.positions.all).to eq(positions)
   end
 
@@ -23,7 +23,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
     position = build :position
 
     expect(session).to receive(:get)
-      .with("positions/#{position.deal_id}", IGMarkets::API_VERSION_2)
+      .with("positions/#{position.deal_id}", IGMarkets::API_V2)
       .and_return(position: position.attributes, market: position.market)
 
     expect(platform.positions[position.deal_id]).to eq(position)

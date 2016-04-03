@@ -18,7 +18,7 @@ module IGMarkets
     #
     # @return [void]
     def delete
-      @dealing_platform.session.delete "watchlists/#{id}", nil, API_VERSION_1
+      @dealing_platform.session.delete "watchlists/#{id}", nil, API_V1
     end
 
     # Adds a market to this watchlist.
@@ -27,7 +27,7 @@ module IGMarkets
     #
     # @return [void]
     def add_market(epic)
-      @dealing_platform.session.put "watchlists/#{id}", { epic: epic }, API_VERSION_1
+      @dealing_platform.session.put "watchlists/#{id}", { epic: epic }, API_V1
     end
 
     # Removes a market from this watchlist.
@@ -36,7 +36,7 @@ module IGMarkets
     #
     # @return [void]
     def remove_market(epic)
-      @dealing_platform.session.delete "watchlists/#{id}/#{epic}", nil, API_VERSION_1
+      @dealing_platform.session.delete "watchlists/#{id}/#{epic}", nil, API_V1
     end
   end
 end

@@ -13,7 +13,7 @@ module IGMarkets
     attribute :size, Float
     attribute :stop_level, Float
     attribute :trailing_step, Float
-    attribute :trailing_stop_distance, Float
+    attribute :trailing_stop_distance, Fixnum
 
     attribute :market, MarketOverview
   end

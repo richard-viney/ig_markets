@@ -90,7 +90,7 @@ module IGMarkets
     end
 
     def gather_prices(url)
-      result = @dealing_platform.session.get url, API_VERSION_2
+      result = @dealing_platform.session.get url, API_V2
 
       {
         allowance: HistoricalPriceDataAllowance.from(result.fetch(:allowance)),

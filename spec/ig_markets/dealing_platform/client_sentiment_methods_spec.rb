@@ -9,9 +9,7 @@ describe IGMarkets::DealingPlatform::ClientSentimentMethods do
   it 'can retrieve the client sentiment for a market' do
     client_sentiment = build :client_sentiment
 
-    expect(session).to receive(:get)
-      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiment)
+    expect(session).to receive(:get).with('clientsentiment/1', IGMarkets::API_V1).and_return(client_sentiment)
 
     expect(platform.client_sentiment['1']).to eq(client_sentiment)
   end
@@ -20,11 +18,10 @@ describe IGMarkets::DealingPlatform::ClientSentimentMethods do
     client_sentiment = build :client_sentiment, market_id: '1'
     related_client_sentiments = [build(:client_sentiment), build(:client_sentiment)]
 
+    expect(session).to receive(:get).with('clientsentiment/1', IGMarkets::API_V1).and_return(client_sentiment)
+
     expect(session).to receive(:get)
-      .with('clientsentiment/1', IGMarkets::API_VERSION_1)
-      .and_return(client_sentiment)
-    expect(session).to receive(:get)
-      .with('clientsentiment/related/1', IGMarkets::API_VERSION_1)
+      .with('clientsentiment/related/1', IGMarkets::API_V1)
       .and_return(client_sentiments: related_client_sentiments)
 
     expect(platform.client_sentiment['1'].related).to eq(related_client_sentiments)

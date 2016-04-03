@@ -9,23 +9,15 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
   it 'can retrieve the watchlists' do
     watchlists = [build(:watchlist)]
 
-    expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
-      .and_return(watchlists: watchlists)
-
+    expect(session).to receive(:get).with('watchlists', IGMarkets::API_V1).and_return(watchlists: watchlists)
     expect(platform.watchlists.all).to eq(watchlists)
   end
 
   it 'can retrieve the markets for a watchlist' do
     markets = [build(:market_overview)]
 
-    expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
-      .and_return(watchlists: [{ id: 1 }])
-    expect(session).to receive(:get)
-      .with('watchlists/1', IGMarkets::API_VERSION_1)
-      .and_return(markets: markets)
-
+    expect(session).to receive(:get).with('watchlists', IGMarkets::API_V1).and_return(watchlists: [{ id: 1 }])
+    expect(session).to receive(:get).with('watchlists/1', IGMarkets::API_V1).and_return(markets: markets)
     expect(platform.watchlists['1'].markets).to eq(markets)
   end
 
@@ -35,10 +27,11 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
     epics = ['ABCDEF']
 
     expect(session).to receive(:post)
-      .with('watchlists', { name: name, epics: epics }, IGMarkets::API_VERSION_1)
+      .with('watchlists', { name: name, epics: epics }, IGMarkets::API_V1)
       .and_return(watchlist_id: watchlist_id, status: 'SUCCESS')
+
     expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
+      .with('watchlists', IGMarkets::API_V1)
       .and_return(watchlists: [{ id: watchlist_id }])
 
     expect(platform.watchlists.create(name, epics)).to eq(IGMarkets::Watchlist.new(id: watchlist_id))
@@ -50,10 +43,11 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
+      .with('watchlists', IGMarkets::API_V1)
       .and_return(watchlists: [{ id: watchlist_id }])
+
     expect(session).to receive(:delete)
-      .with("watchlists/#{watchlist_id}", nil, IGMarkets::API_VERSION_1)
+      .with("watchlists/#{watchlist_id}", nil, IGMarkets::API_V1)
       .and_return(result)
 
     expect(platform.watchlists[watchlist_id].delete).to eq(result)
@@ -66,10 +60,11 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
+      .with('watchlists', IGMarkets::API_V1)
       .and_return(watchlists: [{ id: watchlist_id }])
+
     expect(session).to receive(:put)
-      .with("watchlists/#{watchlist_id}", { epic: epic }, IGMarkets::API_VERSION_1)
+      .with("watchlists/#{watchlist_id}", { epic: epic }, IGMarkets::API_V1)
       .and_return(result)
 
     expect(platform.watchlists[watchlist_id].add_market(epic)).to eq(result)
@@ -82,10 +77,11 @@ describe IGMarkets::DealingPlatform::WatchlistMethods do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:get)
-      .with('watchlists', IGMarkets::API_VERSION_1)
+      .with('watchlists', IGMarkets::API_V1)
       .and_return(watchlists: [{ id: watchlist_id }])
+
     expect(session).to receive(:delete)
-      .with("watchlists/#{watchlist_id}/#{epic}", nil, IGMarkets::API_VERSION_1)
+      .with("watchlists/#{watchlist_id}/#{epic}", nil, IGMarkets::API_V1)
       .and_return(result)
 
     expect(platform.watchlists[watchlist_id].remove_market(epic)).to eq(result)
