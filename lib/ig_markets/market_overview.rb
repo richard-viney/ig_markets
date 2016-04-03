@@ -1,4 +1,5 @@
 module IGMarkets
+  # Contains an overview of a market. Returned by {Position#market} and {WorkingOrder#market}.
   class MarketOverview < Model
     attribute :bid, Float
     attribute :delay_time, Float

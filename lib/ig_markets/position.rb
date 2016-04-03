@@ -1,4 +1,5 @@
 module IGMarkets
+  # Contains details on a trading position. See {DealingPlatform::PositionMethods#all} for usage details.
   class Position < Model
     attribute :contract_size, Float
     attribute :controlled_risk, Boolean

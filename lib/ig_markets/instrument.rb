@@ -1,10 +1,14 @@
 module IGMarkets
+  # Contains details on a tradeable instrument. Returned by {Market#instrument}.
   class Instrument < Model
+    # Contains details on the expiry details of an instrument. Returned by {Instrument#expiry_details}.
     class ExpiryDetails < Model
       attribute :last_dealing_date, DateTime, format: '%Y/%m/%d %H:%M:%S'
       attribute :settlement_info
     end
 
+    # Contains details on the margin deposit requirements for an instrument at a certain price band. Returned by
+    # {Instrument#margin_deposit_bands}.
     class MarginDepositBand < Model
       attribute :currency, String, regex: Regex::CURRENCY
       attribute :margin, Float
@@ -12,6 +16,7 @@ module IGMarkets
       attribute :min, Float
     end
 
+    # Contains details on the opening hours for an instrument. Returned by {Instrument#opening_hours}.
     class OpeningHours < Model
       attribute :close_time
       attribute :open_time
@@ -26,11 +31,13 @@ module IGMarkets
       end
     end
 
+    # Contains details on the rollover setup for an instrument. Returned by {Instrument#rollover_details}.
     class RolloverDetails < Model
       attribute :last_rollover_time
       attribute :rollover_info
     end
 
+    # Contains details on the slippage factor for an instrument. Returned by {Instrument#slippage_factor}.
     class SlippageFactor < Model
       attribute :unit
       attribute :value, Float

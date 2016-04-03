@@ -1,21 +1,27 @@
 module IGMarkets
+  # Contains details on a market, which is a combination of an {#instrument}, a set of {#dealing_rules}, and a
+  # current {#snapshot} of the market. Returned by {DealingPlatform::MarketMethods#find} and
+  # {DealingPlatform::MarketMethods#[]}.
   class Market < Model
-    class DealingRule < Model
-      attribute :unit, Symbol, allowed_values: [:percentage, :points]
-      attribute :value, Float
-    end
-
+    # Contains details on the dealing rules for a market. Returned by {#dealing_rules}.
     class DealingRules < Model
+      # Contains specfics for an single dealing rule.
+      class RuleDetails < Model
+        attribute :unit, Symbol, allowed_values: [:percentage, :points]
+        attribute :value, Float
+      end
+
       attribute :market_order_preference, Symbol, allowed_values: [
         :available_default_off, :available_default_on, :not_available]
-      attribute :max_stop_or_limit_distance, DealingRule
-      attribute :min_controlled_risk_stop_distance, DealingRule
-      attribute :min_deal_size, DealingRule
-      attribute :min_normal_stop_or_limit_distance, DealingRule
-      attribute :min_step_distance, DealingRule
+      attribute :max_stop_or_limit_distance, RuleDetails
+      attribute :min_controlled_risk_stop_distance, RuleDetails
+      attribute :min_deal_size, RuleDetails
+      attribute :min_normal_stop_or_limit_distance, RuleDetails
+      attribute :min_step_distance, RuleDetails
       attribute :trailing_stops_preference, Symbol, allowed_values: [:available, :not_available]
     end
 
+    # Contains details on a snapshot of a market. Returned by {#snapshot}.
     class Snapshot < Model
       attribute :bid, Float
       attribute :binary_odds, Float

@@ -1,4 +1,5 @@
 module IGMarkets
+  # Contains details on a working order. See {DealingPlatform::WorkingOrderMethods} for usage details.
   class WorkingOrder < Model
     attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
     attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'

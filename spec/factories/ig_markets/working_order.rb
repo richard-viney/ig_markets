@@ -16,6 +16,6 @@ FactoryGirl.define do
     stop_distance 1.0
     time_in_force 'GOOD_TILL_DATE'
 
-    market { build(:market_overview) }
+    market { build :market_overview }
   end
 end

@@ -1,8 +1,10 @@
 module IGMarkets
   class DealingPlatform
-    # Helper class that provides methods for interacting with working orders.
+    # Provides methods for interacting with working orders. Returned by {DealingPlatform#working_orders}.
     class WorkingOrderMethods
       # Initializes this helper class with the specified dealing platform.
+      #
+      # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

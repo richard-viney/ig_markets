@@ -1,8 +1,10 @@
 module IGMarkets
   class DealingPlatform
-    # Helper class that provides methods for interacting with positions.
+    # Provides methods for interacting with positions. Returned by {DealingPlatform#positions}.
     class PositionMethods
       # Initializes this helper class with the specified dealing platform.
+      #
+      # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

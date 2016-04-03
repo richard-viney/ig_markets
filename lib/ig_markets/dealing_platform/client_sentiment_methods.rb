@@ -1,8 +1,10 @@
 module IGMarkets
   class DealingPlatform
-    # Helper class that provides methods for interacting with client sentiment.
+    # Provides methods for interacting with client sentiment. Returned by {DealingPlatform#client_sentiment}.
     class ClientSentimentMethods
       # Initializes this helper class with the specified dealing platform.
+      #
+      # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

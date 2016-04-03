@@ -1,8 +1,11 @@
 module IGMarkets
   class DealingPlatform
-    # Helper class that provides methods for interacting with sprint market positions.
+    # Provides methods for interacting with sprint market positions. Returned by
+    # {DealingPlatform#sprint_market_positions}.
     class SprintMarketPositionMethods
       # Initializes this helper class with the specified dealing platform.
+      #
+      # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

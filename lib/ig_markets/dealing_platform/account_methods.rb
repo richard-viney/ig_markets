@@ -1,8 +1,10 @@
 module IGMarkets
   class DealingPlatform
-    # Helper class that provides methods for interacting with the logged in account.
+    # Provides methods for interacting with the logged in account. Returned by {DealingPlatform#account}.
     class AccountMethods
       # Initializes this helper class with the specified dealing platform.
+      #
+      # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = dealing_platform
       end

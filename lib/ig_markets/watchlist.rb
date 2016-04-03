@@ -1,5 +1,5 @@
 module IGMarkets
-  # An IG Markets Watchlist, see {IGMarkets#watchlists} and {DealingPlatform::WatchlistMethods} for usage details.
+  # Contains details on a watchlist. See {DealingPlatform::WatchlistMethods} for usage details.
   class Watchlist < Model
     attribute :default_system_watchlist, Boolean
     attribute :deleteable, Boolean

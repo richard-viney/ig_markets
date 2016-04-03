@@ -14,6 +14,6 @@ FactoryGirl.define do
     trailing_step nil
     trailing_stop_distance nil
 
-    market { build(:market_overview) }
+    market { build :market_overview }
   end
 end
