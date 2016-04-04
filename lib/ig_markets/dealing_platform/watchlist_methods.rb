@@ -29,7 +29,7 @@ module IGMarkets
 
       # Creates and returns a new watchlist with a name and an initial set of markets.
       #
-      # @return [Watchlist]
+      # @return [Watchlist] The new watchlist.
       def create(name, *epics)
         result = @dealing_platform.session.post 'watchlists', { name: name, epics: epics.flatten }, API_V1
 
