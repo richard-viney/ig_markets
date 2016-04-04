@@ -61,7 +61,7 @@ module IGMarkets
 
         payload = PayloadFormatter.format model
 
-        payload[:expiry] = '-' if payload[:expiry].nil?
+        payload[:expiry] ||= '-'
 
         @dealing_platform.session.post('workingorders/otc', payload, API_V2).fetch(:deal_reference)
       end

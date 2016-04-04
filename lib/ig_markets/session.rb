@@ -154,7 +154,16 @@ module IGMarkets
       headers
     end
 
+    def use_post_for_delete_with_payload(options)
+      if options[:method] == :delete && options[:payload]
+        options[:headers]['_method'] = :delete
+        options[:method] = :post
+      end
+    end
+
     def execute_request(options)
+      use_post_for_delete_with_payload options
+
       RestClient::Request.execute options
     rescue RestClient::Exception => exception
       exception.response

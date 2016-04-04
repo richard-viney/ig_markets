@@ -79,6 +79,15 @@ describe IGMarkets::Session do
       expect(session.put('url', { id: 1 }, IGMarkets::API_V1)).to eq({})
     end
 
+    it 'can process a DELETE request with a payload' do
+      execute_params = params :post, 'url', id: 1
+      execute_params[:headers]['_method'] = :delete
+
+      expect(response).to receive_messages(code: 200, body: '')
+      expect(rest_client).to receive(:execute).with(execute_params).and_return(response)
+      expect(session.delete('url', { id: 1 }, IGMarkets::API_V1)).to eq({})
+    end
+
     it 'inspects correctly' do
       expect(session.inspect).to eq('#<IGMarkets::Session cst, x_security_token>')
     end
