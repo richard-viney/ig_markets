@@ -109,6 +109,7 @@ module IGMarkets
 
         private
 
+        # Checks that all required attributes for position creation are present.
         def validate_required_attributes_present!
           required = [:currency_code, :direction, :epic, :force_open, :guaranteed_stop, :order_type, :size,
                       :time_in_force]
@@ -118,6 +119,7 @@ module IGMarkets
           end
         end
 
+        # Checks that attributes associated with the trailing stops are valid.
         def validate_trailing_stop_constraints!
           if trailing_stop
             raise ArgumentError, 'do not set stop_level when trailing_stop is true' if stop_level
@@ -129,11 +131,13 @@ module IGMarkets
           end
         end
 
+        # Checks that attributes associated with the stop and limit are valid.
         def validate_stop_and_limit_constraints!
           raise ArgumentError, 'set only one of limit_level and limit_distance' if limit_level && limit_distance
           raise ArgumentError, 'set only one of stop_level and stop_distance' if stop_level && stop_distance
         end
 
+        # Checks that attributes associated with the guaranteed stop are valid.
         def validate_guaranteed_stop_constraints!
           if guaranteed_stop && !(stop_level.nil? ^ stop_distance.nil?)
             raise ArgumentError, 'set exactly one of stop_level or stop_distance when guaranteed_stop is true'
