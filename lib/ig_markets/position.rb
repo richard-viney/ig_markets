@@ -82,6 +82,8 @@ module IGMarkets
     end
 
     # Validates the internal consistency of the `:order_type`, `:quote_id` and `:level` attributes.
+    #
+    # @param [Hash] attributes The attributes hash to validate.
     def self.validate_order_type_constraints!(attributes)
       if (attributes[:order_type] == :quote) == attributes[:quote_id].nil?
         raise ArgumentError, 'set quote_id if and only if order_type is :quote'
