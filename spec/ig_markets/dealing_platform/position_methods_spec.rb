@@ -91,4 +91,16 @@ describe IGMarkets::DealingPlatform::PositionMethods do
     expect { create_position.call guaranteed_stop: true, stop_distance: 1 }.not_to raise_error
     expect { create_position.call guaranteed_stop: true, stop_level: 1 }.not_to raise_error
   end
+
+  it 'can update a position' do
+    position = build :position, deal_id: '1'
+
+    get_result = { position: position.attributes, market: position.market }
+    payload = { limitLevel: 2.0, stopLevel: 1.0, trailingStop: false }
+    put_result = { deal_reference: 'reference' }
+
+    expect(session).to receive(:get).with('positions/1', IGMarkets::API_V2).and_return(get_result)
+    expect(session).to receive(:put).with('positions/otc/1', payload, IGMarkets::API_V2).and_return(put_result)
+    expect(platform.positions['1'].update(stop_level: 1, limit_level: 2)).to eq('reference')
+  end
 end

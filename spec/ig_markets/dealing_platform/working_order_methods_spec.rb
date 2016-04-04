@@ -111,10 +111,10 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
       type: 'LIMIT'
     }
 
-    update_result = { deal_reference: 'reference' }
+    put_result = { deal_reference: 'reference' }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(session).to receive(:put).with('workingorders/otc/1', payload, IGMarkets::API_V1).and_return(update_result)
+    expect(session).to receive(:put).with('workingorders/otc/1', payload, IGMarkets::API_V1).and_return(put_result)
     expect(platform.working_orders['1'].update(level: 1.03, limit_distance: 20, stop_distance: 30)).to eq('reference')
   end
 end

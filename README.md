@@ -83,6 +83,7 @@ ig.positions.all
 ig.positions.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP',
                     size: 2, order_type: :market
 ig.positions['deal_id']
+ig.positions['deal_id'].update limit_level: 1.2, stop_level: 1.1
 
 # Sprint market positions
 ig.sprint_market_positions.all

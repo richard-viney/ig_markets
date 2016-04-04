@@ -127,7 +127,7 @@ module IGMarkets
 
           allowed_values = options[:allowed_values]
           if !value.nil? && allowed_values
-            raise ArgumentError, "Invalid value: #{value.inspect}" unless allowed_values.include? value
+            raise ArgumentError, "#{self}##{name}: invalid value: #{value.inspect}" unless allowed_values.include? value
           end
 
           (@attributes ||= {})[name] = value
@@ -145,14 +145,14 @@ module IGMarkets
       def typecaster_boolean(value, _options)
         return value if [nil, true, false].include? value
 
-        raise ArgumentError, "Invalid boolean value: #{value}"
+        raise ArgumentError, "#{self}: invalid boolean value: #{value}"
       end
 
       def typecaster_string(value, options)
         return nil if value.nil?
 
         if options.key? :regex
-          raise ArgumentError, "Invalid string value: #{value}" unless options[:regex].match value.to_s
+          raise ArgumentError, "#{self}: invalid string value: #{value}" unless options[:regex].match value.to_s
         end
 
         value.to_s
@@ -171,13 +171,13 @@ module IGMarkets
       end
 
       def typecaster_datetime(value, options)
-        raise ArgumentError, 'Invalid or missing date time format' unless options[:format].is_a? String
+        raise ArgumentError, "#{self}: invalid or missing date time format" unless options[:format].is_a? String
 
         if value.is_a?(String) || value.is_a?(Fixnum)
           begin
             DateTime.strptime(value.to_s, options[:format])
           rescue ArgumentError
-            raise ArgumentError, "Failed parsing date '#{value}' with format '#{options[:format]}'"
+            raise ArgumentError, "#{self}: failed parsing date '#{value}' with format '#{options[:format]}'"
           end
         else
           value
