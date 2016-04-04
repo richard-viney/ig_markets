@@ -23,13 +23,15 @@ module IGMarkets
       !trailing_step.nil? && !trailing_stop_distance.nil?
     end
 
-    # Closes this position, either partially or completely.
+    # Closes this position. If called with no options then this position will be fully closed at current market prices,
+    # partial closes and greater control over the close conditions can be achieved with the relevant options.
     #
     # @param [Hash] options The options for the position close.
     # @option options [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
     # @option options [:limit, :market, :quote] :order_type The order type. `:market` indicates to fill the order at
     #                 current market level(s). `:limit` indicates to fill at the price specified by `:level` (or a more
-    #                 favorable one). `:quote` is only permitted following agreement with IG Markets.
+    #                 favorable one). `:quote` is only permitted following agreement with IG Markets. Defaults to
+    #                 `:market`.
     # @option options [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
     # @option options [Float] :size The size of the position to close. Defaults to {#size} which will close the entire
     #                 position, or alternatively specify a smaller value to partially close this position.
@@ -37,14 +39,16 @@ module IGMarkets
     #                 `:execute_and_eliminate` will fill this order as much as possible within the constraints set by
     #                 `:order_type`, `:level` and `:quote_id`. `:fill_or_kill` will try to fill this entire order within
     #                 the constraints, however if this is not possible then the order will not be filled at all. If
-    #                 `:order_type` is `:market` then `:time_in_force` will be automatically set to
+    #                 `:order_type` is `:market` (the default) then `:time_in_force` will be automatically set to
     #                 `:execute_and_eliminate`.
     #
     # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
     #         the position close.
-    def close(options)
+    def close(options = {})
       options[:deal_id] = deal_id
       options[:direction] = { buy: :sell, sell: :buy }.fetch(direction)
+
+      options[:order_type] ||= :market
       options[:size] ||= size
       options[:time_in_force] = :execute_and_eliminate if options[:order_type] == :market
 

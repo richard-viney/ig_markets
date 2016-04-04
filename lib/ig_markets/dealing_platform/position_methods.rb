@@ -47,6 +47,7 @@ module IGMarkets
       # @option attributes [:limit, :market, :quote] :order_type The order type. `:market` indicates to fill the order
       #                    at current market level(s). `:limit` indicates to fill at the price specified by `:level`
       #                    (or a more favorable one). `:quote` is only permitted following agreement with IG Markets.
+      #                    Defaults to `:market`.
       # @option attributes [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
       # @option attributes [Float] :size The size of the position to create. Required.
       # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. If this is set then
@@ -58,7 +59,8 @@ module IGMarkets
       #                    by `:order_type`, `:level` and `:quote_id`, which may result in only part of the requested
       #                    order being filled. `:fill_or_kill` will try to fill the whole order within the constraints,
       #                    however if this is not possible then the order will not be filled at all. If `:order_type` is
-      #                    `:market` then `:time_in_force` will be automatically set to `:execute_and_eliminate`.
+      #                    `:market` (the default) then `:time_in_force` will be automatically set to
+      #                    `:execute_and_eliminate`.
       # @option attributes [Boolean] :trailing_stop Whether to use a trailing stop. Defaults to false. Optional.
       # @option attributes [Fixnum] :trailing_stop_increment The increment step in pips for the trailing stop. Required
       #                    when `:trailing_stop` is `true`.
@@ -68,6 +70,7 @@ module IGMarkets
       def create(attributes)
         attributes[:force_open] = false unless attributes.key? :force_open
         attributes[:guaranteed_stop] = false unless attributes.key? :guaranteed_stop
+        attributes[:order_type] ||= :market
         attributes[:time_in_force] = :execute_and_eliminate if attributes[:order_type] == :market
 
         model = PositionCreateAttributes.new attributes

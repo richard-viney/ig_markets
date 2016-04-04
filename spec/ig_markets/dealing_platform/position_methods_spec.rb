@@ -34,7 +34,6 @@ describe IGMarkets::DealingPlatform::PositionMethods do
       currency_code: 'USD',
       direction: :buy,
       epic: 'CS.D.EURUSD.CFD.IP',
-      order_type: :market,
       size: 2.0
     }
 
@@ -61,7 +60,6 @@ describe IGMarkets::DealingPlatform::PositionMethods do
       currency_code: 'USD',
       direction: :buy,
       epic: 'CS.D.EURUSD.CFD.IP',
-      order_type: :market,
       size: 2.0,
       time_in_force: :execute_and_eliminate
     }
@@ -113,7 +111,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
 
     expect(session).to receive(:get).with('positions/1', IGMarkets::API_V2).and_return(get_result)
     expect(session).to receive(:delete).with('positions/otc', payload, IGMarkets::API_V1).and_return(delete_result)
-    expect(platform.positions['1'].close(order_type: :market)).to eq('reference')
+    expect(platform.positions['1'].close).to eq('reference')
   end
 
   it 'validates position close attributes correctly' do
@@ -128,7 +126,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
 
     expect(session).to receive(:delete).exactly(3).times.and_return(deal_reference: 'reference')
 
-    expect { close_position.call order_type: :market }.to_not raise_error
+    expect { close_position.call }.to_not raise_error
     expect { close_position.call order_type: :quote }.to raise_error(ArgumentError)
     expect { close_position.call order_type: :quote, quote_id: 'a' }.to raise_error(ArgumentError)
     expect { close_position.call order_type: :quote, level: 1 }.to raise_error(ArgumentError)
