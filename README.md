@@ -1,8 +1,12 @@
 # Ruby IG Markets Dealing Platform Gem
 
-[![Build Status][travis-ci-badge]][travis-ci-link] [![Test Coverage][test-coverage-badge]][test-coverage-link]
-[![Code Climate][code-climate-badge]][code-climate-link] [![Dependencies][dependencies-badge]][dependencies-link]
-[![Documentation][docs-badge]][docs-link] [![MIT License][license-badge]][license-link]
+[![Gem][gem-badge]][gem-link]
+[![Build Status][travis-ci-badge]][travis-ci-link]
+[![Test Coverage][test-coverage-badge]][test-coverage-link]
+[![Code Climate][code-climate-badge]][code-climate-link]
+[![Dependencies][dependencies-badge]][dependencies-link]
+[![Documentation][documentation-badge]][documentation-link]
+[![License][license-badge]][license-link]
 
 Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the
 [official REST API](http://labs.ig.com/rest-trading-api-reference).
@@ -20,6 +24,8 @@ Includes support for:
 
 An IG Markets production or demo trading account is needed in order to use this gem.
 
+[gem-link]: https://rubygems.org/gems/ig_markets
+[gem-badge]: https://badge.fury.io/rb/ig_markets.svg
 [travis-ci-link]: http://travis-ci.org/rviney/ig_markets
 [travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
 [test-coverage-link]: https://codeclimate.com/github/rviney/ig_markets/coverage
@@ -28,10 +34,10 @@ An IG Markets production or demo trading account is needed in order to use this 
 [code-climate-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/gpa.svg
 [dependencies-link]: https://gemnasium.com/rviney/ig_markets
 [dependencies-badge]: https://gemnasium.com/rviney/ig_markets.svg
+[documentation-link]: https://inch-ci.org/github/rviney/ig_markets
+[documentation-badge]: http://inch-ci.org/github/rviney/ig_markets.svg?branch=master
 [license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[docs-link]: https://inch-ci.org/github/rviney/ig_markets
-[docs-badge]: http://inch-ci.org/github/rviney/ig_markets.svg?branch=master
 
 ## License
 
