@@ -12,10 +12,10 @@ module IGMarkets
       # Returns details on the market hierarchy directly under a single node.
       #
       # @param [String] node_id The ID of the node to return the market hierarchy for. If this is `nil` then details on
-      #                         the root node of the market hierarchy will be returned.
+      #        the root node of the market hierarchy will be returned.
       #
       # @return [Hash] A hash containing two keys: `:markets` which is an array of {Market} instances, and `:nodes`
-      #                which is an array of {MarketHierarchyNode} instances.
+      #         which is an array of {MarketHierarchyNode} instances.
       def hierarchy(node_id = nil)
         url = ['marketnavigation', node_id].compact.join '/'
 

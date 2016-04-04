@@ -85,7 +85,7 @@ module IGMarkets
     # @param [String] url The URL to send a GET request to.
     # @param [Symbol] collection The name of the top level symbol that contains the array of data to return.
     # @param [Class] klass The type to return
-    # @param [API_V1, API_V2] api_version The API version to target for the request
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target for the request
     #
     # @return [Array]
     def gather(url, collection, klass, api_version = API_V1)

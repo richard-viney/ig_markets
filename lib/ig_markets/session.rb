@@ -60,7 +60,7 @@ module IGMarkets
     #
     # @param [String] url The URL to send the POST request to.
     # @param [nil, String, Hash] payload The payload to include with the POST request, this will be encoded as JSON.
-    # @param [1, 2] api_version The API version to target.
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
     def post(url, payload, api_version)
@@ -70,7 +70,7 @@ module IGMarkets
     # Sends a GET request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
     #
     # @param [String] url The URL to send the GET request to.
-    # @param [1, 2] api_version The API version to target.
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
     def get(url, api_version)
@@ -81,7 +81,7 @@ module IGMarkets
     #
     # @param [String] url The URL to send the PUT request to.
     # @param [nil, String, Hash] payload The payload to include with the PUT request, this will be encoded as JSON.
-    # @param [1, 2] api_version The API version to target.
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
     def put(url, payload, api_version)
@@ -92,7 +92,7 @@ module IGMarkets
     #
     # @param [String] url The URL to send the DELETE request to.
     # @param [nil, String, Hash] payload The payload to include with the DELETE request, this will be encoded as JSON.
-    # @param [1, 2] api_version The API version to target.
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
     def delete(url, payload, api_version)

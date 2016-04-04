@@ -19,15 +19,15 @@ module IGMarkets
 
       # Creates a new sprint market position.
       #
-      # @param [Hash] attributes The attributes hash for the new sprint market position.
+      # @param [Hash] attributes The attributes for the new sprint market position.
       # @option attributes [String] :epic The EPIC for the instrument to create a sprint market position for. Required.
       # @option attributes [:buy, :sell] :direction The position direction. Required.
       # @option attributes [:one_minute, :two_minutes, :five_minutes, :twenty_minutes, :sixty_minutes] :expiry_period
       #                    The expiry period. Required.
-      # @option attributes [String] :size The size of the sprint market position to create. Required.
+      # @option attributes [Float] :size The size of the sprint market position to create. Required.
       #
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
-      #                  the sprint market position creation.
+      #         the sprint market position creation.
       def create(attributes)
         payload = PayloadFormatter.format SprintMarketPositionCreateAttributes.new attributes
 

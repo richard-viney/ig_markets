@@ -51,7 +51,7 @@ module IGMarkets
       # @option attributes [:limit, :stop] :type Required.
       #
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
-      #                  the working order creation.
+      #         the working order creation.
       def create(attributes)
         attributes[:force_open] ||= false
         attributes[:guaranteed_stop] ||= false
@@ -72,7 +72,6 @@ module IGMarkets
         model = WorkingOrderCreateAttributes.new attributes
 
         required = [:currency_code, :direction, :epic, :guaranteed_stop, :level, :size, :time_in_force, :type]
-
         required.each do |attribute|
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
         end

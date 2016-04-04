@@ -23,7 +23,7 @@ module IGMarkets
     # Deletes this working order.
     #
     # @return [String] The deal reference of the deletion operation. Use {DealingPlatform#deal_confirmation} to check
-    #                  the result of the working order deletion.
+    #         the result of the working order deletion.
     def delete
       @dealing_platform.session.delete("workingorders/otc/#{deal_id}", {}, API_V1).fetch(:deal_reference)
     end
@@ -40,7 +40,7 @@ module IGMarkets
     # @option new_attributes [:limit, :stop] :type
     #
     # @return [String] The deal reference of the update operation. Use {DealingPlatform#deal_confirmation} to check
-    #                  the result of the working order update.
+    #         the result of the working order update.
     def update(new_attributes)
       new_attributes = { good_till_date: good_till_date, level: order_level, limit_distance: limit_distance,
                          stop_distance: stop_distance, time_in_force: time_in_force, type: order_type

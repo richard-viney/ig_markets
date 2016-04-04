@@ -50,8 +50,7 @@ module IGMarkets
     # @param [Fixnum] num_points The number of historical prices to return.
     #
     # @return [Hash] A hash containing three keys: `:allowance` which is a {HistoricalPriceDataAllowance},
-    #                `:instrument_type` which is a `Symbol`, and `:prices` which is an
-    #                `Array<`{HistoricalPriceSnapshot}`>`.
+    #         `:instrument_type` which is a `Symbol`, and `:prices` which is an `Array<`{HistoricalPriceSnapshot}`>`.
     def recent_prices(resolution, num_points)
       validate_historical_price_resolution! resolution
 
@@ -66,8 +65,7 @@ module IGMarkets
     # @param [DateTime] end_date_time
     #
     # @return [Hash] A hash containing three keys: `:allowance` which is a {HistoricalPriceDataAllowance},
-    #                `:instrument_type` which is a `Symbol`, and `:prices` which is an
-    #                `Array<`{HistoricalPriceSnapshot}`>`.
+    #         `:instrument_type` which is a `Symbol`, and `:prices` which is an `Array<`{HistoricalPriceSnapshot}`>`.
     def prices_in_date_range(resolution, start_date_time, end_date_time)
       validate_historical_price_resolution! resolution
 

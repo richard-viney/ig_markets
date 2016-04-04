@@ -19,14 +19,14 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
   it 'can create a sprint market position' do
     attributes = {
       direction: :buy,
-      epic: 'CS.D.EURUSD.MINI.IP',
+      epic: 'CS.D.EURUSD.CFD.IP',
       expiry_period: :five_minutes,
       size: 2.0
     }
 
     payload = {
       direction: 'BUY',
-      epic: 'CS.D.EURUSD.MINI.IP',
+      epic: 'CS.D.EURUSD.CFD.IP',
       expiryPeriod: 'FIVE_MINUTES',
       size: 2.0
     }

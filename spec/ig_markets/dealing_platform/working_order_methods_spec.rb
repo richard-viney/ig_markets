@@ -36,7 +36,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     attributes = {
       currency_code: 'USD',
       direction: :buy,
-      epic: 'CS.D.EURUSD.MINI.IP',
+      epic: 'CS.D.EURUSD.CFD.IP',
       level: 1.0,
       size: 2.0,
       time_in_force: :good_till_cancelled,
@@ -46,7 +46,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     payload = {
       currencyCode: 'USD',
       direction: 'BUY',
-      epic: 'CS.D.EURUSD.MINI.IP',
+      epic: 'CS.D.EURUSD.CFD.IP',
       expiry: '-',
       forceOpen: false,
       guaranteedStop: false,
@@ -66,7 +66,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     attributes = {
       currency_code: 'USD',
       direction: :buy,
-      epic: 'CS.D.EURUSD.MINI.IP',
+      epic: 'CS.D.EURUSD.CFD.IP',
       level: 1.0,
       size: 2.0,
       time_in_force: :good_till_date,
