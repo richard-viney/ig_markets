@@ -88,7 +88,7 @@ module IGMarkets
         attribute :currency_code, String, regex: Regex::CURRENCY
         attribute :direction, Symbol, allowed_values: [:buy, :sell]
         attribute :epic, String, regex: Regex::EPIC
-        attribute :expiry, DateTime, format: '%y-%^b-%d'
+        attribute :expiry, DateTime, format: '%d-%b-%y'
         attribute :force_open, Boolean
         attribute :good_till_date, DateTime, format: '%Y-%m-%d %H:%M:%S'
         attribute :guaranteed_stop, Boolean

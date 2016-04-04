@@ -6,7 +6,7 @@ FactoryGirl.define do
     deal_status 'ACCEPTED'
     direction 'BUY'
     epic 'CS.D.EURUSD.CFD.IP'
-    expiry ''
+    expiry '20-DEC-40'
     guaranteed_stop false
     level 100.0
     limit_distance 10.0

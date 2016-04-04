@@ -6,7 +6,7 @@ FactoryGirl.define do
     country 'US'
     currencies { [build(:currency)] }
     epic 'ABCDEF'
-    expiry 'expiry'
+    expiry '20-DEC-40'
     expiry_details { build :instrument_expiry_details }
     force_open_allowed false
     lot_size 1000.0

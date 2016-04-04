@@ -13,7 +13,7 @@ module IGMarkets
     attribute :deal_status, Symbol, allowed_values: [:accepted, :fund_account, :rejected]
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :epic
-    attribute :expiry
+    attribute :expiry, DateTime, nil_if: '-', format: '%d-%b-%y'
     attribute :guaranteed_stop, Boolean
     attribute :level, Float
     attribute :limit_distance, Float

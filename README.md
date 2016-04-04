@@ -86,8 +86,8 @@ ig.positions['deal_id']
 
 # Sprint market positions
 ig.sprint_market_positions.all
-ig.sprint_market_positions.create direction: :buy, epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :one_minute,
-                                  size: 1
+ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24.IP',
+                                  expiry_period: :one_minute, size: 100
 
 # Working orders
 ig.working_orders.all

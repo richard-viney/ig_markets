@@ -5,7 +5,7 @@ module IGMarkets
     attribute :delay_time, Float
     attribute :epic, String, regex: Regex::EPIC
     attribute :exchange_id
-    attribute :expiry, String, nil_if: '-'
+    attribute :expiry, DateTime, nil_if: '-', format: '%d-%b-%y'
     attribute :high, Float
     attribute :instrument_name
     attribute :instrument_type, Symbol, allowed_values: Instrument.allowed_values(:type)
