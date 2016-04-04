@@ -101,7 +101,7 @@ module IGMarkets
         # Markets API.
         def validate!
           validate_required_attributes_present!
-          validate_order_type_constraints!
+          Position.validate_order_type_constraints! attributes
           validate_trailing_stop_constraints!
           validate_stop_and_limit_constraints!
           validate_guaranteed_stop_constraints!
@@ -115,16 +115,6 @@ module IGMarkets
 
           required.each do |attribute|
             raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
-          end
-        end
-
-        def validate_order_type_constraints!
-          if (order_type == :quote) == quote_id.nil?
-            raise ArgumentError, 'set quote_id if and only if order_type is :quote'
-          end
-
-          if [:limit, :quote].include?(order_type) == level.nil?
-            raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
           end
         end
 

@@ -24,6 +24,6 @@ describe IGMarkets::DealingPlatform::ClientSentimentMethods do
       .with('clientsentiment/related/1', IGMarkets::API_V1)
       .and_return(client_sentiments: related_client_sentiments)
 
-    expect(platform.client_sentiment['1'].related).to eq(related_client_sentiments)
+    expect(platform.client_sentiment['1'].related_sentiments).to eq(related_client_sentiments)
   end
 end

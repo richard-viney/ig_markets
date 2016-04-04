@@ -117,7 +117,7 @@ ig.watchlists['watchlist_id'].delete
 
 # Client sentiment
 ig.client_sentiment['EURUSD']
-ig.client_sentiment['EURUSD'].related
+ig.client_sentiment['EURUSD'].related_sentiments
 
 # Miscellaneous
 ig.applications

@@ -81,6 +81,19 @@ module IGMarkets
       @dealing_platform.session.put("positions/otc/#{deal_id}", payload, API_V2).fetch(:deal_reference)
     end
 
+    # Validates the internal consistency of the `:order_type`, `:quote_id` and `:level` attributes.
+    def self.validate_order_type_constraints!(attributes)
+      if (attributes[:order_type] == :quote) == attributes[:quote_id].nil?
+        raise ArgumentError, 'set quote_id if and only if order_type is :quote'
+      end
+
+      if [:limit, :quote].include?(attributes[:order_type]) == attributes[:level].nil?
+        raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
+      end
+    end
+
+    private
+
     # Internal model used by {#close}.
     class PositionCloseAttributes < Model
       attribute :deal_id
@@ -94,26 +107,11 @@ module IGMarkets
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
       # Markets API.
       def validate!
-        validate_required_attributes_present!
-        validate_order_type_constraints!
-      end
-
-      private
-
-      def validate_required_attributes_present!
         [:deal_id, :direction, :order_type, :size, :time_in_force].each do |attribute|
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
         end
-      end
 
-      def validate_order_type_constraints!
-        if (order_type == :quote) == quote_id.nil?
-          raise ArgumentError, 'set quote_id if and only if order_type is :quote'
-        end
-
-        if [:limit, :quote].include?(order_type) == level.nil?
-          raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
-        end
+        Position.validate_order_type_constraints! attributes
       end
     end
 
