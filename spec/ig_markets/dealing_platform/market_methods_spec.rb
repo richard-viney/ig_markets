@@ -7,20 +7,17 @@ describe IGMarkets::DealingPlatform::MarketMethods do
   end
 
   it 'can retrieve the market hierarchy root' do
-    get_result = {
-      markets: [build(:market_overview)],
-      nodes: [build(:market_hierarchy_node)]
-    }
+    result = build :market_hierarchy_result
 
-    expect(session).to receive(:get).with('marketnavigation', IGMarkets::API_V1).and_return(get_result)
-    expect(platform.markets.hierarchy).to eq(get_result)
+    expect(session).to receive(:get).with('marketnavigation', IGMarkets::API_V1).and_return(result)
+    expect(platform.markets.hierarchy).to eq(result)
   end
 
   it 'can retrieve a market hierarchy node' do
-    get_result = { markets: nil, nodes: nil }
+    result = build :market_hierarchy_result
 
-    expect(session).to receive(:get).with('marketnavigation/1', IGMarkets::API_V1).and_return(get_result)
-    expect(platform.markets.hierarchy(1)).to eq(markets: [], nodes: [])
+    expect(session).to receive(:get).with('marketnavigation/1', IGMarkets::API_V1).and_return(result)
+    expect(platform.markets.hierarchy(1)).to eq(result)
   end
 
   it 'can retrieve a market from an EPIC' do
@@ -52,15 +49,11 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       }]
     }
 
-    prices_get_result = {
-      allowance: build(:historical_price_data_allowance),
-      instrument_type: :currencies,
-      prices: [build(:historical_price_snapshot), build(:historical_price_snapshot)]
-    }
+    historical_price_result = build :historical_price_result
 
     expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
-    expect(session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_V2).and_return(prices_get_result)
-    expect(platform.markets['ABCDEF'].recent_prices(:day, 5)).to eq(prices_get_result)
+    expect(session).to receive(:get).with('prices/ABCDEF/DAY/5', IGMarkets::API_V2).and_return(historical_price_result)
+    expect(platform.markets['ABCDEF'].recent_prices(:day, 5)).to eq(historical_price_result)
   end
 
   it 'can retrieve a date range of historical prices for a market' do
@@ -75,17 +68,13 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       }]
     }
 
-    prices_get_result = {
-      allowance: build(:historical_price_data_allowance),
-      instrument_type: :currencies,
-      prices: [build(:historical_price_snapshot), build(:historical_price_snapshot)]
-    }
+    historical_price_result = build :historical_price_result
 
     expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
     expect(session).to receive(:get)
-      .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_V2)
-      .and_return(prices_get_result)
+      .with('prices/ABCDEF/DAY/2014-01-02T03:04:05/2014-02-03T04:05:06', IGMarkets::API_V2)
+      .and_return(historical_price_result)
 
-    expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_date, to_date)).to eq(prices_get_result)
+    expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_date, to_date)).to eq(historical_price_result)
   end
 end

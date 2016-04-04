@@ -22,7 +22,7 @@ module IGMarkets
       # @param [Date] to_date The end date of the desired date range.
       #
       # @return [Array<AccountActivity>]
-      def activities_in_date_range(from_date, to_date = Date.today)
+      def activities_in_date_range(from_date, to_date)
         from_date = format_date from_date
         to_date = format_date to_date
 
@@ -41,11 +41,11 @@ module IGMarkets
       # Returns all transactions that occurred in the specified date range.
       #
       # @param [Date] from_date The start date of the desired date range.
-      # @param [Date] to_date  The end date of the desired date range.
+      # @param [Date] to_date The end date of the desired date range.
       # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
       #
       # @return [Array<AccountTransaction>]
-      def transactions_in_date_range(from_date, to_date = Date.today, transaction_type = :all)
+      def transactions_in_date_range(from_date, to_date, transaction_type = :all)
         validate_transaction_type! transaction_type
 
         from_date = format_date from_date
@@ -79,6 +79,11 @@ module IGMarkets
         raise ArgumentError, 'transaction type is invalid' unless [:all, :all_deal, :deposit, :withdrawal].include? type
       end
 
+      # Formats the passed `Date` as a string in the manner needed for building IG Markets URLs.
+      #
+      # @param [Date] date The date to format.
+      #
+      # @return [String]
       def format_date(date)
         date.strftime '%d-%m-%Y'
       end

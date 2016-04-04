@@ -9,25 +9,19 @@ module IGMarkets
         @dealing_platform = dealing_platform
       end
 
-      # Returns details on the market hierarchy directly under a single node.
+      # Returns details on the market hierarchy directly under the specified node.
       #
-      # @param [String] node_id The ID of the node to return the market hierarchy for. If this is `nil` then details on
-      #        the root node of the market hierarchy will be returned.
+      # @param [String] node_id The ID of the node to return the market hierarchy for. If `nil` then details on the root
+      #        node of the market hierarchy will be returned.
       #
-      # @return [Hash] A hash containing two keys: `:markets` which is an array of {Market} instances, and `:nodes`
-      #         which is an array of {MarketHierarchyNode} instances.
+      # @return [MarketHierarchyResult]
       def hierarchy(node_id = nil)
         url = ['marketnavigation', node_id].compact.join '/'
 
-        result = @dealing_platform.session.get(url, API_V1)
-
-        {
-          markets: MarketOverview.from(result.fetch(:markets) || []),
-          nodes: MarketHierarchyNode.from(result.fetch(:nodes) || [])
-        }
+        MarketHierarchyResult.from @dealing_platform.session.get(url, API_V1)
       end
 
-      # Returns market details for a set of markets.
+      # Returns details for a set of markets.
       #
       # @param [Array<String>] epics The EPICs of the markets to return details for.
       #
@@ -42,11 +36,11 @@ module IGMarkets
         @dealing_platform.gather "markets?epics=#{epics.join(',')}", :market_details, Market, API_V2
       end
 
-      # Searches markets based on a query string.
+      # Searches markets based on a query string and returns an array of results.
       #
-      # @param [String] search_term The search term to use to search the markets.
+      # @param [String] search_term The search term to use.
       #
-      # @return [Array<MarketOverview>] An array of the markets that matched the search term.
+      # @return [Array<MarketOverview>]
       def search(search_term)
         @dealing_platform.gather "markets?searchTerm=#{search_term}", :markets, MarketOverview
       end

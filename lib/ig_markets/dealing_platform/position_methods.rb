@@ -9,7 +9,7 @@ module IGMarkets
         @dealing_platform = dealing_platform
       end
 
-      # Returns all positions.
+      # Returns all open positions.
       #
       # @return [Array<Position>]
       def all

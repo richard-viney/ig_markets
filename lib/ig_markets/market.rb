@@ -49,12 +49,13 @@ module IGMarkets
     #         :hour_4, :day, :week, :month] resolution The resolution of the historical prices to return.
     # @param [Fixnum] num_points The number of historical prices to return.
     #
-    # @return [Hash] A hash containing three keys: `:allowance` which is a {HistoricalPriceDataAllowance},
-    #         `:instrument_type` which is a `Symbol`, and `:prices` which is an `Array<`{HistoricalPriceSnapshot}`>`.
+    # @return [HistoricalPriceResult]
     def recent_prices(resolution, num_points)
       validate_historical_price_resolution! resolution
 
-      gather_prices "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
+      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
+
+      HistoricalPriceResult.from @dealing_platform.session.get(url, API_V2)
     end
 
     # Returns historical prices for this market at a specified resolution over a specified time period.
@@ -64,15 +65,16 @@ module IGMarkets
     # @param [DateTime] start_date_time
     # @param [DateTime] end_date_time
     #
-    # @return [Hash] A hash containing three keys: `:allowance` which is a {HistoricalPriceDataAllowance},
-    #         `:instrument_type` which is a `Symbol`, and `:prices` which is an `Array<`{HistoricalPriceSnapshot}`>`.
+    # @return [HistoricalPriceResult]
     def prices_in_date_range(resolution, start_date_time, end_date_time)
       validate_historical_price_resolution! resolution
 
       start_date_time = format_date_time start_date_time
       end_date_time = format_date_time end_date_time
 
-      gather_prices "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
+      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
+
+      HistoricalPriceResult.from @dealing_platform.session.get(url, API_V2)
     end
 
     private
@@ -87,18 +89,11 @@ module IGMarkets
       raise ArgumentError, 'resolution is invalid' unless resolutions.include? resolution
     end
 
-    def gather_prices(url)
-      result = @dealing_platform.session.get url, API_V2
-
-      {
-        allowance: HistoricalPriceDataAllowance.from(result.fetch(:allowance)),
-        instrument_type: result.fetch(:instrument_type).downcase.to_sym,
-        prices: HistoricalPriceSnapshot.from(result.fetch(:prices))
-      }
-    end
-
+    # Takes a `DateTime` and formats it for the historical prices API URLs.
+    #
+    # @param [DateTime] date_time The `DateTime` to format.
     def format_date_time(date_time)
-      date_time.strftime '%Y-%m-%d %H:%M:%S'
+      date_time.strftime '%Y-%m-%dT%H:%M:%S'
     end
   end
 end
