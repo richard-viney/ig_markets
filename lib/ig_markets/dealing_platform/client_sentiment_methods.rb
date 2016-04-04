@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with client sentiment. Returned by {DealingPlatform#client_sentiment}.
+    # Provides methods for working with client sentiment. Returned by {DealingPlatform#client_sentiment}.
     class ClientSentimentMethods
       # Initializes this helper class with the specified dealing platform.
       #

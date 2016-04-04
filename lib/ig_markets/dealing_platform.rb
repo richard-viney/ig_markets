@@ -1,7 +1,18 @@
-# This module contains all the code for the IG Markets gem. See the {DealingPlatform} class to get started.
+# This module contains all the code for the IG Markets gem. See `README.md` and the {DealingPlatform} class to get
+# started with using this gem.
 module IGMarkets
-  # This is the primary class for interacting with the IG Markets API. Sign in using {#sign_in}, then call other
-  # instance methods as required to perform the actions you are interested in. See `README.md` for a usage example.
+  # This is the primary class for interacting with the IG Markets API. After signing in using {#sign_in} most
+  # functionality is accessed via the following top-level methods:
+  #
+  # - {#account}
+  # - {#client_sentiment}
+  # - {#markets}
+  # - {#positions}
+  # - {#sprint_market_positions}
+  # - {#watchlists}
+  # - {#working_orders}
+  #
+  # See `README.md` for examples.
   #
   # If any errors occur while executing requests to the IG Markets API then {RequestFailedError} will be raised.
   class DealingPlatform
@@ -47,8 +58,6 @@ module IGMarkets
     # @param [String] password The account password.
     # @param [String] api_key The account API key.
     # @param [:production, :demo] platform The platform to use.
-    #
-    # @return [void]
     def sign_in(username, password, api_key, platform)
       session.username = username
       session.password = password
@@ -59,8 +68,6 @@ module IGMarkets
     end
 
     # Signs out of the IG Markets Dealing Platform, ending any current session.
-    #
-    # @return [void]
     def sign_out
       session.sign_out
     end
@@ -84,8 +91,8 @@ module IGMarkets
     #
     # @param [String] url The URL to send a GET request to.
     # @param [Symbol] collection The name of the top level symbol that contains the array of data to return.
-    # @param [Class] klass The type to return
-    # @param [API_V1, API_V2, API_V3] api_version The API version to target for the request
+    # @param [Class] klass The type to return.
+    # @param [API_V1, API_V2, API_V3] api_version The API version to target for the request.
     #
     # @return [Array]
     def gather(url, collection, klass, api_version = API_V1)

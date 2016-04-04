@@ -1,7 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with sprint market positions. Returned by
-    # {DealingPlatform#sprint_market_positions}.
+    # Provides methods for working with sprint market positions. Returned by {DealingPlatform#sprint_market_positions}.
     class SprintMarketPositionMethods
       # Initializes this helper class with the specified dealing platform.
       #

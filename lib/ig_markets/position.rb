@@ -1,5 +1,6 @@
 module IGMarkets
-  # Contains details on a trading position. See {DealingPlatform::PositionMethods#all} for usage details.
+  # Contains details on a trading position. Returned by {DealingPlatform::PositionMethods#all} and
+  # {DealingPlatform::PositionMethods#[]}.
   class Position < Model
     attribute :contract_size, Float
     attribute :controlled_risk, Boolean
@@ -24,30 +25,30 @@ module IGMarkets
 
     # Closes this position, either partially or completely.
     #
-    # @param [Hash] close_attributes The attributes for the new position.
-    # @option close_attributes [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
-    # @option close_attributes [:limit, :market, :quote] :order_type The order type. `:market` indicates to fill the
-    #                          order at current market level(s). `:limit` indicates to fill at the price specified by
-    #                          `:level` (or a more favourable one). `:quote` is only permitted following agreement with
-    #                          IG Markets.
-    # @option close_attributes [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
-    # @option close_attributes [Float] :size The size of this position to close. Defaults to {#size}.
-    # @option close_attributes [:execute_and_eliminate, :fill_or_kill] :time_in_force The order fill strategy.
-    #                          `:execute_and_eliminate` will fill this order as much as possible within the constraints
-    #                          set by `:order_type`, `:level` and `:quote_id`. `:fill_or_kill` will try to fill this
-    #                          entire order within the constraints, however if this is not possible then the order will
-    #                          not be filled at all. If `:order_type` is `:market` then `:time_in_force` will be
-    #                          automatically set to `:execute_and_eliminate`.
+    # @param [Hash] options The options for the position close.
+    # @option options [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
+    # @option options [:limit, :market, :quote] :order_type The order type. `:market` indicates to fill the order at
+    #                 current market level(s). `:limit` indicates to fill at the price specified by `:level` (or a more
+    #                 favorable one). `:quote` is only permitted following agreement with IG Markets.
+    # @option options [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
+    # @option options [Float] :size The size of the position to close. Defaults to {#size} which will close the entire
+    #                 position, or alternatively specify a smaller value to partially close this position.
+    # @option options [:execute_and_eliminate, :fill_or_kill] :time_in_force The order fill strategy.
+    #                 `:execute_and_eliminate` will fill this order as much as possible within the constraints set by
+    #                 `:order_type`, `:level` and `:quote_id`. `:fill_or_kill` will try to fill this entire order within
+    #                 the constraints, however if this is not possible then the order will not be filled at all. If
+    #                 `:order_type` is `:market` then `:time_in_force` will be automatically set to
+    #                 `:execute_and_eliminate`.
     #
     # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
     #         the position close.
-    def close(close_attributes)
-      close_attributes[:deal_id] = deal_id
-      close_attributes[:direction] = { buy: :sell, sell: :buy }.fetch(direction)
-      close_attributes[:size] ||= size
-      close_attributes[:time_in_force] = :execute_and_eliminate if close_attributes[:order_type] == :market
+    def close(options)
+      options[:deal_id] = deal_id
+      options[:direction] = { buy: :sell, sell: :buy }.fetch(direction)
+      options[:size] ||= size
+      options[:time_in_force] = :execute_and_eliminate if options[:order_type] == :market
 
-      model = PositionCloseAttributes.new close_attributes
+      model = PositionCloseAttributes.new options
       model.validate!
 
       payload = PayloadFormatter.format model
@@ -62,8 +63,8 @@ module IGMarkets
     # @option new_attributes [Float] :limit_level The new limit level for this position.
     # @option new_attributes [Float] :stop_level The new stop level for this position.
     # @option new_attributes [Boolean] :trailing_stop Whether to use a trailing stop for this position.
-    # @option new_attributes [Fixnum] :trailing_stop_distance Distance away in pips to place the trailing stop.
-    # @option new_attributes [Fixnum] :trailing_stop_increment Step increment to use for the trailing stop.
+    # @option new_attributes [Fixnum] :trailing_stop_distance The distance away in pips to place the trailing stop.
+    # @option new_attributes [Fixnum] :trailing_stop_increment The step increment to use for the trailing stop.
     #
     # @return [String] The deal reference of the update operation. Use {DealingPlatform#deal_confirmation} to check
     #         the result of the position update.

@@ -1,5 +1,5 @@
 module IGMarkets
-  # Contains details on a market hierarchy query result. Returned by {MarketMethods#hierarchy}.
+  # Contains details on a market hierarchy query result. Returned by {DealingPlatform::MarketMethods#hierarchy}.
   class MarketHierarchyResult < Model
     # Contains details on a single node in the market hierarchy. Used by {#nodes}.
     class HierarchyNode < Model

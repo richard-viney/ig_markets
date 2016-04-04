@@ -6,7 +6,7 @@ module IGMarkets
     attribute :market_id
     attribute :short_position_percentage, Float
 
-    # Returns an array of client sentiments from markets that are related to this one.
+    # Returns client sentiments for markets that are related to this one.
     #
     # @return [Array<ClientSentiment>]
     def related_sentiments

@@ -4,7 +4,7 @@ FactoryGirl.define do
     contract_size '+1'
     controlled_risk_allowed false
     country 'US'
-    currencies { [build(:currency)] }
+    currencies { [build(:instrument_currency)] }
     epic 'ABCDEF'
     expiry '20-DEC-40'
     expiry_details { build :instrument_expiry_details }

@@ -27,7 +27,7 @@ module IGMarkets
     #
     # @param [String, Symbol] camel_case The camel case `String` or `Symbol` to convert to snake case.
     #
-    # @return [String] The snake cased result.
+    # @return [String]
     def camel_case_to_snake_case(camel_case)
       camel_case.to_s.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z])([a-z])/, '\1_\2\3')
     end

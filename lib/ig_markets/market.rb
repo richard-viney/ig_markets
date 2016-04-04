@@ -1,11 +1,11 @@
 module IGMarkets
   # Contains details on a market, which is a combination of an {#instrument}, a set of {#dealing_rules}, and a
-  # current {#snapshot} of the market. Returned by {DealingPlatform::MarketMethods#find} and
+  # current {#snapshot} of the instrument's market. Returned by {DealingPlatform::MarketMethods#find} and
   # {DealingPlatform::MarketMethods#[]}.
   class Market < Model
     # Contains details on the dealing rules for a market. Returned by {#dealing_rules}.
     class DealingRules < Model
-      # Contains specfics for an single dealing rule.
+      # Contains specfics for a single dealing rule.
       class RuleDetails < Model
         attribute :unit, Symbol, allowed_values: [:percentage, :points]
         attribute :value, Float
@@ -62,8 +62,8 @@ module IGMarkets
     #
     # @param [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2, :hour_3,
     #         :hour_4, :day, :week, :month] resolution The resolution of the historical prices to return.
-    # @param [DateTime] start_date_time
-    # @param [DateTime] end_date_time
+    # @param [DateTime] start_date_time The start of the desired time period.
+    # @param [DateTime] end_date_time The end of the desired time period.
     #
     # @return [HistoricalPriceResult]
     def prices_in_date_range(resolution, start_date_time, end_date_time)

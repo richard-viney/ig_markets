@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with working orders. Returned by {DealingPlatform#working_orders}.
+    # Provides methods for working with working orders. Returned by {DealingPlatform#working_orders}.
     class WorkingOrderMethods
       # Initializes this helper class with the specified dealing platform.
       #
@@ -22,11 +22,11 @@ module IGMarkets
         end
       end
 
-      # Returns the working order with the specified deal ID.
+      # Returns the working order with the specified deal ID, or `nil` if there is no order with that deal ID.
       #
       # @param [String] deal_id The deal ID of the working order to return.
       #
-      # @return [WorkingOrder] The order with the specified deal ID, or `nil` if there is no order with that ID.
+      # @return [WorkingOrder]
       def [](deal_id)
         all.detect do |working_order|
           working_order.deal_id == deal_id
@@ -36,19 +36,28 @@ module IGMarkets
       # Creates a new working order with the specified attributes.
       #
       # @param [Hash] attributes The attributes for the new working order.
-      # @option attributes [String] :currency_code Three character currency code. Required.
+      # @option attributes [String] :currency_code The 3 character currency code, must be one of the instrument's
+      #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction Order direction. Required.
-      # @option attributes [String] :epic EPIC of the instrument for this order. Required.
+      # @option attributes [String] :epic The EPIC of the instrument for the order. Required.
       # @option attributes [DateTime] :expiry The expiry date of the instrument (if applicable). Optional.
-      # @option attributes [Boolean] :force_open Defaults to `false`.
-      # @option attributes [DateTime] :good_till_date Must be set if `:time_in_force` is `:good_till_date`.
-      # @option attributes [Boolean] :guaranteed_stop Defaults to `false`.
-      # @option attributes [Float] :level Required.
-      # @option attributes [Float] :limit_distance Distance away in pips to place the limit. Optional.
-      # @option attributes [Float] :size Size of the working order. Required.
-      # @option attributes [Float] :stop_distance Distance away in pips to place the stop. Optional.
-      # @option attributes [:good_till_cancelled, :good_till_date] :time_in_force Defaults to `:good_till_cancelled`.
-      # @option attributes [:limit, :stop] :type Required.
+      # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
+      # @option attributes [DateTime] :good_till_date The date that the working order will live till. Must be set if
+      #                    `:time_in_force` is `:good_till_date`.
+      # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
+      # @option attributes [Float] :level The level at which the order will be triggered.
+      # @option attributes [Float] :limit_distance The distance away in pips to place the limit. Optional.
+      # @option attributes [Float] :size The size of the working order. Required.
+      # @option attributes [Float] :stop_distance The distance away in pips to place the stop. Optional.
+      # @option attributes [:good_till_cancelled, :good_till_date] :time_in_force The lifespan of the working order.
+      #                    `:good_till_cancelled` means the working order will live until it is explicitly cancelled.
+      #                    `:good_till_date` means the working order will live until the date specified by
+      #                    `:good_till_date`. Defaults to `:good_till_cancelled`.
+      # @option attributes [:limit, :stop] :type `:limit` means the working order is intended to buy at a price lower
+      #                    than at present, or to sell at a price higher than at present, i.e. there is an expectation
+      #                    of a market reversal at the specified `:level`. `:stop` means the working order is intended
+      #                    to sell at a price lower than at present, or to buy at a price higher than at present, i.e.
+      #                    there is no expectation of a market reversal at the specified `:level`. Required.
       #
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
       #         the working order creation.
@@ -77,7 +86,7 @@ module IGMarkets
         end
 
         if model.time_in_force == :good_till_date && !model.good_till_date.is_a?(DateTime)
-          raise ArgumentError, 'good_till_date attribute must be set when time_in_force is :good_till_date'
+          raise ArgumentError, 'good_till_date must be set when time_in_force is :good_till_date'
         end
 
         model

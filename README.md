@@ -9,16 +9,11 @@ Easily access the IG Markets Dealing Platform from Ruby with this gem. Written a
 
 Includes support for:
 
-* Accounts
-* Activity history
-* Transaction history
+* Activity and transaction history
 * Positions
 * Sprint market positions
 * Working orders
-* Deal confirmations
-* Markets
-* Market hierarchy
-* Market searches
+* Market navigation, searches and snapshots
 * Historical prices
 * Watchlists
 * Client sentiment

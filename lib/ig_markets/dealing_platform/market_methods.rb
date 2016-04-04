@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with markets. Returned by {DealingPlatform#markets}.
+    # Provides methods for working with markets. Returned by {DealingPlatform#markets}.
     class MarketMethods
       # Initializes this helper class with the specified dealing platform.
       #
@@ -12,7 +12,7 @@ module IGMarkets
       # Returns details on the market hierarchy directly under the specified node.
       #
       # @param [String] node_id The ID of the node to return the market hierarchy for. If `nil` then details on the root
-      #        node of the market hierarchy will be returned.
+      #        node of the hierarchy will be returned.
       #
       # @return [MarketHierarchyResult]
       def hierarchy(node_id = nil)
@@ -21,7 +21,7 @@ module IGMarkets
         MarketHierarchyResult.from @dealing_platform.session.get(url, API_V1)
       end
 
-      # Returns details for a set of markets.
+      # Returns details for the markets with the passed EPICs.
       #
       # @param [Array<String>] epics The EPICs of the markets to return details for.
       #
@@ -36,7 +36,7 @@ module IGMarkets
         @dealing_platform.gather "markets?epics=#{epics.join(',')}", :market_details, Market, API_V2
       end
 
-      # Searches markets based on a query string and returns an array of results.
+      # Searches markets using a search term and returns an array of results.
       #
       # @param [String] search_term The search term to use.
       #
@@ -45,11 +45,12 @@ module IGMarkets
         @dealing_platform.gather "markets?searchTerm=#{search_term}", :markets, MarketOverview
       end
 
-      # Returns market details for the specified market. Internally a call to {#find} is made.
+      # Returns market details for the market with the specified EPIC, or `nil` if there is no market with that EPIC.
+      # Internally a call to {#find} is made.
       #
       # @param [String] epic The EPIC of the market to return details for.
       #
-      # @return [Market] The market with the specified EPIC, or `nil` if there is no market with that EPIC.
+      # @return [Market]
       def [](epic)
         find(epic)[0]
       end

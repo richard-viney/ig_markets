@@ -1,5 +1,6 @@
 module IGMarkets
-  # Contains details on a working order. See {DealingPlatform::WorkingOrderMethods} for usage details.
+  # Contains details on a working order. Returned by {DealingPlatform::WorkingOrderMethods#all} and
+  # {DealingPlatform::WorkingOrderMethods#[]}.
   class WorkingOrder < Model
     attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
     attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
@@ -28,14 +29,15 @@ module IGMarkets
       @dealing_platform.session.delete("workingorders/otc/#{deal_id}", {}, API_V1).fetch(:deal_reference)
     end
 
-    # Updates this working order. No attributes are mandatory, and any attributes not updated will be kept at the
-    # current value they have on this class.
+    # Updates this working order. No attributes are mandatory, and any attributes not specified will be kept at the
+    # current value.
     #
-    # @param [Hash] new_attributes The attributes of this working order to update.
-    # @option new_attributes [DateTime] :good_till_date Required if `:time_in_force` is `:good_till_date`.
+    # @param [Hash] new_attributes The attributes of this working order to update. See
+    #        {DealingPlatform::WorkingOrderMethods#create} for a description of the attributes.
+    # @option new_attributes [DateTime] :good_till_date
     # @option new_attributes [Float] :level
-    # @option new_attributes [Float] :limit_distance Distance away in pips to place the limit.
-    # @option new_attributes [Float] :stop_distance Distance away in pips to place the stop.
+    # @option new_attributes [Float] :limit_distance
+    # @option new_attributes [Float] :stop_distance
     # @option new_attributes [:good_till_cancelled, :good_till_date] :time_in_force
     # @option new_attributes [:limit, :stop] :type
     #

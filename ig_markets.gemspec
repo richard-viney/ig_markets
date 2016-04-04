@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'rest-client', '~> 1.8'
 
-  s.add_development_dependency 'factory_girl', '~> 4.5'
+  s.add_development_dependency 'factory_girl', '~> 4.7'
   s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'rspec-mocks', '~> 3.4'
   s.add_development_dependency 'rubocop', '~> 0'

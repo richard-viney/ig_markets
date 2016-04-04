@@ -1,7 +1,7 @@
 module IGMarkets
   # Contains details on a single dealing event. Returned by {DealingPlatform#deal_confirmation}.
   class DealConfirmation < Model
-    # Contains details on a specific deal that was affected. Returned by {DealConfirmation#affected_deals}.
+    # Contains details on a specific deal that was affected by a dealing event. Returned by {#affected_deals}.
     class AffectedDeal < Model
       attribute :deal_id
       attribute :status, Symbol, allowed_values: [:amended, :deleted, :fully_closed, :opened, :partially_closed]

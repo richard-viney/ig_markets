@@ -10,8 +10,6 @@ module IGMarkets
     # `ArgumentError`.
     #
     # @param [Hash] attributes The attribute values to set on this new model.
-    #
-    # @return [void]
     def initialize(attributes = {})
       defined_attribute_names = self.class.defined_attribute_names
 
@@ -31,7 +29,7 @@ module IGMarkets
     #
     # @param [#class, #attributes] other The other model to compare to.
     #
-    # @return [Boolean] The equality comparison result.
+    # @return [Boolean]
     def ==(other)
       self.class == other.class && attributes == other.attributes
     end
@@ -71,7 +69,7 @@ module IGMarkets
       #
       # @param [Symbol] name The name of the new attribute.
       # @param [Boolean, String, DateTime, Fixnum, Float, Symbol, #from] type The attribute's type.
-      # @param [Hash] options The options
+      # @param [Hash] options The configuration options for the new attribute.
       # @option options [Array] :allowed_values The set of values that this attribute is allowed to be set to. An
       #                 attempt to set this attribute to a value not in this list will raise `ArgumentError`. Optional.
       # @option options [Array] :nil_if Values that, when set on the attribute, should be converted to `nil`.
@@ -79,8 +77,6 @@ module IGMarkets
       #                 Optional.
       # @option options [String] :format When `type` is `DateTime` this specifies the format for parsing String and
       #                 Fixnum instances assigned to this attribute. See `DateTime#strptime` for details.
-      #
-      # @return [void]
       #
       # @macro [attach] attribute
       #   The $1 attribute.
@@ -96,10 +92,10 @@ module IGMarkets
       # Creates a new Model instance from the specified source, which can take a variety of different forms.
       #
       # @param [nil, Hash, Model, Array] source The source object to create a new `Model` instance from. If `source` is
-      #        `nil` then `nil` is returned. If `source` is a `Hash` then a new `Model` instance is returned and the
-      #        hash passed to `Model#initialize`. If `source` is an instance of this class then `#dup` is called and the
-      #        duplicate returned. If source is an `Array` then it is mapped into a new `Array` with each item having
-      #        been recursively passed through this `#from` method.
+      #        `nil` then `nil` is returned. If `source` is a hash then a new `Model` instance is returned and the
+      #        hash is passed to `Model#initialize`. If `source` is an instance of this class then `dup` is called on it
+      #        and the duplicate returned. If source is an array then it is mapped into a new array with each item
+      #        having been recursively passed through this method.
       #
       # @return [nil, Array, Model]
       def from(source)

@@ -23,8 +23,6 @@ module IGMarkets
 
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
     # occurs then {RequestFailedError} will be raised.
-    #
-    # @return [void]
     def sign_in
       validate_authentication
 
@@ -41,8 +39,6 @@ module IGMarkets
 
     # Signs out of IG Markets, ending the current session (if any). If an error occurs then {RequestFailedError} will be
     # raised.
-    #
-    # @return [void]
     def sign_out
       delete 'session', nil, API_V1 if alive?
 

@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with the logged in account. Returned by {DealingPlatform#account}.
+    # Provides methods for working with the logged in account. Returned by {DealingPlatform#account}.
     class AccountMethods
       # Initializes this helper class with the specified dealing platform.
       #

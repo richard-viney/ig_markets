@@ -1,6 +1,6 @@
 module IGMarkets
   class DealingPlatform
-    # Provides methods for interacting with positions. Returned by {DealingPlatform#positions}.
+    # Provides methods for working with positions. Returned by {DealingPlatform#positions}.
     class PositionMethods
       # Initializes this helper class with the specified dealing platform.
       #
@@ -9,7 +9,7 @@ module IGMarkets
         @dealing_platform = dealing_platform
       end
 
-      # Returns all open positions.
+      # Returns all positions.
       #
       # @return [Array<Position>]
       def all
@@ -18,11 +18,11 @@ module IGMarkets
         end
       end
 
-      # Returns the position with the specified deal ID.
+      # Returns the position with the specified deal ID, or `nil` if there is no position with that ID.
       #
       # @param [String] deal_id The deal ID of the working order to return.
       #
-      # @return [Position] The position with the specified deal ID, or `nil` if there is no position with that ID.
+      # @return [Position]
       def [](deal_id)
         attributes = @dealing_platform.session.get "positions/#{deal_id}", API_V2
 
@@ -33,28 +33,32 @@ module IGMarkets
       #
       # @param [Hash] attributes The attributes for the new position.
       # @option attributes [String] :currency_code The 3 character currency code, must be one of the instrument's
-      #                    currencies. Required.
+      #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction The position direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument to create a position for. Required.
       # @option attributes [DateTime] :expiry The expiry date of the instrument, if it has one. Optional.
-      # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to false.
-      # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to false.
+      # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
+      # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
-      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. Optional.
-      # @option attributes [Float] :limit_level The level for the limit. Optional.
+      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. If this is set then
+      #                    `:limit_level` must be `nil`. Optional.
+      # @option attributes [Float] :limit_level The limit level. If this is set then `:limit_distance` must be `nil`.
+      #                    Optional.
       # @option attributes [:limit, :market, :quote] :order_type The order type. `:market` indicates to fill the order
       #                    at current market level(s). `:limit` indicates to fill at the price specified by `:level`
-      #                    (or a more favourable one). `:quote` is only permitted following agreement with IG Markets.
+      #                    (or a more favorable one). `:quote` is only permitted following agreement with IG Markets.
       # @option attributes [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
       # @option attributes [Float] :size The size of the position to create. Required.
-      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. Optional.
-      # @option attributes [Float] :stop_level The level for the stop. Optional.
+      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. If this is set then
+      #                    `:stop_level` must be `nil`. Optional.
+      # @option attributes [Float] :stop_level The stop level. If this is set then `:stop_distance` must be `nil`.
+      #                    Optional.
       # @option attributes [:execute_and_eliminate, :fill_or_kill] :time_in_force The order fill strategy.
       #                    `:execute_and_eliminate` will fill this order as much as possible within the constraints set
-      #                    by `:order_type`, `:level` and `:quote_id`. `:fill_or_kill` will try to fill this entire
-      #                    order within the constraints, however if this is not possible then the order will not be
-      #                    filled at all. If `:order_type` is `:market` then `:time_in_force` will be automatically set
-      #                    to `:execute_and_eliminate`.
+      #                    by `:order_type`, `:level` and `:quote_id`, which may result in only part of the requested
+      #                    order being filled. `:fill_or_kill` will try to fill the whole order within the constraints,
+      #                    however if this is not possible then the order will not be filled at all. If `:order_type` is
+      #                    `:market` then `:time_in_force` will be automatically set to `:execute_and_eliminate`.
       # @option attributes [Boolean] :trailing_stop Whether to use a trailing stop. Defaults to false. Optional.
       # @option attributes [Fixnum] :trailing_stop_increment The increment step in pips for the trailing stop. Required
       #                    when `:trailing_stop` is `true`.
@@ -150,6 +154,8 @@ module IGMarkets
           position.instance_variable_set :@dealing_platform, @dealing_platform
         end
       end
+
+      private_constant :PositionCreateAttributes
     end
   end
 end

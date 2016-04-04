@@ -1,5 +1,5 @@
 module IGMarkets
-  # Contains details on a sprint market position. See {DealingPlatform::SprintMarketPositionMethods} for usage details.
+  # Contains details on a sprint market position. Returned by {DealingPlatform::SprintMarketPositionMethods#all}.
   class SprintMarketPosition < Model
     attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
     attribute :currency, String, regex: Regex::CURRENCY

@@ -5,7 +5,8 @@ module IGMarkets
 
     # Takes a {Model} and returns its attributes in a hash ready to be passed as a payload to the IG Markets API.
     # Attribute names will be converted to use camel case rather than snake case, `Symbol` attributes will be converted
-    # to strings and be uppercased, and `DateTime` attributes will be converted to strings using their ':format' option.
+    # to strings and will be uppercased, and `DateTime` attributes will be converted to strings using their ':format'
+    # option.
     #
     # @param [Model] model The model instance to convert attributes for.
     #
@@ -27,7 +28,7 @@ module IGMarkets
     #
     # @param [String, Symbol] value The string or symbol to convert to camel case.
     #
-    # @return [Symbol] The camel case version of `value`.
+    # @return [Symbol]
     def snake_case_to_camel_case(value)
       pieces = value.to_s.split '_'
 
