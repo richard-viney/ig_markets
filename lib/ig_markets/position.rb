@@ -118,7 +118,11 @@ module IGMarkets
         Position.validate_order_type_constraints attributes
       end
 
-      # Builds a new {PositionCloseAttributes} instance with the given attributes and applying relevant defaults.
+      # Builds a new {PositionCloseAttributes} instance with the given attributes and applies relevant defaults.
+      #
+      # @param [Hash] attributes
+      #
+      # @return [PositionCloseAttributes]
       def self.build(attributes)
         new(attributes).tap do |model|
           model.order_type ||= :market
