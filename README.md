@@ -54,6 +54,7 @@ Add the following to your `Gemfile`
 ```ruby
 gem 'ig_markets', git: 'https://github.com/rviney/ig_markets.git'
 ```
+
 Then run
 
 ```ruby
