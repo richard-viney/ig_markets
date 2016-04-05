@@ -46,7 +46,7 @@ module IGMarkets
       #
       # @return [Array<AccountTransaction>]
       def transactions_in_date_range(from_date, to_date, transaction_type = :all)
-        validate_transaction_type! transaction_type
+        validate_transaction_type transaction_type
 
         from_date = format_date from_date
         to_date = format_date to_date
@@ -63,7 +63,7 @@ module IGMarkets
       #
       # @return [Array<AccountTransaction>]
       def recent_transactions(seconds, transaction_type = :all)
-        validate_transaction_type! transaction_type
+        validate_transaction_type transaction_type
 
         url = "history/transactions/#{transaction_type.to_s.upcase}/#{(seconds * 1000.0).to_i}"
 
@@ -75,7 +75,7 @@ module IGMarkets
       # Validates whether the passed argument is a valid transaction type.
       #
       # @param [Symbol] type The candidate transaction type to validate.
-      def validate_transaction_type!(type)
+      def validate_transaction_type(type)
         raise ArgumentError, 'transaction type is invalid' unless [:all, :all_deal, :deposit, :withdrawal].include? type
       end
 

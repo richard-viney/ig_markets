@@ -74,7 +74,7 @@ module IGMarkets
         attributes[:time_in_force] = :execute_and_eliminate if attributes[:order_type] == :market
 
         model = PositionCreateAttributes.new attributes
-        model.validate!
+        model.validate
 
         payload = PayloadFormatter.format model
         payload[:expiry] ||= '-'
@@ -106,18 +106,18 @@ module IGMarkets
 
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
         # Markets API.
-        def validate!
-          validate_required_attributes_present!
-          Position.validate_order_type_constraints! attributes
-          validate_trailing_stop_constraints!
-          validate_stop_and_limit_constraints!
-          validate_guaranteed_stop_constraints!
+        def validate
+          validate_required_attributes_present
+          Position.validate_order_type_constraints attributes
+          validate_trailing_stop_constraints
+          validate_stop_and_limit_constraints
+          validate_guaranteed_stop_constraints
         end
 
         private
 
         # Checks that all required attributes for position creation are present.
-        def validate_required_attributes_present!
+        def validate_required_attributes_present
           required = [:currency_code, :direction, :epic, :force_open, :guaranteed_stop, :order_type, :size,
                       :time_in_force]
 
@@ -127,7 +127,7 @@ module IGMarkets
         end
 
         # Checks that attributes associated with the trailing stops are valid.
-        def validate_trailing_stop_constraints!
+        def validate_trailing_stop_constraints
           if trailing_stop
             raise ArgumentError, 'do not set stop_level when trailing_stop is true' if stop_level
             raise ArgumentError, 'set stop_distance when trailing_stop is true' unless stop_distance
@@ -139,13 +139,13 @@ module IGMarkets
         end
 
         # Checks that attributes associated with the stop and limit are valid.
-        def validate_stop_and_limit_constraints!
+        def validate_stop_and_limit_constraints
           raise ArgumentError, 'set only one of limit_level and limit_distance' if limit_level && limit_distance
           raise ArgumentError, 'set only one of stop_level and stop_distance' if stop_level && stop_distance
         end
 
         # Checks that attributes associated with the guaranteed stop are valid.
-        def validate_guaranteed_stop_constraints!
+        def validate_guaranteed_stop_constraints
           if guaranteed_stop && !(stop_level.nil? ^ stop_distance.nil?)
             raise ArgumentError, 'set exactly one of stop_level or stop_distance when guaranteed_stop is true'
           end

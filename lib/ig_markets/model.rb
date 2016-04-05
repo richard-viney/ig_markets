@@ -60,6 +60,8 @@ module IGMarkets
 
       # Returns the array of allowed values for the specified attribute that was passed to {attribute}.
       #
+      # @param [Symbol] attribute_name The name of the attribute to return the allowed values for.
+      #
       # @return [Array]
       def allowed_values(attribute_name)
         defined_attributes.fetch(attribute_name).fetch(:allowed_values)
@@ -85,8 +87,7 @@ module IGMarkets
         define_attribute_reader name
         define_attribute_writer name, type, options
 
-        self.defined_attributes ||= {}
-        self.defined_attributes[name] = options.merge type: type
+        (self.defined_attributes ||= {})[name] = options.merge type: type
       end
 
       # Creates a new Model instance from the specified source, which can take a variety of different forms.

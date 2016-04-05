@@ -51,7 +51,7 @@ module IGMarkets
     #
     # @return [HistoricalPriceResult]
     def recent_prices(resolution, num_points)
-      validate_historical_price_resolution! resolution
+      validate_historical_price_resolution resolution
 
       url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
 
@@ -67,7 +67,7 @@ module IGMarkets
     #
     # @return [HistoricalPriceResult]
     def prices_in_date_range(resolution, start_date_time, end_date_time)
-      validate_historical_price_resolution! resolution
+      validate_historical_price_resolution resolution
 
       start_date_time = format_date_time start_date_time
       end_date_time = format_date_time end_date_time
@@ -82,7 +82,7 @@ module IGMarkets
     # Validates whether the passed argument is a valid historical price resolution.
     #
     # @param [Symbol] resolution The candidate historical price resolution to validate.
-    def validate_historical_price_resolution!(resolution)
+    def validate_historical_price_resolution(resolution)
       resolutions = [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
                      :hour_3, :hour_4, :day, :week, :month]
 

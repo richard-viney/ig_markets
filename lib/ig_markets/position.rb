@@ -47,13 +47,10 @@ module IGMarkets
     def close(options = {})
       options[:deal_id] = deal_id
       options[:direction] = { buy: :sell, sell: :buy }.fetch(direction)
-
-      options[:order_type] ||= :market
       options[:size] ||= size
-      options[:time_in_force] = :execute_and_eliminate if options[:order_type] == :market
 
-      model = PositionCloseAttributes.new options
-      model.validate!
+      model = PositionCloseAttributes.build options
+      model.validate
 
       payload = PayloadFormatter.format model
 
@@ -89,7 +86,7 @@ module IGMarkets
     # Validates the internal consistency of the `:order_type`, `:quote_id` and `:level` attributes.
     #
     # @param [Hash] attributes The attributes hash to validate.
-    def self.validate_order_type_constraints!(attributes)
+    def self.validate_order_type_constraints(attributes)
       if (attributes[:order_type] == :quote) == attributes[:quote_id].nil?
         raise ArgumentError, 'set quote_id if and only if order_type is :quote'
       end
@@ -113,12 +110,20 @@ module IGMarkets
 
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
       # Markets API.
-      def validate!
+      def validate
         [:deal_id, :direction, :order_type, :size, :time_in_force].each do |attribute|
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
         end
 
-        Position.validate_order_type_constraints! attributes
+        Position.validate_order_type_constraints attributes
+      end
+
+      # Builds a new {PositionCloseAttributes} instance with the given attributes and applying relevant defaults.
+      def self.build(attributes)
+        new(attributes).tap do |model|
+          model.order_type ||= :market
+          model.time_in_force = :execute_and_eliminate if model.order_type == :market
+        end
       end
     end
 
