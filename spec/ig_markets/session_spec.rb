@@ -73,6 +73,17 @@ describe IGMarkets::Session do
       expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
     end
 
+    it 'handles when the HTTP response is not JSON' do
+      expect(response).to receive_messages(code: 404, body: 'not_valid_json')
+      expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
+      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+    end
+
+    it 'converts a SocketError into a RequestFailedError' do
+      expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(SocketError)
+      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+    end
+
     it 'can process a PUT request' do
       expect(response).to receive_messages(code: 200, body: '')
       expect(rest_client).to receive(:execute).with(params(:put, 'url', id: 1)).and_return(response)

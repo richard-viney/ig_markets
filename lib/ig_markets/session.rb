@@ -163,6 +163,8 @@ module IGMarkets
       RestClient::Request.execute options
     rescue RestClient::Exception => exception
       exception.response
+    rescue SocketError => socket_error
+      raise RequestFailedError, socket_error
     end
 
     def process_response(response)
