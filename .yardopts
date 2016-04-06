@@ -1,4 +1,4 @@
---markup=markdown
---markup-provider=redcarpet
+--markup markdown
+--markup-provider redcarpet
 --no-private
 --title "IG Markets Gem"
