@@ -32,7 +32,7 @@ module IGMarkets
       :reject_spreadbet_order_on_cfd_account, :size_increment, :sprint_market_expiry_after_market_close,
       :stop_or_limit_not_allowed, :stop_required_error, :strike_level_tolerance, :success, :trailing_stop_not_allowed,
       :unknown, :wrong_side_of_market]
-    attribute :size, Float
+    attribute :size, Fixnum
     attribute :status, Symbol, allowed_values: [:amended, :closed, :deleted, :open, :partially_closed]
     attribute :stop_distance, Float
     attribute :stop_level, Float

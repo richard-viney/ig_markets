@@ -39,7 +39,7 @@ module IGMarkets
         attribute :epic, String, regex: Regex::EPIC
         attribute :expiry_period, Symbol, allowed_values: [
           :one_minute, :two_minutes, :five_minutes, :twenty_minutes, :sixty_minutes]
-        attribute :size, Float
+        attribute :size, Fixnum
       end
     end
   end

@@ -103,7 +103,7 @@ module IGMarkets
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
         attribute :limit_distance, Float
-        attribute :size, Float
+        attribute :size, Fixnum
         attribute :stop_distance, Float
         attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
         attribute :type, Symbol, allowed_values: [:limit, :stop]

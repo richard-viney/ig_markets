@@ -11,7 +11,7 @@ module IGMarkets
     attribute :instrument_name
     attribute :market_status, Symbol, allowed_values: Market::Snapshot.allowed_values(:market_status)
     attribute :payout_amount, Float
-    attribute :size, Float
+    attribute :size, Fixnum
     attribute :strike_level, Float
   end
 end

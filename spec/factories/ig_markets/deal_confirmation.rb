@@ -12,7 +12,7 @@ FactoryGirl.define do
     limit_distance 10.0
     limit_level 110.0
     reason 'SUCCESS'
-    size 1.0
+    size 1
     stop_distance 10.0
     stop_level 90.0
     trailing_stop false

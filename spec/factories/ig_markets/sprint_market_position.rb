@@ -10,7 +10,7 @@ FactoryGirl.define do
     instrument_name 'instrument'
     market_status 'TRADEABLE'
     payout_amount 100.0
-    size 1.0
+    size 1
     strike_level 110.0
   end
 end

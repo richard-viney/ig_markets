@@ -11,7 +11,7 @@ module IGMarkets
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :level, Float
     attribute :limit_level, Float
-    attribute :size, Float
+    attribute :size, Fixnum
     attribute :stop_level, Float
     attribute :trailing_step, Float
     attribute :trailing_stop_distance, Fixnum
@@ -105,7 +105,7 @@ module IGMarkets
       attribute :level, Float
       attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
       attribute :quote_id
-      attribute :size, Float
+      attribute :size, Fixnum
       attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]
 
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG

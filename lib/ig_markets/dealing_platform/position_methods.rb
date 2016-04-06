@@ -97,7 +97,7 @@ module IGMarkets
         attribute :limit_level, Float
         attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
         attribute :quote_id
-        attribute :size, Float
+        attribute :size, Fixnum
         attribute :stop_distance, Fixnum
         attribute :stop_level, Float
         attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]
