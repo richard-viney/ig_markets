@@ -8,8 +8,8 @@
 [![Documentation][documentation-badge]][documentation-link]
 [![License][license-badge]][license-link]
 
-Easily access the IG Markets Dealing Platform from Ruby with this gem. Written against the
-[official REST API](http://labs.ig.com/rest-trading-api-reference).
+Easily access the IG Markets Dealing Platform from Ruby with this gem, either directly through code or by using the
+provided command-line client. Written against the [official REST API](http://labs.ig.com/rest-trading-api-reference).
 
 Includes support for:
 
@@ -28,25 +28,41 @@ An IG Markets production or demo trading account is needed in order to use this 
 
 Licensed under the MIT license. You must read and agree to its terms to use this software.
 
-## Requirements
+## Usage — Command-Line Client
 
-Ruby 2.0 or later.
+```sh
+$ gem install ig_markets
 
-## Installation
-
-Add the following to your `Gemfile`
-
-```ruby
-gem 'ig_markets', git: 'https://github.com/rviney/ig_markets.git'
+Usage: ig_markets <command> --username=<username> --password=<password> --api-key=<api-key> [--demo]
 ```
 
-Then run
+On startup `ig_markets` searches for files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are present
+interprets their contents as command-line arguments. This can be used to avoid having to specify authentication details
+with every invocation. To do this create a file at `./".ig_markets"` or `~/".ig_markets"` with the following contents:
 
-```ruby
-bundle install
+```
+--username=<username>
+--password=<password>
+--api-key=<api-key>
+# (include if this is a demo account) --demo
 ```
 
-## Usage
+Run `ig_markets help` to list details on available commands. The full list of commands is:
+
+- `ig_markets account`
+- `ig_markets activities [--days=3]`
+- `ig_markets confirmation --deal-reference=<...>`
+- `ig_markets orders`
+- `ig_markets positions`
+- `ig_markets search --query=<...>`
+- `ig_markets sentiment --market=<...> [--related]`
+- `ig_markets sprints`
+- `ig_markets transactions [--days=3]`
+- `ig_markets watchlists`
+
+Note: at present there is no support in the command-line client for creating/updating/deleting positions, orders, etc...
+
+## Usage — Library
 
 ```ruby
 ig = IGMarkets::DealingPlatform.new

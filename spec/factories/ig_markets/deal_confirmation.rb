@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :deal_confirmation, class: IGMarkets::DealConfirmation do
     affected_deals []
-    deal_id 'id'
+    deal_id 'deal_id'
     deal_reference 'reference'
     deal_status 'ACCEPTED'
     direction 'BUY'

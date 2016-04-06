@@ -1,3 +1,4 @@
+--exclude lib/ig_markets/cli/.*
 --exclude lib/ig_markets/model/typecasters.rb
 --markup markdown
 --markup-provider redcarpet

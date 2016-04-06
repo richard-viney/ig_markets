@@ -5,7 +5,7 @@ FactoryGirl.define do
     created_date '2015/08/17 10:27:28:000'
     created_date_utc '2015-07-24T09:12:37'
     currency 'USD'
-    deal_id 'DIAAAAA8JKPFTVA'
+    deal_id 'deal_id'
     direction 'BUY'
     level 100.0
     limit_level 110.0

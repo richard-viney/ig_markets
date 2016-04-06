@@ -1,6 +1,7 @@
 /*.gem
 *.rbc
 /.bundle
+/.ig_markets
 /.yardoc
 /coverage
 /doc

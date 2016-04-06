@@ -2,6 +2,7 @@
 
 ### 0.2.pre - Unreleased
 
+- Added `ig_markets` command-line client
 - `IGMarkets::Model` now has separate `Date` and `Time` attribute types, and a new `:time_zone` option is used for
   `Time` attributes that have a known time zone. Previous uses of `DateTime` should be replaced with either `Date` or
   `Time`.
