@@ -23,6 +23,54 @@ module IGMarkets
       !trailing_step.nil? && !trailing_stop_distance.nil?
     end
 
+    # Returns the favorable difference in the price between this position's {#level} and the current market price as stored
+    # in {#market}. If {#direction} is `:buy` and the market has since risen then this method will return a positive value,
+    # but if {#direction} is `:sell` and the market has since risen then this method will return a negative value.
+    #
+    # @return [Float]
+    def price_delta
+      if direction == :buy
+        market.bid - level
+      elsif direction == :sell
+        level - market.offer
+      end
+    end
+
+    # Returns whether this position is currently profitable based on the current market state as stored in {#market}.
+    def profitable?
+      price_delta > 0.0
+    end
+
+    # Returns this position's current profit or loss, denominated in its {#currency}, and based on the current market
+    # state as stored in {#market}. {#formatted_profit_loss} can be used to get a human-readable representation of this
+    # value.
+    #
+    # @return [Float]
+    def profit_loss
+      price_delta * size * market.lot_size * market.scaling_factor
+    end
+
+    # Returns a human-readable string describing this position's current profit or loss, denominated in its {#currency},
+    # and based on the current market state as stored in {#market}. Some examples of the format of the return value:
+    #
+    # - `"USD -130.40"`
+    # - `"AUD 539.10"`
+    # - `"JPY 3560"`
+    #
+    # @return [String]
+    def formatted_profit_loss
+      format_string = (currency == 'JPY' ? '%.0f' : '%.2f')
+      "#{currency} #{format format_string, profit_loss}"
+    end
+
+    # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if
+    # {#direction} is `:sell`.
+    #
+    # @return [String]
+    def formatted_size
+      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{size}"
+    end
+
     # Closes this position. If called with no options then this position will be fully closed at current market prices,
     # partial closes and greater control over the close conditions can be achieved with the relevant options.
     #
