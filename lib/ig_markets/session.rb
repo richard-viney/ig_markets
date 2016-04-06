@@ -174,7 +174,7 @@ module IGMarkets
 
       result = ResponseParser.parse result
 
-      raise RequestFailedError, response unless response.code == 200
+      raise RequestFailedError, response unless response.code >= 200 && response.code < 300
 
       result
     end

@@ -17,7 +17,7 @@ describe IGMarkets::Session do
     end
 
     it 'can sign in' do
-      expect(response).to receive(:code).twice.and_return(200)
+      expect(response).to receive(:code).exactly(4).times.and_return(200)
       expect(response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
       expect(response).to receive(:body).twice.and_return(
         { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
