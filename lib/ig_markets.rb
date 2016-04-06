@@ -35,3 +35,8 @@ require 'ig_markets/sprint_market_position'
 require 'ig_markets/version'
 require 'ig_markets/watchlist'
 require 'ig_markets/working_order'
+
+# This module contains all the code for the IG Markets gem. See `README.md` and the {DealingPlatform} class to get
+# started with using this gem.
+module IGMarkets
+end

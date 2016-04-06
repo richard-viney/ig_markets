@@ -23,8 +23,8 @@ module IGMarkets
       !trailing_step.nil? && !trailing_stop_distance.nil?
     end
 
-    # Returns the favorable difference in the price between this position's {#level} and the current market price as stored
-    # in {#market}. If {#direction} is `:buy` and the market has since risen then this method will return a positive value,
+    # Returns the favorable difference in the price between {#level} and the current market price as stored in
+    # {#market}. If {#direction} is `:buy` and the market has since risen then this method will return a positive value,
     # but if {#direction} is `:sell` and the market has since risen then this method will return a negative value.
     #
     # @return [Float]

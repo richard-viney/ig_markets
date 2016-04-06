@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'redcarpet', '~> 3.3'
   s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'rspec-mocks', '~> 3.4'
-  s.add_development_dependency 'rubocop', '~> 0'
+  s.add_development_dependency 'rubocop', '~> 0.39'
   s.add_development_dependency 'yard', '~> 0.8'
 end

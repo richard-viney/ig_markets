@@ -1,5 +1,3 @@
-# This module contains all the code for the IG Markets gem. See `README.md` and the {DealingPlatform} class to get
-# started with using this gem.
 module IGMarkets
   # This is the primary class for interacting with the IG Markets API. After signing in using {#sign_in} most
   # functionality is accessed via the following top-level methods:
