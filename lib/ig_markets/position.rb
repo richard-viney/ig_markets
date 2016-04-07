@@ -144,8 +144,6 @@ module IGMarkets
       end
     end
 
-    private
-
     # Internal model used by {#close}.
     class PositionCloseAttributes < Model
       attribute :deal_id
