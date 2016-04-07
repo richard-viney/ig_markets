@@ -70,7 +70,11 @@ describe IGMarkets::Session do
     it 'fails when the HTTP response is not 200' do
       expect(response).to receive_messages(code: 404, body: { errorCode: '1' }.to_json)
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
-      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+      expect { session.get('url', IGMarkets::API_V1) }.to raise_error do |error|
+        expect(error).to be_a(IGMarkets::RequestFailedError)
+        expect(error.error).to eq('1')
+        expect(error.http_code).to eq(404)
+      end
     end
 
     it 'handles when the HTTP response is not JSON' do

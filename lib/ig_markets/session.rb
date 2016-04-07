@@ -176,7 +176,9 @@ module IGMarkets
         {}
       end
 
-      raise RequestFailedError.new(result[:errorCode], response.code) unless response.code >= 200 && response.code < 300
+      unless response.code >= 200 && response.code < 300
+        raise RequestFailedError.new(result[:error_code], response.code)
+      end
 
       result
     end
