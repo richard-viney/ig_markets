@@ -84,6 +84,11 @@ describe IGMarkets::Session do
       expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
     end
 
+    it 'converts a RestClient::Exception that has no response into a RequestFailedError' do
+      expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception)
+      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+    end
+
     it 'can process a PUT request' do
       expect(response).to receive_messages(code: 200, body: '')
       expect(rest_client).to receive(:execute).with(params(:put, 'url', id: 1)).and_return(response)

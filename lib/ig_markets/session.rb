@@ -162,21 +162,21 @@ module IGMarkets
 
       RestClient::Request.execute options
     rescue RestClient::Exception => exception
-      exception.response
+      return exception.response if exception.response
+
+      raise RequestFailedError, exception.message
     rescue SocketError => socket_error
       raise RequestFailedError, socket_error
     end
 
     def process_response(response)
       result = begin
-        JSON.parse response.body, symbolize_names: true
+        ResponseParser.parse JSON.parse(response.body, symbolize_names: true)
       rescue JSON::ParserError
         {}
       end
 
-      result = ResponseParser.parse result
-
-      raise RequestFailedError, response unless response.code >= 200 && response.code < 300
+      raise RequestFailedError.new(result[:errorCode], response.code) unless response.code >= 200 && response.code < 300
 
       result
     end
