@@ -13,8 +13,8 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'reports correct profit/loss amounts' do
-    expect(build(:account_transaction, currency: 'USD', profit_and_loss: 'USD10.10').profit_and_loss_amount).to eq(10.1)
-    expect(build(:account_transaction, currency: 'USD', profit_and_loss: 'USD-5.50').profit_and_loss_amount).to eq(-5.5)
+    expect(build(:account_transaction, currency: '$', profit_and_loss: '$1,000.00').profit_and_loss_amount).to eq(1000)
+    expect(build(:account_transaction, currency: 'AU', profit_and_loss: 'AU-5.50').profit_and_loss_amount).to eq(-5.5)
 
     expect { build(:account_transaction, currency: 'USD', profit_and_loss: 'EUR-5.0').profit_and_loss_amount }
       .to raise_error(StandardError)
