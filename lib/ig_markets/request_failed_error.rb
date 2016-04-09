@@ -15,7 +15,7 @@ module IGMarkets
       @error = error.to_s
       @http_code = http_code ? http_code.to_i : nil
 
-      super "#<#{self.class.name} error: @error#{http_code ? ", http_code: #{http_code}" : ''}"
+      super "#<#{self.class.name} error: #{@error}#{http_code ? ", http_code: #{http_code}" : ''}>"
     end
   end
 end
