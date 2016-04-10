@@ -33,9 +33,7 @@ module IGMarkets
       def create(name, *epics)
         result = @dealing_platform.session.post 'watchlists', { name: name, epics: epics.flatten }, API_V1
 
-        all.detect do |watchlist|
-          watchlist.id == result.fetch(:watchlist_id)
-        end
+        self[result.fetch(:watchlist_id)]
       end
     end
   end
