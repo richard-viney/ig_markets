@@ -13,5 +13,13 @@ module IGMarkets
     attribute :payout_amount, Float
     attribute :size, Fixnum
     attribute :strike_level, Float
+
+    # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if
+    # {#direction} is `:sell`.
+    #
+    # @return [String]
+    def formatted_size
+      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{size}"
+    end
   end
 end
