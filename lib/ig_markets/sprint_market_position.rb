@@ -14,12 +14,19 @@ module IGMarkets
     attribute :size, Float
     attribute :strike_level, Float
 
-    # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if
-    # {#direction} is `:sell`.
+    # Returns the number of seconds till when this sprint market position expires. This will be a negative number if
+    # this sprint market position has expired.
     #
-    # @return [String]
-    def formatted_size
-      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{size}"
+    # @return [Fixnum, nil]
+    def seconds_till_expiry
+      ((expiry_time - DateTime.now) * 24 * 60 * 60).to_i
+    end
+
+    # Returns whether this sprint market position has expired.
+    #
+    # @return [Boolean]
+    def expired?
+      expiry_time < DateTime.now
     end
   end
 end
