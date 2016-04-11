@@ -42,25 +42,11 @@ module IGMarkets
     end
 
     # Returns this position's current profit or loss, denominated in its {#currency}, and based on the current market
-    # state as stored in {#market}. {#formatted_profit_loss} can be used to get a human-readable representation of this
-    # value.
+    # state as stored in {#market}.
     #
     # @return [Float]
     def profit_loss
       price_delta * size * market.lot_size * market.scaling_factor
-    end
-
-    # Returns a human-readable string describing this position's current profit or loss, denominated in its {#currency},
-    # and based on the current market state as stored in {#market}. Some examples of the format of the return value:
-    #
-    # - `"USD -130.40"`
-    # - `"AUD 539.10"`
-    # - `"JPY 3560"`
-    #
-    # @return [String]
-    def formatted_profit_loss
-      format_string = (currency == 'JPY' ? '%.0f' : '%.2f')
-      "#{currency} #{format format_string, profit_loss}"
     end
 
     # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if

@@ -25,11 +25,6 @@ describe IGMarkets::Position do
     expect(unprofitable_position.profit_loss).to eq(-90)
   end
 
-  it 'correctly formats profit/loss amounts' do
-    expect(profitable_position.formatted_profit_loss).to eq('USD 90.00')
-    expect(unprofitable_position.formatted_profit_loss).to eq('USD -90.00')
-  end
-
   it 'correctly formats position size' do
     expect(profitable_position.formatted_size).to eq('+2')
     expect(unprofitable_position.formatted_size).to eq('-2')
