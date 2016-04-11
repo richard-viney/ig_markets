@@ -11,7 +11,7 @@ module IGMarkets
     attribute :instrument_name
     attribute :market_status, Symbol, allowed_values: Market::Snapshot.allowed_values(:market_status)
     attribute :payout_amount, Float
-    attribute :size, Fixnum
+    attribute :size, Float
     attribute :strike_level, Float
 
     # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if

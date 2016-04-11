@@ -5,12 +5,12 @@ FactoryGirl.define do
     deal_id 'deal_id'
     description 'description'
     direction 'BUY'
-    epic 'UA.D.AAPL.CASH.IP'
+    epic 'FM.D.FTSE.FTSE.IP'
     expiry_time '2014/10/22 19:30:14:000'
     instrument_name 'instrument'
     market_status 'TRADEABLE'
-    payout_amount 100.0
-    size 1
-    strike_level 110.0
+    payout_amount 210.8
+    size 120.50
+    strike_level 110.1
   end
 end
