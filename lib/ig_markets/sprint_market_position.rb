@@ -1,13 +1,13 @@
 module IGMarkets
   # Contains details on a sprint market position. Returned by {DealingPlatform::SprintMarketPositionMethods#all}.
   class SprintMarketPosition < Model
-    attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
+    attribute :created_date, Time, format: '%Y/%m/%d %T:%L', time_zone: '+1000'
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :description
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :epic, String, regex: Regex::EPIC
-    attribute :expiry_time, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
+    attribute :expiry_time, Time, format: '%Y/%m/%d %T:%L', time_zone: '+1000'
     attribute :instrument_name
     attribute :market_status, Symbol, allowed_values: Market::Snapshot.allowed_values(:market_status)
     attribute :payout_amount, Float
@@ -17,16 +17,16 @@ module IGMarkets
     # Returns the number of seconds till when this sprint market position expires. This will be a negative number if
     # this sprint market position has expired.
     #
-    # @return [Fixnum, nil]
+    # @return [Fixnum]
     def seconds_till_expiry
-      ((expiry_time - DateTime.now) * 24 * 60 * 60).to_i
+      (expiry_time - Time.now).to_i
     end
 
     # Returns whether this sprint market position has expired.
     #
     # @return [Boolean]
     def expired?
-      expiry_time < DateTime.now
+      expiry_time < Time.now
     end
   end
 end

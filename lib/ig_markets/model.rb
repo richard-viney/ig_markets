@@ -19,9 +19,8 @@ module IGMarkets
 
       (attributes.keys - defined_attribute_names).map do |attribute|
         value = attributes[attribute]
-        value = value.inspect unless value.is_a? DateTime
 
-        raise ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{value}"
+        raise ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{inspect_value value}"
       end
     end
 
@@ -39,12 +38,23 @@ module IGMarkets
     # @return [String]
     def inspect
       formatted_attributes = self.class.defined_attribute_names.map do |attribute|
-        value = send attribute
-
-        "#{attribute}: #{value.is_a?(DateTime) ? value : value.inspect}"
+        "#{attribute}: #{inspect_value send(attribute)}"
       end
 
       "#<#{self.class.name} #{formatted_attributes.join ', '}>"
+    end
+
+    private
+
+    # Returns the #inspect string for the given value.
+    def inspect_value(value)
+      if value.is_a? Time
+        value.strftime '%F %T %z'
+      elsif value.is_a? Date
+        value.strftime '%F'
+      else
+        value.inspect
+      end
     end
 
     class << self
@@ -70,15 +80,17 @@ module IGMarkets
       # Defines setter and getter methods for a new attribute on this class.
       #
       # @param [Symbol] name The name of the new attribute.
-      # @param [Boolean, String, DateTime, Fixnum, Float, Symbol, #from] type The attribute's type.
+      # @param [Boolean, String, Date, Time, Fixnum, Float, Symbol, #from] type The attribute's type.
       # @param [Hash] options The configuration options for the new attribute.
       # @option options [Array] :allowed_values The set of values that this attribute is allowed to be set to. An
       #                 attempt to set this attribute to a value not in this list will raise `ArgumentError`. Optional.
       # @option options [Array] :nil_if Values that, when set on the attribute, should be converted to `nil`.
       # @option options [Regexp] :regex When `type` is `String` only values matching this regex will be allowed.
       #                 Optional.
-      # @option options [String] :format When `type` is `DateTime` this specifies the format for parsing String and
-      #                 Fixnum instances assigned to this attribute. See `DateTime#strptime` for details.
+      # @option options [String] :format When `type` is `Date` or `Time` this specifies the format for parsing String
+      #                 and `Fixnum` instances assigned to this attribute.
+      # @option options [String] :time_zone When `type` is `Time` this specifies the time zone to append to
+      #                 `String` values assigned to this attribute prior to parsing them with `:format`. Optional.
       #
       # @macro [attach] attribute
       #   The $1 attribute.
@@ -87,7 +99,8 @@ module IGMarkets
         define_attribute_reader name
         define_attribute_writer name, type, options
 
-        (self.defined_attributes ||= {})[name] = options.merge type: type
+        self.defined_attributes ||= {}
+        self.defined_attributes[name] = options.merge type: type
       end
 
       # Creates a new Model instance from the specified source, which can take a variety of different forms.
@@ -120,7 +133,7 @@ module IGMarkets
         define_method "#{name}=" do |value|
           value = nil if Array(options.fetch(:nil_if, [])).include? value
 
-          value = typecaster.call(value, options)
+          value = typecaster.call value, options
 
           allowed_values = options[:allowed_values]
           if !value.nil? && allowed_values
@@ -128,56 +141,6 @@ module IGMarkets
           end
 
           (@attributes ||= {})[name] = value
-        end
-      end
-
-      def typecaster_for(type)
-        if [Boolean, String, Fixnum, Float, Symbol, DateTime].include? type
-          method "typecaster_#{type.to_s.gsub(/\AIGMarkets::/, '').downcase}"
-        elsif type.respond_to? :from
-          -> (value, _options) { type.from value }
-        end
-      end
-
-      def typecaster_boolean(value, _options)
-        return value if [nil, true, false].include? value
-
-        raise ArgumentError, "#{self}: invalid boolean value: #{value}"
-      end
-
-      def typecaster_string(value, options)
-        return nil if value.nil?
-
-        if options.key? :regex
-          raise ArgumentError, "#{self}: invalid string value: #{value}" unless options[:regex].match value.to_s
-        end
-
-        value.to_s
-      end
-
-      def typecaster_fixnum(value, _options)
-        value.nil? ? nil : value.to_s.to_i
-      end
-
-      def typecaster_float(value, _options)
-        value.nil? ? nil : Float(value)
-      end
-
-      def typecaster_symbol(value, _options)
-        value.nil? ? nil : value.to_s.downcase.to_sym
-      end
-
-      def typecaster_datetime(value, options)
-        raise ArgumentError, "#{self}: invalid or missing date time format" unless options[:format].is_a? String
-
-        if value.is_a?(String) || value.is_a?(Fixnum)
-          begin
-            DateTime.strptime(value.to_s, options[:format])
-          rescue ArgumentError
-            raise ArgumentError, "#{self}: failed parsing date '#{value}' with format '#{options[:format]}'"
-          end
-        else
-          value
         end
       end
     end

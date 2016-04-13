@@ -57,8 +57,8 @@ describe IGMarkets::DealingPlatform::MarketMethods do
   end
 
   it 'can retrieve a date range of historical prices for a market' do
-    from_date = DateTime.new 2014, 1, 2, 3, 4, 5
-    to_date = DateTime.new 2014, 2, 3, 4, 5, 6
+    from_time = Time.new 2014, 1, 2, 3, 4, 5
+    to_time = Time.new 2014, 2, 3, 4, 5, 6
 
     markets_get_result = {
       market_details: [{
@@ -75,6 +75,6 @@ describe IGMarkets::DealingPlatform::MarketMethods do
       .with('prices/ABCDEF/DAY/2014-01-02T03:04:05/2014-02-03T04:05:06', IGMarkets::API_V2)
       .and_return(historical_price_result)
 
-    expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_date, to_date)).to eq(historical_price_result)
+    expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_time, to_time)).to eq(historical_price_result)
   end
 end

@@ -62,17 +62,17 @@ module IGMarkets
     #
     # @param [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2, :hour_3,
     #         :hour_4, :day, :week, :month] resolution The resolution of the historical prices to return.
-    # @param [DateTime] start_date_time The start of the desired time period.
-    # @param [DateTime] end_date_time The end of the desired time period.
+    # @param [Time] start_time The start of the desired time period.
+    # @param [Time] end_time The end of the desired time period.
     #
     # @return [HistoricalPriceResult]
-    def prices_in_date_range(resolution, start_date_time, end_date_time)
+    def prices_in_date_range(resolution, start_time, end_time)
       validate_historical_price_resolution resolution
 
-      start_date_time = format_date_time start_date_time
-      end_date_time = format_date_time end_date_time
+      start_time = format_time start_time
+      end_time = format_time end_time
 
-      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_date_time}/#{end_date_time}"
+      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_time}/#{end_time}"
 
       HistoricalPriceResult.from @dealing_platform.session.get(url, API_V2)
     end
@@ -89,11 +89,11 @@ module IGMarkets
       raise ArgumentError, 'resolution is invalid' unless resolutions.include? resolution
     end
 
-    # Takes a `DateTime` and formats it for the historical prices API URLs.
+    # Takes a `Time` and formats it for the historical prices API URLs.
     #
-    # @param [DateTime] date_time The `DateTime` to format.
-    def format_date_time(date_time)
-      date_time.strftime '%Y-%m-%dT%H:%M:%S'
+    # @param [Time] time The `Time` to format.
+    def format_time(time)
+      time.strftime '%FT%T'
     end
   end
 end

@@ -13,10 +13,10 @@ module IGMarkets
     attribute :deal_status, Symbol, allowed_values: [:accepted, :fund_account, :rejected]
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :epic
-    attribute :expiry, DateTime, nil_if: '-', format: '%d-%b-%y'
+    attribute :expiry, Date, nil_if: '-', format: '%d-%b-%y'
     attribute :guaranteed_stop, Boolean
     attribute :level, Float
-    attribute :limit_distance, Float
+    attribute :limit_distance, Fixnum
     attribute :limit_level, Float
     attribute :reason, Symbol, allowed_values: [
       :account_not_enabled_to_trading, :attached_order_level_error, :attached_order_trailing_stop_error,
@@ -32,9 +32,9 @@ module IGMarkets
       :reject_spreadbet_order_on_cfd_account, :size_increment, :sprint_market_expiry_after_market_close,
       :stop_or_limit_not_allowed, :stop_required_error, :strike_level_tolerance, :success, :trailing_stop_not_allowed,
       :unknown, :wrong_side_of_market]
-    attribute :size, Fixnum
+    attribute :size, Float
     attribute :status, Symbol, allowed_values: [:amended, :closed, :deleted, :open, :partially_closed]
-    attribute :stop_distance, Float
+    attribute :stop_distance, Fixnum
     attribute :stop_level, Float
     attribute :trailing_stop, Boolean
   end

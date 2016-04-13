@@ -36,7 +36,7 @@ module IGMarkets
       #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction The position direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument to create a position for. Required.
-      # @option attributes [DateTime] :expiry The expiry date of the instrument, if it has one. Optional.
+      # @option attributes [Time] :expiry The expiry date of the instrument, if it has one. Optional.
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
@@ -89,7 +89,7 @@ module IGMarkets
         attribute :currency_code, String, regex: Regex::CURRENCY
         attribute :direction, Symbol, allowed_values: [:buy, :sell]
         attribute :epic, String, regex: Regex::EPIC
-        attribute :expiry, DateTime, format: '%d-%b-%y'
+        attribute :expiry, Time, format: '%d-%b-%y'
         attribute :force_open, Boolean
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
@@ -97,7 +97,7 @@ module IGMarkets
         attribute :limit_level, Float
         attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
         attribute :quote_id
-        attribute :size, Fixnum
+        attribute :size, Float
         attribute :stop_distance, Fixnum
         attribute :stop_level, Float
         attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]

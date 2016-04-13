@@ -9,11 +9,11 @@ FactoryGirl.define do
     expiry '20-DEC-40'
     guaranteed_stop false
     level 100.0
-    limit_distance 10.0
+    limit_distance 10
     limit_level 110.0
     reason 'SUCCESS'
-    size 1
-    stop_distance 10.0
+    size 19.5
+    stop_distance 10
     stop_level 90.0
     trailing_stop false
   end

@@ -1,8 +1,10 @@
 require 'base64'
+require 'date'
 require 'rest-client'
 
 require 'ig_markets/boolean'
 require 'ig_markets/model'
+require 'ig_markets/model/typecasters'
 require 'ig_markets/regex'
 
 require 'ig_markets/account'

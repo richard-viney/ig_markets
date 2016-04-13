@@ -40,15 +40,15 @@ module IGMarkets
       #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction Order direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument for the order. Required.
-      # @option attributes [DateTime] :expiry The expiry date of the instrument (if applicable). Optional.
+      # @option attributes [Time] :expiry The expiry date of the instrument (if applicable). Optional.
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
-      # @option attributes [DateTime] :good_till_date The date that the working order will live till. Must be set if
+      # @option attributes [Time] :good_till_date The date that the working order will live till. Must be set if
       #                    `:time_in_force` is `:good_till_date`.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level The level at which the order will be triggered.
-      # @option attributes [Float] :limit_distance The distance away in pips to place the limit. Optional.
+      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. Optional.
       # @option attributes [Float] :size The size of the working order. Required.
-      # @option attributes [Float] :stop_distance The distance away in pips to place the stop. Optional.
+      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. Optional.
       # @option attributes [:good_till_cancelled, :good_till_date] :time_in_force The lifespan of the working order.
       #                    `:good_till_cancelled` means the working order will live until it is explicitly cancelled.
       #                    `:good_till_date` means the working order will live until the date specified by
@@ -85,7 +85,7 @@ module IGMarkets
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
         end
 
-        if model.time_in_force == :good_till_date && !model.good_till_date.is_a?(DateTime)
+        if model.time_in_force == :good_till_date && !model.good_till_date.is_a?(Time)
           raise ArgumentError, 'good_till_date must be set when time_in_force is :good_till_date'
         end
 
@@ -97,14 +97,14 @@ module IGMarkets
         attribute :currency_code, String, regex: Regex::CURRENCY
         attribute :direction, Symbol, allowed_values: [:buy, :sell]
         attribute :epic, String, regex: Regex::EPIC
-        attribute :expiry, DateTime, format: '%d-%b-%y'
+        attribute :expiry, Time, format: '%d-%b-%y'
         attribute :force_open, Boolean
-        attribute :good_till_date, DateTime, format: '%Y-%m-%d %H:%M:%S'
+        attribute :good_till_date, Time, format: '%F %T'
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
-        attribute :limit_distance, Float
-        attribute :size, Fixnum
-        attribute :stop_distance, Float
+        attribute :limit_distance, Fixnum
+        attribute :size, Float
+        attribute :stop_distance, Fixnum
         attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
         attribute :type, Symbol, allowed_values: [:limit, :stop]
       end

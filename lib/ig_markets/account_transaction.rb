@@ -6,7 +6,7 @@ module IGMarkets
     attribute :cash_transaction, Boolean
     attribute :close_level
     attribute :currency
-    attribute :date, DateTime, format: '%d/%m/%y'
+    attribute :date, Date, format: '%d/%m/%y'
     attribute :instrument_name
     attribute :open_level, String, nil_if: '-'
     attribute :period, String, nil_if: '-'

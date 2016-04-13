@@ -59,8 +59,8 @@ ig.sign_out
 ig.account.all
 ig.account.recent_activities 24 * 60 * 60
 ig.account.recent_transactions 24 * 60 * 60
-ig.account.activities_in_date_range Date.today.prev_month(2), Date.today.prev_month(1)
-ig.account.transactions_in_date_range Date.today.prev_month(2), Date.today.prev_month(1)
+ig.account.activities_in_date_range Date.today - 14, Date.today - 7
+ig.account.transactions_in_date_range Date.today - 14, Date.today - 7
 
 # Dealing
 ig.deal_confirmation 'deal_reference'
@@ -91,7 +91,7 @@ ig.markets.hierarchy
 ig.markets.search 'EURUSD'
 ig.markets['CS.D.EURUSD.CFD.IP']
 ig.markets['CS.D.EURUSD.CFD.IP'].recent_prices :day, 10
-ig.markets['CS.D.EURUSD.CFD.IP'].prices_in_date_range :day, Date.today.prev_month(2), Date.today.prev_month(1)
+ig.markets['CS.D.EURUSD.CFD.IP'].prices_in_date_range :day, Date.today - 14, Date.today - 7
 
 # Watchlists
 ig.watchlists.all

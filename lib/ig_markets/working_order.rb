@@ -2,15 +2,15 @@ module IGMarkets
   # Contains details on a working order. Returned by {DealingPlatform::WorkingOrderMethods#all} and
   # {DealingPlatform::WorkingOrderMethods#[]}.
   class WorkingOrder < Model
-    attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
-    attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
+    attribute :created_date, Time, format: '%Y/%m/%d %T:%L'
+    attribute :created_date_utc, Time, format: '%FT%T', time_zone: '+0000'
     attribute :currency_code, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :dma, Boolean
     attribute :epic, String, regex: Regex::EPIC
-    attribute :good_till_date, DateTime, format: '%Y/%m/%d %H:%M'
-    attribute :good_till_date_iso, DateTime, format: '%Y-%m-%dT%H:%M'
+    attribute :good_till_date, Time, format: '%Y/%m/%d %R', time_zone: '+0000'
+    attribute :good_till_date_iso, Time, format: '%FT%R', time_zone: '+0000'
     attribute :guaranteed_stop, Boolean
     attribute :limit_distance, Fixnum
     attribute :order_level, Float
@@ -34,10 +34,10 @@ module IGMarkets
     #
     # @param [Hash] new_attributes The attributes of this working order to update. See
     #        {DealingPlatform::WorkingOrderMethods#create} for a description of the attributes.
-    # @option new_attributes [DateTime] :good_till_date
+    # @option new_attributes [Time] :good_till_date
     # @option new_attributes [Float] :level
-    # @option new_attributes [Float] :limit_distance
-    # @option new_attributes [Float] :stop_distance
+    # @option new_attributes [Fixnum] :limit_distance
+    # @option new_attributes [Fixnum] :stop_distance
     # @option new_attributes [:good_till_cancelled, :good_till_date] :time_in_force
     # @option new_attributes [:limit, :stop] :type
     #
@@ -55,12 +55,12 @@ module IGMarkets
 
     # Internal model used by {#update}.
     class WorkingOrderUpdateAttributes < Model
-      attribute :good_till_date, DateTime, format: '%Y/%m/%d %H:%M'
-      attribute :limit_distance, Float
+      attribute :good_till_date, Time, format: '%Y/%m/%d %R'
       attribute :level, Float
-      attribute :type, Symbol, allowed_values: [:limit, :stop]
-      attribute :stop_distance, Float
+      attribute :limit_distance, Fixnum
+      attribute :stop_distance, Fixnum
       attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
+      attribute :type, Symbol, allowed_values: [:limit, :stop]
     end
 
     private_constant :WorkingOrderUpdateAttributes

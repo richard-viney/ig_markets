@@ -10,13 +10,13 @@ module IGMarkets
     attribute :api_key
     attribute :client_id
     attribute :concurrent_subscriptions_limit, Fixnum
-    attribute :created_date, DateTime, format: '%Q'
+    attribute :created_date, Time, format: '%Q'
     attribute :fast_markets_settlement_price_enabled, Boolean
     attribute :id
     attribute :name
     attribute :restricted_to_self, Boolean
     attribute :status, Symbol, allowed_values: [:disabled, :enabled, :revoked]
-    attribute :terms_accepted_date, DateTime, format: '%Q'
+    attribute :terms_accepted_date, Time, format: '%Q'
     attribute :tier
   end
 end

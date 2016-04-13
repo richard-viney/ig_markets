@@ -4,14 +4,14 @@ module IGMarkets
   class Position < Model
     attribute :contract_size, Float
     attribute :controlled_risk, Boolean
-    attribute :created_date, DateTime, format: '%Y/%m/%d %H:%M:%S:%L'
-    attribute :created_date_utc, DateTime, format: '%Y-%m-%dT%H:%M:%S'
+    attribute :created_date, Time, format: '%Y/%m/%d %T:%L', time_zone: '+0000'
+    attribute :created_date_utc, Time, format: '%FT%T', time_zone: '+0000'
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :level, Float
     attribute :limit_level, Float
-    attribute :size, Fixnum
+    attribute :size, Float
     attribute :stop_level, Float
     attribute :trailing_step, Float
     attribute :trailing_stop_distance, Fixnum
@@ -54,11 +54,11 @@ module IGMarkets
     #
     # @return [String]
     def formatted_size
-      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{size}"
+      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{format '%g', size}"
     end
 
     # Closes this position. If called with no options then this position will be fully closed at current market prices,
-    # partial closes and greater control over the close conditions can be achieved with the relevant options.
+    # partial closes and greater control over the close conditions can be achieved by using the relevant options.
     #
     # @param [Hash] options The options for the position close.
     # @option options [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
@@ -137,7 +137,7 @@ module IGMarkets
       attribute :level, Float
       attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
       attribute :quote_id
-      attribute :size, Fixnum
+      attribute :size, Float
       attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]
 
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG

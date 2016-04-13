@@ -8,7 +8,7 @@ module IGMarkets
     attribute :activity_history_id
     attribute :channel
     attribute :currency
-    attribute :date, DateTime, format: '%d/%m/%y'
+    attribute :date, Date, format: '%d/%m/%y'
     attribute :deal_id
     attribute :epic, String, regex: Regex::EPIC
     attribute :level, Float

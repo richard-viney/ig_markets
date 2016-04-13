@@ -6,14 +6,14 @@ FactoryGirl.define do
     direction 'BUY'
     dma false
     epic 'UA.D.AAPL.CASH.IP'
-    good_till_date '2015/10/20 10:45:29:000'
+    good_till_date '2015/10/30 12:59'
     good_till_date_iso '2015-10-30T12:59'
     guaranteed_stop false
-    limit_distance 1.0
+    limit_distance 10
     order_level 100.0
     order_size 1
     order_type 'LIMIT'
-    stop_distance 1.0
+    stop_distance 10
     time_in_force 'GOOD_TILL_DATE'
 
     market { build :market_overview }

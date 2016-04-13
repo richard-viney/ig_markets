@@ -12,7 +12,7 @@ module IGMarkets
 
     # Contains details on the expiry details of an instrument. Returned by {#expiry_details}.
     class ExpiryDetails < Model
-      attribute :last_dealing_date, DateTime, format: '%Y/%m/%d %H:%M:%S'
+      attribute :last_dealing_date, Time, format: '%FT%R', time_zone: '+1000'
       attribute :settlement_info
     end
 
@@ -60,7 +60,7 @@ module IGMarkets
     attribute :country
     attribute :currencies, Currency
     attribute :epic, String, regex: Regex::EPIC
-    attribute :expiry, DateTime, nil_if: '-', format: '%d-%b-%y'
+    attribute :expiry, Date, nil_if: '-', format: '%d-%b-%y'
     attribute :expiry_details, ExpiryDetails
     attribute :force_open_allowed, Boolean
     attribute :lot_size, Float

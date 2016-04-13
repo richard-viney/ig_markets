@@ -103,7 +103,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     }
 
     payload = {
-      goodTillDate: '2015/10/20 10:45',
+      goodTillDate: '2015/10/30 12:59',
       level: 1.03,
       limitDistance: 20,
       stopDistance: 30,

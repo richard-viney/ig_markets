@@ -9,7 +9,7 @@ FactoryGirl.define do
     direction 'BUY'
     level 100.0
     limit_level 110.0
-    size 1
+    size 10.4
     stop_level 90.0
     trailing_step nil
     trailing_stop_distance nil
