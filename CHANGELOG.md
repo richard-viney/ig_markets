@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.3 - April 14, 2016
+
+- Added `--version` and `-v` options to the command-line client
+
 ### 0.2 - April 14, 2016
 
 - Added `ig_markets` command-line client

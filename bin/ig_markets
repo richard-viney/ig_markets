@@ -26,4 +26,10 @@ def modified_argv
   ARGV.dup.insert insert_index, *config_file_arguments
 end
 
+# Implement --version and -v arguments
+if ARGV.index('--version') || ARGV.index('-v')
+  puts IGMarkets::VERSION
+  exit
+end
+
 IGMarkets::CLI::Main.start modified_argv
