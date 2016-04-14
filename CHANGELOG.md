@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.2.pre - Unreleased
+### 0.2 - April 14, 2016
 
 - Added `ig_markets` command-line client
 - `IGMarkets::Model` now has separate `Date` and `Time` attribute types, and a new `:time_zone` option is used for
