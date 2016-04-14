@@ -139,7 +139,7 @@ describe IGMarkets::Model do
 
     it 'inspects attributes' do
       expect(model.inspect).to eq(
-        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-09, time: 2015-01-10 00:00:00 +0630, ' \
+        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-09, time: 2015-01-09 17:30:00 +0000, ' \
         'float: 1.0, symbol: :a>')
     end
   end

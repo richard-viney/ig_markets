@@ -93,7 +93,7 @@ module IGMarkets
     #
     # @param [Time] time The `Time` to format.
     def format_time(time)
-      time.strftime '%FT%T'
+      time.utc.strftime '%FT%T'
     end
   end
 end

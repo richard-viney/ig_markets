@@ -17,11 +17,24 @@ module IGMarkets
 
         next if value.nil?
 
-        value = value.to_s.upcase if options[:type] == Symbol
-        value = value.strftime(options.fetch(:format)) if [Date, Time].include? options[:type]
-
-        formatted[snake_case_to_camel_case(name)] = value
+        formatted[snake_case_to_camel_case(name)] = format_value value, options
       end
+    end
+
+    # Formats an individual value, see {#format} for details.
+    #
+    # @param value The attribute value to format.
+    # @param options The options hash for the attribute.
+    #
+    # @return [String]
+    def format_value(value, options)
+      return value.to_s.upcase if options[:type] == Symbol
+
+      value = value.utc if options[:type] == Time
+
+      return value.strftime(options.fetch(:format)) if [Date, Time].include? options[:type]
+
+      value
     end
 
     # Takes a string or symbol that uses snake case and converts it to a camel case symbol.

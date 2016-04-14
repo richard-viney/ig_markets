@@ -57,8 +57,8 @@ describe IGMarkets::DealingPlatform::MarketMethods do
   end
 
   it 'can retrieve a date range of historical prices for a market' do
-    from_time = Time.new 2014, 1, 2, 3, 4, 5
-    to_time = Time.new 2014, 2, 3, 4, 5, 6
+    from_time = Time.new 2014, 1, 2, 3, 4, 5, '+00:00'
+    to_time = Time.new 2014, 2, 3, 4, 5, 6, '+00:00'
 
     markets_get_result = {
       market_details: [{
