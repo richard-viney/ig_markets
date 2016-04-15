@@ -13,104 +13,103 @@ describe IGMarkets::CLI::Main do
     }
 
     IGMarkets::CLI::Main.new([], arguments).tap do |cli|
-      cli.instance_variable_set :@dealing_platform, dealing_platform
+      cli.class.instance_variable_set :@dealing_platform, dealing_platform
     end
-  end
-
-  it 'passes through output to Kernel.print' do
-    expect(Kernel).to receive(:print).with('test')
-    cli.print 'test'
-  end
-
-  it 'passes through exit to Kernel.exit' do
-    expect(Kernel).to receive(:exit).with(1)
-    cli.exit 1
   end
 
   it 'correctly signs in' do
     expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :production)
 
-    cli.begin_session {}
+    IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
   end
 
   it 'reports a request failure' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError, 'error')
-    expect(cli).to receive(:print).with("ERROR: error\n")
-    expect(cli).to receive(:exit).with(1)
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError, 'test')
 
-    cli.begin_session {}
+    expect do
+      IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
+    end.to output("ERROR: test\n").to_stdout.and raise_error(SystemExit)
   end
 
   describe 'a signed in session' do
     before do
-      expect(cli).to receive(:begin_session).and_yield
+      expect(IGMarkets::CLI::Main).to receive(:begin_session).and_yield(dealing_platform)
     end
 
     it 'prints accounts' do
       expect(dealing_platform.account).to receive(:all).and_return([build(:account)])
-      expect(cli).to receive(:print).with(
-        "Account 'CFD':\n  ID:           A1234\n  Type:         CFD\n  Currency:     USD\n  Status:       ENABLED\n")
-      expect(cli).to receive(:print).with("  Available:    USD 500.00\n")
-      expect(cli).to receive(:print).with("  Balance:      USD 500.00\n")
-      expect(cli).to receive(:print).with("  Margin:       USD 0.00\n")
-      expect(cli).to receive(:print).with("  Profit/loss:  USD 0.00\n")
 
-      cli.account
+      expect { cli.account }.to output(<<-END
+Account 'CFD':
+  ID:           A1234
+  Type:         CFD
+  Currency:     USD
+  Status:       ENABLED
+  Available:    USD 500.00
+  Balance:      USD 500.00
+  Margin:       USD 0.00
+  Profit/loss:  USD 0.00
+END
+                                      ).to_stdout
     end
 
     it 'prints activities' do
       activities = [build(:account_activity)]
 
       expect(dealing_platform.account).to receive(:recent_activities).with(259_200).and_return(activities)
-      expect(cli).to receive(:print).with("DIAAAAA4HDKPQEQ: +1 of CS.D.NZDUSD.CFD.IP, level: 0.664, result: Result\n")
 
-      cli.activities
+      expect { cli.activities }.to output(<<-END
+DIAAAAA4HDKPQEQ: +1 of CS.D.NZDUSD.CFD.IP, level: 0.664, result: Result
+END
+                                         ).to_stdout
     end
 
     it 'prints working orders' do
       expect(dealing_platform.working_orders).to receive(:all).and_return([build(:working_order)])
-      expect(cli).to receive(:print).with(
-        "deal_id: buy 1 of UA.D.AAPL.CASH.IP at 100.0, limit distance: 10, stop distance: 10, \
-good till 2015-10-30 12:59:00 +0000\n")
 
-      cli.orders
+      expect { cli.orders }.to output(<<-END
+deal_id: buy 1 of UA.D.AAPL.CASH.IP at 100.0, limit distance: 10, stop distance: 10, good till 2015-10-30 12:59:00 +0000
+END
+                                     ).to_stdout
     end
 
     it 'prints positions' do
       expect(dealing_platform.positions).to receive(:all).and_return([build(:position)])
-      expect(cli).to receive(:print).with("deal_id: +10.4 of CS.D.EURUSD.CFD.IP at 100.0, profit/loss: USD 0.00\n")
 
-      cli.positions
+      expect { cli.positions }.to output(<<-END
+deal_id: +10.4 of CS.D.EURUSD.CFD.IP at 100.0, profit/loss: USD 0.00
+END
+                                        ).to_stdout
     end
 
     it 'prints a deal confirmation that was accepted' do
       deal_confirmation = build :deal_confirmation
 
       expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
-      expect(cli).to receive(:print).with('deal_id: accepted, ')
-      expect(cli).to receive(:print).with('affected deals: , ')
-      expect(cli).to receive(:print).with("epic: CS.D.EURUSD.CFD.IP\n")
 
-      cli.confirmation
+      expect { cli.confirmation }.to output(<<-END
+deal_id: accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+END
+                                           ).to_stdout
     end
 
     it 'prints a deal confirmation that was rejected' do
       deal_confirmation = build :deal_confirmation, deal_status: :rejected, reason: :unknown
 
       expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
-      expect(cli).to receive(:print).with('deal_id: rejected, ')
-      expect(cli).to receive(:print).with('reason: unknown, ')
-      expect(cli).to receive(:print).with("epic: CS.D.EURUSD.CFD.IP\n")
 
-      cli.confirmation
+      expect { cli.confirmation }.to output(<<-END
+deal_id: rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
+END
+                                           ).to_stdout
     end
 
     it 'searches for markets' do
       expect(dealing_platform.markets).to receive(:search).with('q').and_return([build(:market_overview)])
-      expect(cli).to receive(:print).with(
-        "CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0\n")
-
-      cli.search
+      expect { cli.search }.to output(<<-END
+CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
+END
+                                     ).to_stdout
     end
 
     it 'prints client sentiment' do
@@ -119,11 +118,13 @@ good till 2015-10-30 12:59:00 +0000\n")
 
       expect(dealing_platform.client_sentiment).to receive(:[]).with('m').and_return(sentiment)
       expect(sentiment).to receive(:related_sentiments).and_return(related_sentiments)
-      expect(cli).to receive(:print).with("EURUSD: longs: 60.0%, shorts: 40.0%\n")
-      expect(cli).to receive(:print).with("A: longs: 60.0%, shorts: 40.0%\n")
-      expect(cli).to receive(:print).with("B: longs: 60.0%, shorts: 40.0%\n")
 
-      cli.sentiment
+      expect { cli.sentiment }.to output(<<-END
+EURUSD: longs: 60.0%, shorts: 40.0%
+A: longs: 60.0%, shorts: 40.0%
+B: longs: 60.0%, shorts: 40.0%
+END
+                                        ).to_stdout
     end
 
     it 'prints sprint market positions' do
@@ -131,20 +132,26 @@ good till 2015-10-30 12:59:00 +0000\n")
 
       expect(sprint_market_positions[0]).to receive(:seconds_till_expiry).and_return(125)
       expect(dealing_platform.sprint_market_positions).to receive(:all).and_return(sprint_market_positions)
-      expect(cli).to receive(:print).with(
-        "deal_id: USD 120.50 on FM.D.FTSE.FTSE.IP to be above 110.1 in 2:05, payout: USD 210.80\n")
 
-      cli.sprints
+      expect { cli.sprints }.to output(<<-END
+deal_id: USD 120.50 on FM.D.FTSE.FTSE.IP to be above 110.1 in 2:05, payout: USD 210.80
+END
+                                      ).to_stdout
     end
 
     it 'prints transactions' do
       transactions = [build(:account_transaction)]
 
       expect(dealing_platform.account).to receive(:recent_transactions).with(259_200).and_return(transactions)
-      expect(cli).to receive(:print).with("reference: 2015-06-23, Deal, +1 of instrument, profit/loss: US -1.00\n")
-      expect(cli).to receive(:print).with("\nTotals for currency 'US':\n  Interest: US 0.00\n  Profit/loss: US -1.00\n")
 
-      cli.transactions
+      expect { cli.transactions }.to output(<<-END
+reference: 2015-06-23, Deal, +1 of instrument, profit/loss: US -1.00
+
+Totals for currency 'US':
+  Interest: US 0.00
+  Profit/loss: US -1.00
+END
+                                           ).to_stdout
     end
 
     it 'prints watchlists' do
@@ -152,13 +159,13 @@ good till 2015-10-30 12:59:00 +0000\n")
 
       expect(watchlists[0]).to receive(:markets).and_return([build(:market_overview)])
       expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
-      expect(cli).to receive(:print).with("2547731: Markets, editable: false, deleteable: false, default: false\n")
-      expect(cli).to receive(:print).with('  - ')
-      expect(cli).to receive(:print).with(
-        "CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0\n")
-      expect(cli).to receive(:print).with("\n")
 
-      cli.watchlists
+      expect { cli.watchlists }.to output(<<-END
+2547731: Markets, editable: false, deleteable: false, default: false
+  - CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
+
+END
+                                         ).to_stdout
     end
   end
 end

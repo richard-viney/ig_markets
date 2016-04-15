@@ -7,7 +7,7 @@ module IGMarkets
       option :days, default: 3, type: :numeric, desc: 'The number of days to print recent transactions for'
 
       def transactions
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           transactions = dealing_platform.account.recent_transactions(seconds).sort_by(&:date)
 
           transactions.each do |transaction|
@@ -32,7 +32,7 @@ module IGMarkets
       end
 
       def print_transaction(transaction)
-        print <<-END
+        puts <<-END
 #{transaction.reference}: #{transaction.date.strftime '%Y-%m-%d'}, \
 #{transaction.formatted_transaction_type}, \
 #{"#{transaction.size} of " if transaction.size}\
@@ -43,7 +43,7 @@ END
 
       def print_transaction_totals(transactions)
         transaction_totals(transactions).each do |currency, value|
-          print <<-END
+          puts <<-END
 
 Totals for currency '#{currency}':
   Interest: #{Format.currency value[:interest], currency}

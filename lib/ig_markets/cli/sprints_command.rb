@@ -5,7 +5,7 @@ module IGMarkets
       desc 'sprints', 'Prints open sprint market positions'
 
       def sprints
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.sprint_market_positions.all.each do |sprint|
             print_sprint_market_position sprint
           end
@@ -15,7 +15,7 @@ module IGMarkets
       private
 
       def print_sprint_market_position(sprint)
-        print <<-END
+        puts <<-END
 #{sprint.deal_id}: \
 #{Format.currency sprint.size, sprint.currency} on #{sprint.epic} \
 to be #{{ buy: 'above', sell: 'below' }.fetch(sprint.direction)} #{sprint.strike_level} \

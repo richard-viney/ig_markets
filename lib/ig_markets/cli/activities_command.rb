@@ -7,7 +7,7 @@ module IGMarkets
       option :days, default: 3, type: :numeric, desc: 'The number of days to print recent activities for'
 
       def activities
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.account.recent_activities(seconds).each do |activity|
             print_activity activity
           end
@@ -21,7 +21,7 @@ module IGMarkets
       end
 
       def print_activity(activity)
-        print <<-END
+        puts <<-END
 #{activity.deal_id}: \
 #{activity.size} of #{activity.epic}, \
 level: #{activity.level}, \

@@ -8,29 +8,19 @@ module IGMarkets
       class_option :api_key, aliases: '-k', required: true, desc: 'The API key for the session'
       class_option :demo, aliases: '-d', type: :boolean, desc: 'Use the demo platform (default is production)'
 
-      no_commands do
-        # Intercepts calls to `print` in the CLI commands, used by the test suite.
-        def print(string)
-          Kernel.print string
-        end
-
-        # Intercepts calls to `exit` in the CLI commands, used by the test suite.
-        def exit(code)
-          Kernel.exit code
-        end
-
+      class << self
         def dealing_platform
           @dealing_platform ||= DealingPlatform.new
         end
 
-        def begin_session
+        def begin_session(options)
           platform = options[:demo] ? :demo : :production
 
           dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
-          yield
+          yield dealing_platform
         rescue IGMarkets::RequestFailedError => error
-          print "ERROR: #{error.error}\n"
+          puts "ERROR: #{error.error}"
           exit 1
         end
       end

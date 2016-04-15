@@ -5,9 +5,9 @@ module IGMarkets
       desc 'positions', 'Prints open positions'
 
       def positions
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.positions.all.each do |position|
-            print <<-END
+            puts <<-END
 #{position.deal_id}: \
 #{position.formatted_size} of #{position.market.epic} at #{position.level}, \
 profit/loss: #{Format.currency position.profit_loss, position.currency}

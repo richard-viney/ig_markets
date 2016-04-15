@@ -5,7 +5,7 @@ module IGMarkets
       desc 'orders', 'Prints working orders'
 
       def orders
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.working_orders.all.each do |order|
             print_working_order order
           end
@@ -15,7 +15,7 @@ module IGMarkets
       private
 
       def print_working_order(order)
-        print <<-END
+        puts <<-END
 #{order.deal_id}: \
 #{order.direction} #{format '%g', order.order_size} of #{order.epic} at #{order.order_level}\
 , limit distance: #{order.limit_distance || '-'}\

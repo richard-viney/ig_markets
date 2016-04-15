@@ -7,7 +7,7 @@ module IGMarkets
       option :deal_reference, aliases: '-r', required: true, desc: 'The deal reference to print the confirmation for.'
 
       def confirmation
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           deal_confirmation = dealing_platform.deal_confirmation options[:deal_reference]
 
           print_deal_confirmation deal_confirmation
@@ -25,7 +25,7 @@ module IGMarkets
           print "reason: #{deal_confirmation.reason}, "
         end
 
-        print "epic: #{deal_confirmation.epic}\n"
+        puts "epic: #{deal_confirmation.epic}"
       end
     end
   end

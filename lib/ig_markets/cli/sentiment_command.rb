@@ -8,7 +8,7 @@ module IGMarkets
       option :related, aliases: '-r', type: :boolean, desc: 'Whether to print sentiment for related markets as well'
 
       def sentiment
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           result = dealing_platform.client_sentiment[options[:market]]
 
           print_sentiment result
@@ -24,7 +24,7 @@ module IGMarkets
       private
 
       def print_sentiment(model)
-        print <<-END
+        puts <<-END
 #{model.market_id}: \
 longs: #{model.long_position_percentage}%, \
 shorts: #{model.short_position_percentage}%

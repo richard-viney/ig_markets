@@ -5,7 +5,7 @@ module IGMarkets
       desc 'account', 'Prints account overview and balances'
 
       def account
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.account.all.each do |account|
             print_account account
             print_account_balance account
@@ -16,7 +16,7 @@ module IGMarkets
       private
 
       def print_account(account)
-        print <<-END
+        puts <<-END
 Account '#{account.account_name}':
   ID:           #{account.account_id}
   Type:         #{account.account_type.to_s.upcase}
@@ -32,7 +32,7 @@ END
           deposit:     'Margin:     ',
           profit_loss: 'Profit/loss:'
         }.each do |attribute, display_name|
-          print "  #{display_name}  #{Format.currency account.balance.send(attribute), account.currency}\n"
+          puts "  #{display_name}  #{Format.currency account.balance.send(attribute), account.currency}"
         end
       end
     end

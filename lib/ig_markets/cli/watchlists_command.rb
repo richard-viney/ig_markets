@@ -5,7 +5,7 @@ module IGMarkets
       desc 'watchlists', 'Prints all watchlists and their markets'
 
       def watchlists
-        begin_session do
+        self.class.begin_session(options) do |dealing_platform|
           dealing_platform.watchlists.all.each do |watchlist|
             print_watchlist watchlist
 
@@ -21,9 +21,8 @@ module IGMarkets
       private
 
       def print_watchlist(watchlist)
-        print <<-END
-#{watchlist.id}: \
-#{watchlist.name}, \
+        puts <<-END
+#{watchlist.id}: #{watchlist.name}, \
 editable: #{watchlist.editable}, \
 deleteable: #{watchlist.deleteable}, \
 default: #{watchlist.default_system_watchlist}
