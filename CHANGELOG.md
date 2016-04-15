@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### Unreleased
+
+- Seamlessly reauthenticate if the client security token has expired
+
 ### 0.3 - April 14, 2016
 
 - Added `--version` and `-v` options to the command-line client

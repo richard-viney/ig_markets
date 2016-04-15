@@ -38,7 +38,7 @@ Usage: ig_markets <command> --username=<username> --password=<password> --api-ke
 
 On startup `ig_markets` searches for files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are present
 interprets their contents as command-line arguments. This can be used to avoid having to specify authentication details
-with every invocation. To do this create a file at `./".ig_markets"` or `~/".ig_markets"` with the following contents:
+with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
 
 ```
 --username=<username>

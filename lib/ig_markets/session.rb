@@ -104,10 +104,7 @@ module IGMarkets
 
     private
 
-    HOST_URLS = {
-      demo: 'https://demo-api.ig.com/gateway/deal/',
-      production: 'https://api.ig.com/gateway/deal/'
-    }.freeze
+    HOST_URLS = { demo: 'https://demo-api.ig.com/gateway/deal/', production: 'https://api.ig.com/gateway/deal/' }.freeze
 
     def validate_authentication
       %i(username password api_key).each do |attribute|
@@ -120,10 +117,7 @@ module IGMarkets
     def password_encryptor
       result = get 'session/encryptionKey', API_V1
 
-      PasswordEncryptor.new.tap do |encryptor|
-        encryptor.encoded_public_key = result.fetch :encryption_key
-        encryptor.time_stamp = result.fetch :time_stamp
-      end
+      PasswordEncryptor.new result.fetch(:encryption_key), result.fetch(:time_stamp)
     end
 
     def request(options)
@@ -162,16 +156,25 @@ module IGMarkets
 
       RestClient::Request.execute options
     rescue RestClient::Exception => exception
-      return exception.response if exception.response
+      raise RequestFailedError, exception.message unless exception.response
 
-      raise RequestFailedError, exception.message
+      return exception.response unless !options[:retry] && client_token_invalid?(exception.response)
+
+      sign_in
+      execute_request options.merge(retry: true)
     rescue SocketError => socket_error
       raise RequestFailedError, socket_error
     end
 
+    def client_token_invalid?(response)
+      ResponseParser.parse(JSON.parse(response.body))[:error_code] == 'error.security.client-token-invalid'
+    rescue JSON::ParserError
+      false
+    end
+
     def process_response(response)
       result = begin
-        ResponseParser.parse JSON.parse(response.body, symbolize_names: true)
+        ResponseParser.parse JSON.parse(response.body)
       rescue JSON::ParserError
         {}
       end

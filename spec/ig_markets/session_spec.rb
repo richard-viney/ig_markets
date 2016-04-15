@@ -2,16 +2,16 @@ describe IGMarkets::Session do
   let(:response) { instance_double 'RestClient::Response' }
   let(:rest_client) { RestClient::Request }
 
-  context 'a non-signed in session' do
-    let(:session) do
-      IGMarkets::Session.new.tap do |session|
-        session.username = 'username'
-        session.password = 'password'
-        session.api_key = 'api_key'
-        session.platform = :production
-      end
+  let(:session) do
+    IGMarkets::Session.new.tap do |session|
+      session.username = 'username'
+      session.password = 'password'
+      session.api_key = 'api_key'
+      session.platform = :production
     end
+  end
 
+  context 'a non-signed in session' do
     it 'is not alive' do
       expect(session.alive?).to eq(false)
     end
@@ -41,13 +41,11 @@ describe IGMarkets::Session do
   end
 
   context 'a signed in session' do
-    let(:session) do
-      IGMarkets::Session.new.tap do |s|
-        s.instance_variable_set :@cst, 'cst'
-        s.instance_variable_set :@x_security_token, 'x_security_token'
-        s.instance_variable_set :@api_key, 'api_key'
-        s.instance_variable_set :@platform, :production
-      end
+    before do
+      session.instance_variable_set :@cst, 'cst'
+      session.instance_variable_set :@x_security_token, 'x_security_token'
+      session.instance_variable_set :@api_key, 'api_key'
+      session.instance_variable_set :@platform, :production
     end
 
     it 'is alive' do
@@ -91,6 +89,31 @@ describe IGMarkets::Session do
     it 'converts a RestClient::Exception that has no response into a RequestFailedError' do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception)
       expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+    end
+
+    let(:invalid_client_token_exception) do
+      body = { errorCode: 'error.security.client-token-invalid' }.to_json
+
+      RestClient::Exception.new RestClient::Response.create(body, nil, nil, nil)
+    end
+
+    it 'attempts to sign in again if the client token is invalid' do
+      expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(invalid_client_token_exception)
+
+      expect(response).to receive(:code).exactly(6).times.and_return(200)
+      expect(response).to receive(:headers).and_return(cst: '3', x_security_token: '4')
+      expect(response).to receive(:body).exactly(3).times.and_return(
+        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
+        {}.to_json,
+        { result: 'test' }.to_json
+      )
+      expect(rest_client).to receive(:execute).exactly(3).times.and_return(response)
+
+      expect(session.get('url', IGMarkets::API_V1)).to eq(result: 'test')
+
+      expect(session.cst).to eq('3')
+      expect(session.x_security_token).to match('4')
+      expect(session.alive?).to eq(true)
     end
 
     it 'can process a PUT request' do

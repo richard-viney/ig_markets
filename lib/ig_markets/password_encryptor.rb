@@ -4,8 +4,17 @@ module IGMarkets
     # @return [OpenSSL::PKey::RSA] The public key used by {#encrypt}, can also be set using {#encoded_public_key=}.
     attr_accessor :public_key
 
-    # @return [String] The timestamp used by {#encrypt}.
+    # @return [String] The time stamp used by {#encrypt}.
     attr_accessor :time_stamp
+
+    # Initializes this password encryptor with the specified encoded public key and timestamp.
+    #
+    # @param [String] encoded_public_key
+    # @param [String] time_stamp
+    def initialize(encoded_public_key = nil, time_stamp = nil)
+      self.encoded_public_key = encoded_public_key if encoded_public_key
+      self.time_stamp = time_stamp
+    end
 
     # Takes an encoded public key and calls {#public_key=} with the decoded key.
     #
