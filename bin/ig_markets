@@ -6,7 +6,7 @@ require 'ig_markets'
 
 # Read arguments from any '.ig_markets' config file
 def config_file_arguments
-  config_file = ['.ig_markets', "#{Dir.home}/.ig_markets"].detect { |file| File.exist? file }
+  config_file = ['./.ig_markets', "#{Dir.home}/.ig_markets"].detect { |file| File.exist? file }
 
   return [] unless config_file
 
