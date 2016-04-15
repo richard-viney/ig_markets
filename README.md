@@ -51,16 +51,15 @@ Run `ig_markets help` to list details on available commands. The full list of co
 
 - `ig_markets account`
 - `ig_markets activities [--days=3]`
-- `ig_markets confirmation --deal-reference=<...>`
+- `ig_markets confirmation <deal-reference>`
 - `ig_markets orders`
 - `ig_markets positions`
-- `ig_markets search --query=<...>`
-- `ig_markets sentiment --market=<...> [--related]`
-- `ig_markets sprints`
+- `ig_markets search <query>`
+- `ig_markets sentiment <market> [--related]`
+- `ig_markets sprints [list]`
+- `ig_markets sprints create --direction=(buy|sell) --epic=EPIC --expiry-period=(1|2|5|20|60) --size=SIZE`
 - `ig_markets transactions [--days=3]`
 - `ig_markets watchlists`
-
-Note: at present there is no support in the command-line client for creating/updating/deleting positions, orders, etc...
 
 ## Usage — Library
 

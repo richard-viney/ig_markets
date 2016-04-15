@@ -1,20 +1,12 @@
 describe IGMarkets::CLI::Main do
   let(:dealing_platform) { IGMarkets::DealingPlatform.new }
-  let(:cli) do
-    arguments = {
-      username: 'username',
-      password: 'password',
-      api_key: 'api-key',
-      query: 'q',
-      market: 'm',
-      days: 3,
-      related: true,
-      deal_reference: 'ref'
-    }
 
-    IGMarkets::CLI::Main.new([], arguments).tap do |cli|
-      cli.class.instance_variable_set :@dealing_platform, dealing_platform
-    end
+  before do
+    IGMarkets::CLI::Main.instance_variable_set :@dealing_platform, dealing_platform
+  end
+
+  def cli(arguments = {})
+    IGMarkets::CLI::Main.new [], { username: 'username', password: 'password', api_key: 'api-key' }.merge(arguments)
   end
 
   it 'correctly signs in' do
@@ -58,10 +50,10 @@ END
 
       expect(dealing_platform.account).to receive(:recent_activities).with(259_200).and_return(activities)
 
-      expect { cli.activities }.to output(<<-END
+      expect { cli(days: 3).activities }.to output(<<-END
 DIAAAAA4HDKPQEQ: +1 of CS.D.NZDUSD.CFD.IP, level: 0.664, result: Result
 END
-                                         ).to_stdout
+                                                  ).to_stdout
     end
 
     it 'prints working orders' do
@@ -85,46 +77,47 @@ END
     it 'prints a deal confirmation that was accepted' do
       deal_confirmation = build :deal_confirmation
 
-      expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+      expect(dealing_platform).to receive(:deal_confirmation).with('deal_id').and_return(deal_confirmation)
 
-      expect { cli.confirmation }.to output(<<-END
+      expect { cli.confirmation deal_confirmation.deal_id }.to output(<<-END
 deal_id: accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
 END
-                                           ).to_stdout
+                                                                     ).to_stdout
     end
 
     it 'prints a deal confirmation that was rejected' do
       deal_confirmation = build :deal_confirmation, deal_status: :rejected, reason: :unknown
 
-      expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+      expect(dealing_platform).to receive(:deal_confirmation).with('deal_id').and_return(deal_confirmation)
 
-      expect { cli.confirmation }.to output(<<-END
+      expect { cli.confirmation deal_confirmation.deal_id }.to output(<<-END
 deal_id: rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
 END
-                                           ).to_stdout
+                                                                     ).to_stdout
     end
 
     it 'searches for markets' do
-      expect(dealing_platform.markets).to receive(:search).with('q').and_return([build(:market_overview)])
-      expect { cli.search }.to output(<<-END
+      expect(dealing_platform.markets).to receive(:search).with('EURUSD').and_return([build(:market_overview)])
+
+      expect { cli.search 'EURUSD' }.to output(<<-END
 CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
 END
-                                     ).to_stdout
+                                              ).to_stdout
     end
 
     it 'prints client sentiment' do
       sentiment = build(:client_sentiment)
       related_sentiments = [build(:client_sentiment, market_id: 'A'), build(:client_sentiment, market_id: 'B')]
 
-      expect(dealing_platform.client_sentiment).to receive(:[]).with('m').and_return(sentiment)
+      expect(dealing_platform.client_sentiment).to receive(:[]).with('query').and_return(sentiment)
       expect(sentiment).to receive(:related_sentiments).and_return(related_sentiments)
 
-      expect { cli.sentiment }.to output(<<-END
+      expect { cli(related: true).sentiment 'query' }.to output(<<-END
 EURUSD: longs: 60.0%, shorts: 40.0%
 A: longs: 60.0%, shorts: 40.0%
 B: longs: 60.0%, shorts: 40.0%
 END
-                                        ).to_stdout
+                                                               ).to_stdout
     end
 
     it 'prints sprint market positions' do
@@ -139,19 +132,33 @@ END
                                       ).to_stdout
     end
 
+    it 'creates a sprint market position' do
+      cli = IGMarkets::CLI::Sprints.new [], direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: '5', size: '10'
+
+      expect(dealing_platform.sprint_market_positions).to receive(:create).with(
+        direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :five_minutes, size: '10').and_return('ref')
+      expect(dealing_platform).to receive(:deal_confirmation).and_return(build(:deal_confirmation))
+
+      expect { cli.create }.to output(<<-END
+Deal reference: ref
+deal_id: accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+END
+                                     ).to_stdout
+    end
+
     it 'prints transactions' do
       transactions = [build(:account_transaction)]
 
       expect(dealing_platform.account).to receive(:recent_transactions).with(259_200).and_return(transactions)
 
-      expect { cli.transactions }.to output(<<-END
+      expect { cli(days: 3).transactions }.to output(<<-END
 reference: 2015-06-23, Deal, +1 of instrument, profit/loss: US -1.00
 
 Totals for currency 'US':
   Interest: US 0.00
   Profit/loss: US -1.00
 END
-                                           ).to_stdout
+                                                    ).to_stdout
     end
 
     it 'prints watchlists' do

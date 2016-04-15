@@ -8,6 +8,15 @@ module IGMarkets
       class_option :api_key, aliases: '-k', required: true, desc: 'The API key for the session'
       class_option :demo, aliases: '-d', type: :boolean, desc: 'Use the demo platform (default is production)'
 
+      desc 'sprints [SUBCOMAND=list] ...ARGS', 'Command for listing and creating sprint market positions'
+      subcommand 'sprints', Sprints
+
+      private
+
+      def seconds
+        (options[:days].to_f * 60 * 60 * 24).to_i
+      end
+
       class << self
         def dealing_platform
           @dealing_platform ||= DealingPlatform.new

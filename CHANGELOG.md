@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+- Support creating sprint market positions on the command-line with `ig_markets sprints create ...`
+- `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
+  rather than as an option.
 - Automatically reauthenticate if the client security token has expired
 
 ### 0.3 - April 14, 2016

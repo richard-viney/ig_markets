@@ -11,7 +11,7 @@ module IGMarkets
           transactions = dealing_platform.account.recent_transactions(seconds).sort_by(&:date)
 
           transactions.each do |transaction|
-            print_transaction transaction
+            Output.print_transaction transaction
           end
 
           print_transaction_totals transactions
@@ -29,16 +29,6 @@ module IGMarkets
           currency[:delta] += profit_loss
           currency[:interest] += profit_loss if transaction.interest?
         end
-      end
-
-      def print_transaction(transaction)
-        puts <<-END
-#{transaction.reference}: #{transaction.date.strftime '%Y-%m-%d'}, \
-#{transaction.formatted_transaction_type}, \
-#{"#{transaction.size} of " if transaction.size}\
-#{transaction.instrument_name}, \
-profit/loss: #{Format.currency transaction.profit_and_loss_amount, transaction.currency}
-END
       end
 
       def print_transaction_totals(transactions)

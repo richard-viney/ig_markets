@@ -7,11 +7,7 @@ module IGMarkets
       def positions
         self.class.begin_session(options) do |dealing_platform|
           dealing_platform.positions.all.each do |position|
-            puts <<-END
-#{position.deal_id}: \
-#{position.formatted_size} of #{position.market.epic} at #{position.level}, \
-profit/loss: #{Format.currency position.profit_loss, position.currency}
-END
+            Output.print_position position
           end
         end
       end
