@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### Unreleased
+### 0.4.pre - Unreleased
 
 - Support creating sprint market positions on the command-line with `ig_markets sprints create ...`
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
