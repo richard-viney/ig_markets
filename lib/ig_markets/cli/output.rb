@@ -1,20 +1,8 @@
 module IGMarkets
   module CLI
-    # Contains methods for printing models to stdout.
+    # Contains methods used by the CLI to print models to stdout.
     module Output
       module_function
-
-      def print_deal_confirmation(deal_confirmation)
-        print "#{deal_confirmation.deal_id}: #{deal_confirmation.deal_status}, "
-
-        if deal_confirmation.deal_status == :accepted
-          print "affected deals: #{deal_confirmation.affected_deals.map(&:deal_id).join(',')}, "
-        else
-          print "reason: #{deal_confirmation.reason}, "
-        end
-
-        puts "epic: #{deal_confirmation.epic}"
-      end
 
       def print_account(account)
         puts <<-END
@@ -32,14 +20,14 @@ END
           balance:     'Balance:    ',
           deposit:     'Margin:     ',
           profit_loss: 'Profit/loss:'
-        }.each do |attribute, display_name|
-          puts "  #{display_name}  #{Format.currency account.balance.send(attribute), account.currency}"
+        }.each do |attribute, title|
+          puts "  #{title}  #{Format.currency account.balance.send(attribute), account.currency}"
         end
       end
 
       def print_activity(activity)
         puts <<-END
-#{activity.deal_id}: \
+#{activity.date.strftime '%F'} #{activity.deal_id}: \
 #{activity.size} of #{activity.epic}, \
 level: #{activity.level}, \
 result: #{activity.result}
@@ -52,6 +40,18 @@ END
 longs: #{client_sentiment.long_position_percentage}%, \
 shorts: #{client_sentiment.short_position_percentage}%
 END
+      end
+
+      def print_deal_confirmation(deal_confirmation)
+        print "#{deal_confirmation.deal_id}: #{deal_confirmation.deal_status}, "
+
+        if deal_confirmation.deal_status == :accepted
+          print "affected deals: #{deal_confirmation.affected_deals.map(&:deal_id).join(',')}, "
+        else
+          print "reason: #{deal_confirmation.reason}, "
+        end
+
+        puts "epic: #{deal_confirmation.epic}"
       end
 
       def print_market_overview(market)
@@ -84,7 +84,7 @@ END
 
       def print_transaction(transaction)
         puts <<-END
-#{transaction.reference}: #{transaction.date.strftime '%Y-%m-%d'}, \
+#{transaction.date.strftime '%F'} #{transaction.reference}: \
 #{transaction.formatted_transaction_type}, \
 #{"#{transaction.size} of " if transaction.size}\
 #{transaction.instrument_name}, \

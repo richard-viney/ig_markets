@@ -2,7 +2,9 @@
 
 ### 0.4.pre - Unreleased
 
-- Support creating sprint market positions on the command-line with `ig_markets sprints create ...`
+- Added `--start-date` option to the `activities` and `transactions` commands in order to support printing details
+  from specific date ranges
+- Added `ig_markets sprints create ...` command for creating sprint market positions on the command-line
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
   rather than as an option.
 - Automatically reauthenticate if the client security token has expired

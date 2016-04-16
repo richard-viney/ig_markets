@@ -2,13 +2,14 @@ module IGMarkets
   module CLI
     # Implements the `ig_markets transactions` command.
     class Main
-      desc 'transactions', 'Prints recent transactions'
+      desc 'transactions', 'Prints account transactions'
 
-      option :days, default: 3, type: :numeric, desc: 'The number of days to print recent transactions for'
+      option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
+      option :start_date, desc: 'The start date to print account transactions from, in the format \'YYYY-MM-DD\''
 
       def transactions
         self.class.begin_session(options) do |dealing_platform|
-          transactions = dealing_platform.account.recent_transactions(seconds).sort_by(&:date)
+          transactions = gather_transactions(dealing_platform, options[:days], options[:start_date]).sort_by(&:date)
 
           transactions.each do |transaction|
             Output.print_transaction transaction
@@ -19,6 +20,16 @@ module IGMarkets
       end
 
       private
+
+      def gather_transactions(dealing_platform, days, start_date = nil)
+        if start_date
+          start_date = Date.strptime options[:start_date], '%F'
+
+          dealing_platform.account.transactions_in_date_range start_date, start_date + days.to_i
+        else
+          dealing_platform.account.recent_transactions seconds(days)
+        end
+      end
 
       def transaction_totals(transactions)
         transactions.each_with_object({}) do |transaction, hash|

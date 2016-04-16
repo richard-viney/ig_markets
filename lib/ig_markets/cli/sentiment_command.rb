@@ -4,7 +4,7 @@ module IGMarkets
     class Main
       desc 'sentiment <MARKET>', 'Prints sentiment for the specified market'
 
-      option :related, aliases: '-r', type: :boolean, desc: 'Whether to print sentiment for related markets as well'
+      option :related, type: :boolean, desc: 'Whether to print sentiment for related markets as well'
 
       def sentiment(market)
         self.class.begin_session(options) do |dealing_platform|
