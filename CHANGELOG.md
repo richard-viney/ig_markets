@@ -2,11 +2,13 @@
 
 ### 0.4.pre - Unreleased
 
-- Added `--start-date` option to the `activities` and `transactions` commands in order to support printing details
-  from specific date ranges
-- Added `ig_markets sprints create ...` command for creating sprint market positions on the command-line
+- Added `create`, `update` and `delete` subcommands to `ig_markets orders` for creating, updating and deleting working
+  orders on the command-line
+- Added `create` subcommand to `ig_markets sprints` for creating sprint market positions on the command-line
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
   rather than as an option.
+- Added `--start-date` option to the `ig_markets activities` and `ig_markets transactions` commands in order to support
+  printing details from specific date ranges
 - Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
   just set `:good_till_date` if it is needed
 - Fixed errors working with a working order's `#good_till_date` attribute

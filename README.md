@@ -50,16 +50,18 @@ with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_
 Run `ig_markets help` to list details on available commands. The full list of commands is:
 
 - `ig_markets account`
-- `ig_markets activities --days=<days> [--start-date=<yyyy>-<mm>-<dd>]`
-- `ig_markets confirmation <deal-reference>`
+- `ig_markets activities --days=N [--start-date=YYYY-MM-DD]`
+- `ig_markets confirmation <DEAL-REFERENCE>`
 - `ig_markets orders [list]`
-- `ig_markets orders delete <deal-id>`
+- `ig_markets orders create ...`
+- `ig_markets orders update <DEAL-ID> ...`
+- `ig_markets orders delete <DEAL-ID>`
 - `ig_markets positions`
-- `ig_markets search <query>`
-- `ig_markets sentiment <market> [--related]`
+- `ig_markets search <QUERY>`
+- `ig_markets sentiment <MARKET> [--related]`
 - `ig_markets sprints [list]`
-- `ig_markets sprints create --direction=<buy|sell> --epic=<epic> --expiry-period=<1|2|5|20|60> --size=<size>`
-- `ig_markets transactions --days=<days> [--start-date=<yyyy>-<mm>-<dd>]`
+- `ig_markets sprints create ...`
+- `ig_markets transactions --days=N [--start-date=YYYY-MM-DD]`
 - `ig_markets watchlists`
 
 ## Usage — Library

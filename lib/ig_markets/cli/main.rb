@@ -8,7 +8,10 @@ module IGMarkets
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
 
-      desc 'sprints [SUBCOMAND=list] ...ARGS', 'Command for working with sprint market positions'
+      desc 'orders [SUBCOMAND=list] ...', 'Command for working with orders'
+      subcommand 'orders', Orders
+
+      desc 'sprints [SUBCOMAND=list] ...', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
       private
