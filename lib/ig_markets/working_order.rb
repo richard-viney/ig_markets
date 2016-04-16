@@ -3,14 +3,14 @@ module IGMarkets
   # {DealingPlatform::WorkingOrderMethods#[]}.
   class WorkingOrder < Model
     attribute :created_date, Time, format: '%Y/%m/%d %T:%L'
-    attribute :created_date_utc, Time, format: '%FT%T', time_zone: '+0000'
+    attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency_code, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :dma, Boolean
     attribute :epic, String, regex: Regex::EPIC
-    attribute :good_till_date, Time, format: '%Y/%m/%d %R', time_zone: '+0000'
-    attribute :good_till_date_iso, Time, format: '%FT%R', time_zone: '+0000'
+    attribute :good_till_date, Time, format: '%Y/%m/%d %R'
+    attribute :good_till_date_iso, Time, format: '%FT%R'
     attribute :guaranteed_stop, Boolean
     attribute :limit_distance, Fixnum
     attribute :order_level, Float

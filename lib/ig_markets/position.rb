@@ -4,8 +4,8 @@ module IGMarkets
   class Position < Model
     attribute :contract_size, Float
     attribute :controlled_risk, Boolean
-    attribute :created_date, Time, format: '%Y/%m/%d %T:%L', time_zone: '+0000'
-    attribute :created_date_utc, Time, format: '%FT%T', time_zone: '+0000'
+    attribute :created_date, Time, format: '%Y/%m/%d %T:%L'
+    attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :direction, Symbol, allowed_values: [:buy, :sell]

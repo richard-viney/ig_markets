@@ -64,13 +64,22 @@ module IGMarkets
         raise ArgumentError, "#{self}: invalid or missing time format" unless options[:format].is_a? String
 
         if value.is_a?(String) || value.is_a?(Fixnum)
-          begin
-            Time.strptime "#{value}#{options[:time_zone]}", "#{options[:format]}#{'%z' if options[:time_zone]}"
-          rescue ArgumentError
-            raise ArgumentError, "#{self}: failed parsing time '#{value}' with format '#{options[:format]}'"
-          end
+          parse_time_from_string value.to_s, options
         else
           value
+        end
+      end
+
+      def parse_time_from_string(value, options)
+        format = options[:format]
+        time_zone = options[:time_zone]
+
+        time_zone ||= '+0000' unless format == '%Q'
+
+        begin
+          Time.strptime "#{value}#{time_zone}", "#{format}#{'%z' if time_zone}"
+        rescue ArgumentError
+          raise ArgumentError, "#{self}: failed parsing time '#{value}' with format '#{format}'"
         end
       end
     end

@@ -90,7 +90,8 @@ module IGMarkets
       # @option options [String] :format When `type` is `Date` or `Time` this specifies the format for parsing String
       #                 and `Fixnum` instances assigned to this attribute.
       # @option options [String] :time_zone When `type` is `Time` this specifies the time zone to append to
-      #                 `String` values assigned to this attribute prior to parsing them with `:format`. Optional.
+      #                 `String` values assigned to this attribute prior to parsing them with `:format`. Defaults to
+      #                 `+0000` (UTC) unless `:format` is `%Q`.
       #
       # @macro [attach] attribute
       #   The $1 attribute.
