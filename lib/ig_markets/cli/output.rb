@@ -43,7 +43,7 @@ END
       end
 
       def print_deal_confirmation(deal_confirmation)
-        print "#{deal_confirmation.deal_id}: #{deal_confirmation.deal_status}, "
+        print "Deal confirmation: #{deal_confirmation.deal_id}, #{deal_confirmation.deal_status}, "
 
         if deal_confirmation.deal_status == :accepted
           print "affected deals: #{deal_confirmation.affected_deals.map(&:deal_id).join(',')}, "

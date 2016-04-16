@@ -97,7 +97,7 @@ END
       expect(dealing_platform).to receive(:deal_confirmation).with('deal_id').and_return(deal_confirmation)
 
       expect { cli.confirmation deal_confirmation.deal_id }.to output(<<-END
-deal_id: accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
 END
                                                                      ).to_stdout
     end
@@ -108,7 +108,7 @@ END
       expect(dealing_platform).to receive(:deal_confirmation).with('deal_id').and_return(deal_confirmation)
 
       expect { cli.confirmation deal_confirmation.deal_id }.to output(<<-END
-deal_id: rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
+Deal confirmation: deal_id, rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
 END
                                                                      ).to_stdout
     end
@@ -158,7 +158,7 @@ END
 
       expect { cli.create }.to output(<<-END
 Deal reference: ref
-deal_id: accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
 END
                                      ).to_stdout
     end
