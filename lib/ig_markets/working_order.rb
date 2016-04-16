@@ -56,7 +56,7 @@ module IGMarkets
 
     # Internal model used by {#update}.
     class WorkingOrderUpdateAttributes < Model
-      attribute :good_till_date, Time, format: '%Y/%m/%d %R'
+      attribute :good_till_date, Time, format: '%Y/%m/%d %R:%S'
       attribute :level, Float
       attribute :limit_distance, Fixnum
       attribute :stop_distance, Fixnum

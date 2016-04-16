@@ -91,7 +91,7 @@ module IGMarkets
         attribute :epic, String, regex: Regex::EPIC
         attribute :expiry, Time, format: '%d-%b-%y'
         attribute :force_open, Boolean
-        attribute :good_till_date, Time, format: '%F %T'
+        attribute :good_till_date, Time, format: '%Y/%m/%d %R:%S', time_zone: '+0000'
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
         attribute :limit_distance, Fixnum

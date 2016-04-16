@@ -107,7 +107,7 @@ END
 #{order.direction} #{format '%g', order.order_size} of #{order.epic} at #{order.order_level}\
 , limit distance: #{order.limit_distance || '-'}\
 , stop distance: #{order.stop_distance || '-'}\
-#{", good till #{order.good_till_date.utc.strftime '%F %T %z'}" if order.time_in_force == :good_till_date}
+#{", good till #{order.good_till_date.utc.strftime '%F %R %z'}" if order.time_in_force == :good_till_date}
 END
       end
     end

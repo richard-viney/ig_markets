@@ -77,7 +77,7 @@ END
       expect(dealing_platform.working_orders).to receive(:all).and_return([build(:working_order)])
 
       expect { cli.orders }.to output(<<-END
-deal_id: buy 1 of UA.D.AAPL.CASH.IP at 100.0, limit distance: 10, stop distance: 10, good till 2015-10-30 12:59:00 +0000
+deal_id: buy 1 of UA.D.AAPL.CASH.IP at 100.0, limit distance: 10, stop distance: 10, good till 2015-10-30 12:59 +0000
 END
                                      ).to_stdout
     end

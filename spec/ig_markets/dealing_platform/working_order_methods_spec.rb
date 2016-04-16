@@ -37,6 +37,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
       currency_code: 'USD',
       direction: :buy,
       epic: 'CS.D.EURUSD.CFD.IP',
+      good_till_date: Time.new(2015, 10, 30, 12, 59, 0, 0),
       level: 1.0,
       size: 2.0,
       type: :limit
@@ -48,10 +49,11 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
       epic: 'CS.D.EURUSD.CFD.IP',
       expiry: '-',
       forceOpen: false,
+      goodTillDate: '2015/10/30 12:59:00',
       guaranteedStop: false,
       level: 1.0,
       size: 2.0,
-      timeInForce: 'GOOD_TILL_CANCELLED',
+      timeInForce: 'GOOD_TILL_DATE',
       type: 'LIMIT'
     }
 
@@ -88,7 +90,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     }
 
     payload = {
-      goodTillDate: '2015/10/30 12:59',
+      goodTillDate: '2015/10/30 12:59:00',
       level: 1.03,
       limitDistance: 20,
       stopDistance: 30,

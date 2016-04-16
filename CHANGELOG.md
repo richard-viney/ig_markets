@@ -9,6 +9,7 @@
   rather than as an option.
 - Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
   just set `:good_till_date` if it is needed
+- Fixed errors working with a working order's `#good_till_date` attribute
 - Automatically reauthenticate if the client security token has expired
 
 ### 0.3 - April 14, 2016
