@@ -38,7 +38,6 @@ module IGMarkets
     # @option new_attributes [Float] :level
     # @option new_attributes [Fixnum] :limit_distance
     # @option new_attributes [Fixnum] :stop_distance
-    # @option new_attributes [:good_till_cancelled, :good_till_date] :time_in_force
     # @option new_attributes [:limit, :stop] :type
     #
     # @return [String] The deal reference of the update operation. Use {DealingPlatform#deal_confirmation} to check
@@ -47,6 +46,8 @@ module IGMarkets
       new_attributes = { good_till_date: good_till_date, level: order_level, limit_distance: limit_distance,
                          stop_distance: stop_distance, time_in_force: time_in_force, type: order_type
                        }.merge new_attributes
+
+      new_attributes[:time_in_force] = new_attributes[:good_till_date] ? :good_till_date : :good_till_cancelled
 
       payload = PayloadFormatter.format WorkingOrderUpdateAttributes.new new_attributes
 

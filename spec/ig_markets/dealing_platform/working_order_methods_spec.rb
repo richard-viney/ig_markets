@@ -39,7 +39,6 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
       epic: 'CS.D.EURUSD.CFD.IP',
       level: 1.0,
       size: 2.0,
-      time_in_force: :good_till_cancelled,
       type: :limit
     }
 
@@ -60,20 +59,6 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
 
     expect(session).to receive(:post).with('workingorders/otc', payload, IGMarkets::API_V2).and_return(result)
     expect(platform.working_orders.create(attributes)).to eq(result.fetch(:deal_reference))
-  end
-
-  it 'requires good_till_date if time_in_force is :good_till_date' do
-    attributes = {
-      currency_code: 'USD',
-      direction: :buy,
-      epic: 'CS.D.EURUSD.CFD.IP',
-      level: 1.0,
-      size: 2.0,
-      time_in_force: :good_till_date,
-      type: :limit
-    }
-
-    expect { platform.working_orders.create attributes }.to raise_error(ArgumentError)
   end
 
   it 'can delete a working order' do

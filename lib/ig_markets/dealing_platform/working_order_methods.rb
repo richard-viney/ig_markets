@@ -42,17 +42,13 @@ module IGMarkets
       # @option attributes [String] :epic The EPIC of the instrument for the order. Required.
       # @option attributes [Time] :expiry The expiry date of the instrument (if applicable). Optional.
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
-      # @option attributes [Time] :good_till_date The date that the working order will live till. Must be set if
-      #                    `:time_in_force` is `:good_till_date`.
+      # @option attributes [Time] :good_till_date The date that the working order will live till. If not specified then
+      #                    the working order will remain until it is cancelled.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
-      # @option attributes [Float] :level The level at which the order will be triggered.
+      # @option attributes [Float] :level The level at which the order will be triggered. Required.
       # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. Optional.
       # @option attributes [Float] :size The size of the working order. Required.
       # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. Optional.
-      # @option attributes [:good_till_cancelled, :good_till_date] :time_in_force The lifespan of the working order.
-      #                    `:good_till_cancelled` means the working order will live until it is explicitly cancelled.
-      #                    `:good_till_date` means the working order will live until the date specified by
-      #                    `:good_till_date`. Defaults to `:good_till_cancelled`.
       # @option attributes [:limit, :stop] :type `:limit` means the working order is intended to buy at a price lower
       #                    than at present, or to sell at a price higher than at present, i.e. there is an expectation
       #                    of a market reversal at the specified `:level`. `:stop` means the working order is intended
@@ -64,7 +60,7 @@ module IGMarkets
       def create(attributes)
         attributes[:force_open] ||= false
         attributes[:guaranteed_stop] ||= false
-        attributes[:time_in_force] ||= :good_till_cancelled
+        attributes[:time_in_force] = attributes[:good_till_date] ? :good_till_date : :good_till_cancelled
 
         model = build_working_order_model attributes
 
@@ -83,10 +79,6 @@ module IGMarkets
         required = [:currency_code, :direction, :epic, :guaranteed_stop, :level, :size, :time_in_force, :type]
         required.each do |attribute|
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
-        end
-
-        if model.time_in_force == :good_till_date && !model.good_till_date.is_a?(Time)
-          raise ArgumentError, 'good_till_date must be set when time_in_force is :good_till_date'
         end
 
         model

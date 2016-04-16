@@ -50,15 +50,16 @@ with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_
 Run `ig_markets help` to list details on available commands. The full list of commands is:
 
 - `ig_markets account`
-- `ig_markets activities --days=7 [--start-date=<yyyy>-<mm>-<dd>]`
+- `ig_markets activities --days=<days> [--start-date=<yyyy>-<mm>-<dd>]`
 - `ig_markets confirmation <deal-reference>`
-- `ig_markets orders`
+- `ig_markets orders [list]`
+- `ig_markets orders delete <deal-id>`
 - `ig_markets positions`
 - `ig_markets search <query>`
 - `ig_markets sentiment <market> [--related]`
 - `ig_markets sprints [list]`
-- `ig_markets sprints create --direction=(buy|sell) --epic=EPIC --expiry-period=(1|2|5|20|60) --size=SIZE`
-- `ig_markets transactions --days=7 [--start-date=<yyyy>-<mm>-<dd>]`
+- `ig_markets sprints create --direction=<buy|sell> --epic=<epic> --expiry-period=<1|2|5|20|60> --size=<size>`
+- `ig_markets transactions --days=<days> [--start-date=<yyyy>-<mm>-<dd>]`
 - `ig_markets watchlists`
 
 ## Usage — Library
@@ -96,7 +97,7 @@ ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24
 # Working orders
 ig.working_orders.all
 ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP', level: 0.99,
-                         size: 1, time_in_force: :good_till_cancelled, type: :limit
+                         size: 1, type: :limit
 ig.working_orders['deal_id']
 ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 0.02
 ig.working_orders['deal_id'].delete

@@ -7,6 +7,8 @@
 - Added `ig_markets sprints create ...` command for creating sprint market positions on the command-line
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
   rather than as an option.
+- Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
+  just set `:good_till_date` if it is needed
 - Automatically reauthenticate if the client security token has expired
 
 ### 0.3 - April 14, 2016

@@ -15,12 +15,20 @@ describe IGMarkets::CLI::Main do
     IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
   end
 
+  it 'reports a standard error' do
+    expect(dealing_platform).to receive(:sign_in).and_raise('test')
+
+    expect do
+      IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
+    end.to output("Error: test\n").to_stdout.and raise_error(SystemExit)
+  end
+
   it 'reports a request failure' do
     expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError, 'test')
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
-    end.to output("ERROR: test\n").to_stdout.and raise_error(SystemExit)
+    end.to output("Request failed: test\n").to_stdout.and raise_error(SystemExit)
   end
 
   describe 'a signed in session' do

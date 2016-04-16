@@ -8,7 +8,7 @@ module IGMarkets
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
 
-      desc 'sprints [SUBCOMAND=list] ...ARGS', 'Command for listing and creating sprint market positions'
+      desc 'sprints [SUBCOMAND=list] ...ARGS', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
       private
@@ -29,7 +29,10 @@ module IGMarkets
 
           yield dealing_platform
         rescue IGMarkets::RequestFailedError => error
-          puts "ERROR: #{error.error}"
+          puts "Request failed: #{error.error}"
+          exit 1
+        rescue StandardError => error
+          puts "Error: #{error}"
           exit 1
         end
       end

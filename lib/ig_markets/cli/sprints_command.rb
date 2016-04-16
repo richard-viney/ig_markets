@@ -16,10 +16,10 @@ module IGMarkets
 
       desc 'create', 'Creates a new sprint market position'
 
-      option :direction, required: true, desc: 'The direction of the new sprint market position'
-      option :epic, required: true, desc: 'The EPIC of the market for the new sprint market position'
-      option :expiry_period, required: true, desc: 'The expiry period in seconds of the new sprint market position'
-      option :size, required: true, desc: 'The size of the new sprint market position'
+      option :direction, required: true, desc: 'The trade direction, must be \'buy\' or \'sell\')'
+      option :epic, required: true, desc: 'The EPIC of the market to trade'
+      option :expiry_period, required: true, desc: 'The expiry period in seconds, must be 1, 2, 5, 20 or 60'
+      option :size, required: true, desc: 'The position size'
 
       def create
         Main.begin_session(options) do |dealing_platform|
