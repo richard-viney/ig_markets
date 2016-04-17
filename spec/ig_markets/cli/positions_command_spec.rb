@@ -57,7 +57,7 @@ END
 Deal reference: ref
 Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
 END
-                                              ).to_stdout
+                                                         ).to_stdout
   end
 
   it 'closes a position' do
@@ -74,6 +74,6 @@ END
 Deal reference: ref
 Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
 END
-                                              ).to_stdout
+                                                        ).to_stdout
   end
 end

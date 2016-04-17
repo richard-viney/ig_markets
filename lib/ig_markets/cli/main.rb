@@ -20,8 +20,6 @@ module IGMarkets
       desc 'watchlists [SUBCOMAND=list] ...', 'Command for working with watchlists'
       subcommand 'watchlists', Watchlists
 
-      private
-
       class << self
         # Signs in to IG Markets and yields back an {DealingPlatform} instance, with common error handling if exceptions
         # occur. This method is used by all of the CLI commands to authenticate.
