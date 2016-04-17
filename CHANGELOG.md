@@ -1,19 +1,17 @@
 # IG Markets Changelog
 
-### 0.4.pre - Unreleased
+### 0.4 - April 18, 2016
 
 - Added `create`, `update` and `delete` subcommands to `ig_markets orders`
 - Added `create`, `update` and `close` subcommands to `ig_markets positions`
 - Added `create` subcommand to `ig_markets sprints`
 - Added `create`, `add-markets`, `remove-markets` and `delete` subcommands to `ig_markets watchlists`
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
-  rather than as an option.
-- Added `--start-date` option to the `ig_markets activities` and `ig_markets transactions` commands in order to support
-  printing details from specific date ranges
+- Added `--start-date` option to the `ig_markets activities` and `ig_markets transactions` commands
 - Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
   just set `:good_till_date` if it is needed
 - `IGMarkets::AccountMethods#recent_activities` and `IGMarkets::AccountMethods#recent_transactions` now take a number of
-  days as their first argument rather than a number of seconds
+  days rather than a number of seconds
 - Fixed errors working with a working order's `#good_till_date` attribute
 - Automatically reauthenticate if the client security token has expired
 
