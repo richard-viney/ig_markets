@@ -54,9 +54,7 @@ module IGMarkets
       desc 'delete <WATCHLIST-ID>', 'Deletes the watchlist with the specified ID'
 
       def delete(watchlist_id)
-        with_watchlist(watchlist_id) do |watchlist|
-          watchlist.delete
-        end
+        with_watchlist(watchlist_id, &:delete)
       end
 
       private

@@ -1,18 +1,19 @@
-describe IGMarkets::CLI::Main do
+describe IGMarkets::CLI::Watchlists do
   let(:dealing_platform) { IGMarkets::DealingPlatform.new }
+
+  def cli
+    IGMarkets::CLI::Watchlists.new
+  end
 
   before do
     expect(IGMarkets::CLI::Main).to receive(:begin_session).and_yield(dealing_platform)
   end
 
-  def cli(arguments = {})
-    IGMarkets::CLI::Watchlists.new [], arguments
-  end
-
   it 'prints watchlists' do
     watchlists = [build(:watchlist)]
+    markets = [build(:market_overview)]
 
-    expect(watchlists[0]).to receive(:markets).and_return([build(:market_overview)])
+    expect(watchlists[0]).to receive(:markets).and_return(markets)
     expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
 
     expect { cli.list }.to output(<<-END
