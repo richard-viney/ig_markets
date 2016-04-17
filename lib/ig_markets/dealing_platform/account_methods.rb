@@ -29,13 +29,13 @@ module IGMarkets
         @dealing_platform.gather "history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
       end
 
-      # Returns all account activities that occurred in the most recent specified number of seconds.
+      # Returns all account activities that occurred in the most recent specified number of days.
       #
-      # @param [Integer, Float] seconds The number of seconds to return recent activities for.
+      # @param [Fixnum, Float] days The number of days to return recent activities for.
       #
       # @return [Array<AccountActivity>]
-      def recent_activities(seconds)
-        @dealing_platform.gather "history/activity/#{(seconds * 1000.0).to_i}", :activities, AccountActivity
+      def recent_activities(days)
+        @dealing_platform.gather "history/activity/#{milliseconds(days)}", :activities, AccountActivity
       end
 
       # Returns all transactions that occurred in the specified date range.
@@ -56,16 +56,16 @@ module IGMarkets
         @dealing_platform.gather url, :transactions, AccountTransaction
       end
 
-      # Returns all transactions that occurred in the last specified number of seconds.
+      # Returns all transactions that occurred in the last specified number of days.
       #
-      # @param [Integer, Float] seconds The number of seconds to return recent transactions for.
+      # @param [Fixnum, Float] days The number of days to return recent transactions for.
       # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
       #
       # @return [Array<AccountTransaction>]
-      def recent_transactions(seconds, transaction_type = :all)
+      def recent_transactions(days, transaction_type = :all)
         validate_transaction_type transaction_type
 
-        url = "history/transactions/#{transaction_type.to_s.upcase}/#{(seconds * 1000.0).to_i}"
+        url = "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds(days)}"
 
         @dealing_platform.gather url, :transactions, AccountTransaction
       end
@@ -86,6 +86,15 @@ module IGMarkets
       # @return [String]
       def format_date(date)
         date.strftime '%d-%m-%Y'
+      end
+
+      # Converts a number of days into a number of milliseconds.
+      #
+      # @param [Fixnum, Float] days The number of days.
+      #
+      # @return [Fixnum]
+      def milliseconds(days)
+        (days.to_f * 24 * 60 * 60 * 1000).to_i
       end
     end
   end

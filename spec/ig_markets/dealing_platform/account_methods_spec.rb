@@ -28,10 +28,10 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:account_activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity/1000000', IGMarkets::API_V1)
+      .with('history/activity/604800000', IGMarkets::API_V1)
       .and_return(activities: activities)
 
-    expect(platform.account.recent_activities(1000)).to eq(activities)
+    expect(platform.account.recent_activities(7)).to eq(activities)
   end
 
   it 'can retrieve transactions in a date range' do
@@ -50,9 +50,9 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:account_transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions/DEPOSIT/1000000', IGMarkets::API_V1)
+      .with('history/transactions/DEPOSIT/604800000', IGMarkets::API_V1)
       .and_return(transactions: transactions)
 
-    expect(platform.account.recent_transactions(1000, :deposit)).to eq(transactions)
+    expect(platform.account.recent_transactions(7, :deposit)).to eq(transactions)
   end
 end

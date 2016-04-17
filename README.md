@@ -82,8 +82,8 @@ ig.sign_out
 
 # Account
 ig.account.all
-ig.account.recent_activities 24 * 60 * 60
-ig.account.recent_transactions 24 * 60 * 60
+ig.account.recent_activities 7
+ig.account.recent_transactions 7
 ig.account.activities_in_date_range Date.today - 14, Date.today - 7
 ig.account.transactions_in_date_range Date.today - 14, Date.today - 7
 

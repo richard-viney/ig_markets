@@ -12,7 +12,7 @@ describe IGMarkets::CLI::Main do
   it 'prints transactions from a recent number of days' do
     transactions = [build(:account_transaction)]
 
-    expect(dealing_platform.account).to receive(:recent_transactions).with(259_200).and_return(transactions)
+    expect(dealing_platform.account).to receive(:recent_transactions).with(3).and_return(transactions)
 
     expect { cli(days: 3).transactions }.to output(<<-END
 2015-06-23 reference: Deal, +1 of instrument, profit/loss: US -1.00

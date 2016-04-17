@@ -12,6 +12,8 @@
   printing details from specific date ranges
 - Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
   just set `:good_till_date` if it is needed
+- `IGMarkets::AccountMethods#recent_activities` and `IGMarkets::AccountMethods#recent_transactions` now take a number of
+  days as their first argument rather than a number of seconds
 - Fixed errors working with a working order's `#good_till_date` attribute
 - Automatically reauthenticate if the client security token has expired
 

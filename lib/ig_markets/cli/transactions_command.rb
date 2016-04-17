@@ -5,7 +5,7 @@ module IGMarkets
       desc 'transactions', 'Prints account transactions'
 
       option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
-      option :start_date, desc: 'The start date to print account transactions from, in the format \'YYYY-MM-DD\''
+      option :start_date, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
 
       def transactions
         self.class.begin_session(options) do |dealing_platform|
@@ -27,7 +27,7 @@ module IGMarkets
 
           dealing_platform.account.transactions_in_date_range start_date, start_date + days.to_i
         else
-          dealing_platform.account.recent_transactions seconds(days)
+          dealing_platform.account.recent_transactions days
         end
       end
 

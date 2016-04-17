@@ -12,7 +12,7 @@ describe IGMarkets::CLI::Main do
   it 'prints activities from a recent number of days' do
     activities = [build(:account_activity)]
 
-    expect(dealing_platform.account).to receive(:recent_activities).with(259_200).and_return(activities)
+    expect(dealing_platform.account).to receive(:recent_activities).with(3).and_return(activities)
 
     expect { cli(days: 3).activities }.to output(<<-END
 2015-12-20 DIAAAAA4HDKPQEQ: +1 of CS.D.NZDUSD.CFD.IP, level: 0.664, result: Result

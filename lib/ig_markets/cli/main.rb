@@ -22,15 +22,13 @@ module IGMarkets
 
       private
 
-      def seconds(days)
-        (days.to_f * 60 * 60 * 24).to_i
-      end
-
       class << self
-        def dealing_platform
-          @dealing_platform ||= DealingPlatform.new
-        end
-
+        # Signs in to IG Markets and yields back an {DealingPlatform} instance, with common error handling if exceptions
+        # occur. This method is used by all of the CLI commands to authenticate.
+        #
+        # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options hash.
+        #
+        # @return [void]
         def begin_session(options)
           platform = options[:demo] ? :demo : :production
 
@@ -43,6 +41,11 @@ module IGMarkets
         rescue StandardError => error
           warn "Error: #{error}"
           exit 1
+        end
+
+        # The dealing platform instance used by {begin_session}.
+        def dealing_platform
+          @dealing_platform ||= DealingPlatform.new
         end
 
         # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if the
