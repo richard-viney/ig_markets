@@ -20,7 +20,7 @@ module IGMarkets
                                                    'currencies'
       option :direction, required: true, desc: 'The trade direction, must be \'buy\' or \'sell\''
       option :epic, required: true, desc: 'The EPIC of the market to trade'
-      option :expiry, desc: 'The expiry date of the instrument (if applicable)'
+      option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
       option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required, default: false'
       option :good_till_date, desc: 'The date that the order will live till, if not specified then the order will ' \
                                     'remain until it is deleted, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
@@ -86,22 +86,23 @@ module IGMarkets
           end
         end
 
-        parse_good_till_date attributes
+        parse_date_or_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
+        parse_date_or_time attributes, :good_till_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
 
         attributes
       end
 
-      def parse_good_till_date(attributes)
-        return unless attributes.key? :good_till_date
+      def parse_date_or_time(attributes, attribute, klass, format, display_format)
+        return unless attributes.key? attribute
 
-        if !['', 'good_till_date'].include? attributes[:good_till_date].to_s
+        if !['', attribute.to_s].include? attributes[attribute].to_s
           begin
-            attributes[:good_till_date] = Time.strptime attributes[:good_till_date], '%FT%R%z'
+            attributes[attribute] = klass.strptime attributes[attribute], format
           rescue ArgumentError
-            raise 'invalid --good-till-date, use format "yyyy-mm-ddThh:mm(+|-)zz:zz"'
+            raise "invalid #{attribute}, use format \"#{display_format}\""
           end
         else
-          attributes[:good_till_date] = nil
+          attributes[attribute] = nil
         end
       end
     end

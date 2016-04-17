@@ -36,7 +36,7 @@ module IGMarkets
       #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction The position direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument to create a position for. Required.
-      # @option attributes [Time] :expiry The expiry date of the instrument, if it has one. Optional.
+      # @option attributes [Date] :expiry The expiry date of the instrument, if it has one. Optional.
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.

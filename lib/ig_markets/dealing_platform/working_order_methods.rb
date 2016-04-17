@@ -40,7 +40,7 @@ module IGMarkets
       #                    currencies (see {Instrument#currencies}). Required.
       # @option attributes [:buy, :sell] :direction Order direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument for the order. Required.
-      # @option attributes [Time] :expiry The expiry date of the instrument (if applicable). Optional.
+      # @option attributes [Date] :expiry The expiry date of the instrument (if applicable). Optional.
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
       # @option attributes [Time] :good_till_date The date that the working order will live till. If not specified then
       #                    the working order will remain until it is cancelled.
