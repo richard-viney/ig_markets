@@ -68,11 +68,6 @@ module IGMarkets
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
       #         the position creation.
       def create(attributes)
-        attributes[:force_open] = false unless attributes.key? :force_open
-        attributes[:guaranteed_stop] = false unless attributes.key? :guaranteed_stop
-        attributes[:order_type] ||= :market
-        attributes[:time_in_force] = :execute_and_eliminate if attributes[:order_type] == :market
-
         model = PositionCreateAttributes.new attributes
         model.validate
 
@@ -104,10 +99,16 @@ module IGMarkets
         attribute :trailing_stop, Boolean
         attribute :trailing_stop_increment, Fixnum
 
+        def initialize(attributes = {})
+          super
+
+          set_defaults
+        end
+
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
         # Markets API.
         def validate
-          validate_required_attributes_present
+          validate_required_attributes
           Position.validate_order_type_constraints attributes
           validate_trailing_stop_constraints
           validate_stop_and_limit_constraints
@@ -116,8 +117,15 @@ module IGMarkets
 
         private
 
+        def set_defaults
+          self.force_open = false if force_open.nil?
+          self.guaranteed_stop = false if guaranteed_stop.nil?
+          self.order_type ||= :market
+          self.time_in_force = :execute_and_eliminate if order_type == :market
+        end
+
         # Checks that all required attributes for position creation are present.
-        def validate_required_attributes_present
+        def validate_required_attributes
           required = [:currency_code, :direction, :epic, :force_open, :guaranteed_stop, :order_type, :size,
                       :time_in_force]
 

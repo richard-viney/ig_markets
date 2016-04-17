@@ -11,6 +11,9 @@ module IGMarkets
       desc 'orders [SUBCOMAND=list] ...', 'Command for working with orders'
       subcommand 'orders', Orders
 
+      desc 'positions [SUBCOMAND=list] ...', 'Command for working with positions'
+      subcommand 'positions', Positions
+
       desc 'sprints [SUBCOMAND=list] ...', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
@@ -40,6 +43,31 @@ module IGMarkets
         rescue StandardError => error
           puts "Error: #{error}"
           exit 1
+        end
+
+        # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if the
+        # attribute has been specified in an invalid format.
+        #
+        # @param [Hash] attributes The attributes hash.
+        # @param [Symbol] attribute The name of the date or time attribute to parse and validate.
+        # @param [Date, Time] klass The class to validate with.
+        # @param [String] format The `strptime` format string to parse the attribute with.
+        # @param [String] display_format The human-readable version of `format` to put into an exception if there is
+        #                 a problem parsing the attribute.
+        #
+        # @return [void]
+        def parse_date_time(attributes, attribute, klass, format, display_format)
+          return unless attributes.key? attribute
+
+          if !['', attribute.to_s].include? attributes[attribute].to_s
+            begin
+              attributes[attribute] = klass.strptime attributes[attribute], format
+            rescue ArgumentError
+              raise "invalid #{attribute}, use format \"#{display_format}\""
+            end
+          else
+            attributes[attribute] = nil
+          end
         end
       end
     end

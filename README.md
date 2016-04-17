@@ -44,7 +44,7 @@ with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_
 --username=<username>
 --password=<password>
 --api-key=<api-key>
-# (include if this is a demo account) --demo
+--demo                  # Include only if this is a demo account
 ```
 
 Run `ig_markets help` to list details on available commands. The full list of commands is:
@@ -57,6 +57,9 @@ Run `ig_markets help` to list details on available commands. The full list of co
 - `ig_markets orders update <DEAL-ID> ...`
 - `ig_markets orders delete <DEAL-ID>`
 - `ig_markets positions`
+- `ig_markets positions create ...`
+- `ig_markets positions update <DEAL-ID> ...`
+- `ig_markets positions close <DEAL-ID> ...`
 - `ig_markets search <QUERY>`
 - `ig_markets sentiment <MARKET> [--related]`
 - `ig_markets sprints [list]`

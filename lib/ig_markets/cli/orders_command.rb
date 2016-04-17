@@ -86,24 +86,10 @@ module IGMarkets
           end
         end
 
-        parse_date_or_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
-        parse_date_or_time attributes, :good_till_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
+        Main.parse_date_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
+        Main.parse_date_time attributes, :good_till_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
 
         attributes
-      end
-
-      def parse_date_or_time(attributes, attribute, klass, format, display_format)
-        return unless attributes.key? attribute
-
-        if !['', attribute.to_s].include? attributes[attribute].to_s
-          begin
-            attributes[attribute] = klass.strptime attributes[attribute], format
-          rescue ArgumentError
-            raise "invalid #{attribute}, use format \"#{display_format}\""
-          end
-        else
-          attributes[attribute] = nil
-        end
       end
     end
   end
