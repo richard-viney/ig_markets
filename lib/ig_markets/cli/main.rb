@@ -38,10 +38,10 @@ module IGMarkets
 
           yield dealing_platform
         rescue IGMarkets::RequestFailedError => error
-          puts "Request failed: #{error.error}"
+          warn "Request failed: #{error.error}"
           exit 1
         rescue StandardError => error
-          puts "Error: #{error}"
+          warn "Error: #{error}"
           exit 1
         end
 

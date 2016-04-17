@@ -20,7 +20,7 @@ describe IGMarkets::CLI::Main do
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
-    end.to output("Error: test\n").to_stdout.and raise_error(SystemExit)
+    end.to output("Error: test\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a request failure' do
@@ -28,6 +28,6 @@ describe IGMarkets::CLI::Main do
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
-    end.to output("Request failed: test\n").to_stdout.and raise_error(SystemExit)
+    end.to output("Request failed: test\n").to_stderr.and raise_error(SystemExit)
   end
 end
