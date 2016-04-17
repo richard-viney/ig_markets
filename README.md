@@ -33,7 +33,7 @@ Licensed under the MIT license. You must read and agree to its terms to use this
 ```sh
 $ gem install ig_markets
 
-Usage: ig_markets <command> --username=<username> --password=<password> --api-key=<api-key> [--demo]
+Usage: ig_markets COMMAND --username=USERNAME --password=PASSWORD --api-key=API-KEY [--demo]
 ```
 
 On startup `ig_markets` searches for files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are present
@@ -41,35 +41,35 @@ interprets their contents as command-line arguments. This can be used to avoid h
 with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
 
 ```
---username=<username>
---password=<password>
---api-key=<api-key>
---demo                  # Include only if this is a demo account
+--username=USERNAME
+--password=PASSWORD
+--api-key=API-KEY
+--demo              # Include only if this is a demo account
 ```
 
 Run `ig_markets help` to list details on available commands. The full list of commands is:
 
 - `ig_markets account`
 - `ig_markets activities --days=N [--start-date=YYYY-MM-DD]`
-- `ig_markets confirmation <DEAL-REFERENCE>`
+- `ig_markets confirmation DEAL-REFERENCE`
 - `ig_markets orders [list]`
 - `ig_markets orders create ...`
-- `ig_markets orders update <DEAL-ID> ...`
-- `ig_markets orders delete <DEAL-ID>`
+- `ig_markets orders update DEAL-ID ...`
+- `ig_markets orders delete DEAL-ID`
 - `ig_markets positions`
 - `ig_markets positions create ...`
-- `ig_markets positions update <DEAL-ID> ...`
-- `ig_markets positions close <DEAL-ID> ...`
-- `ig_markets search <QUERY>`
-- `ig_markets sentiment <MARKET> [--related]`
+- `ig_markets positions update DEAL-ID ...`
+- `ig_markets positions close DEAL-ID ...`
+- `ig_markets search QUERY`
+- `ig_markets sentiment MARKET [--related]`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
 - `ig_markets transactions --days=N [--start-date=YYYY-MM-DD]`
 - `ig_markets watchlists [list]`
-- `ig_markets watchlists create <NAME> [<EPIC> <EPIC> ...]`
-- `ig_markets watchlists add-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]`
-- `ig_markets watchlists remove-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]`
-- `ig_markets watchlists delete <WATCHLIST-ID>`
+- `ig_markets watchlists create NAME [EPIC EPIC ...]`
+- `ig_markets watchlists add-markets WATCHLIST-ID [EPIC EPIC ...]`
+- `ig_markets watchlists remove-markets WATCHLIST-ID [EPIC EPIC ...]`
+- `ig_markets watchlists delete WATCHLIST-ID`
 
 ## Usage — Library
 
@@ -82,8 +82,8 @@ ig.sign_out
 
 # Account
 ig.account.all
-ig.account.recent_activities 7
-ig.account.recent_transactions 7
+ig.account.recent_activities 365
+ig.account.recent_transactions 365
 ig.account.activities_in_date_range Date.today - 14, Date.today - 7
 ig.account.transactions_in_date_range Date.today - 14, Date.today - 7
 

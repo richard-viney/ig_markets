@@ -4,32 +4,4 @@ $LOAD_PATH.unshift File.dirname(File.realpath(__FILE__)) + '/../lib'
 
 require 'ig_markets'
 
-# Read arguments from any '.ig_markets' config file
-def config_file_arguments
-  config_file = ['./.ig_markets', "#{Dir.home}/.ig_markets"].detect { |file| File.exist? file }
-
-  return [] unless config_file
-
-  File.readlines(config_file)
-      .map { |line| line.gsub(/#.*/, '') }
-      .map(&:strip)
-      .join(' ')
-      .split(' ')
-end
-
-# Put arguments from the config file into a modified ARGV array
-def modified_argv
-  insert_index = ARGV.index do |argument|
-    argument[0] == '-'
-  end || ARGV.size
-
-  ARGV.dup.insert insert_index, *config_file_arguments
-end
-
-# Implement --version and -v arguments
-if ARGV.index('--version') || ARGV.index('-v')
-  puts IGMarkets::VERSION
-  exit
-end
-
-IGMarkets::CLI::Main.start modified_argv
+IGMarkets::CLI::Main.bootstrap ARGV

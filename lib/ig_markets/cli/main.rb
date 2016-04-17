@@ -8,16 +8,16 @@ module IGMarkets
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
 
-      desc 'orders [SUBCOMAND=list] ...', 'Command for working with orders'
+      desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
       subcommand 'orders', Orders
 
-      desc 'positions [SUBCOMAND=list] ...', 'Command for working with positions'
+      desc 'positions [SUBCOMAND=list ...]', 'Command for working with positions'
       subcommand 'positions', Positions
 
-      desc 'sprints [SUBCOMAND=list] ...', 'Command for working with sprint market positions'
+      desc 'sprints [SUBCOMAND=list ...]', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
-      desc 'watchlists [SUBCOMAND=list] ...', 'Command for working with watchlists'
+      desc 'watchlists [SUBCOMAND=list ...]', 'Command for working with watchlists'
       subcommand 'watchlists', Watchlists
 
       class << self
@@ -69,6 +69,28 @@ module IGMarkets
           else
             attributes[attribute] = nil
           end
+        end
+
+        # This is the initial entry point for the execution of the command-line client. It is responsible for reading
+        # any config files, implementing the --version/-v options, and then invoking the main application.
+        #
+        # @param [Array<String>] argv The array of command-line arguments.
+        #
+        # @return [void]
+        def bootstrap(argv)
+          if argv.index('--version') || argv.index('-v')
+            puts VERSION
+            exit
+          end
+
+          # Use arguments from a config file if one exists
+          config_file = ConfigFile.find
+          if config_file
+            insert_index = argv.index { |argument| argument[0] == '-' } || -1
+            argv.insert insert_index, *config_file.arguments
+          end
+
+          start argv
         end
       end
     end

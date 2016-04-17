@@ -30,4 +30,29 @@ describe IGMarkets::CLI::Main do
       IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
     end.to output("Request failed: test\n").to_stderr.and raise_error(SystemExit)
   end
+
+  it 'reports the version' do
+    ['-v', '--version'].each do |argument|
+      expect do
+        IGMarkets::CLI::Main.bootstrap [argument]
+      end.to output("#{IGMarkets::VERSION}\n").to_stdout.and raise_error(SystemExit)
+    end
+  end
+
+  it 'runs with no config file' do
+    expect(IGMarkets::CLI::ConfigFile).to receive(:find).and_return(nil)
+    expect(IGMarkets::CLI::Main).to receive(:start).with(['--test'])
+
+    IGMarkets::CLI::Main.bootstrap ['--test']
+  end
+
+  it 'uses a config file if present' do
+    config_file = instance_double IGMarkets::CLI::ConfigFile
+
+    expect(config_file).to receive(:arguments).and_return(['--username', 'USER'])
+    expect(IGMarkets::CLI::ConfigFile).to receive(:find).and_return(config_file)
+    expect(IGMarkets::CLI::Main).to receive(:start).with(['--username', 'USER', '--test'])
+
+    IGMarkets::CLI::Main.bootstrap ['--test']
+  end
 end
