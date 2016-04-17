@@ -14,6 +14,9 @@ module IGMarkets
       desc 'sprints [SUBCOMAND=list] ...', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
+      desc 'watchlists [SUBCOMAND=list] ...', 'Command for working with watchlists'
+      subcommand 'watchlists', Watchlists
+
       private
 
       def seconds(days)

@@ -62,7 +62,11 @@ Run `ig_markets help` to list details on available commands. The full list of co
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
 - `ig_markets transactions --days=N [--start-date=YYYY-MM-DD]`
-- `ig_markets watchlists`
+- `ig_markets watchlists [list]`
+- `ig_markets watchlists create <NAME> [<EPIC> <EPIC> ...]`
+- `ig_markets watchlists add-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]`
+- `ig_markets watchlists remove-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]`
+- `ig_markets watchlists delete <WATCHLIST-ID>`
 
 ## Usage — Library
 

@@ -286,19 +286,5 @@ END
 
       expect { cli(days: 3, start_date: '2015-01-15').transactions }.to_not output.to_stdout
     end
-
-    it 'prints watchlists' do
-      watchlists = [build(:watchlist)]
-
-      expect(watchlists[0]).to receive(:markets).and_return([build(:market_overview)])
-      expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
-
-      expect { cli.watchlists }.to output(<<-END
-2547731: Markets, editable: false, deleteable: false, default: false
-  - CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
-
-END
-                                         ).to_stdout
-    end
   end
 end

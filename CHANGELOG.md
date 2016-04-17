@@ -2,9 +2,11 @@
 
 ### 0.4.pre - Unreleased
 
-- Added `create`, `update` and `delete` subcommands to `ig_markets orders` for creating, updating and deleting working
-  orders on the command-line
+- Added `create`, `update` and `delete` subcommands to `ig_markets orders` for working with working orders on the
+  command-line
 - Added `create` subcommand to `ig_markets sprints` for creating sprint market positions on the command-line
+- Added `create`, `add-markets`, `remove-markets` and `delete` subcommands to `ig_markets watchlists` for working with
+  watchlists on the command-line
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
   rather than as an option.
 - Added `--start-date` option to the `ig_markets activities` and `ig_markets transactions` commands in order to support
