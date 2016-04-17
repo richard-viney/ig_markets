@@ -42,9 +42,7 @@ module IGMarkets
         Main.begin_session(options) do |dealing_platform|
           deal_reference = dealing_platform.positions.create position_attributes
 
-          puts "Deal reference: #{deal_reference}"
-
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          Main.report_deal_confirmation deal_reference
         end
       end
 
@@ -101,9 +99,7 @@ module IGMarkets
 
           deal_reference = yield position
 
-          puts "Deal reference: #{deal_reference}"
-
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          Main.report_deal_confirmation deal_reference
         end
       end
     end

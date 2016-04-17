@@ -23,17 +23,15 @@ module IGMarkets
 
       def create
         Main.begin_session(options) do |dealing_platform|
-          deal_reference = dealing_platform.sprint_market_positions.create new_sprint_market_position_attributes
+          deal_reference = dealing_platform.sprint_market_positions.create sprint_market_position_attributes
 
-          puts "Deal reference: #{deal_reference}"
-
-          Output.print_deal_confirmation dealing_platform.deal_confirmation deal_reference
+          Main.report_deal_confirmation deal_reference
         end
       end
 
       private
 
-      def new_sprint_market_position_attributes
+      def sprint_market_position_attributes
         {
           direction: options[:direction],
           epic: options[:epic],

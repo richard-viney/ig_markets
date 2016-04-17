@@ -31,6 +31,18 @@ describe IGMarkets::CLI::Main do
     end.to output("Request failed: test\n").to_stderr.and raise_error(SystemExit)
   end
 
+  it 'reports a deal confirmation' do
+    deal_confirmation = build :deal_confirmation
+
+    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
+Deal reference: ref
+Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+END
+                                                                            ).to_stdout
+  end
+
   it 'reports the version' do
     ['-v', '--version'].each do |argument|
       expect do

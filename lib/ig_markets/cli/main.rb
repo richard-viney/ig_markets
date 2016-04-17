@@ -46,6 +46,17 @@ module IGMarkets
           @dealing_platform ||= DealingPlatform.new
         end
 
+        # Takes a deal reference and prints out its full deal confirmation.
+        #
+        # @param [String] deal_reference
+        #
+        # @return [void]
+        def report_deal_confirmation(deal_reference)
+          puts "Deal reference: #{deal_reference}"
+
+          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+        end
+
         # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if the
         # attribute has been specified in an invalid format.
         #

@@ -36,9 +36,7 @@ module IGMarkets
         Main.begin_session(options) do |dealing_platform|
           deal_reference = dealing_platform.working_orders.create working_order_attributes
 
-          puts "Deal reference: #{deal_reference}"
-
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          Main.report_deal_confirmation deal_reference
         end
       end
 
@@ -55,9 +53,7 @@ module IGMarkets
         Main.begin_session(options) do |dealing_platform|
           deal_reference = dealing_platform.working_orders[deal_id].update working_order_attributes
 
-          puts "Deal reference: #{deal_reference}"
-
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          Main.report_deal_confirmation deal_reference
         end
       end
 
@@ -70,9 +66,8 @@ module IGMarkets
           raise 'No working order with the specified deal ID' unless working_order
 
           deal_reference = working_order.delete
-          puts "Deal reference: #{deal_reference}"
 
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          Main.report_deal_confirmation deal_reference
         end
       end
 

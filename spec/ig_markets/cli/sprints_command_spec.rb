@@ -23,16 +23,12 @@ END
 
   it 'creates a sprint market position' do
     arguments = { direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: '5', size: '10' }
-    deal_confirmation = build :deal_confirmation
 
     expect(dealing_platform.sprint_market_positions).to receive(:create).with(
       direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :five_minutes, size: '10').and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).and_return(deal_confirmation)
+   
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    expect { cli(arguments).create }.to output(<<-END
-Deal reference: ref
-Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
-END
-                                              ).to_stdout
+    cli(arguments).create
   end
 end

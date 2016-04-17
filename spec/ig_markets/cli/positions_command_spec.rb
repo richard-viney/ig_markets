@@ -28,16 +28,10 @@ END
       size: 2
     }
 
-    deal_confirmation = build :deal_confirmation
-
     expect(dealing_platform.positions).to receive(:create).with(arguments).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    expect { cli(arguments).create }.to output(<<-END
-Deal reference: ref
-Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
-END
-                                              ).to_stdout
+    cli(arguments).create
   end
 
   it 'updates a position' do
@@ -47,33 +41,23 @@ END
     }
 
     position = build :position
-    deal_confirmation = build :deal_confirmation
 
     expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
     expect(position).to receive(:update).with(arguments).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    expect { cli(arguments).update('deal_id') }.to output(<<-END
-Deal reference: ref
-Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
-END
-                                                         ).to_stdout
+    cli(arguments).update 'deal_id'
   end
 
   it 'closes a position' do
     arguments = { size: 1 }
 
     position = build :position
-    deal_confirmation = build :deal_confirmation
 
     expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
     expect(position).to receive(:close).with(arguments).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    expect { cli(arguments).close('deal_id') }.to output(<<-END
-Deal reference: ref
-Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
-END
-                                                        ).to_stdout
+    cli(arguments).close 'deal_id'
   end
 end
