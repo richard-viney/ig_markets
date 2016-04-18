@@ -46,12 +46,13 @@ END
         print "Deal confirmation: #{deal_confirmation.deal_id}, #{deal_confirmation.deal_status}, "
 
         if deal_confirmation.deal_status == :accepted
-          print "affected deals: #{deal_confirmation.affected_deals.map(&:deal_id).join(',')}, "
+          affected_deals = deal_confirmation.affected_deals.map(&:deal_id).join ','
+          print "affected deals: #{affected_deals}, "
         else
           print "reason: #{deal_confirmation.reason}, "
         end
 
-        print "epic: #{deal_confirmation.epic}\n"
+        puts "epic: #{deal_confirmation.epic}"
       end
 
       def print_market_overview(market)
@@ -65,30 +66,39 @@ END
       end
 
       def print_position(position)
+        profit_loss = Format.currency position.profit_loss, position.currency
+
         puts <<-END
 #{position.deal_id}: \
 #{position.formatted_size} of #{position.market.epic} at #{position.level}, \
-profit/loss: #{Format.currency position.profit_loss, position.currency}
+profit/loss: #{profit_loss}
 END
       end
 
       def print_sprint_market_position(sprint)
+        size = Format.currency sprint.size, sprint.currency
+        direction = { buy: 'above', sell: 'below' }.fetch(sprint.direction)
+        seconds_till_expiry = Format.seconds sprint.seconds_till_expiry
+        payout_amount = Format.currency sprint.payout_amount, sprint.currency
+
         puts <<-END
 #{sprint.deal_id}: \
-#{Format.currency sprint.size, sprint.currency} on #{sprint.epic} \
-to be #{{ buy: 'above', sell: 'below' }.fetch(sprint.direction)} #{sprint.strike_level} \
-in #{Format.seconds sprint.seconds_till_expiry}, \
-payout: #{Format.currency sprint.payout_amount, sprint.currency}
+#{size} on #{sprint.epic} \
+to be #{direction} #{sprint.strike_level} \
+in #{seconds_till_expiry}, \
+payout: #{payout_amount}
 END
       end
 
       def print_transaction(transaction)
+        profit_loss = Format.currency transaction.profit_and_loss_amount, transaction.currency
+
         puts <<-END
 #{transaction.date.strftime '%F'} #{transaction.reference}: \
 #{transaction.formatted_transaction_type}, \
 #{"#{transaction.size} of " if transaction.size}\
 #{transaction.instrument_name}, \
-profit/loss: #{Format.currency transaction.profit_and_loss_amount, transaction.currency}
+profit/loss: #{profit_loss}
 END
       end
 
@@ -102,9 +112,11 @@ END
       end
 
       def print_working_order(order)
+        size = format '%g', order.order_size
+
         puts <<-END
 #{order.deal_id}: \
-#{order.direction} #{format '%g', order.order_size} of #{order.epic} at #{order.order_level}\
+#{order.direction} #{size} of #{order.epic} at #{order.order_level}\
 , limit distance: #{order.limit_distance || '-'}\
 , stop distance: #{order.stop_distance || '-'}\
 #{", good till #{order.good_till_date.utc.strftime '%F %R %z'}" if order.time_in_force == :good_till_date}
