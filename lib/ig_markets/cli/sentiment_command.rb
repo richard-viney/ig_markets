@@ -2,7 +2,7 @@ module IGMarkets
   module CLI
     # Implements the `ig_markets sentiment` command.
     class Main
-      desc 'sentiment <MARKET>', 'Prints sentiment for the specified market'
+      desc 'sentiment MARKET', 'Prints sentiment for the specified market'
 
       option :related, type: :boolean, desc: 'Whether to print sentiment for related markets as well'
 

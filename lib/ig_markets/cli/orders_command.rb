@@ -40,7 +40,7 @@ module IGMarkets
         end
       end
 
-      desc 'update <DEAL-ID>', 'Updates an existing working order'
+      desc 'update DEAL-ID', 'Updates an existing working order'
 
       option :good_till_date, desc: 'The date that the order will live till, if not specified then the order will ' \
                                     'remain until it is deleted, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
@@ -57,7 +57,7 @@ module IGMarkets
         end
       end
 
-      desc 'delete <DEAL-ID>', 'Deletes the working order with the specified deal ID'
+      desc 'delete DEAL-ID', 'Deletes the working order with the specified deal ID'
 
       def delete(deal_id)
         Main.begin_session(options) do |dealing_platform|

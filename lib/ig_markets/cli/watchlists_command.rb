@@ -21,7 +21,7 @@ module IGMarkets
 
       default_task :list
 
-      desc 'create <NAME> [<EPIC> <EPIC> ...]', 'Creates a new watchlist with the specified name and EPICs'
+      desc 'create NAME [EPIC EPIC ...]', 'Creates a new watchlist with the specified name and EPICs'
 
       def create(name, *epics)
         Main.begin_session(options) do |dealing_platform|
@@ -31,7 +31,7 @@ module IGMarkets
         end
       end
 
-      desc 'add-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]', 'Adds the specified markets to a watchlist'
+      desc 'add-markets WATCHLIST-ID EPIC [EPIC ...]', 'Adds the specified markets to a watchlist'
 
       def add_markets(watchlist_id, *epics)
         with_watchlist(watchlist_id) do |watchlist|
@@ -41,7 +41,7 @@ module IGMarkets
         end
       end
 
-      desc 'remove-markets <WATCHLIST-ID> <EPIC> [<EPIC> ...]', 'Removes the specified markets from a watchlist'
+      desc 'remove-markets WATCHLIST-ID EPIC [EPIC ...]', 'Removes the specified markets from a watchlist'
 
       def remove_markets(watchlist_id, *epics)
         with_watchlist(watchlist_id) do |watchlist|
@@ -51,7 +51,7 @@ module IGMarkets
         end
       end
 
-      desc 'delete <WATCHLIST-ID>', 'Deletes the watchlist with the specified ID'
+      desc 'delete WATCHLIST-ID', 'Deletes the watchlist with the specified ID'
 
       def delete(watchlist_id)
         with_watchlist(watchlist_id, &:delete)

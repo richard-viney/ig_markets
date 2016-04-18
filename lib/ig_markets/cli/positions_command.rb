@@ -46,7 +46,7 @@ module IGMarkets
         end
       end
 
-      desc 'update <DEAL-ID>', 'Updates attributes of an existing position'
+      desc 'update DEAL-ID', 'Updates attributes of an existing position'
 
       option :limit_level, desc: 'The limit level'
       option :stop_level, desc: 'The stop level'
@@ -60,7 +60,7 @@ module IGMarkets
         end
       end
 
-      desc 'close <DEAL-ID>', 'Closes or partially closes a position'
+      desc 'close DEAL-ID', 'Closes or partially closes a position'
 
       option :level, type: :numeric, desc: 'Required if and only if --order-type is \'limit\' or \'quote\''
       option :order_type, default: 'market', desc: 'The order type, must be \'limit\', \'market\' or \'quote\''

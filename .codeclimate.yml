@@ -13,3 +13,4 @@ ratings:
   - "**.rb"
 exclude_paths:
 - spec/**/*
+- lib/ig_markets/cli/output.rb

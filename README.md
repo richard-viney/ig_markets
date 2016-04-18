@@ -28,30 +28,48 @@ An IG Markets production or demo trading account is needed in order to use this 
 
 Licensed under the MIT license. You must read and agree to its terms to use this software.
 
+## Installation
+
+Install the latest version of the `ig_markets` gem with the following command:
+
+```
+$ gem install ig_markets
+```
+
 ## Usage — Command-Line Client
 
-```sh
-$ gem install ig_markets
-
-Usage: ig_markets COMMAND --username=USERNAME --password=PASSWORD --api-key=API-KEY [--demo]
-```
-
-On startup `ig_markets` searches for files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are present
-interprets their contents as command-line arguments. This can be used to avoid having to specify authentication details
-with every invocation. To do this create a file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
+The general form for invoking the command-line client is:
 
 ```
+$ ig_markets COMMAND [SUBCOMMAND] --username=USERNAME --password=PASSWORD --api-key=API-KEY [--demo] [...]
+```
+
+#### Config File
+
+On startup `ig_markets` searches for config files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are
+present interprets their contents as command-line arguments. This can be used to avoid having to specify authentication
+details with every invocation.
+
+To do this create a config file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
+
+```shell
 --username=USERNAME
 --password=PASSWORD
 --api-key=API-KEY
 --demo              # Include only if this is a demo account
 ```
 
-Run `ig_markets help` to list details on available commands. The full list of commands is:
+The following examples assume the presence of a config file that contains valid authentication details.
+
+#### Commands
+
+Use `ig_markets help` to get details on the options accepted by the commands and subcommands. The list of available
+commands and their subcommands is:
 
 - `ig_markets account`
 - `ig_markets activities --days=N [--start-date=YYYY-MM-DD]`
 - `ig_markets confirmation DEAL-REFERENCE`
+- `ig_markets help [COMMAND]`
 - `ig_markets orders [list]`
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
@@ -59,7 +77,7 @@ Run `ig_markets help` to list details on available commands. The full list of co
 - `ig_markets positions`
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
-- `ig_markets positions close DEAL-ID ...`
+- `ig_markets positions close DEAL-ID [...]`
 - `ig_markets search QUERY`
 - `ig_markets sentiment MARKET [--related]`
 - `ig_markets sprints [list]`
@@ -71,9 +89,42 @@ Run `ig_markets help` to list details on available commands. The full list of co
 - `ig_markets watchlists remove-markets WATCHLIST-ID [EPIC EPIC ...]`
 - `ig_markets watchlists delete WATCHLIST-ID`
 
+#### Examples
+
+```shell
+# Print account details and balances
+ig_markets account
+
+# Print transactions from the last week
+ig_markets transactions --days=7
+
+# Create a EURUSD long position of size 2
+ig_markets positions create --currency-code USD --direction buy --epic CS.D.EURUSD.CFD.IP --size 2
+
+# Change the limit and stop levels for an existing position
+ig_markets positions update DEAL-ID --limit-level 1.15 --stop-level 1.10
+
+# Fully close a position
+ig_markets positions close DEAL-ID
+
+# Partially close a position (assuming its size is at least 2)
+ig_markets positions close DEAL-ID --size 1
+
+# Create a EURUSD sprint market short position of size 100 that expires in 5 minutes
+ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 5 --size 100
+```
+
 ## Usage — Library
 
+#### Documentation
+
+API documentation is available [here](http://www.rubydoc.info/github/rviney/ig_markets/master).
+
+#### Examples
+
 ```ruby
+require 'ig_markets'
+
 ig = IGMarkets::DealingPlatform.new
 
 # Session
@@ -134,10 +185,6 @@ ig.client_sentiment['EURUSD'].related_sentiments
 # Miscellaneous
 ig.applications
 ```
-
-## Documentation
-
-API documentation is available [here](http://www.rubydoc.info/github/rviney/ig_markets/master).
 
 ## Contributors
 
