@@ -45,8 +45,8 @@ module IGMarkets
       option :good_till_date, desc: 'The date that the order will live till, if not specified then the order will ' \
                                     'remain until it is deleted, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
       option :level, type: :numeric, desc: 'The level at which the order will be triggered'
-      option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit'
-      option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop'
+      option :limit_distance, desc: 'The distance away in pips to place the limit'
+      option :stop_distance, desc: 'The distance away in pips to place the stop'
       option :type, desc: 'The order type, either \'limit\' or \'stop\''
 
       def update(deal_id)
@@ -73,13 +73,11 @@ module IGMarkets
 
       private
 
+      ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :good_till_date, :guaranteed_stop, :level,
+                    :limit_distance, :size, :stop_distance, :type]
+
       def working_order_attributes
-        attributes = options.each_with_object({}) do |(key, value), new_hash|
-          if [:currency_code, :direction, :epic, :expiry, :force_open, :good_till_date, :guaranteed_stop, :level,
-              :limit_distance, :size, :stop_distance, :type].include? key.to_sym
-            new_hash[key.to_sym] = value
-          end
-        end
+        attributes = Main.filter_options options, ATTRIBUTES
 
         Main.parse_date_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
         Main.parse_date_time attributes, :good_till_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'

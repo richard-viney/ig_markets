@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.5 - Unreleased
+
+- Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
+
 ### 0.4 - April 18, 2016
 
 - Added `create`, `update` and `delete` subcommands to `ig_markets orders`

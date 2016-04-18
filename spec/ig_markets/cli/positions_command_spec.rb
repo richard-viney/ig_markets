@@ -49,6 +49,18 @@ END
     cli(arguments).update 'deal_id'
   end
 
+  it 'can remove a stop and limit from a position' do
+    arguments = { limit_level: '', stop_level: 'stop_level' }
+
+    position = build :position
+
+    expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
+    expect(position).to receive(:update).with(limit_level: '', stop_level: nil).and_return('ref')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+
+    cli(arguments).update 'deal_id'
+  end
+
   it 'closes a position' do
     arguments = { size: 1 }
 

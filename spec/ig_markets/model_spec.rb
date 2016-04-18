@@ -73,6 +73,13 @@ describe IGMarkets::Model do
     end
   end
 
+  it 'converts an empty string to nil on a Float attribute' do
+    model.float = 1.0
+    model.float = ''
+
+    expect(model.float).to eq(nil)
+  end
+
   it 'raises ArgumentError for an invalid boolean' do
     expect { model.bool = '' }.to raise_error(ArgumentError)
   end

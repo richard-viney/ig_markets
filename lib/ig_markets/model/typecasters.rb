@@ -35,7 +35,7 @@ module IGMarkets
       end
 
       def typecaster_float(value, _options)
-        return nil if value.nil?
+        return nil if value.nil? || value == ''
 
         Float(value)
       end

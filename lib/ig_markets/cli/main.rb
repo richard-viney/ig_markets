@@ -82,6 +82,22 @@ module IGMarkets
           end
         end
 
+        # Takes a Thor options hash and filters out its keys in the specified whitelist. Thor has an unusual behavior
+        # when an option is specified without a value: its value is set to the option's name. This method resets any
+        # such occurrences to nil.
+        #
+        # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options.
+        # @param [Array<Symbol>] whitelist The list of options allowed in the returned `Hash`.
+        #
+        # @return [Hash]
+        def filter_options(options, whitelist)
+          options.each_with_object({}) do |(key, value), new_hash|
+            next unless whitelist.include? key.to_sym
+
+            new_hash[key.to_sym] = (value == key) ? nil : value
+          end
+        end
+
         # This is the initial entry point for the execution of the command-line client. It is responsible for reading
         # any config files, implementing the --version/-v options, and then invoking the main application.
         #
@@ -94,7 +110,6 @@ module IGMarkets
             exit
           end
 
-          # Use arguments from a config file if one exists
           config_file = ConfigFile.find
           if config_file
             insert_index = argv.index { |argument| argument[0] == '-' } || -1

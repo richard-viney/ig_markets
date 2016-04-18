@@ -48,8 +48,8 @@ module IGMarkets
 
       desc 'update <DEAL-ID>', 'Updates attributes of an existing position'
 
-      option :limit_level, type: :numeric, desc: 'The limit level'
-      option :stop_level, type: :numeric, desc: 'The stop level'
+      option :limit_level, desc: 'The limit level'
+      option :stop_level, desc: 'The stop level'
       option :trailing_stop, type: :boolean, desc: 'Whether to use a trailing stop, defaults to false'
       option :trailing_stop_distance, type: :numeric, desc: 'The distance away in pips to place the trailing stop'
       option :trailing_stop_increment, type: :numeric, desc: 'The increment step in pips for the trailing stop'
@@ -77,14 +77,12 @@ module IGMarkets
 
       private
 
-      def position_attributes
-        attributes = options.each_with_object({}) do |(key, value), new_hash|
-          next unless [:currency_code, :direction, :epic, :expiry, :force_open, :guaranteed_stop, :level,
-                       :limit_distance, :limit_level, :order_type, :quote_id, :size, :stop_distance, :stop_level,
-                       :time_in_force, :trailing_stop, :trailing_stop_increment].include? key.to_sym
+      ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :guaranteed_stop, :level, :limit_distance,
+                    :limit_level, :order_type, :quote_id, :size, :stop_distance, :stop_level, :time_in_force,
+                    :trailing_stop, :trailing_stop_increment].freeze
 
-          new_hash[key.to_sym] = value
-        end
+      def position_attributes
+        attributes = Main.filter_options options, ATTRIBUTES
 
         Main.parse_date_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
 
