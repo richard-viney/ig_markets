@@ -6,6 +6,8 @@ describe IGMarkets::CLI::Main do
   end
 
   before do
+    IGMarkets::CLI::Main.instance_variable_set :@dealing_platform, dealing_platform
+
     expect(IGMarkets::CLI::Main).to receive(:begin_session).and_yield(dealing_platform)
   end
 

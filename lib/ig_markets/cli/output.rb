@@ -51,7 +51,7 @@ END
           print "reason: #{deal_confirmation.reason}, "
         end
 
-        puts "epic: #{deal_confirmation.epic}"
+        print "epic: #{deal_confirmation.epic}\n"
       end
 
       def print_market_overview(market)

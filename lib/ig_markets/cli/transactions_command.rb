@@ -8,8 +8,8 @@ module IGMarkets
       option :start_date, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
 
       def transactions
-        self.class.begin_session(options) do |dealing_platform|
-          transactions = gather_transactions(dealing_platform, options[:days], options[:start_date]).sort_by(&:date)
+        self.class.begin_session(options) do |_dealing_platform|
+          transactions = gather_account_history(:transactions).sort_by(&:date)
 
           transactions.each do |transaction|
             Output.print_transaction transaction
@@ -20,16 +20,6 @@ module IGMarkets
       end
 
       private
-
-      def gather_transactions(dealing_platform, days, start_date = nil)
-        if start_date
-          start_date = Date.strptime options[:start_date], '%F'
-
-          dealing_platform.account.transactions_in_date_range start_date, start_date + days.to_i
-        else
-          dealing_platform.account.recent_transactions days
-        end
-      end
 
       def transaction_totals(transactions)
         transactions.each_with_object({}) do |transaction, hash|

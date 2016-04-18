@@ -26,7 +26,7 @@ END
 
     expect(dealing_platform.sprint_market_positions).to receive(:create).with(
       direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :five_minutes, size: '10').and_return('ref')
-   
+
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
     cli(arguments).create
