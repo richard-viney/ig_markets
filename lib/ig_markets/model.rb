@@ -24,6 +24,13 @@ module IGMarkets
       end
     end
 
+    # Copy initializer that duplicates the {#attributes} hash in full.
+    def initialize_copy(other)
+      super
+
+      @attributes = other.attributes.dup
+    end
+
     # Compares this model to another, the attributes and class must match for them to be considered equal.
     #
     # @param [#class, #attributes] other The other model to compare to.

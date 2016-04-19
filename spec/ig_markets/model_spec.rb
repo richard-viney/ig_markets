@@ -20,6 +20,14 @@ describe IGMarkets::Model do
     expect { TestModel.new id: 'test', unknown: '' }.to raise_error(ArgumentError)
   end
 
+  it 'duplicates itself correctly' do
+    instance = TestModel.new id: '1'
+    copy = instance.dup
+    copy.id = '2'
+
+    expect(instance.id).to eq('1')
+  end
+
   it 'has the correct getter and setter methods' do
     [:id, :id=, :bool, :bool=, :string, :string=, :date, :date=, :time, :time=,
      :float, :float=, :symbol, :symbol=].each do |id|
