@@ -3,18 +3,37 @@ module IGMarkets
   module Format
     module_function
 
-    # Returns a formatted string for the specified currency amount and currency symbol. Two decimal places are used for
-    # all currencies except the Japanese Yen.
+    # Returns a formatted string for the specified price in the given currency. Four decimal places are used for
+    # all currencies except the Japanese Yen where two are used.
+    #
+    # @param [Float, Fixnum] level The price level to format.
+    # @param [String] currency The currency.
+    #
+    # @return [String] The formatted level, e.g. `"-130.4055"`, `"3560.60"`.
+    def price(level, currency)
+      return '' unless level
+
+      if ['JPY', '¥'].include? currency
+        format '%.2f  ', level.to_f
+      else
+        format '%.4f', level.to_f
+      end
+    end
+
+    # Returns a formatted string for the specified currency amount and currency. Two decimal places are used for all
+    # currencies except the Japanese Yen.
     #
     # @param [Float, Fixnum] amount The currency amount to format.
-    # @param [String] symbol The currency symbol.
+    # @param [String] currency The currency.
     #
     # @return [String] The formatted currency amount, e.g. `"USD -130.40"`, `"AUD 539.10"`, `"JPY 3560"`.
-    def currency(amount, symbol)
-      if ['JPY', '¥'].include? symbol
-        "#{symbol} #{format '%i', amount.to_i}"
+    def currency(amount, currency)
+      return '' unless amount
+
+      if ['JPY', '¥'].include? currency
+        "#{currency} #{format '%i', amount.to_i}"
       else
-        "#{symbol} #{format '%.2f', amount.to_f}"
+        "#{currency} #{format '%.2f', amount.to_f}"
       end
     end
 
