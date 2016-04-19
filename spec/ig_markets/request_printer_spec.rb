@@ -9,7 +9,14 @@ describe IGMarkets::RequestPrinter do
 
   it 'prints options' do
     expect do
-      IGMarkets::RequestPrinter.print_options method: :get, url: 'url', headers: { name: 'value' }, payload: { data: 'ABC' }.to_json
+      options = {
+        method: :get,
+        url: 'url',
+        headers: { name: 'value' },
+        payload: { data: 'ABC' }.to_json
+      }
+
+      IGMarkets::RequestPrinter.print_options options
     end.to output(<<-END
 GET url
   Headers:
