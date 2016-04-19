@@ -7,6 +7,7 @@ module IGMarkets
       class_option :password, required: true, desc: 'The password for the session'
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
+      class_option :print_requests, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
       subcommand 'orders', Orders
@@ -30,14 +31,16 @@ module IGMarkets
         def begin_session(options)
           platform = options[:demo] ? :demo : :production
 
+          RequestPrinter.enabled = true if options[:print_requests]
+
           dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield dealing_platform
         rescue IGMarkets::RequestFailedError => error
-          warn "Request failed: #{error.error}"
+          warn "Request error: #{error.error}"
           exit 1
-        rescue StandardError => error
-          warn "Error: #{error}"
+        rescue ArgumentError => error
+          warn "Argument error: #{error}"
           exit 1
         end
 
@@ -99,24 +102,38 @@ module IGMarkets
         end
 
         # This is the initial entry point for the execution of the command-line client. It is responsible for reading
-        # any config files, implementing the --version/-v options, and then invoking the main application.
+        # any config files, implementing the --print-requests/--version/-v options, and then invoking the main
+        # application.
         #
         # @param [Array<String>] argv The array of command-line arguments.
         #
         # @return [void]
         def bootstrap(argv)
+          prepend_config_file_arguments argv
+
           if argv.index('--version') || argv.index('-v')
             puts VERSION
             exit
           end
 
-          config_file = ConfigFile.find
-          if config_file
-            insert_index = argv.index { |argument| argument[0] == '-' } || -1
-            argv.insert insert_index, *config_file.arguments
-          end
-
           start argv
+        end
+
+        # Searches for a config file and if found inserts its arguments to the passed arguments array.
+        #
+        # @param [Array<String>] argv The array of command-line arguments.
+        #
+        # @return [void]
+        def prepend_config_file_arguments(argv)
+          config_file = ConfigFile.find
+
+          return unless config_file
+
+          insert_index = argv.index do |argument|
+            argument[0] == '-'
+          end || -1
+
+          argv.insert insert_index, *config_file.arguments
         end
       end
     end

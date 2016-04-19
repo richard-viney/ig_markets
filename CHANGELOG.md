@@ -3,6 +3,7 @@
 ### 0.5 - Unreleased
 
 - Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
+- Added `--print-requests` option to the command-line client to see all the interactions with the IG Markets API
 
 ### 0.4 - April 18, 2016
 

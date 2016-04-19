@@ -125,7 +125,12 @@ module IGMarkets
       options[:headers] = request_headers(options)
       options[:payload] = options[:payload] && options[:payload].to_json
 
+      RequestPrinter.print_options options
+
       response = execute_request options
+
+      RequestPrinter.print_response_body response.body
+
       result = process_response response
 
       { response: response, result: result }
@@ -167,17 +172,11 @@ module IGMarkets
     end
 
     def client_token_invalid?(response)
-      ResponseParser.parse(JSON.parse(response.body))[:error_code] == 'error.security.client-token-invalid'
-    rescue JSON::ParserError
-      false
+      ResponseParser.parse_json(response.body)[:error_code] == 'error.security.client-token-invalid'
     end
 
     def process_response(response)
-      result = begin
-        ResponseParser.parse JSON.parse(response.body)
-      rescue JSON::ParserError
-        {}
-      end
+      result = ResponseParser.parse_json response.body
 
       unless response.code >= 200 && response.code < 300
         raise RequestFailedError.new(result[:error_code], response.code)

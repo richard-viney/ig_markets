@@ -17,13 +17,15 @@ describe IGMarkets::Session do
     end
 
     it 'can sign in' do
-      expect(response).to receive(:code).exactly(4).times.and_return(200)
-      expect(response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
-      expect(response).to receive(:body).twice.and_return(
-        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
-        {}.to_json
-      )
-      expect(rest_client).to receive(:execute).twice.and_return(response)
+      expect(response).to receive(:code).at_least(:once).and_return(200)
+      expect(response).to receive(:body).at_least(:once).and_return(
+        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json)
+
+      second_response = instance_double 'RestClient::Response', code: 200, body: {}.to_json
+      expect(second_response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
+
+      expect(rest_client).to receive(:execute).and_return(response)
+      expect(rest_client).to receive(:execute).and_return(second_response)
 
       expect(session.sign_in).to eq(nil)
 
@@ -100,14 +102,18 @@ describe IGMarkets::Session do
     it 'attempts to sign in again if the client token is invalid' do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(invalid_client_token_exception)
 
-      expect(response).to receive(:code).exactly(6).times.and_return(200)
-      expect(response).to receive(:headers).and_return(cst: '3', x_security_token: '4')
-      expect(response).to receive(:body).exactly(3).times.and_return(
-        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json,
-        {}.to_json,
-        { result: 'test' }.to_json
-      )
-      expect(rest_client).to receive(:execute).exactly(3).times.and_return(response)
+      expect(response).to receive(:code).at_least(:once).and_return(200)
+      expect(response).to receive(:body).at_least(:once).and_return(
+        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json)
+
+      second_response = instance_double 'RestClient::Response', code: 200, body: {}.to_json
+      expect(second_response).to receive(:headers).and_return(cst: '3', x_security_token: '4')
+
+      third_response = instance_double 'RestClient::Response', code: 200, body: { result: 'test' }.to_json
+
+      expect(rest_client).to receive(:execute).and_return(response)
+      expect(rest_client).to receive(:execute).and_return(second_response)
+      expect(rest_client).to receive(:execute).and_return(third_response)
 
       expect(session.get('url', IGMarkets::API_V1)).to eq(result: 'test')
 
