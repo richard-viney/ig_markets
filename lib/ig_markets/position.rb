@@ -23,6 +23,13 @@ module IGMarkets
       !trailing_step.nil? && !trailing_stop_distance.nil?
     end
 
+    # Returns the level at which this position would close at given the current market price as stored in {#market}.
+    #
+    # @return [Float]
+    def close_level
+      { buy: market.bid, sell: market.offer }.fetch direction
+    end
+
     # Returns the favorable difference in the price between {#level} and the current market price as stored in
     # {#market}. If {#direction} is `:buy` and the market has since risen then this method will return a positive value,
     # but if {#direction} is `:sell` and the market has since risen then this method will return a negative value.
@@ -30,9 +37,9 @@ module IGMarkets
     # @return [Float]
     def price_delta
       if direction == :buy
-        market.bid - level
+        close_level - level
       elsif direction == :sell
-        level - market.offer
+        level - close_level
       end
     end
 
@@ -47,14 +54,6 @@ module IGMarkets
     # @return [Float]
     def profit_loss
       price_delta * size * market.lot_size * market.scaling_factor
-    end
-
-    # Returns this position's {#size} as a string prefixed with a `+` if {#direction} is `:buy`, or a `-` if
-    # {#direction} is `:sell`.
-    #
-    # @return [String]
-    def formatted_size
-      "#{{ buy: '+', sell: '-' }.fetch(direction)}#{format '%g', size}"
     end
 
     # Closes this position. If called with no options then this position will be fully closed at current market prices,

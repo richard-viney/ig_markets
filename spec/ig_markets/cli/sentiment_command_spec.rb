@@ -17,9 +17,15 @@ describe IGMarkets::CLI::Main do
     expect(sentiment).to receive(:related_sentiments).and_return(related_sentiments)
 
     expect { cli(related: true).sentiment 'query' }.to output(<<-END
-EURUSD: longs: 60.0%, shorts: 40.0%
-A: longs: 60.0%, shorts: 40.0%
-B: longs: 60.0%, shorts: 40.0%
++--------+---------+----------+
+|      Client sentiment       |
++--------+---------+----------+
+| Market | Longs % | Shorts % |
++--------+---------+----------+
+| EURUSD |      60 |       40 |
+| A      |      60 |       40 |
+| B      |      60 |       40 |
++--------+---------+----------+
 END
                                                              ).to_stdout
   end

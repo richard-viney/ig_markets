@@ -6,9 +6,11 @@ module IGMarkets
 
       def search(query)
         self.class.begin_session(options) do |dealing_platform|
-          dealing_platform.markets.search(query).each do |market_overview|
-            Output.print_market_overview market_overview
-          end
+          market_overviews = dealing_platform.markets.search query
+
+          table = MarketOverviewsTable.new market_overviews
+
+          puts table
         end
       end
     end

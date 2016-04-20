@@ -15,7 +15,13 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.markets).to receive(:search).with('EURUSD').and_return(markets)
 
     expect { cli.search 'EURUSD' }.to output(<<-END
-CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
++--------------------+-----------------+------------+-----+-------+
+|                             Markets                             |
++--------------------+-----------------+------------+-----+-------+
+| EPIC               | Instrument      | Type       | Bid | Offer |
++--------------------+-----------------+------------+-----+-------+
+| CS.D.EURUSD.CFD.IP | Spot FX EUR/USD | currencies | 100 |    99 |
++--------------------+-----------------+------------+-----+-------+
 END
                                             ).to_stdout
   end

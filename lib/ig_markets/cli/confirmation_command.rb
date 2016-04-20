@@ -5,10 +5,8 @@ module IGMarkets
       desc 'confirmation DEAL-REFERENCE', 'Prints the deal confirmation for the specified deal reference'
 
       def confirmation(deal_reference)
-        self.class.begin_session(options) do |dealing_platform|
-          deal_confirmation = dealing_platform.deal_confirmation deal_reference
-
-          Output.print_deal_confirmation deal_confirmation
+        self.class.begin_session(options) do |_dealing_platform|
+          Main.report_deal_confirmation deal_reference
         end
       end
     end

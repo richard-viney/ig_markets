@@ -15,15 +15,13 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.account).to receive(:all).and_return(accounts)
 
     expect { cli.account }.to output(<<-END
-Account 'CFD':
-  ID:           A1234
-  Type:         CFD
-  Currency:     USD
-  Status:       ENABLED
-  Available:    USD 500.00
-  Balance:      USD 500.00
-  Margin:       USD 0.00
-  Profit/loss:  USD 0.00
++------+-------+------+----------+---------+------------+------------+----------+-------------+
+|                                          Accounts                                           |
++------+-------+------+----------+---------+------------+------------+----------+-------------+
+| Name | ID    | Type | Currency | Status  | Available  | Balance    | Margin   | Profit/loss |
++------+-------+------+----------+---------+------------+------------+----------+-------------+
+| CFD  | A1234 | CFD  | USD      | Enabled | USD 500.00 | USD 500.00 | USD 0.00 |    USD 0.00 |
++------+-------+------+----------+---------+------------+------------+----------+-------------+
 END
                                     ).to_stdout
   end

@@ -6,15 +6,11 @@ module IGMarkets
 
       def list
         Main.begin_session(options) do |dealing_platform|
-          dealing_platform.watchlists.all.each do |watchlist|
-            Output.print_watchlist watchlist
+          dealing_platform.watchlists.all.each_with_index do |watchlist, index|
+            table = MarketOverviewsTable.new watchlist.markets, title: table_title(watchlist)
 
-            watchlist.markets.each do |market_overview|
-              print '  - '
-              Output.print_market_overview market_overview
-            end
-
-            puts ''
+            puts '' if index > 0
+            puts table
           end
         end
       end
@@ -67,6 +63,14 @@ module IGMarkets
 
           yield watchlist
         end
+      end
+
+      def table_title(watchlist)
+        title = "#{watchlist.name} (id: #{watchlist.id}"
+        title << ', editable' if watchlist.editable
+        title << ', deleteable' if watchlist.deleteable
+        title << ', default' if watchlist.default_system_watchlist
+        title << ')'
       end
     end
   end

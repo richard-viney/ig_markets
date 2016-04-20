@@ -6,9 +6,11 @@ module IGMarkets
 
       def list
         Main.begin_session(options) do |dealing_platform|
-          dealing_platform.sprint_market_positions.all.each do |sprint_market_position|
-            Output.print_sprint_market_position sprint_market_position
-          end
+          sprints = dealing_platform.sprint_market_positions.all
+
+          table = SprintMarketPositionsTable.new sprints
+
+          puts table
         end
       end
 

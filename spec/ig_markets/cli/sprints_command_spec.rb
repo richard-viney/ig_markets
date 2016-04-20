@@ -16,7 +16,13 @@ describe IGMarkets::CLI::Sprints do
     expect(dealing_platform.sprint_market_positions).to receive(:all).and_return(sprint_market_positions)
 
     expect { cli.list }.to output(<<-END
-deal_id: USD 120.50 on FM.D.FTSE.FTSE.IP to be above 110.1 in 2:05, payout: USD 210.80
++-------------------+------------+--------------+-------------------+------------+---------+
+|                                 Sprint market positions                                  |
++-------------------+------------+--------------+-------------------+------------+---------+
+| EPIC              | Size       | Strike level | Expires in (m:ss) | Payout     | Deal ID |
++-------------------+------------+--------------+-------------------+------------+---------+
+| FM.D.FTSE.FTSE.IP | USD 120.50 |     110.1000 |              2:05 | USD 210.80 | deal_id |
++-------------------+------------+--------------+-------------------+------------+---------+
 END
                                  ).to_stdout
   end

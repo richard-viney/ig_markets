@@ -32,18 +32,5 @@ module IGMarkets
 
       profit_and_loss[currency.length..-1].delete(',').to_f
     end
-
-    # Returns this transaction's {#transaction_type} as a human-readable string.
-    #
-    # @return [String]
-    def formatted_transaction_type
-      {
-        deal: 'Deal',
-        depo: 'Deposit',
-        dividend: 'Dividend',
-        exchange: 'Exchange',
-        with: 'Withdrawal'
-      }.fetch transaction_type
-    end
   end
 end

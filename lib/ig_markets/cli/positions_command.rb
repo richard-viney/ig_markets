@@ -4,11 +4,15 @@ module IGMarkets
     class Positions < Thor
       desc 'list', 'Prints open positions'
 
+      option :aggregate, type: :boolean, desc: 'Whether to aggregate separate positions in the same market'
+
       def list
         Main.begin_session(options) do |dealing_platform|
-          dealing_platform.positions.all.each do |position|
-            Output.print_position position
-          end
+          positions = dealing_platform.positions.all
+
+          positions_table = PositionsTable.new positions, aggregate: options[:aggregate]
+
+          puts positions_table
         end
       end
 

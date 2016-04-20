@@ -17,7 +17,13 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.account).to receive(:recent_activities).with(3).and_return(activities)
 
     expect { cli(days: 3).activities }.to output(<<-END
-2015-12-20 DIAAAAA4HDKPQEQ: +1 of CS.D.NZDUSD.CFD.IP, level: 0.664, result: Result
++------------+-----------------+--------------------+------+-------+--------+
+|                                Activities                                 |
++------------+-----------------+--------------------+------+-------+--------+
+| Date       | Deal ID         | EPIC               | Size | Level | Result |
++------------+-----------------+--------------------+------+-------+--------+
+| 2015-12-20 | DIAAAAA4HDKPQEQ | CS.D.NZDUSD.CFD.IP | +1   | 0.664 | Result |
++------------+-----------------+--------------------+------+-------+--------+
 END
                                                 ).to_stdout
   end
@@ -28,6 +34,14 @@ END
 
     expect(dealing_platform.account).to receive(:activities_in_date_range).with(start_date, end_date).and_return([])
 
-    expect { cli(days: 3, start_date: '2015-01-15').activities }.to_not output.to_stdout
+    expect { cli(days: 3, start_date: '2015-01-15').activities }.to output(<<-END
++------+---------+------+------+-------+--------+
+|                  Activities                   |
++------+---------+------+------+-------+--------+
+| Date | Deal ID | EPIC | Size | Level | Result |
++------+---------+------+------+-------+--------+
++------+---------+------+------+-------+--------+
+END
+                                                                          ).to_stdout
   end
 end

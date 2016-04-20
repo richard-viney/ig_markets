@@ -74,7 +74,7 @@ commands and their subcommands is:
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
 - `ig_markets orders delete DEAL-ID`
-- `ig_markets positions`
+- `ig_markets positions [list] [--aggregate]`
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
@@ -98,6 +98,9 @@ ig_markets account
 # Print transactions from the last week
 ig_markets transactions --days=7
 
+# Print current positions in aggregate
+ig_markets positions --aggregate
+
 # Create a EURUSD long position of size 2
 ig_markets positions create --currency-code USD --direction buy --epic CS.D.EURUSD.CFD.IP --size 2
 
@@ -107,11 +110,14 @@ ig_markets positions update DEAL-ID --limit-level 1.15 --stop-level 1.10
 # Fully close a position
 ig_markets positions close DEAL-ID
 
-# Partially close a position (assuming its size is at least 2)
+# Partially close a position (assuming its size is greater than 1)
 ig_markets positions close DEAL-ID --size 1
 
-# Create a EURUSD sprint market short position of size 100 that expires in 5 minutes
-ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 5 --size 100
+# Create a EURUSD sprint market short position of size 100 that expires in 20 minutes
+ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 20 --size 100
+
+# Create a working order to buy 1 unit of EURUSD at the level 1.1
+ig_markets orders create --currency-code USD --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit
 ```
 
 ## Usage — Library
@@ -152,7 +158,7 @@ ig.positions['deal_id'].close
 # Sprint market positions
 ig.sprint_market_positions.all
 ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24.IP',
-                                  expiry_period: :one_minute, size: 100
+                                  expiry_period: :twenty_minutes, size: 100
 
 # Working orders
 ig.working_orders.all

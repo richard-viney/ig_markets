@@ -9,9 +9,11 @@ module IGMarkets
 
       def activities
         self.class.begin_session(options) do |_dealing_platform|
-          gather_account_history(:activities).sort_by(&:date).each do |activity|
-            Output.print_activity activity
-          end
+          activities = gather_account_history(:activities).sort_by(&:date)
+
+          table = ActivitiesTable.new activities
+
+          puts table
         end
       end
 

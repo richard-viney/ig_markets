@@ -10,14 +10,38 @@ describe IGMarkets::CLI::Positions do
   end
 
   it 'prints positions' do
-    positions = [build(:position)]
+    positions = [build(:position), build(:position)]
 
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
     expect { cli.list }.to output(<<-END
-deal_id: +10.4 of CS.D.EURUSD.CFD.IP at 100.0, profit/loss: USD 0.00
++---------------------------+--------------------+-----------+------+----------+----------+----------+---------+-------------+----------+
+|                                                               Positions                                                               |
++---------------------------+--------------------+-----------+------+----------+----------+----------+---------+-------------+----------+
+| Date                      | EPIC               | Direction | Size | Level    | Current  | Limit    | Stop    | Profit/loss | Deal IDs |
++---------------------------+--------------------+-----------+------+----------+----------+----------+---------+-------------+----------+
+| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.0000 | 100.0000 | 110.0000 | 90.0000 | USD 0.00    | deal_id  |
+| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.0000 | 100.0000 | 110.0000 | 90.0000 | USD 0.00    | deal_id  |
++---------------------------+--------------------+-----------+------+----------+----------+----------+---------+-------------+----------+
 END
                                  ).to_stdout
+  end
+
+  it 'prints positions in aggregate' do
+    positions = [build(:position, level: 100.0, size: 1), build(:position, level: 130.0, size: 2)]
+
+    expect(dealing_platform.positions).to receive(:all).and_return(positions)
+
+    expect { cli(aggregate: true).list }.to output(<<-END
++------+--------------------+-----------+------+----------+----------+-------+------+--------------+------------------+
+|                                                      Positions                                                      |
++------+--------------------+-----------+------+----------+----------+-------+------+--------------+------------------+
+| Date | EPIC               | Direction | Size | Level    | Current  | Limit | Stop | Profit/loss  | Deal IDs         |
++------+--------------------+-----------+------+----------+----------+-------+------+--------------+------------------+
+|      | CS.D.EURUSD.CFD.IP | Buy       | 3    | 120.0000 | 100.0000 |       |      | USD -6000.00 | deal_id, deal_id |
++------+--------------------+-----------+------+----------+----------+-------+------+--------------+------------------+
+END
+                                                  ).to_stdout
   end
 
   it 'creates a new position' do

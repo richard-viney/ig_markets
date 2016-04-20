@@ -6,10 +6,11 @@ module IGMarkets
 
       def account
         self.class.begin_session(options) do |dealing_platform|
-          dealing_platform.account.all.each do |account|
-            Output.print_account account
-            Output.print_account_balance account
-          end
+          accounts = dealing_platform.account.all
+
+          table = AccountsTable.new accounts
+
+          puts table
         end
       end
     end

@@ -15,7 +15,13 @@ describe IGMarkets::CLI::Orders do
     expect(dealing_platform.working_orders).to receive(:all).and_return(working_orders)
 
     expect { cli.list }.to output(<<-END
-deal_id: buy 1 of UA.D.AAPL.CASH.IP at 100.0, limit distance: 10, stop distance: 10, good till 2015-10-30 12:59 +0000
++---------+-------------------+-----------+------+-------+----------------+---------------+------------------------+
+|                                                  Working orders                                                  |
++---------+-------------------+-----------+------+-------+----------------+---------------+------------------------+
+| Deal ID | EPIC              | Direction | Size | Level | Limit distance | Stop distance | Good till date         |
++---------+-------------------+-----------+------+-------+----------------+---------------+------------------------+
+| deal_id | UA.D.AAPL.CASH.IP | Buy       |    1 |   100 |             10 |            10 | 2015-10-30 12:59 +0000 |
++---------+-------------------+-----------+------+-------+----------------+---------------+------------------------+
 END
                                  ).to_stdout
   end

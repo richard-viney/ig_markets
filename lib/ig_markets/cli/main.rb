@@ -51,13 +51,21 @@ module IGMarkets
 
         # Takes a deal reference and prints out its full deal confirmation.
         #
-        # @param [String] deal_reference
+        # @param [String] deal_reference The deal reference.
         #
         # @return [void]
         def report_deal_confirmation(deal_reference)
           puts "Deal reference: #{deal_reference}"
 
-          Output.print_deal_confirmation dealing_platform.deal_confirmation(deal_reference)
+          deal_confirmation = dealing_platform.deal_confirmation deal_reference
+
+          print "Deal confirmation: #{deal_confirmation.deal_id}, #{deal_confirmation.deal_status}, "
+
+          unless deal_confirmation.deal_status == :accepted
+            print "reason: #{deal_confirmation.reason}, "
+          end
+
+          puts "epic: #{deal_confirmation.epic}"
         end
 
         # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if the
@@ -102,8 +110,7 @@ module IGMarkets
         end
 
         # This is the initial entry point for the execution of the command-line client. It is responsible for reading
-        # any config files, implementing the --print-requests/--version/-v options, and then invoking the main
-        # application.
+        # any config files, implementing the --version/-v options, and then invoking the main application.
         #
         # @param [Array<String>] argv The array of command-line arguments.
         #
@@ -119,7 +126,7 @@ module IGMarkets
           start argv
         end
 
-        # Searches for a config file and if found inserts its arguments to the passed arguments array.
+        # Searches for a config file and if found inserts its arguments into the passed arguments array.
         #
         # @param [Array<String>] argv The array of command-line arguments.
         #

@@ -19,12 +19,4 @@ describe IGMarkets::DealingPlatform do
     expect { build(:account_transaction, currency: 'USD', profit_and_loss: 'EUR-5.0').profit_and_loss_amount }
       .to raise_error(StandardError)
   end
-
-  it 'formats transaction types' do
-    expect(build(:account_transaction, transaction_type: :deal).formatted_transaction_type).to eq('Deal')
-    expect(build(:account_transaction, transaction_type: :depo).formatted_transaction_type).to eq('Deposit')
-    expect(build(:account_transaction, transaction_type: :dividend).formatted_transaction_type).to eq('Dividend')
-    expect(build(:account_transaction, transaction_type: :exchange).formatted_transaction_type).to eq('Exchange')
-    expect(build(:account_transaction, transaction_type: :with).formatted_transaction_type).to eq('Withdrawal')
-  end
 end

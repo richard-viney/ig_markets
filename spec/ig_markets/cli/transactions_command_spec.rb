@@ -17,11 +17,18 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.account).to receive(:recent_transactions).with(3).and_return(transactions)
 
     expect { cli(days: 3).transactions }.to output(<<-END
-2015-06-23 reference: Deal, +1 of instrument, profit/loss: US -1.00
++------------+-----------+------+------+------------+-------------+
+|                          Transactions                           |
++------------+-----------+------+------+------------+-------------+
+| Date       | Reference | Type | Size | Instrument | Profit/loss |
++------------+-----------+------+------+------------+-------------+
+| 2015-06-23 | reference | Deal | +1   | instrument | US -1.00    |
++------------+-----------+------+------+------------+-------------+
 
 Totals for currency 'US':
   Interest: US 0.00
   Profit/loss: US -1.00
+
 END
                                                   ).to_stdout
   end
@@ -32,6 +39,14 @@ END
 
     expect(dealing_platform.account).to receive(:transactions_in_date_range).with(start_date, end_date).and_return([])
 
-    expect { cli(days: 3, start_date: '2015-01-15').transactions }.to_not output.to_stdout
+    expect { cli(days: 3, start_date: '2015-01-15').transactions }.to output(<<-END
++------+-----------+------+------+------------+-------------+
+|                       Transactions                        |
++------+-----------+------+------+------------+-------------+
+| Date | Reference | Type | Size | Instrument | Profit/loss |
++------+-----------+------+------+------------+-------------+
++------+-----------+------+------+------------+-------------+
+END
+                                                                            ).to_stdout
   end
 end

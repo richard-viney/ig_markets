@@ -13,6 +13,11 @@ describe IGMarkets::Position do
     expect(build(:position, trailing_step: 1, trailing_stop_distance: 10).trailing_stop?).to be true
   end
 
+  it 'returns correct close levels' do
+    expect(profitable_position.close_level).to eq(4.0)
+    expect(unprofitable_position.close_level).to eq(4.0)
+  end
+
   it 'calculates correct price deltas' do
     expect(profitable_position.price_delta).to eq(3.0)
     expect(unprofitable_position.price_delta).to eq(-3.0)
@@ -23,10 +28,5 @@ describe IGMarkets::Position do
   it 'calculates correct profit/loss amounts' do
     expect(profitable_position.profit_loss).to eq(90)
     expect(unprofitable_position.profit_loss).to eq(-90)
-  end
-
-  it 'correctly formats position size' do
-    expect(profitable_position.formatted_size).to eq('+2')
-    expect(unprofitable_position.formatted_size).to eq('-2')
   end
 end

@@ -38,7 +38,19 @@ describe IGMarkets::CLI::Main do
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
 Deal reference: ref
-Deal confirmation: deal_id, accepted, affected deals: , epic: CS.D.EURUSD.CFD.IP
+Deal confirmation: deal_id, accepted, epic: CS.D.EURUSD.CFD.IP
+END
+                                                                            ).to_stdout
+  end
+
+  it 'reports a deal confirmation that was rejected' do
+    deal_confirmation = build :deal_confirmation, deal_status: :rejected, reason: :unknown
+
+    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
+Deal reference: ref
+Deal confirmation: deal_id, rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
 END
                                                                             ).to_stdout
   end

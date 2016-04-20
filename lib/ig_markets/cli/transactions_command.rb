@@ -11,9 +11,9 @@ module IGMarkets
         self.class.begin_session(options) do |_dealing_platform|
           transactions = gather_account_history(:transactions).sort_by(&:date)
 
-          transactions.each do |transaction|
-            Output.print_transaction transaction
-          end
+          table = TransactionsTable.new transactions
+
+          puts table
 
           print_transaction_totals transactions
         end
@@ -39,6 +39,7 @@ module IGMarkets
 Totals for currency '#{currency}':
   Interest: #{Format.currency value[:interest], currency}
   Profit/loss: #{Format.currency value[:delta], currency}
+
 END
         end
       end

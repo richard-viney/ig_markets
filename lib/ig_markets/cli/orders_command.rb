@@ -6,9 +6,11 @@ module IGMarkets
 
       def list
         Main.begin_session(options) do |dealing_platform|
-          dealing_platform.working_orders.all.each do |order|
-            Output.print_working_order order
-          end
+          working_orders = dealing_platform.working_orders.all
+
+          table = WorkingOrdersTable.new working_orders
+
+          puts table
         end
       end
 

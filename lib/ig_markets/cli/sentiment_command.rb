@@ -8,15 +8,13 @@ module IGMarkets
 
       def sentiment(market)
         self.class.begin_session(options) do |dealing_platform|
-          client_sentiment = dealing_platform.client_sentiment[market]
+          client_sentiments = [dealing_platform.client_sentiment[market]]
 
-          Output.print_client_sentiment client_sentiment
+          client_sentiments += client_sentiments[0].related_sentiments if options[:related]
 
-          if options[:related]
-            client_sentiment.related_sentiments.each do |model|
-              Output.print_client_sentiment model
-            end
-          end
+          table = ClientSentimentsTable.new client_sentiments
+
+          puts table
         end
       end
     end

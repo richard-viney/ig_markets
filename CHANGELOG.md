@@ -2,8 +2,12 @@
 
 ### 0.5 - Unreleased
 
-- Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
+- The data displayed by the command-line client is now formatted as tables using the `terminal-table` gem
 - Added `--print-requests` option to the command-line client to see all the interactions with the IG Markets API
+- Added `--aggregate` option to `ig_markets positions list`
+- Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
+- Added `IGMarkets::Position#close_level`
+- Removed `IGMarkets::Position#formatted_size` and `IGMarkets#AccountTransaction#formatted_transaction_type`
 
 ### 0.4 - April 18, 2016
 

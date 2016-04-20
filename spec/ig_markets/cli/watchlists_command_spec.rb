@@ -17,9 +17,13 @@ describe IGMarkets::CLI::Watchlists do
     expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
 
     expect { cli.list }.to output(<<-END
-2547731: Markets, editable: false, deleteable: false, default: false
-  - CS.D.EURUSD.CFD.IP: Spot FX EUR/USD, type: currencies, bid: 100.0 offer: 99.0
-
++--------------------+-----------------+------------+-----+-------+
+|                      Markets (id: 2547731)                      |
++--------------------+-----------------+------------+-----+-------+
+| EPIC               | Instrument      | Type       | Bid | Offer |
++--------------------+-----------------+------------+-----+-------+
+| CS.D.EURUSD.CFD.IP | Spot FX EUR/USD | currencies | 100 |    99 |
++--------------------+-----------------+------------+-----+-------+
 END
                                  ).to_stdout
   end
