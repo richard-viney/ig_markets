@@ -25,6 +25,8 @@ module IGMarkets
     end
 
     # Copy initializer that duplicates the {#attributes} hash in full.
+    #
+    # @param [Model] other The model to copy.
     def initialize_copy(other)
       super
 
