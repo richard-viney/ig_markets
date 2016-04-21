@@ -2,7 +2,7 @@ module IGMarkets
   # Contains details on a single activity that occurred on an IG Markets account. Returned by
   # {DealingPlatform::AccountMethods#activities_in_date_range} and
   # {DealingPlatform::AccountMethods#recent_activities}.
-  class AccountActivity < Model
+  class Activity < Model
     attribute :action_status, Symbol, allowed_values: [:accept, :reject, :manual, :not_set]
     attribute :activity
     attribute :activity_history_id

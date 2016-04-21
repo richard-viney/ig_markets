@@ -21,21 +21,21 @@ module IGMarkets
       # @param [Date] from_date The start date of the desired date range.
       # @param [Date] to_date The end date of the desired date range.
       #
-      # @return [Array<AccountActivity>]
+      # @return [Array<Activity>]
       def activities_in_date_range(from_date, to_date)
         from_date = format_date from_date
         to_date = format_date to_date
 
-        @dealing_platform.gather "history/activity/#{from_date}/#{to_date}", :activities, AccountActivity
+        @dealing_platform.gather "history/activity/#{from_date}/#{to_date}", :activities, Activity
       end
 
       # Returns all account activities that occurred in the most recent specified number of days.
       #
       # @param [Fixnum, Float] days The number of days to return recent activities for.
       #
-      # @return [Array<AccountActivity>]
+      # @return [Array<Activity>]
       def recent_activities(days)
-        @dealing_platform.gather "history/activity/#{milliseconds(days)}", :activities, AccountActivity
+        @dealing_platform.gather "history/activity/#{milliseconds(days)}", :activities, Activity
       end
 
       # Returns all transactions that occurred in the specified date range.
@@ -44,7 +44,7 @@ module IGMarkets
       # @param [Date] to_date The end date of the desired date range.
       # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
       #
-      # @return [Array<AccountTransaction>]
+      # @return [Array<Transaction>]
       def transactions_in_date_range(from_date, to_date, transaction_type = :all)
         validate_transaction_type transaction_type
 
@@ -53,7 +53,7 @@ module IGMarkets
 
         url = "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}"
 
-        @dealing_platform.gather url, :transactions, AccountTransaction
+        @dealing_platform.gather url, :transactions, Transaction
       end
 
       # Returns all transactions that occurred in the last specified number of days.
@@ -61,13 +61,13 @@ module IGMarkets
       # @param [Fixnum, Float] days The number of days to return recent transactions for.
       # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
       #
-      # @return [Array<AccountTransaction>]
+      # @return [Array<Transaction>]
       def recent_transactions(days, transaction_type = :all)
         validate_transaction_type transaction_type
 
         url = "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds(days)}"
 
-        @dealing_platform.gather url, :transactions, AccountTransaction
+        @dealing_platform.gather url, :transactions, Transaction
       end
 
       private

@@ -8,7 +8,7 @@
 - Added `--instrument` option to `ig_markets transactions` to filter by instrument name
 - Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
 - Added `IGMarkets::Position#close_level`
-- Removed `IGMarkets::Position#formatted_size` and `IGMarkets#AccountTransaction#formatted_transaction_type`
+- Removed `IGMarkets::Position#formatted_size` and `IGMarkets::Transaction#formatted_transaction_type`
 
 ### 0.4 - April 18, 2016
 

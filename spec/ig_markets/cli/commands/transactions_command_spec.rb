@@ -12,7 +12,7 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'prints transactions from a recent number of days' do
-    transactions = [build(:account_transaction)]
+    transactions = [build(:transaction)]
 
     expect(dealing_platform.account).to receive(:recent_transactions).with(3).and_return(transactions)
 
@@ -51,7 +51,7 @@ END
   end
 
   it 'prints transactions filtered by instrument' do
-    transactions = [build(:account_transaction), build(:account_transaction, instrument_name: 'test 123')]
+    transactions = [build(:transaction), build(:transaction, instrument_name: 'test 123')]
 
     expect(dealing_platform.account).to receive(:recent_transactions).with(3).and_return(transactions)
 

@@ -1,6 +1,6 @@
 module IGMarkets
   module CLI
-    # Helper class that prints out an array of {IGMarkets::AccountActivity} instances in a table.
+    # Helper class that prints out an array of {IGMarkets::Activity} instances in a table.
     class ActivitiesTable < Table
       private
 

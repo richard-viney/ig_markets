@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :account_activity, class: IGMarkets::AccountActivity do
+  factory :activity, class: IGMarkets::Activity do
     action_status 'ACCEPT'
     activity 'S&L'
     activity_history_id '443487452'

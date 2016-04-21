@@ -12,7 +12,7 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'prints activities from a recent number of days' do
-    activities = [build(:account_activity)]
+    activities = [build(:activity)]
 
     expect(dealing_platform.account).to receive(:recent_activities).with(3).and_return(activities)
 

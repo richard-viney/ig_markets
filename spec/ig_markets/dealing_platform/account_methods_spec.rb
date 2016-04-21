@@ -15,7 +15,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   end
 
   it 'can retrieve activities in a date range' do
-    activities = [build(:account_activity)]
+    activities = [build(:activity)]
 
     expect(session).to receive(:get)
       .with('history/activity/20-05-2014/27-10-2014', IGMarkets::API_V1)
@@ -25,7 +25,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   end
 
   it 'can retrieve activities in recent period' do
-    activities = [build(:account_activity)]
+    activities = [build(:activity)]
 
     expect(session).to receive(:get)
       .with('history/activity/604800000', IGMarkets::API_V1)
@@ -35,7 +35,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   end
 
   it 'can retrieve transactions in a date range' do
-    transactions = [build(:account_transaction)]
+    transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
       .with('history/transactions/ALL/20-05-2014/27-10-2014', IGMarkets::API_V1)
@@ -47,7 +47,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   end
 
   it 'can retrieve transactions in recent period' do
-    transactions = [build(:account_transaction)]
+    transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
       .with('history/transactions/DEPOSIT/604800000', IGMarkets::API_V1)

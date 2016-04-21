@@ -2,7 +2,7 @@ module IGMarkets
   # Contains details on a single transaction that occurred on an IG Markets account. Returned by
   # {DealingPlatform::AccountMethods#transactions_in_date_range} and
   # {DealingPlatform::AccountMethods#recent_transactions}.
-  class AccountTransaction < Model
+  class Transaction < Model
     attribute :cash_transaction, Boolean
     attribute :close_level
     attribute :currency

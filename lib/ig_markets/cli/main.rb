@@ -68,7 +68,7 @@ module IGMarkets
           puts "epic: #{deal_confirmation.epic}"
         end
 
-        # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if it
+        # Parses and validates a Date or Time option received as a command-line argument. Raises `ArgumentError` if it
         # is been specified in an invalid format.
         #
         # @param [Hash] attributes The attributes hash.
