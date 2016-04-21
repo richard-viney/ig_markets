@@ -12,7 +12,7 @@ module IGMarkets
 
           client_sentiments += client_sentiments[0].related_sentiments if options[:related]
 
-          table = ClientSentimentsTable.new client_sentiments
+          table = ClientSentimentsTable.new client_sentiments, title: "Client sentiment for '#{market}'"
 
           puts table
         end

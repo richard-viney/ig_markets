@@ -22,8 +22,8 @@ module IGMarkets
       subcommand 'watchlists', Watchlists
 
       class << self
-        # Signs in to IG Markets and yields back an {DealingPlatform} instance, with common error handling if exceptions
-        # occur. This method is used by all of the CLI commands to authenticate.
+        # Signs in to IG Markets and yields back a {DealingPlatform} instance, with common error handling if exceptions
+        # occur. This method is used by all of the commands in order to authenticate.
         #
         # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options hash.
         #
@@ -68,13 +68,13 @@ module IGMarkets
           puts "epic: #{deal_confirmation.epic}"
         end
 
-        # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if the
-        # attribute has been specified in an invalid format.
+        # Parses and validates a Date or Time option received on the command line. Raises `ArgumentError` if it
+        # is been specified in an invalid format.
         #
         # @param [Hash] attributes The attributes hash.
         # @param [Symbol] attribute The name of the date or time attribute to parse and validate.
         # @param [Date, Time] klass The class to validate with.
-        # @param [String] format The `strptime` format string to parse the attribute with.
+        # @param [String] format The `strptime` format string for the attribute.
         # @param [String] display_format The human-readable version of `format` to put into an exception if there is
         #                 a problem parsing the attribute.
         #

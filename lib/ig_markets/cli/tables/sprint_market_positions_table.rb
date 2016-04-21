@@ -20,7 +20,7 @@ module IGMarkets
         [
           sprint.epic,
           Format.currency(sprint.size, sprint.currency),
-          Format.price(sprint.strike_level, sprint.currency),
+          Format.level(sprint.strike_level),
           Format.seconds(sprint.seconds_till_expiry),
           Format.currency(sprint.payout_amount, sprint.currency),
           sprint.deal_id

@@ -4,12 +4,8 @@ module IGMarkets
     class ClientSentimentsTable < Table
       private
 
-      def default_title
-        'Client sentiment'
-      end
-
       def headings
-        ['Market', 'Longs %', 'Shorts %']
+        ['Market', 'Long %', 'Short %']
       end
 
       def right_aligned_columns

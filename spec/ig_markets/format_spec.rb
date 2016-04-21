@@ -1,13 +1,12 @@
 describe IGMarkets::Format do
   it 'formats prices correctly' do
     {
-      [120.4122, 'USD'] => '120.4122',
-      [-1340, 'USD'] => '-1340.0000',
-      [6440, 'JPY'] => '6440.00  ',
-      [-5209.40, '¥'] => '-5209.40  ',
-      [nil, nil] => ''
-    }.each do |args, result|
-      expect(IGMarkets::Format.price(*args)).to eq(result)
+      120.41224 => '120.4122',
+      -1340 => '-1340.0',
+      -5209.4 => '-5209.4',
+      nil => ''
+    }.each do |level, result|
+      expect(IGMarkets::Format.level(level)).to eq(result)
     end
   end
 

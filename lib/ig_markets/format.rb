@@ -3,21 +3,15 @@ module IGMarkets
   module Format
     module_function
 
-    # Returns a formatted string for the specified price in the given currency. Four decimal places are used for
-    # all currencies except the Japanese Yen where two are used.
+    # Returns a formatted string for the specified level. At most four decimal places are used to format levels.
     #
-    # @param [Float, Fixnum] level The price level to format.
-    # @param [String] currency The currency.
+    # @param [Float] value The level to format.
     #
-    # @return [String] The formatted level, e.g. `"-130.4055"`, `"3560.60"`.
-    def price(level, currency)
-      return '' unless level
+    # @return [String] The formatted level, e.g. `"-130.4055"`
+    def level(value)
+      return '' unless value
 
-      if ['JPY', '¥'].include? currency
-        format '%.2f  ', level.to_f
-      else
-        format '%.4f', level.to_f
-      end
+      Float(format('%.4f', value.to_f)).to_s
     end
 
     # Returns a formatted string for the specified currency amount and currency. Two decimal places are used for all

@@ -41,7 +41,7 @@ module IGMarkets
 
       def position_prices(position)
         [:level, :close_level, :limit_level, :stop_level].map do |attribute|
-          Format.price position.send(attribute), position.currency
+          Format.level position.send(attribute)
         end
       end
 
