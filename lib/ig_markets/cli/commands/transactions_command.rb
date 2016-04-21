@@ -6,10 +6,15 @@ module IGMarkets
 
       option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
       option :start_date, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
+      option :instrument, desc: 'Regex for filtering transactions based on their instrument'
 
       def transactions
+        regex = Regexp.new(options['instrument'] || '')
+
         self.class.begin_session(options) do |_dealing_platform|
-          transactions = gather_account_history(:transactions).sort_by(&:date)
+          transactions = gather_account_history(:transactions).sort_by(&:date).select do |transaction|
+            regex.match transaction.instrument_name
+          end
 
           table = TransactionsTable.new transactions
 

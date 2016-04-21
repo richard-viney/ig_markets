@@ -49,4 +49,26 @@ END
 END
                                                                             ).to_stdout
   end
+
+  it 'prints transactions filtered by instrument' do
+    transactions = [build(:account_transaction), build(:account_transaction, instrument_name: 'test 123')]
+
+    expect(dealing_platform.account).to receive(:recent_transactions).with(3).and_return(transactions)
+
+    expect { cli(days: 3, instrument: '123').transactions }.to output(<<-END
++------------+-----------+------+------+------------+-------------+
+|                          Transactions                           |
++------------+-----------+------+------+------------+-------------+
+| Date       | Reference | Type | Size | Instrument | Profit/loss |
++------------+-----------+------+------+------------+-------------+
+| 2015-06-23 | reference | Deal | +1   | test 123   | US -1.00    |
++------------+-----------+------+------+------------+-------------+
+
+Totals for currency 'US':
+  Interest: US 0.00
+  Profit/loss: US -1.00
+
+END
+                                                                     ).to_stdout
+  end
 end
