@@ -2,13 +2,15 @@ module IGMarkets
   module CLI
     # Implements the `ig_markets positions` command.
     class Positions < Thor
-      desc 'list', 'Prints open positions'
+      desc 'list', 'Prints open non-binary positions'
 
       option :aggregate, type: :boolean, desc: 'Whether to aggregate separate positions in the same market'
 
       def list
         Main.begin_session(options) do |dealing_platform|
-          positions = dealing_platform.positions.all
+          positions = dealing_platform.positions.all.reject do |position|
+            position.market.instrument_type == :binary
+          end
 
           positions_table = PositionsTable.new positions, aggregate: options[:aggregate]
 

@@ -29,4 +29,11 @@ describe IGMarkets::Position do
     expect(profitable_position.profit_loss).to eq(6000)
     expect(unprofitable_position.profit_loss).to eq(-6000)
   end
+
+  it 'calculates correct payout amount for binaries' do
+    market = build :market_overview, instrument_type: :binary
+    position = build :position, size: 100, level: 0.8, market: market
+
+    expect(position.profit_loss).to eq(125)
+  end
 end

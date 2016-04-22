@@ -49,10 +49,12 @@ module IGMarkets
     end
 
     # Returns this position's current profit or loss, denominated in its {#currency}, and based on the current market
-    # state as stored in {#market}.
+    # state as stored in {#market}. For binary instruments this returns the payout amount.
     #
     # @return [Float]
     def profit_loss
+      return size / level if market.instrument_type == :binary
+
       price_delta * size * contract_size
     end
 

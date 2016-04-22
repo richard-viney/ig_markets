@@ -17,8 +17,10 @@ module IGMarkets
       end
 
       def row(market_overview)
-        [instrument_type(market_overview), market_overview.epic, market_overview.instrument_name,
-         market_status(market_overview), market_expiry(market_overview)] + levels(market_overview)
+        type = market_overview.instrument_type.to_s.capitalize.tr('_', ' ')
+
+        [type, market_overview.epic, market_overview.instrument_name, market_status(market_overview),
+         market_overview.expiry] + levels(market_overview)
       end
 
       def cell_color(value, _model, _row_index, column_index)
@@ -37,24 +39,10 @@ module IGMarkets
         end
       end
 
-      def instrument_type(market_overview)
-        { binary: 'Binary', bungee_capped: 'Bungee capped', bungee_commodities: 'Bungee commodities',
-          bungee_currencies: 'Bungee currencies', bungee_indices: 'Bungee indices', commodities: 'Commodities',
-          currencies: 'Currencies', indices: 'Indices', opt_commodities: 'Commodities option',
-          opt_currencies: 'Currencies option', opt_indices: 'Indices option', opt_rates: 'Rates option',
-          opt_shares: 'Shares option', rates: 'Rates', sectors: 'Sectors', shares: 'Shares',
-          sprint_market: 'Sprint market', test_market: 'Test market', unknown: 'Unknown'
-        }.fetch market_overview.instrument_type
-      end
-
       def market_status(market_overview)
         { closed: 'Closed', edits_only: 'Edits only', offline: 'Offline', on_auction: 'On auction',
           on_auction_no_edits: 'On auction no edits', suspended: 'Suspended', tradeable: 'Tradeable'
         }.fetch market_overview.market_status
-      end
-
-      def market_expiry(market_overview)
-        market_overview.expiry ? market_overview.expiry.strftime('%Y-%m') : ''
       end
     end
   end

@@ -16,27 +16,21 @@ module IGMarkets
       end
 
       def headings
-        ['Date', 'EPIC', 'Direction', 'Size', 'Level', 'Current', 'Limit', 'Stop', 'Profit/loss', 'Deal IDs']
+        ['Date', 'EPIC', 'Type', 'Direction', 'Size', 'Level', 'Current', 'Limit', 'Stop', 'Profit/loss', 'Deal IDs']
       end
 
       def right_aligned_columns
-        [3, 4, 5, 6, 7, 8]
+        [4, 5, 6, 7, 8, 9]
       end
 
       def row(position)
-        [
-          position_date(position),
-          position.market.epic,
-          position.direction.to_s.capitalize,
-          position.size,
-          position_prices(position),
-          Format.currency(position.profit_loss, position.currency),
-          position.deal_id
-        ].flatten
+        [position_date(position), position.market.epic, position.market.instrument_type.to_s.capitalize.tr('_', ' '),
+         position.direction.to_s.capitalize, position.size, position_prices(position), profit_loss(position),
+         position.deal_id]
       end
 
       def cell_color(value, _model, _row_index, column_index)
-        return unless column_index == 8
+        return unless column_index == 9
 
         if value =~ /-/
           :red
@@ -53,6 +47,10 @@ module IGMarkets
         [:level, :close_level, :limit_level, :stop_level].map do |attribute|
           Format.level position.send(attribute)
         end
+      end
+
+      def profit_loss(position)
+        Format.currency position.profit_loss, position.currency
       end
 
       def aggregated_positions(positions)

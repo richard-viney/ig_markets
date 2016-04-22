@@ -47,7 +47,7 @@ module IGMarkets
           if model == :separator
             :separator
           else
-            row(model).each_with_index.map do |value, column_index|
+            row(model).flatten.each_with_index.map do |value, column_index|
               cell_content value, model, row_index, column_index
             end
           end
