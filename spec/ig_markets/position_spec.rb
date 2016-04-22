@@ -1,11 +1,11 @@
 describe IGMarkets::Position do
   let(:profitable_position) do
-    market = build :market_overview, bid: 4.0, lot_size: 3, scaling_factor: 5
-    build :position, currency: 'USD', level: 1.0, direction: :buy, size: 2, market: market
+    market = build :market_overview, bid: 4.0
+    build :position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :buy, size: 2, market: market
   end
   let(:unprofitable_position) do
-    market = build :market_overview, offer: 4.0, lot_size: 3, scaling_factor: 5
-    build :position, currency: 'USD', level: 1.0, direction: :sell, size: 2, market: market
+    market = build :market_overview, offer: 4.0
+    build :position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :sell, size: 2, market: market
   end
 
   it 'knows if it has a trailing stop' do
@@ -26,7 +26,7 @@ describe IGMarkets::Position do
   end
 
   it 'calculates correct profit/loss amounts' do
-    expect(profitable_position.profit_loss).to eq(90)
-    expect(unprofitable_position.profit_loss).to eq(-90)
+    expect(profitable_position.profit_loss).to eq(6000)
+    expect(unprofitable_position.profit_loss).to eq(-6000)
   end
 end

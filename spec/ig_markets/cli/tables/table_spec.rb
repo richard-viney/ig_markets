@@ -20,8 +20,8 @@ describe IGMarkets::CLI::Table do
       [2]
     end
 
-    def row_color(model)
-      model.boolean ? :red : nil
+    def cell_color(value, _model, _row_index, column_index)
+      column_index == 1 && value && :red
     end
 
     def row(model)
@@ -44,7 +44,7 @@ describe IGMarkets::CLI::Table do
 +-------+--------+--------+
 | First | Second | Third  |
 +-------+--------+--------+
-| #{'Test'.red}  | #{'Yes'.red}    |     #{'-1'.red} |
+| Test  | #{'Yes'.red}    |     -1 |
 +-------+--------+--------+
 | Test  | No     | 0.1234 |
 +-------+--------+--------+
@@ -59,7 +59,7 @@ END
 +-------+--------+--------+
 | First | Second | Third  |
 +-------+--------+--------+
-| #{'Test'.red}  | #{'Yes'.red}    |     #{'-1'.red} |
+| Test  | #{'Yes'.red}    |     -1 |
 +-------+--------+--------+
 | Test  | No     | 0.1234 |
 +-------+--------+--------+

@@ -20,15 +20,13 @@ module IGMarkets
         ]
       end
 
-      def row_color(client_sentiment)
+      def cell_color(_value, client_sentiment, _row_index, _column_index)
         distance_from_center = (client_sentiment.long_position_percentage - 50.0).abs
 
         if distance_from_center > 35
           :red
         elsif distance_from_center > 20
           :yellow
-        else
-          :default
         end
       end
     end

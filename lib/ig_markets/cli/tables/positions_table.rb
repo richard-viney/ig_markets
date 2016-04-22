@@ -20,7 +20,7 @@ module IGMarkets
       end
 
       def right_aligned_columns
-        [4, 5, 6, 7]
+        [3, 4, 5, 6, 7, 8]
       end
 
       def row(position)
@@ -33,6 +33,16 @@ module IGMarkets
           Format.currency(position.profit_loss, position.currency),
           position.deal_id
         ].flatten
+      end
+
+      def cell_color(value, _model, _row_index, column_index)
+        return unless column_index == 8
+
+        if value =~ /-/
+          :red
+        else
+          :green
+        end
       end
 
       def position_date(position)
@@ -58,9 +68,10 @@ module IGMarkets
       def combine_positions(positions)
         first = positions.first
 
-        Position.new(currency: first.currency, deal_id: combine_position_deal_ids(positions),
-                     direction: first.direction, level: combine_position_levels(positions),
-                     market: first.market, size: positions.map(&:size).reduce(:+)).tap do |combined|
+        Position.new(contract_size: first.contract_size, currency: first.currency,
+                     deal_id: combine_position_deal_ids(positions), direction: first.direction,
+                     level: combine_position_levels(positions), market: first.market,
+                     size: positions.map(&:size).reduce(:+)).tap do |combined|
           combined.level /= combined.size
         end
       end

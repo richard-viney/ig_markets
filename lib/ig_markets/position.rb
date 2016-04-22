@@ -53,7 +53,7 @@ module IGMarkets
     #
     # @return [Float]
     def profit_loss
-      price_delta * size * market.lot_size * market.scaling_factor
+      price_delta * size * contract_size
     end
 
     # Closes this position. If called with no options then this position will be fully closed at current market prices,

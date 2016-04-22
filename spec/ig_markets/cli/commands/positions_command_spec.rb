@@ -10,7 +10,7 @@ describe IGMarkets::CLI::Positions do
   end
 
   it 'prints positions' do
-    positions = [build(:position), build(:position)]
+    positions = [build(:position), build(:position, level: 100.1, contract_size: 100)]
 
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
@@ -20,15 +20,15 @@ describe IGMarkets::CLI::Positions do
 +---------------------------+--------------------+-----------+------+-------+---------+-------+------+-------------+----------+
 | Date                      | EPIC               | Direction | Size | Level | Current | Limit | Stop | Profit/loss | Deal IDs |
 +---------------------------+--------------------+-----------+------+-------+---------+-------+------+-------------+----------+
-| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.0 |   100.0 | 110.0 | 90.0 | USD 0.00    | deal_id  |
-| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.0 |   100.0 | 110.0 | 90.0 | USD 0.00    | deal_id  |
+| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.0 |   100.0 | 110.0 | 90.0 |    #{'USD 0.00'.green} | deal_id  |
+| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Buy       | 10.4 | 100.1 |   100.0 | 110.0 | 90.0 | #{'USD -104.00'.red} | deal_id  |
 +---------------------------+--------------------+-----------+------+-------+---------+-------+------+-------------+----------+
 END
                                  ).to_stdout
   end
 
   it 'prints positions in aggregate' do
-    positions = [build(:position, level: 100.0, size: 1), build(:position, level: 130.0, size: 2)]
+    positions = [build(:position, level: 100.0, size: 0.1), build(:position, level: 130.0, size: 0.2)]
 
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
@@ -38,7 +38,7 @@ END
 +------+--------------------+-----------+------+-------+---------+-------+------+--------------+------------------+
 | Date | EPIC               | Direction | Size | Level | Current | Limit | Stop | Profit/loss  | Deal IDs         |
 +------+--------------------+-----------+------+-------+---------+-------+------+--------------+------------------+
-|      | CS.D.EURUSD.CFD.IP | Buy       | 3    | 120.0 |   100.0 |       |      | USD -6000.00 | deal_id, deal_id |
+|      | CS.D.EURUSD.CFD.IP | Buy       |  0.3 | 120.0 |   100.0 |       |      | #{'USD -6000.00'.red} | deal_id, deal_id |
 +------+--------------------+-----------+------+-------+---------+-------+------+--------------+------------------+
 END
                                                   ).to_stdout

@@ -31,7 +31,7 @@ module IGMarkets
       def row(_model)
       end
 
-      def row_color(_model)
+      def cell_color(_value, _model, _row_index, _column_index)
       end
 
       def table
@@ -43,28 +43,34 @@ module IGMarkets
       end
 
       def rows
-        @models.flatten.map do |model|
+        @models.flatten.each_with_index.map do |model, row_index|
           if model == :separator
             :separator
           else
-            color = row_color(model) || :default
-
-            row(model).map do |content|
-              color == :default ? format_cell(content) : format_cell(content).colorize(color)
+            row(model).each_with_index.map do |value, column_index|
+              cell_content value, model, row_index, column_index
             end
           end
         end
       end
 
-      def format_cell(content)
-        if content.is_a? TrueClass
+      def cell_content(value, model, row_index, column_index)
+        color = cell_color value, model, row_index, column_index
+
+        content = format_cell_value value
+
+        color ? content.colorize(color) : content
+      end
+
+      def format_cell_value(value)
+        if value.is_a? TrueClass
           'Yes'
-        elsif content.is_a? FalseClass
+        elsif value.is_a? FalseClass
           'No'
-        elsif content.is_a? Float
-          format '%g', content
+        elsif value.is_a? Float
+          format '%g', value
         else
-          content.to_s.strip
+          value.to_s.strip
         end
       end
     end
