@@ -1,4 +1,5 @@
 require 'base64'
+require 'colorize'
 require 'date'
 require 'rest-client'
 require 'terminal-table'

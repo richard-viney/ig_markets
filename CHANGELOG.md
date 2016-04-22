@@ -7,6 +7,9 @@
 - Added `--aggregate` option to `ig_markets positions list` to aggregate together positions with the same EPIC
 - Added `--instrument` option to `ig_markets transactions` to filter by instrument name
 - Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
+- Removed `--related` option from `ig_markets sentiment`, related sentiments are now always reported and are also
+  color-coded
+- `IGMarkets::DealingPlatform::ClientSentimentMethods#[]` now raises an exception on unknown market IDs
 - Added `IGMarkets::Position#close_level`
 - Removed `IGMarkets::Position#formatted_size` and `IGMarkets::Transaction#formatted_transaction_type`
 
@@ -18,10 +21,11 @@
 - Added `create`, `add-markets`, `remove-markets` and `delete` subcommands to `ig_markets watchlists`
 - `ig_markets confirmation`, `ig_markets search` and `ig_markets sentiment` now take their mandatory argument directly
 - Added `--start-date` option to the `ig_markets activities` and `ig_markets transactions` commands
-- Removed the `:time_in_force` option from `IGMarkets::WorkingOrderMethods#create` and `IGMarkets::WorkingOrder#update`,
-  just set `:good_till_date` if it is needed
-- `IGMarkets::AccountMethods#recent_activities` and `IGMarkets::AccountMethods#recent_transactions` now take a number of
-  days rather than a number of seconds
+- Removed the `:time_in_force` option from `IGMarkets::DealingPlatform::WorkingOrderMethods#create` and
+  `IGMarkets::WorkingOrder#update`, just set `:good_till_date` if it is needed
+- `IGMarkets::DealingPlatform::AccountMethods#recent_activities` and
+  `IGMarkets::DealingPlatform::AccountMethods#recent_transactions` now take a number of days rather than a number of
+  seconds
 - Fixed errors working with a working order's `#good_till_date` attribute
 - Automatically reauthenticate if the client security token has expired
 

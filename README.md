@@ -79,7 +79,7 @@ commands and their subcommands is:
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
 - `ig_markets search QUERY`
-- `ig_markets sentiment MARKET [--related]`
+- `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
 - `ig_markets transactions --days=N [--start-date=YYYY-MM-DD] [--instrument=INSTRUMENT]`

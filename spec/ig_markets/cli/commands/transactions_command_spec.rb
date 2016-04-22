@@ -25,21 +25,19 @@ describe IGMarkets::CLI::Main do
 | 2015-06-23 | reference | Deal | +1   | instrument | US -1.00    |
 +------------+-----------+------+------+------------+-------------+
 
-Totals for currency 'US':
-  Interest: US 0.00
-  Profit/loss: US -1.00
-
+Interest: US 0.00
+Profit/loss: US -1.00
 END
                                                   ).to_stdout
   end
 
   it 'prints transactions from a number of days and a start date' do
-    start_date = Date.new 2015, 01, 15
-    end_date = Date.new 2015, 01, 18
+    start_date = Date.new 2015, 02, 15
+    end_date = Date.new 2015, 02, 18
 
     expect(dealing_platform.account).to receive(:transactions_in_date_range).with(start_date, end_date).and_return([])
 
-    expect { cli(days: 3, start_date: '2015-01-15').transactions }.to output(<<-END
+    expect { cli(days: 3, start_date: '2015-02-15').transactions }.to output(<<-END
 +------+-----------+------+------+------------+-------------+
 |                       Transactions                        |
 +------+-----------+------+------+------------+-------------+
@@ -64,10 +62,8 @@ END
 | 2015-06-23 | reference | Deal | +1   | test 123   | US -1.00    |
 +------------+-----------+------+------+------------+-------------+
 
-Totals for currency 'US':
-  Interest: US 0.00
-  Profit/loss: US -1.00
-
+Interest: US 0.00
+Profit/loss: US -1.00
 END
                                                                      ).to_stdout
   end

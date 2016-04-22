@@ -18,6 +18,10 @@ module IGMarkets
         result = @dealing_platform.session.get "clientsentiment/#{market_id}", API_V1
 
         ClientSentiment.from(result).tap do |client_sentiment|
+          if client_sentiment.long_position_percentage == 0.0 && client_sentiment.short_position_percentage == 0.0
+            raise ArgumentError, "unknown market '#{market_id}'"
+          end
+
           client_sentiment.instance_variable_set :@dealing_platform, @dealing_platform
         end
       end

@@ -38,15 +38,15 @@ module IGMarkets
       end
 
       def print_transaction_totals(transactions)
-        transaction_totals(transactions).each do |currency, value|
-          puts <<-END
+        totals = transaction_totals transactions
 
-Totals for currency '#{currency}':
-  Interest: #{Format.currency value[:interest], currency}
-  Profit/loss: #{Format.currency value[:delta], currency}
+        return if totals.empty?
 
+        puts <<-END
+
+Interest: #{totals.map { |currency, value| Format.currency value[:interest], currency }.join ', '}
+Profit/loss: #{totals.map { |currency, value| Format.currency value[:delta], currency }.join ', '}
 END
-        end
       end
     end
   end
