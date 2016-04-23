@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :instrument, class: IGMarkets::Instrument do
-    chart_code 'code'
+    chart_code 'CODE'
     contract_size '+1'
     controlled_risk_allowed false
     country 'US'
@@ -13,14 +13,14 @@ FactoryGirl.define do
     margin_deposit_bands { [build(:instrument_margin_deposit_band)] }
     margin_factor 0.01
     margin_factor_unit 'PERCENTAGE'
-    market_id 'market'
-    name 'instrument'
-    news_code 'news_code'
+    market_id 'MARKET'
+    name 'Instrument'
+    news_code 'CODE'
     one_pip_means ''
     opening_hours { { market_times: [build(:instrument_opening_hours)] } }
     rollover_details { build :instrument_rollover_details }
     slippage_factor { build :instrument_slippage_factor }
-    special_info %w(info_0 info_1)
+    special_info %w(INFO)
     sprint_markets_maximum_expiry_time 100.0
     sprint_markets_minimum_expiry_time 10.0
     stops_limits_allowed true

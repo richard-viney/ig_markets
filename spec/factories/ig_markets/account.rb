@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :account, class: IGMarkets::Account do
-    account_alias 'alias'
+    account_alias 'Alias'
     account_id 'A1234'
     account_name 'CFD'
     account_type 'CFD'

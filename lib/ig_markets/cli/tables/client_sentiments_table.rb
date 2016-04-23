@@ -13,11 +13,8 @@ module IGMarkets
       end
 
       def row(client_sentiment)
-        [
-          client_sentiment.market_id,
-          client_sentiment.long_position_percentage,
-          client_sentiment.short_position_percentage
-        ]
+        [client_sentiment.market_id, client_sentiment.long_position_percentage,
+         client_sentiment.short_position_percentage]
       end
 
       def cell_color(_value, client_sentiment, _row_index, _column_index)

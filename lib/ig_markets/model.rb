@@ -58,7 +58,7 @@ module IGMarkets
     # Returns the #inspect string for the given value.
     def inspect_value(value)
       if value.is_a? Time
-        value.utc.strftime '%F %T %z'
+        value.utc.strftime '%F %T %Z'
       elsif value.is_a? Date
         value.strftime '%F'
       else

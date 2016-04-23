@@ -2,10 +2,11 @@
 
 ### 0.5 - Unreleased
 
-- The data displayed by the command-line client is now formatted as tables using the `terminal-table` gem
-- Added `--print-requests` option to the command-line client to see all the interactions with the IG Markets API
+- Ouptut from the command-line client is now formatted using ASCII tables and contains a lot more detail
 - Added `--aggregate` option to `ig_markets positions list` to aggregate together positions with the same EPIC
 - Added `--instrument` option to `ig_markets transactions` to filter by instrument name
+- Added `--no-interest` option to `ig_markets transactions` to exclude interest transactions
+- Added `--print-requests` option to the command-line client to see all the interactions with the IG Markets API
 - Support removal of limits and stops using `ig_markets positions update` and `ig_markets orders update`
 - Removed `--related` option from `ig_markets sentiment`, related sentiments are now always reported and are also
   color-coded

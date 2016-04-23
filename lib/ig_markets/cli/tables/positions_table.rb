@@ -24,23 +24,18 @@ module IGMarkets
       end
 
       def row(position)
-        [position_date(position), position.market.epic, position.market.instrument_type.to_s.capitalize.tr('_', ' '),
-         position.direction.to_s.capitalize, position.size, position_prices(position), profit_loss(position),
-         position.deal_id]
+        [position.created_date_utc, position.market.epic, position.market.instrument_type, position.direction,
+         position.size, position_prices(position), profit_loss(position), position.deal_id]
       end
 
       def cell_color(value, _model, _row_index, column_index)
-        return unless column_index == 9
+        return unless headings[column_index] == 'Profit/loss'
 
         if value =~ /-/
           :red
         else
           :green
         end
-      end
-
-      def position_date(position)
-        position.created_date_utc ? position.created_date_utc.strftime('%F %T %z') : ''
       end
 
       def position_prices(position)
@@ -77,11 +72,11 @@ module IGMarkets
       def combine_position_levels(positions)
         positions.map do |position|
           position.level * position.size
-        end.reduce(:+)
+        end.reduce :+
       end
 
       def combine_position_deal_ids(positions)
-        positions.map(&:deal_id).join(', ')
+        positions.map(&:deal_id).join ', '
       end
     end
   end

@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :deal_confirmation, class: IGMarkets::DealConfirmation do
     affected_deals []
-    deal_id 'deal_id'
-    deal_reference 'reference'
+    deal_id 'DEAL'
+    deal_reference 'REFERENCE'
     deal_status 'ACCEPTED'
     direction 'BUY'
     epic 'CS.D.EURUSD.CFD.IP'

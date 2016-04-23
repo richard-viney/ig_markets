@@ -86,7 +86,7 @@ module IGMarkets
             begin
               attributes[attribute] = klass.strptime attributes[attribute], format
             rescue ArgumentError
-              raise "invalid #{attribute}, use format \"#{display_format}\""
+              raise ArgumentError, "invalid #{attribute}, use format \"#{display_format}\""
             end
           else
             attributes[attribute] = nil

@@ -17,19 +17,17 @@ module IGMarkets
       end
 
       def row(market_overview)
-        type = market_overview.instrument_type.to_s.capitalize.tr('_', ' ')
-
-        [type, market_overview.epic, market_overview.instrument_name, market_status(market_overview),
-         market_overview.expiry] + levels(market_overview)
+        [market_overview.instrument_type, market_overview.epic, market_overview.instrument_name,
+         market_status(market_overview), market_overview.expiry, levels(market_overview)]
       end
 
       def cell_color(value, _model, _row_index, column_index)
-        if [9, 10].include? column_index
-          if value =~ /-/
-            :red
-          else
-            :green
-          end
+        return unless headings[column_index] =~ /Change/
+
+        if value =~ /-/
+          :red
+        else
+          :green
         end
       end
 

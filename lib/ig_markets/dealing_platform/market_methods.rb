@@ -29,7 +29,7 @@ module IGMarkets
       def find(*epics)
         raise ArgumentError, 'at least one EPIC must be specified' if epics.empty?
 
-        epics.each do |epic|
+        epics.flatten.each do |epic|
           raise ArgumentError, "invalid EPIC: #{epic}" unless epic.to_s =~ Regex::EPIC
         end
 

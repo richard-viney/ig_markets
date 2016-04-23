@@ -4,11 +4,11 @@ FactoryGirl.define do
     close_level '0.8'
     currency 'US'
     date '23/06/15'
-    instrument_name 'instrument'
+    instrument_name 'Instrument'
     open_level '0.8'
     period '-'
     profit_and_loss 'US-1.00'
-    reference 'reference'
+    reference 'Reference'
     size '+1'
     transaction_type 'DEAL'
   end

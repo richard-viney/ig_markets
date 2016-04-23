@@ -15,14 +15,16 @@ describe IGMarkets::CLI::Positions do
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
     expect { cli.list }.to output(<<-END
-+---------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
-|                                                                Positions                                                                 |
-+---------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
-| Date                      | EPIC               | Type       | Direction | Size | Level | Current | Limit | Stop | Profit/loss | Deal IDs |
-+---------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
-| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Currencies | Buy       | 10.4 | 100.0 |   100.0 | 110.0 | 90.0 |    #{'USD 0.00'.green} | deal_id  |
-| 2015-07-24 09:12:37 +0000 | CS.D.EURUSD.CFD.IP | Currencies | Buy       | 10.4 | 100.1 |   100.0 | 110.0 | 90.0 | #{'USD -104.00'.red} | deal_id  |
-+---------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
++-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
+|                                                               Positions                                                                |
++-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
+| Date                    | EPIC               | Type       | Direction | Size | Level | Current | Limit | Stop | Profit/loss | Deal IDs |
++-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
+| 2015-07-24 09:12:37 UTC | CS.D.EURUSD.CFD.IP | Currencies | Buy       | 10.4 | 100.0 |   100.0 | 110.0 | 90.0 |    #{'USD 0.00'.green} | DEAL     |
+| 2015-07-24 09:12:37 UTC | CS.D.EURUSD.CFD.IP | Currencies | Buy       | 10.4 | 100.1 |   100.0 | 110.0 | 90.0 | #{'USD -104.00'.red} | DEAL     |
++-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------------+----------+
+
+Total profit/loss: #{'USD -104.00'.red}
 END
                                  ).to_stdout
   end
@@ -33,13 +35,15 @@ END
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
     expect { cli(aggregate: true).list }.to output(<<-END
-+------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------------+
-|                                                          Positions                                                           |
-+------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------------+
-| Date | EPIC               | Type       | Direction | Size | Level | Current | Limit | Stop | Profit/loss  | Deal IDs         |
-+------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------------+
-|      | CS.D.EURUSD.CFD.IP | Currencies | Buy       |  0.3 | 120.0 |   100.0 |       |      | #{'USD -6000.00'.red} | deal_id, deal_id |
-+------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------------+
++------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------+
+|                                                       Positions                                                        |
++------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------+
+| Date | EPIC               | Type       | Direction | Size | Level | Current | Limit | Stop | Profit/loss  | Deal IDs   |
++------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------+
+|      | CS.D.EURUSD.CFD.IP | Currencies | Buy       |  0.3 | 120.0 |   100.0 |       |      | #{'USD -6000.00'.red} | DEAL, DEAL |
++------+--------------------+------------+-----------+------+-------+---------+-------+------+--------------+------------+
+
+Total profit/loss: #{'USD -6000.00'.red}
 END
                                                   ).to_stdout
   end
@@ -66,11 +70,11 @@ END
 
     position = build :position
 
-    expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
+    expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
     expect(position).to receive(:update).with(arguments).and_return('ref')
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    cli(arguments).update 'deal_id'
+    cli(arguments).update 'DEAL'
   end
 
   it 'can remove a stop and limit from a position' do
@@ -78,11 +82,11 @@ END
 
     position = build :position
 
-    expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
+    expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
     expect(position).to receive(:update).with(limit_level: '', stop_level: nil).and_return('ref')
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    cli(arguments).update 'deal_id'
+    cli(arguments).update 'DEAL'
   end
 
   it 'closes a position' do
@@ -90,10 +94,10 @@ END
 
     position = build :position
 
-    expect(dealing_platform.positions).to receive(:[]).with('deal_id').and_return(position)
+    expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
     expect(position).to receive(:close).with(arguments).and_return('ref')
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    cli(arguments).close 'deal_id'
+    cli(arguments).close 'DEAL'
   end
 end

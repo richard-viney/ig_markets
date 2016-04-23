@@ -8,7 +8,9 @@ module IGMarkets
         Main.begin_session(options) do |dealing_platform|
           sprints = dealing_platform.sprint_market_positions.all
 
-          table = SprintMarketPositionsTable.new sprints
+          markets = dealing_platform.markets.find sprints.map(&:epic).uniq
+
+          table = SprintMarketPositionsTable.new sprints, markets: markets
 
           puts table
         end

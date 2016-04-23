@@ -15,6 +15,8 @@ module IGMarkets
           positions_table = PositionsTable.new positions, aggregate: options[:aggregate]
 
           puts positions_table
+
+          print_position_totals positions
         end
       end
 
@@ -105,6 +107,16 @@ module IGMarkets
 
           Main.report_deal_confirmation deal_reference
         end
+      end
+
+      def print_position_totals(positions)
+        currency_totals = positions.group_by(&:currency).map do |currency, subset|
+          total = subset.map(&:profit_loss).reduce(:+)
+
+          Format.currency(total, currency).colorize(total < 0 ? :red : :green)
+        end
+
+        puts "\nTotal profit/loss: #{currency_totals.join ', '}"
       end
     end
   end

@@ -20,7 +20,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
   end
 
   it 'can retrieve a single working order' do
-    orders = [build(:working_order, deal_id: 'id')]
+    orders = [build(:working_order, deal_id: '1')]
 
     get_result = {
       working_orders: orders.map(&:attributes).map do |a|
@@ -29,7 +29,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(platform.working_orders['id']).to eq(orders[0])
+    expect(platform.working_orders['1']).to eq(orders[0])
   end
 
   it 'can create a working order' do

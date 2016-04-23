@@ -7,24 +7,32 @@ module IGMarkets
       option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
       option :start_date, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
       option :instrument, desc: 'Regex for filtering transactions based on their instrument'
+      option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
 
       def transactions
-        regex = Regexp.new(options['instrument'] || '')
-
         self.class.begin_session(options) do |_dealing_platform|
-          transactions = gather_account_history(:transactions).sort_by(&:date).select do |transaction|
-            regex.match transaction.instrument_name
-          end
+          transactions = gather_transactions
 
           table = TransactionsTable.new transactions
 
           puts table
 
-          print_transaction_totals transactions
+          if transactions.any?
+            puts ''
+            print_transaction_totals transactions
+          end
         end
       end
 
       private
+
+      def gather_transactions
+        regex = Regexp.new options.fetch('instrument', '')
+
+        gather_account_history(:transactions).sort_by(&:date).select do |transaction|
+          regex.match(transaction.instrument_name) && (options[:interest] || !transaction.interest?)
+        end
+      end
 
       def transaction_totals(transactions)
         transactions.each_with_object({}) do |transaction, hash|
@@ -42,11 +50,11 @@ module IGMarkets
 
         return if totals.empty?
 
-        puts <<-END
+        if options[:interest]
+          puts "Interest: #{totals.map { |currency, value| Format.currency value[:interest], currency }.join ', '}"
+        end
 
-Interest: #{totals.map { |currency, value| Format.currency value[:interest], currency }.join ', '}
-Profit/loss: #{totals.map { |currency, value| Format.currency value[:delta], currency }.join ', '}
-END
+        puts "Profit/loss: #{totals.map { |currency, value| Format.currency value[:delta], currency }.join ', '}"
       end
     end
   end

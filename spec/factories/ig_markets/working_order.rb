@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :working_order, class: IGMarkets::WorkingOrder do
-    created_date '2014/10/20 13:30:03:000'
+    created_date_utc '2014-10-20T13:30:03'
     currency_code 'USD'
-    deal_id 'deal_id'
+    deal_id 'DEAL'
     direction 'BUY'
     dma false
     epic 'UA.D.AAPL.CASH.IP'

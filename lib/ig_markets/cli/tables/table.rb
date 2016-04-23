@@ -57,21 +57,46 @@ module IGMarkets
       def cell_content(value, model, row_index, column_index)
         color = cell_color value, model, row_index, column_index
 
-        content = format_cell_value value
+        content = format_cell_value(value).strip
 
         color ? content.colorize(color) : content
       end
 
       def format_cell_value(value)
-        if value.is_a? TrueClass
-          'Yes'
-        elsif value.is_a? FalseClass
-          'No'
-        elsif value.is_a? Float
-          format '%g', value
-        else
-          value.to_s.strip
-        end
+        return format_boolean(value) if value.is_a?(TrueClass) || value.is_a?(FalseClass)
+        return format_float(value) if value.is_a? Float
+        return format_time(value) if value.is_a? Time
+        return format_date(value) if value.is_a? Date
+
+        format_string value
+      end
+
+      def format_boolean(value)
+        { true => 'Yes', false => 'No' }.fetch value
+      end
+
+      def format_float(value)
+        format '%g', value
+      end
+
+      def format_time(value)
+        value.utc.strftime '%F %T %Z'
+      end
+
+      def format_date(value)
+        value.strftime '%F'
+      end
+
+      def format_string(value)
+        value = if value.is_a? Symbol
+                  value.to_s.tr '_', ' '
+                else
+                  value.to_s
+                end
+
+        return '' if value.empty?
+
+        value[0].upcase + value[1..-1]
       end
     end
   end

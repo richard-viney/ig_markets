@@ -9,18 +9,28 @@ module IGMarkets
       end
 
       def headings
-        ['Date', 'Reference', 'Type', 'Size', 'Instrument', 'Profit/loss']
+        ['Date', 'Reference', 'Type', 'Instrument', 'Size', 'Open', 'Close', 'Profit/loss']
+      end
+
+      def right_aligned_columns
+        [4, 5, 6, 7]
       end
 
       def row(transaction)
-        [
-          transaction.date.strftime('%F'),
-          transaction.reference,
-          formatted_type(transaction.transaction_type),
-          transaction.size,
-          transaction.instrument_name,
-          Format.currency(transaction.profit_and_loss_amount, transaction.currency)
-        ]
+        [transaction.date, transaction.reference, formatted_type(transaction.transaction_type),
+         transaction.instrument_name, transaction.size, Format.level(transaction.open_level),
+         Format.level(transaction.close_level),
+         Format.currency(transaction.profit_and_loss_amount, transaction.currency)]
+      end
+
+      def cell_color(value, _transaction, _row_index, column_index)
+        return unless headings[column_index] == 'Profit/loss'
+
+        if value =~ /-/
+          :red
+        else
+          :green
+        end
       end
 
       def formatted_type(type)

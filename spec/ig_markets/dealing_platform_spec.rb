@@ -27,7 +27,7 @@ describe IGMarkets::DealingPlatform do
   it 'can retrieve a deal confirmation' do
     deal_confirmation = build :deal_confirmation
 
-    expect(session).to receive(:get).with('confirms/deal_id', IGMarkets::API_V1).and_return(deal_confirmation)
+    expect(session).to receive(:get).with('confirms/DEAL', IGMarkets::API_V1).and_return(deal_confirmation)
     expect(platform.deal_confirmation(deal_confirmation.deal_id)).to eq(deal_confirmation)
   end
 
