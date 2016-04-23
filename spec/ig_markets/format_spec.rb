@@ -1,5 +1,5 @@
 describe IGMarkets::Format do
-  it 'formats prices correctly' do
+  it 'formats levels' do
     {
       120.41224 => '120.4122',
       -1340 => '-1340.0',
@@ -10,7 +10,7 @@ describe IGMarkets::Format do
     end
   end
 
-  it 'formats currencies correctly' do
+  it 'formats currencies' do
     {
       [120.4, 'USD'] => 'USD 120.40',
       [-1340, 'USD'] => 'USD -1340.00',
@@ -22,7 +22,7 @@ describe IGMarkets::Format do
     end
   end
 
-  it 'formats seconds correctly' do
+  it 'formats seconds' do
     {
       5 => '0:05',
       55 => '0:55',
@@ -31,5 +31,10 @@ describe IGMarkets::Format do
     }.each do |seconds, result|
       expect(IGMarkets::Format.seconds(seconds)).to eq(result)
     end
+  end
+
+  it 'formats symbols' do
+    expect(IGMarkets::Format.symbol(:one)).to eq('One')
+    expect(IGMarkets::Format.symbol(:two_three)).to eq('Two three')
   end
 end

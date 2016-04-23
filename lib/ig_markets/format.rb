@@ -45,5 +45,15 @@ module IGMarkets
 
       result + ':' + Kernel.format('%02i', value % 60)
     end
+
+    # Formats the passed symbol into a human-readable string, replacing underscores with spaces and capitalizing the
+    # first letter.
+    #
+    # @param [Symbol] value The symbol to format.
+    #
+    # @return [String]
+    def symbol(value)
+      value.to_s.capitalize.tr '_', ' '
+    end
   end
 end

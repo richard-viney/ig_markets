@@ -38,7 +38,9 @@ describe IGMarkets::CLI::Main do
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
 Deal reference: ref
-Deal confirmation: DEAL, accepted, epic: CS.D.EURUSD.CFD.IP
+Deal ID: DEAL
+Status: Accepted
+Result: Amended
 END
                                                                             ).to_stdout
   end
@@ -50,7 +52,10 @@ END
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
 Deal reference: ref
-Deal confirmation: DEAL, rejected, reason: unknown, epic: CS.D.EURUSD.CFD.IP
+Deal ID: DEAL
+Status: Rejected
+Result: Amended
+Reason: Unknown
 END
                                                                             ).to_stdout
   end

@@ -44,7 +44,7 @@ module IGMarkets
           exit 1
         end
 
-        # The dealing platform instance used by {begin_session}.
+        # The {DealingPlatform} instance used by {begin_session}.
         def dealing_platform
           @dealing_platform ||= DealingPlatform.new
         end
@@ -59,24 +59,24 @@ module IGMarkets
 
           deal_confirmation = dealing_platform.deal_confirmation deal_reference
 
-          print "Deal confirmation: #{deal_confirmation.deal_id}, #{deal_confirmation.deal_status}, "
+          puts <<-END
+Deal ID: #{deal_confirmation.deal_id}
+Status: #{Format.symbol deal_confirmation.deal_status}
+Result: #{Format.symbol deal_confirmation.status}
+END
 
-          unless deal_confirmation.deal_status == :accepted
-            print "reason: #{deal_confirmation.reason}, "
-          end
-
-          puts "epic: #{deal_confirmation.epic}"
+          puts "Reason: #{Format.symbol deal_confirmation.reason}" unless deal_confirmation.deal_status == :accepted
         end
 
-        # Parses and validates a Date or Time option received as a command-line argument. Raises `ArgumentError` if it
-        # is been specified in an invalid format.
+        # Parses and validates a `Date` or `Time` option received as a command-line argument. Raises `ArgumentError` if
+        # it is been specified in an invalid format.
         #
         # @param [Hash] attributes The attributes hash.
         # @param [Symbol] attribute The name of the date or time attribute to parse and validate.
         # @param [Date, Time] klass The class to validate with.
         # @param [String] format The `strptime` format string for the attribute.
-        # @param [String] display_format The human-readable version of `format` to put into an exception if there is
-        #                 a problem parsing the attribute.
+        # @param [String] display_format The human-readable version of `format` to put into the raised exception if
+        #                 there is a problem parsing the attribute.
         #
         # @return [void]
         def parse_date_time(attributes, attribute, klass, format, display_format)

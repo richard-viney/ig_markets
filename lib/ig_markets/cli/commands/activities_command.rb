@@ -23,14 +23,16 @@ module IGMarkets
         days = options[:days]
         start_date = options[:start_date]
 
-        if start_date
-          start_date = Date.strptime start_date, '%F'
-          end_date = start_date + days.to_i
+        send_args = if start_date
+                      start_date = Date.strptime start_date, '%F'
+                      end_date = start_date + days.to_i
 
-          Main.dealing_platform.account.send "#{type}_in_date_range", start_date, end_date
-        else
-          Main.dealing_platform.account.send "recent_#{type}", days
-        end
+                      ["#{type}_in_date_range", start_date, end_date]
+                    else
+                      ["recent_#{type}", days]
+                    end
+
+        Main.dealing_platform.account.send(*send_args)
       end
     end
   end

@@ -89,7 +89,7 @@ module IGMarkets
 
       def format_string(value)
         value = if value.is_a? Symbol
-                  value.to_s.tr '_', ' '
+                  Format.symbol value
                 else
                   value.to_s
                 end
