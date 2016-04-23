@@ -82,7 +82,7 @@ commands and their subcommands is:
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
-- `ig_markets transactions --days=N [--start-date=YYYY-MM-DD] [--instrument=INSTRUMENT]`
+- `ig_markets transactions --days=N [--start-date=YYYY-MM-DD] [--instrument=INSTRUMENT] [--no-interest]`
 - `ig_markets watchlists [list]`
 - `ig_markets watchlists create NAME [EPIC EPIC ...]`
 - `ig_markets watchlists add-markets WATCHLIST-ID [EPIC EPIC ...]`
@@ -95,8 +95,8 @@ commands and their subcommands is:
 # Print account details and balances
 ig_markets account
 
-# Print EUR/USD transactions from the last week
-ig_markets transactions --days=7 --instrument EUR/USD
+# Print EUR/USD transactions from the last week, excluding interest transactions
+ig_markets transactions --days=7 --instrument EUR/USD --no-interest
 
 # Print current positions in aggregate
 ig_markets positions --aggregate
