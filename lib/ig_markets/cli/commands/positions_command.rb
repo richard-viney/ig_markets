@@ -26,7 +26,7 @@ module IGMarkets
 
       option :currency_code, required: true, desc: 'The 3 character currency code, must be one of the instrument\'s ' \
                                                    'currencies'
-      option :direction, required: true, desc: 'The trade direction, must be \'buy\' or \'sell\''
+      option :direction, required: true, enum: %w(buy sell), desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
       option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
@@ -35,13 +35,13 @@ module IGMarkets
       option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit, if set then ' \
                                                     '--limit-level must not be used'
       option :limit_level, type: :numeric, desc: 'The limit level, if set then --limit-distance must not be used'
-      option :order_type, default: 'market', desc: 'The order type, must be \'limit\', \'market\' or \'quote\''
+      option :order_type, enum: %w(limit market quote), default: 'market', desc: 'The order type'
       option :quote_id, desc: 'The Lightstreamer quote ID, required when using --order-type=quote'
       option :size, type: :numeric, required: true, desc: 'The size of the position'
       option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop, if set then ' \
                                                    '--stop-level must not be used'
       option :stop_level, type: :numeric, desc: 'The stop level, if set then --stop-distance must not be used'
-      option :time_in_force, desc: 'The order fill strategy, either \'execute_and_eliminate\' or \'fill_or_kill\''
+      option :time_in_force, enum: %w(execute_and_eliminate fill_or_kill), desc: 'The order fill strategy'
       option :trailing_stop, type: :boolean, desc: 'Whether to use a trailing stop, defaults to false'
       option :trailing_stop_increment, type: :numeric, desc: 'The increment step in pips for the trailing stop, ' \
                                                              'required when --trailing-stop is specified'
@@ -71,11 +71,11 @@ module IGMarkets
       desc 'close DEAL-ID', 'Closes or partially closes a position'
 
       option :level, type: :numeric, desc: 'Required if and only if --order-type is \'limit\' or \'quote\''
-      option :order_type, default: 'market', desc: 'The order type, must be \'limit\', \'market\' or \'quote\''
+      option :order_type, enum: %w(limit market quote), default: 'market', desc: 'The order type'
       option :quote_id, desc: 'The Lightstreamer quote ID, required when using --order-type=quote'
       option :size, type: :numeric, desc: 'The size of the position to close, if not specified then the entire ' \
                                           'position will be closed'
-      option :time_in_force, desc: 'The order fill strategy, either \'execute_and_eliminate\' or \'fill_or_kill\''
+      option :time_in_force, enum: %w(execute_and_eliminate fill_or_kill), desc: 'The order fill strategy'
 
       def close(deal_id)
         with_position(deal_id) do |position|

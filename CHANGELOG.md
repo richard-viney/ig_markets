@@ -2,7 +2,7 @@
 
 ### 0.6 - Unreleased
 
--
+- Improved command-line client help output for several commands
 
 ### 0.5 - April 23, 2016
 

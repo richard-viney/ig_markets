@@ -20,9 +20,9 @@ module IGMarkets
 
       desc 'create', 'Creates a new sprint market position'
 
-      option :direction, required: true, desc: 'The trade direction, must be \'buy\' or \'sell\')'
+      option :direction, enum: %w(buy sell), required: true, desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
-      option :expiry_period, required: true, desc: 'The expiry period in seconds, must be 1, 2, 5, 20 or 60'
+      option :expiry_period, enum: %w(1 2 5 20 60), required: true, desc: 'The expiry period in seconds'
       option :size, required: true, desc: 'The position size'
 
       def create

@@ -20,19 +20,17 @@ module IGMarkets
 
       option :currency_code, required: true, desc: 'The 3 character currency code, must be one of the instrument\'s ' \
                                                    'currencies'
-      option :direction, required: true, desc: 'The trade direction, must be \'buy\' or \'sell\''
+      option :direction, enum: %w(buy sell), required: true, desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
-      option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required, default: false'
-      option :good_till_date, desc: 'The date that the order will live till, if not specified then the order will ' \
-                                    'remain until it is deleted, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
-      option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required, ' \
-                                                                     'default: false'
+      option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
+      option :good_till_date, desc: 'The date that the order will live till, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
+      option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required'
       option :level, type: :numeric, required: true, desc: 'The level at which the order will be triggered'
       option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit'
       option :size, type: :numeric, required: true, desc: 'The size of the order'
       option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop'
-      option :type, required: true, desc: 'The order type, either \'limit\' or \'stop\''
+      option :type, enum: %w(limit stop), required: true, desc: 'The order type'
 
       def create
         Main.begin_session(options) do |dealing_platform|
@@ -44,12 +42,11 @@ module IGMarkets
 
       desc 'update DEAL-ID', 'Updates an existing working order'
 
-      option :good_till_date, desc: 'The date that the order will live till, if not specified then the order will ' \
-                                    'remain until it is deleted, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
+      option :good_till_date, desc: 'The date that the order will live till, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
       option :level, type: :numeric, desc: 'The level at which the order will be triggered'
       option :limit_distance, desc: 'The distance away in pips to place the limit'
       option :stop_distance, desc: 'The distance away in pips to place the stop'
-      option :type, desc: 'The order type, either \'limit\' or \'stop\''
+      option :type, enum: %w(limit stop), desc: 'The order type'
 
       def update(deal_id)
         Main.begin_session(options) do |dealing_platform|
