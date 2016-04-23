@@ -8,7 +8,7 @@
 
 ### 0.5 — April 23, 2016
 
-- Ouptut from the command-line client is now formatted using ASCII tables and contains a lot more detail
+- Output from the command-line client is now formatted using ASCII tables and contains a lot more detail
 - Added `--aggregate` option to `ig_markets positions list` to aggregate together positions with the same EPIC
 - Added `--instrument` option to `ig_markets transactions` to filter by instrument name
 - Added `--no-interest` option to `ig_markets transactions` to exclude interest transactions
