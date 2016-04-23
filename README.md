@@ -102,7 +102,7 @@ ig_markets transactions --days=7 --instrument EUR/USD --no-interest
 ig_markets positions --aggregate
 
 # Create a EURUSD long position of size 2
-ig_markets positions create --currency-code USD --direction buy --epic CS.D.EURUSD.CFD.IP --size 2
+ig_markets positions create --direction buy --epic CS.D.EURUSD.CFD.IP --size 2
 
 # Change the limit and stop levels for an existing position
 ig_markets positions update DEAL-ID --limit-level 1.15 --stop-level 1.10
@@ -117,7 +117,7 @@ ig_markets positions close DEAL-ID --size 1
 ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 20 --size 100
 
 # Create a working order to buy 1 unit of EURUSD at the level 1.1
-ig_markets orders create --currency-code USD --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit
+ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit
 ```
 
 ## Usage — Library

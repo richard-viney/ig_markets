@@ -2,6 +2,7 @@
 
 ### 0.6 - Unreleased
 
+- Use a default currency of `USD` for `ig_markets orders create` and `ig_markets positions create`
 - Improved command-line client help output for several commands
 
 ### 0.5 - April 23, 2016

@@ -24,7 +24,7 @@ module IGMarkets
 
       desc 'create', 'Creates a new position'
 
-      option :currency_code, required: true, desc: 'The 3 character currency code, must be one of the instrument\'s ' \
+      option :currency_code, default: 'USD', desc: 'The 3 character currency code, must be one of the instrument\'s ' \
                                                    'currencies'
       option :direction, required: true, enum: %w(buy sell), desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
