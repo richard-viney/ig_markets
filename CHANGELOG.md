@@ -1,12 +1,12 @@
 # IG Markets Changelog
 
-### 0.6 - Unreleased
+### 0.6 — Unreleased
 
 - Added `--type` option to `ig_markets search` to only show instruments of specific type(s)
 - Use a default currency of `USD` for `ig_markets orders create` and `ig_markets positions create`
 - Improved command-line client help output for several commands
 
-### 0.5 - April 23, 2016
+### 0.5 — April 23, 2016
 
 - Ouptut from the command-line client is now formatted using ASCII tables and contains a lot more detail
 - Added `--aggregate` option to `ig_markets positions list` to aggregate together positions with the same EPIC
@@ -20,7 +20,7 @@
 - Added `IGMarkets::Position#close_level`
 - Removed `IGMarkets::Position#formatted_size` and `IGMarkets::Transaction#formatted_transaction_type`
 
-### 0.4 - April 18, 2016
+### 0.4 — April 18, 2016
 
 - Added `create`, `update` and `delete` subcommands to `ig_markets orders`
 - Added `create`, `update` and `close` subcommands to `ig_markets positions`
@@ -36,11 +36,11 @@
 - Fixed errors working with a working order's `#good_till_date` attribute
 - Automatically reauthenticate if the client security token has expired
 
-### 0.3 - April 14, 2016
+### 0.3 — April 14, 2016
 
 - Added `--version` and `-v` options to the command-line client
 
-### 0.2 - April 14, 2016
+### 0.2 — April 14, 2016
 
 - Added `ig_markets` command-line client
 - `IGMarkets::Model` now has separate `Date` and `Time` attribute types, and a new `:time_zone` option is used for
@@ -52,6 +52,6 @@
 - Added `#expired?` and `#seconds_till_expiry` to `IGMarkets::SprintMarketPosition`
 - Fixed `IGMarkets::RequestFailedError#message`
 
-### 0.1 - April 8, 2016
+### 0.1 — April 8, 2016
 
 - Initial release
