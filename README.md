@@ -41,7 +41,7 @@ $ gem install ig_markets
 The general form for invoking the command-line client is:
 
 ```
-$ ig_markets COMMAND [SUBCOMMAND] --username=USERNAME --password=PASSWORD --api-key=API-KEY [--demo] [...]
+$ ig_markets COMMAND [SUBCOMMAND] --username USERNAME --password PASSWORD --api-key API-KEY [--demo] [...]
 ```
 
 #### Config File
@@ -53,9 +53,9 @@ details with every invocation.
 To do this create a config file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
 
 ```shell
---username=USERNAME
---password=PASSWORD
---api-key=API-KEY
+--username USERNAME
+--password PASSWORD
+--api-key API-KEY
 --demo              # Include only if this is a demo account
 ```
 
@@ -67,7 +67,7 @@ Use `ig_markets help` to get details on the options accepted by the commands and
 commands and their subcommands is:
 
 - `ig_markets account`
-- `ig_markets activities --days=N [--start-date=YYYY-MM-DD]`
+- `ig_markets activities --days N [--start-date YYYY-MM-DD]`
 - `ig_markets confirmation DEAL-REFERENCE`
 - `ig_markets help [COMMAND]`
 - `ig_markets orders [list]`
@@ -78,11 +78,11 @@ commands and their subcommands is:
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
-- `ig_markets search QUERY`
+- `ig_markets search QUERY [--type TYPE]`
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
-- `ig_markets transactions --days=N [--start-date=YYYY-MM-DD] [--instrument=INSTRUMENT] [--no-interest]`
+- `ig_markets transactions --days N [--start-date YYYY-MM-DD] [--instrument INSTRUMENT] [--no-interest]`
 - `ig_markets watchlists [list]`
 - `ig_markets watchlists create NAME [EPIC EPIC ...]`
 - `ig_markets watchlists add-markets WATCHLIST-ID [EPIC EPIC ...]`
@@ -96,7 +96,10 @@ commands and their subcommands is:
 ig_markets account
 
 # Print EUR/USD transactions from the last week, excluding interest transactions
-ig_markets transactions --days=7 --instrument EUR/USD --no-interest
+ig_markets transactions --days 7 --instrument EUR/USD --no-interest
+
+# Search for EURUSD currency markets
+ig_markets search EURUSD --type currencies
 
 # Print current positions in aggregate
 ig_markets positions --aggregate

@@ -2,6 +2,7 @@
 
 ### 0.6 - Unreleased
 
+- Added `--type` option to `ig_markets search` to only show instruments of specific type(s)
 - Use a default currency of `USD` for `ig_markets orders create` and `ig_markets positions create`
 - Improved command-line client help output for several commands
 
