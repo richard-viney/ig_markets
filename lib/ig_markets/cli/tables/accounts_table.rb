@@ -25,6 +25,16 @@ module IGMarkets
             Format.currency account.balance.send(attribute), account.currency
           end
       end
+
+      def cell_color(value, _model, _row_index, column_index)
+        return unless headings[column_index] == 'Profit/loss'
+
+        if value =~ /-/
+          :red
+        else
+          :green
+        end
+      end
     end
   end
 end
