@@ -160,6 +160,7 @@ ig.positions['deal_id'].close
 
 # Sprint market positions
 ig.sprint_market_positions.all
+ig.sprint_market_positions['deal_id']
 ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24.IP',
                                   expiry_period: :twenty_minutes, size: 100
 

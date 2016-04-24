@@ -20,7 +20,7 @@ module IGMarkets
 
       # Returns the position with the specified deal ID, or `nil` if there is no position with that ID.
       #
-      # @param [String] deal_id The deal ID of the working order to return.
+      # @param [String] deal_id The deal ID of the position to return.
       #
       # @return [Position]
       def [](deal_id)

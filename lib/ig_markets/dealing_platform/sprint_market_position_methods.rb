@@ -16,6 +16,18 @@ module IGMarkets
         @dealing_platform.gather 'positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
       end
 
+      # Returns the sprint market position with the specified deal ID, or `nil` if there is no sprint market position
+      # with that ID.
+      #
+      # @param [String] deal_id The deal ID of the sprint market position to return.
+      #
+      # @return [SprintMarketPosition]
+      def [](deal_id)
+        all.detect do |sprint_market_position|
+          sprint_market_position.deal_id == deal_id
+        end
+      end
+
       # Creates a new sprint market position.
       #
       # @param [Hash] attributes The attributes for the new sprint market position.

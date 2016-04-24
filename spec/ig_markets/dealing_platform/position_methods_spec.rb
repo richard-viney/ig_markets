@@ -38,7 +38,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
   it 'returns nil for an unknown deal ID' do
     expect(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
 
-    expect(platform.positions['unknown']).to be_nil
+    expect(platform.positions['UNKNOWN']).to be_nil
   end
 
   it 'can create a position' do

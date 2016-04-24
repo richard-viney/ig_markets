@@ -6,7 +6,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
     end
   end
 
-  it 'can retrieve the current sprint market positions' do
+  it 'can retrieve sprint market positions' do
     positions = [build(:sprint_market_position)]
 
     expect(session).to receive(:get)
@@ -14,6 +14,17 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
       .and_return(sprint_market_positions: positions)
 
     expect(platform.sprint_market_positions.all).to eq(positions)
+  end
+
+  it 'can retrieve a single sprint market position' do
+    positions = [build(:sprint_market_position)]
+
+    expect(session).to receive(:get).twice
+      .with('positions/sprintmarkets', IGMarkets::API_V1)
+      .and_return(sprint_market_positions: positions)
+
+    expect(platform.sprint_market_positions['DEAL']).to eq(positions.first)
+    expect(platform.sprint_market_positions['UNKNOWN']).to be_nil
   end
 
   it 'can create a sprint market position' do
