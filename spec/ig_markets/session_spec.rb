@@ -27,7 +27,7 @@ describe IGMarkets::Session do
       expect(rest_client).to receive(:execute).and_return(response)
       expect(rest_client).to receive(:execute).and_return(second_response)
 
-      expect(session.sign_in).to eq(nil)
+      expect(session.sign_in).to be_nil
 
       expect(session.cst).to eq('1')
       expect(session.x_security_token).to match('2')
@@ -63,7 +63,7 @@ describe IGMarkets::Session do
     it 'can sign out' do
       expect(response).to receive_messages(code: 200, body: {}.to_json)
       expect(rest_client).to receive(:execute).with(params(:delete, 'session')).and_return(response)
-      expect(session.sign_out).to eq(nil)
+      expect(session.sign_out).to be_nil
       expect(session.alive?).to eq(false)
     end
 

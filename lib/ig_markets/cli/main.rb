@@ -49,7 +49,7 @@ module IGMarkets
           @dealing_platform ||= DealingPlatform.new
         end
 
-        # Takes a deal reference and prints out its full deal confirmation.
+        # Requests and displays the deal confirmation for the passed deal reference.
         #
         # @param [String] deal_reference The deal reference.
         #

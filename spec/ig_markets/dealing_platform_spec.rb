@@ -21,7 +21,7 @@ describe IGMarkets::DealingPlatform do
 
   it 'can sign out' do
     expect(session).to receive(:sign_out).and_return(nil)
-    expect(platform.sign_out).to eq(nil)
+    expect(platform.sign_out).to be_nil
   end
 
   it 'can retrieve a deal confirmation' do

@@ -40,6 +40,6 @@ describe IGMarkets::CLI::ConfigFile do
     expect(File).to receive(:exist?).with('pwd/.ig_markets').and_return(false)
     expect(File).to receive(:exist?).with('home/.ig_markets').and_return(false)
 
-    expect(IGMarkets::CLI::ConfigFile.find).to eq(nil)
+    expect(IGMarkets::CLI::ConfigFile.find).to be_nil
   end
 end

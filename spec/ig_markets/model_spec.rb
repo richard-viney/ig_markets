@@ -56,7 +56,7 @@ describe IGMarkets::Model do
   end
 
   it '#from accepts nil' do
-    expect(TestModel.from(nil)).to eq(nil)
+    expect(TestModel.from(nil)).to be_nil
   end
 
   it '#from accepts an attributes hash' do
@@ -85,7 +85,7 @@ describe IGMarkets::Model do
     model.float = 1.0
     model.float = ''
 
-    expect(model.float).to eq(nil)
+    expect(model.float).to be_nil
   end
 
   it 'raises ArgumentError for an invalid boolean' do
@@ -122,7 +122,7 @@ describe IGMarkets::Model do
 
   it 'sets attribute to nil when value matches a nil_if' do
     model.string = '-'
-    expect(model.string).to eq(nil)
+    expect(model.string).to be_nil
   end
 
   it 'correctly parses a date in the expected format' do

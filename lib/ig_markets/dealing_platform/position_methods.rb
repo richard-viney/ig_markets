@@ -24,9 +24,9 @@ module IGMarkets
       #
       # @return [Position]
       def [](deal_id)
-        attributes = @dealing_platform.session.get "positions/#{deal_id}", API_V2
-
-        position_from_attributes attributes
+        all.detect do |position|
+          position.deal_id == deal_id
+        end
       end
 
       # Creates a new position.

@@ -55,7 +55,7 @@ module IGMarkets
 
     private
 
-    # Returns the #inspect string for the given value.
+    # Returns the {#inspect} string for the given value.
     def inspect_value(value)
       if value.is_a? Time
         value.utc.strftime '%F %T %Z'
