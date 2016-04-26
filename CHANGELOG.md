@@ -5,6 +5,7 @@
 - Added `IGMarkets::DealingPlatform#account_time_zone` to handle the `Time` attributes that come back from the IG
   Markets API not in UTC and without a specified time zone
 - Added `--account-time-zone` option to the command-line client, defaults to UTC
+- Times reported by the command-line client are now in the local time zone instead of UTC
 - Added `--type` option to `ig_markets search` to only show instruments of specific type(s)
 - Use a default currency of `USD` for `ig_markets orders create` and `ig_markets positions create`
 - Improved command-line client help output for several commands

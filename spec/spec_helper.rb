@@ -12,3 +12,6 @@ require 'ig_markets'
 
 require 'support/factory_girl'
 require 'support/random_test_order'
+
+# Specs must always be run with the same time zone because times are reported in the local time zone
+ENV['TZ'] = 'UTC'

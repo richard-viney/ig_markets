@@ -80,7 +80,7 @@ module IGMarkets
       end
 
       def format_time(value)
-        value.utc.strftime '%F %T %Z'
+        value.localtime.strftime '%F %T %Z'
       end
 
       def format_date(value)
