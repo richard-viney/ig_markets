@@ -78,6 +78,7 @@ commands and their subcommands is:
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
+- `ig_markets prices --epic EPIC --resolution RESOLUTION [...]`
 - `ig_markets search QUERY [--type TYPE]`
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
@@ -121,6 +122,9 @@ ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --ex
 
 # Create a working order to buy 1 unit of EURUSD at the level 1.1
 ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit
+
+# Print daily prices for EURUSD from the last two weeks
+ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 ```
 
 ## Usage — Library

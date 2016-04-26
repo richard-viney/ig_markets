@@ -2,6 +2,7 @@
 
 ### 0.6 — Unreleased
 
+- Added `ig_markets prices` command to print historical market prices
 - Added `IGMarkets::DealingPlatform#account_time_zone` to handle the `Time` attributes that come back from the IG
   Markets API not in UTC and without a specified time zone
 - Added `--account-time-zone` option to the command-line client, defaults to UTC
