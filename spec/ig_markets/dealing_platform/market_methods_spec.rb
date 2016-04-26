@@ -60,7 +60,7 @@ describe IGMarkets::DealingPlatform::MarketMethods do
 
     expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
     expect(session).to receive(:get)
-      .with('prices/ABCDEF/DAY/2014-01-02T03:04:05/2014-02-03T04:05:06', IGMarkets::API_V2)
+      .with('prices/ABCDEF/DAY/2014-01-02 03:04:05/2014-02-03 04:05:06', IGMarkets::API_V2)
       .and_return(historical_price_results)
 
     expect(platform.markets['ABCDEF'].prices_in_date_range(:day, from_time, to_time)).to eq(historical_price_results)
