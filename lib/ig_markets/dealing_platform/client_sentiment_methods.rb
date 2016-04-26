@@ -15,14 +15,12 @@ module IGMarkets
       #
       # @return [ClientSentiment]
       def [](market_id)
-        result = @dealing_platform.session.get "clientsentiment/#{market_id}", API_V1
+        result = @dealing_platform.session.get "clientsentiment/#{market_id}"
 
-        ClientSentiment.from(result).tap do |client_sentiment|
+        @dealing_platform.instantiate_models(ClientSentiment, result).tap do |client_sentiment|
           if client_sentiment.long_position_percentage == 0.0 && client_sentiment.short_position_percentage == 0.0
             raise ArgumentError, "unknown market '#{market_id}'"
           end
-
-          client_sentiment.instance_variable_set :@dealing_platform, @dealing_platform
         end
       end
     end

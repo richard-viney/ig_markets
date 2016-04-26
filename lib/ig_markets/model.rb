@@ -20,7 +20,7 @@ module IGMarkets
       (attributes.keys - defined_attribute_names).map do |attribute|
         value = attributes[attribute]
 
-        raise ArgumentError, "Unknown attribute: #{self.class.name}##{attribute}, value: #{inspect_value value}"
+        raise ArgumentError, "unknown attribute: #{self.class.name}##{attribute}, value: #{inspect_value value}"
       end
     end
 
@@ -77,19 +77,28 @@ module IGMarkets
         (defined_attributes || {}).keys
       end
 
+      # Returns the type of the specified attribute.
+      #
+      # @param [Symbol] attribute_name The name of the attribute to return the type for.
+      #
+      # @return The type of the specified attribute.
+      def attribute_type(attribute_name)
+        defined_attributes.fetch(attribute_name).fetch :type
+      end
+
       # Returns the array of allowed values for the specified attribute that was passed to {attribute}.
       #
       # @param [Symbol] attribute_name The name of the attribute to return the allowed values for.
       #
       # @return [Array]
       def allowed_values(attribute_name)
-        defined_attributes.fetch(attribute_name).fetch(:allowed_values)
+        defined_attributes.fetch(attribute_name).fetch :allowed_values
       end
 
       # Defines setter and getter methods for a new attribute on this class.
       #
       # @param [Symbol] name The name of the new attribute.
-      # @param [Boolean, String, Date, Time, Fixnum, Float, Symbol, #from] type The attribute's type.
+      # @param [Boolean, String, Date, Time, Fixnum, Float, Symbol, Model] type The attribute's type.
       # @param [Hash] options The configuration options for the new attribute.
       # @option options [Array] :allowed_values The set of values that this attribute is allowed to be set to. An
       #                 attempt to set this attribute to a value not in this list will raise `ArgumentError`. Optional.
@@ -98,9 +107,10 @@ module IGMarkets
       #                 Optional.
       # @option options [String] :format When `type` is `Date` or `Time` this specifies the format for parsing String
       #                 and `Fixnum` instances assigned to this attribute.
-      # @option options [String] :time_zone When `type` is `Time` this specifies the time zone to append to
+      # @option options [String, Proc] :time_zone When `type` is `Time` this specifies the time zone to append to
       #                 `String` values assigned to this attribute prior to parsing them with `:format`. Defaults to
-      #                 `+0000` (UTC) unless `:format` is `%Q`.
+      #                 `+0000` (UTC) unless `:format` is `%Q`. Can be a `Proc` that returns the time zone string to
+      #                 use.
       #
       # @macro [attach] attribute
       #   The $1 attribute.
@@ -111,24 +121,6 @@ module IGMarkets
 
         self.defined_attributes ||= {}
         self.defined_attributes[name] = options.merge type: type
-      end
-
-      # Creates a new Model instance from the specified source, which can take a variety of different forms.
-      #
-      # @param [nil, Hash, Model, Array] source The source object to create a new `Model` instance from. If `source` is
-      #        `nil` then `nil` is returned. If `source` is a hash then a new `Model` instance is returned and the
-      #        hash is passed to `Model#initialize`. If `source` is an instance of this class then `dup` is called on it
-      #        and the duplicate returned. If source is an array then it is mapped into a new array with each item
-      #        having been recursively passed through this method.
-      #
-      # @return [nil, Array, Model]
-      def from(source)
-        return nil if source.nil?
-        return new source if source.is_a? Hash
-        return source.dup if source.is_a? self
-        return source.map { |item| from item } if source.is_a? Array
-
-        raise ArgumentError, "Unable to make a #{self} from instance of #{source.class}"
       end
 
       private
@@ -143,7 +135,7 @@ module IGMarkets
         define_method "#{name}=" do |value|
           value = nil if Array(options.fetch(:nil_if, [])).include? value
 
-          value = typecaster.call value, options
+          value = typecaster.call value, options, self, name
 
           allowed_values = options[:allowed_values]
           if !value.nil? && allowed_values

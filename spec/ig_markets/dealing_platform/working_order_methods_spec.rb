@@ -29,7 +29,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(platform.working_orders['1']).to eq(orders[0])
+    expect(platform.working_orders['1']).to eq(orders.first)
   end
 
   it 'can create a working order' do
@@ -75,7 +75,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     del_result = { deal_reference: 'reference' }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(session).to receive(:delete).with('workingorders/otc/1', {}, IGMarkets::API_V1).and_return(del_result)
+    expect(session).to receive(:delete).with('workingorders/otc/1', {}).and_return(del_result)
 
     expect(platform.working_orders['1'].delete).to eq('reference')
   end
@@ -101,7 +101,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     put_result = { deal_reference: 'reference' }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(session).to receive(:put).with('workingorders/otc/1', payload, IGMarkets::API_V1).and_return(put_result)
+    expect(session).to receive(:put).with('workingorders/otc/1', payload).and_return(put_result)
     expect(platform.working_orders['1'].update(level: 1.03, limit_distance: 20, stop_distance: 30)).to eq('reference')
   end
 end

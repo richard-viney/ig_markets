@@ -7,20 +7,18 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
   end
 
   it 'can retrieve sprint market positions' do
-    positions = [build(:sprint_market_position)]
+    positions = [build(:sprint_market_position, dealing_platform: platform)]
 
-    expect(session).to receive(:get)
-      .with('positions/sprintmarkets', IGMarkets::API_V1)
-      .and_return(sprint_market_positions: positions)
+    expect(session).to receive(:get).with('positions/sprintmarkets').and_return(sprint_market_positions: positions)
 
     expect(platform.sprint_market_positions.all).to eq(positions)
   end
 
   it 'can retrieve a single sprint market position' do
-    positions = [build(:sprint_market_position)]
+    positions = [build(:sprint_market_position, dealing_platform: platform)]
 
     expect(session).to receive(:get).twice
-      .with('positions/sprintmarkets', IGMarkets::API_V1)
+      .with('positions/sprintmarkets')
       .and_return(sprint_market_positions: positions)
 
     expect(platform.sprint_market_positions['DEAL']).to eq(positions.first)
@@ -44,7 +42,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
 
     result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:post).with('positions/sprintmarkets', payload, IGMarkets::API_V1).and_return(result)
+    expect(session).to receive(:post).with('positions/sprintmarkets', payload).and_return(result)
     expect(platform.sprint_market_positions.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 end

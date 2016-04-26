@@ -10,7 +10,9 @@ module IGMarkets
     #
     # @return [Array<ClientSentiment>]
     def related_sentiments
-      @dealing_platform.gather "clientsentiment/related/#{market_id}", :client_sentiments, ClientSentiment
+      result = @dealing_platform.session.get("clientsentiment/related/#{market_id}").fetch :client_sentiments
+
+      @dealing_platform.instantiate_models ClientSentiment, result
     end
   end
 end

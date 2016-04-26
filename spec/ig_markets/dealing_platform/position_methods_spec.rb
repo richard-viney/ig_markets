@@ -6,12 +6,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
     end
   end
 
-  let(:positions) do
-    [build(:position, deal_id: '1')].each do |position|
-      position.instance_variable_set :@dealing_platform, platform
-    end
-  end
-
+  let(:positions) { [build(:position, deal_id: '1')] }
   let(:get_result) do
     {
       positions: positions.map(&:attributes).map do |attributes|
@@ -117,7 +112,7 @@ describe IGMarkets::DealingPlatform::PositionMethods do
     delete_result = { deal_reference: 'reference' }
 
     expect(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
-    expect(session).to receive(:delete).with('positions/otc', payload, IGMarkets::API_V1).and_return(delete_result)
+    expect(session).to receive(:delete).with('positions/otc', payload).and_return(delete_result)
 
     expect(platform.positions['1'].close).to eq('reference')
   end
@@ -126,9 +121,10 @@ describe IGMarkets::DealingPlatform::PositionMethods do
     attributes = { time_in_force: :execute_and_eliminate }
 
     close_position_proc = proc do |override_attributes = {}|
-      positions.first.close attributes.merge(override_attributes)
+      platform.positions[positions.first.deal_id].close attributes.merge(override_attributes)
     end
 
+    allow(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
     expect(session).to receive(:delete).exactly(3).times.and_return(deal_reference: 'reference')
 
     expect { close_position_proc.call }.to_not raise_error

@@ -12,7 +12,7 @@ module IGMarkets
 
     # Contains details on the expiry details of an instrument. Returned by {#expiry_details}.
     class ExpiryDetails < Model
-      attribute :last_dealing_date, Time, format: '%FT%R', time_zone: '+1000'
+      attribute :last_dealing_date, Time, format: '%FT%R', time_zone: -> { @dealing_platform.account_time_zone }
       attribute :settlement_info
     end
 
@@ -30,15 +30,15 @@ module IGMarkets
       attribute :close_time
       attribute :open_time
 
-      # (See {Model.from}).
-      def self.from(value)
-        # This check works around a vagary in the IG API where there is a seemingly unnecessary hash for the
-        # :opening_hours value that only has a single :market_times key which is what holds the actual data.
-        if value.is_a?(Hash) && value.keys == [:market_times]
-          super value[:market_times]
-        else
-          super
-        end
+      # This method is used by {DealingPlatform#instantiate_models} to work around a vagary in the IG API where there
+      # is a seemingly unnecessary hash for the :opening_hours value that contains a single :market_times key which is
+      # what holds the actual opening hours data.
+      #
+      # @param [Hash] attributes
+      #
+      # @return [Hash]
+      def self.adjusted_api_attributes(attributes)
+        attributes.keys == [:market_times] ? attributes[:market_times] : attributes
       end
     end
 

@@ -38,6 +38,11 @@ module IGMarkets
     # @return [WorkingOrderMethods] Methods for working with working orders.
     attr_reader :working_orders
 
+    # @return [String] The time zone of the account, e.g. `'+1000'` or `'-0800'`. This is required in order for certain
+    # dates and times reported by this library to be correct, due to the fact that the IG Markets API does not reliably
+    # report time zone details in all attributes. Defaults to `'+0000'`.
+    attr_accessor :account_time_zone
+
     def initialize
       @session = Session.new
 
@@ -48,6 +53,8 @@ module IGMarkets
       @sprint_market_positions = SprintMarketPositionMethods.new self
       @watchlists = WatchlistMethods.new self
       @working_orders = WorkingOrderMethods.new self
+
+      @account_time_zone = '+0000'
     end
 
     # Signs in to the IG Markets Dealing Platform, either the production platform or the demo platform.
@@ -74,30 +81,58 @@ module IGMarkets
     #
     # @return [DealConfirmation]
     def deal_confirmation(deal_reference)
-      DealConfirmation.from session.get "confirms/#{deal_reference}", API_V1
+      instantiate_models DealConfirmation, session.get("confirms/#{deal_reference}")
     end
 
     # Returns details on the IG Markets applications for the accounts associated with this login.
     #
     # @return [Array<Application>]
     def applications
-      Application.from session.get 'operations/application', API_V1
+      instantiate_models Application, session.get('operations/application')
     end
 
-    # Sends a GET request to a URL then takes a single key from the returned hash and converts its contents to an array
-    # of type `klass`.
+    # This method is used to instantiate the various `Model` subclasses from data returned by the IG Markets API. It
+    # recurses through arrays and sub-hashes present in `source`, instantiating the required models based on the types
+    # of each attribute as defined on the models. All model instances returned by this method will have their
+    # `@dealing_platform` instance variable set.
     #
-    # @param [String] url The URL to send a GET request to.
-    # @param [Symbol] collection The name of the top level symbol that contains the array of data to return.
-    # @param [Class] klass The type to return.
-    # @param [API_V1, API_V2, API_V3] api_version The API version to target for the request.
+    # @param [Class] model_class The type of model to create from `source`.
+    # @param [nil, Hash, Array, Model] source The source object to construct the model(s) from. If `nil` then `nil` is
+    #                                  returned. If an instance of `model_class` subclass then a deep copy of it is
+    #                                  returned. If a `Hash` then it will be interprted as the attributes for a new
+    #                                  instance of `model_class. If an `Array` then each entry will be passed through
+    #                                  this method individually.
     #
-    # @return [Array]
-    def gather(url, collection, klass, api_version = API_V1)
-      klass.from(session.get(url, api_version).fetch(collection)).tap do |result|
-        # Set @dealing_platform on all the results
-        result.each do |item|
-          item.instance_variable_set :@dealing_platform, self
+    # @return [nil, `model_class`, Array<`model_class`>] The resulting instantiated model(s).
+    def instantiate_models(model_class, source)
+      return nil if source.nil?
+
+      source = source.attributes if source.is_a? model_class
+
+      if source.is_a? Array
+        source.map { |entry| instantiate_models model_class, entry }
+      elsif source.is_a? Hash
+        source = model_class.adjusted_api_attributes source if model_class.respond_to? :adjusted_api_attributes
+
+        instantiate_model_from_attributes_hash model_class, source
+      else
+        raise ArgumentError, "#{model_class}: can't instantiate from a source of type #{source.class}"
+      end
+    end
+
+    private
+
+    # This method is a companion to {#instantiate_models} and creates a single instance of `model_class` from the passed
+    # attributes hash, setting the `@dealing_platform` instance variable on the new model instance.
+    def instantiate_model_from_attributes_hash(model_class, attributes)
+      model_class.new.tap do |model|
+        model.instance_variable_set :@dealing_platform, self
+
+        attributes.each do |attribute, value|
+          type = model_class.attribute_type attribute
+          value = instantiate_models(type, value) if type < Model
+
+          model.send "#{attribute}=", value
         end
       end
     end

@@ -7,6 +7,7 @@ module IGMarkets
       class_option :password, required: true, desc: 'The password for the session'
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
+      class_option :account_time_zone, default: '+0000', desc: 'The time zone of the account'
       class_option :print_requests, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
@@ -33,14 +34,22 @@ module IGMarkets
 
           RequestPrinter.enabled = true if options[:print_requests]
 
+          dealing_platform.account_time_zone = options[:account_time_zone]
+
           dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield dealing_platform
         rescue IGMarkets::RequestFailedError => error
-          warn "Request error: #{error.error}"
-          exit 1
+          error "Request error: #{error.error}"
         rescue ArgumentError => error
-          warn "Argument error: #{error}"
+          error "Argument error: #{error}"
+        end
+
+        # Writes the passed message to `stderr` and then exits the application.
+        #
+        # @param [String] message The error message.
+        def error(message)
+          warn message
           exit 1
         end
 
@@ -95,7 +104,7 @@ END
 
         # Takes a Thor options hash and filters out its keys in the specified whitelist. Thor has an unusual behavior
         # when an option is specified without a value: its value is set to the option's name. This method resets any
-        # such occurrences to nil.
+        # such occurrences to `nil`.
         #
         # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options.
         # @param [Array<Symbol>] whitelist The list of options allowed in the returned `Hash`.

@@ -15,10 +15,10 @@ module IGMarkets
     # @return [:demo, :production] The platform variant to log into for this session.
     attr_accessor :platform
 
-    # @return [String] The CST for the currently logged in session, or nil if there is no active session.
+    # @return [String] The CST for the currently logged in session, or `nil` if there is no active session.
     attr_reader :cst
 
-    # @return [String] The security token for the currently logged in session, or nil if there is no active session.
+    # @return [String] The security token for the currently logged in session, or `nil` if there is no active session.
     attr_reader :x_security_token
 
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
@@ -40,7 +40,7 @@ module IGMarkets
     # Signs out of IG Markets, ending the current session (if any). If an error occurs then {RequestFailedError} will be
     # raised.
     def sign_out
-      delete 'session', nil, API_V1 if alive?
+      delete 'session' if alive?
 
       @cst = @x_security_token = nil
     end
@@ -59,7 +59,7 @@ module IGMarkets
     # @param [Fixnum] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
-    def post(url, payload, api_version)
+    def post(url, payload, api_version = API_V1)
       request(method: :post, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
@@ -69,7 +69,7 @@ module IGMarkets
     # @param [Fixnum] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
-    def get(url, api_version)
+    def get(url, api_version = API_V1)
       request(method: :get, url: url, api_version: api_version).fetch :result
     end
 
@@ -80,7 +80,7 @@ module IGMarkets
     # @param [Fixnum] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
-    def put(url, payload, api_version)
+    def put(url, payload, api_version = API_V1)
       request(method: :put, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
@@ -91,7 +91,7 @@ module IGMarkets
     # @param [Fixnum] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
-    def delete(url, payload, api_version)
+    def delete(url, payload = nil, api_version = API_V1)
       request(method: :delete, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
@@ -115,7 +115,7 @@ module IGMarkets
     end
 
     def password_encryptor
-      result = get 'session/encryptionKey', API_V1
+      result = get 'session/encryptionKey'
 
       PasswordEncryptor.new result.fetch(:encryption_key), result.fetch(:time_stamp)
     end

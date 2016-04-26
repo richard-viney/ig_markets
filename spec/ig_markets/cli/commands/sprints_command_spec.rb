@@ -10,8 +10,12 @@ describe IGMarkets::CLI::Sprints do
   end
 
   it 'prints sprint market positions' do
-    sprint_market_positions = [build(:sprint_market_position), build(:sprint_market_position, strike_level: 99)]
-    markets = [build(:market, instrument: build(:instrument, epic: 'FM.D.FTSE.FTSE.IP'))]
+    sprint_market_positions = [
+      build(:sprint_market_position, dealing_platform: dealing_platform),
+      build(:sprint_market_position, strike_level: 99, dealing_platform: dealing_platform)
+    ]
+    markets = [
+      build(:market, instrument: build(:instrument, epic: 'FM.D.FTSE.FTSE.IP', dealing_platform: dealing_platform))]
 
     expect(sprint_market_positions[0]).to receive(:seconds_till_expiry).and_return(125)
     expect(sprint_market_positions[1]).to receive(:seconds_till_expiry).and_return(125)

@@ -26,7 +26,7 @@ module IGMarkets
     # @return [String] The deal reference of the deletion operation. Use {DealingPlatform#deal_confirmation} to check
     #         the result of the working order deletion.
     def delete
-      @dealing_platform.session.delete("workingorders/otc/#{deal_id}", {}, API_V1).fetch(:deal_reference)
+      @dealing_platform.session.delete("workingorders/otc/#{deal_id}", {}).fetch(:deal_reference)
     end
 
     # Updates this working order. No attributes are mandatory, and any attributes not specified will be kept at the
@@ -51,7 +51,7 @@ module IGMarkets
 
       payload = PayloadFormatter.format WorkingOrderUpdateAttributes.new new_attributes
 
-      @dealing_platform.session.put("workingorders/otc/#{deal_id}", payload, API_V1).fetch(:deal_reference)
+      @dealing_platform.session.put("workingorders/otc/#{deal_id}", payload).fetch(:deal_reference)
     end
 
     # Internal model used by {#update}.

@@ -23,7 +23,7 @@ module IGMarkets
       attribute :last_traded_volume, Float
       attribute :low_price, Price
       attribute :open_price, Price
-      attribute :snapshot_time, Time, format: '%Y/%m/%d %T', time_zone: '+1000'
+      attribute :snapshot_time, Time, format: '%Y/%m/%d %T', time_zone: -> { @dealing_platform.account_time_zone }
     end
 
     attribute :allowance, DataAllowance

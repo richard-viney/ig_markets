@@ -55,7 +55,7 @@ module IGMarkets
 
       url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
 
-      HistoricalPriceResult.from @dealing_platform.session.get(url, API_V2)
+      @dealing_platform.instantiate_models HistoricalPriceResult, @dealing_platform.session.get(url, API_V2)
     end
 
     # Returns historical prices for this market at a specified resolution over a specified time period.
@@ -74,7 +74,7 @@ module IGMarkets
 
       url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_time}/#{end_time}"
 
-      HistoricalPriceResult.from @dealing_platform.session.get(url, API_V2)
+      @dealing_platform.instantiate_models HistoricalPriceResult, @dealing_platform.session.get(url, API_V2)
     end
 
     private

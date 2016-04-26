@@ -57,7 +57,7 @@ describe IGMarkets::Session do
     it 'passes correct details for a post request' do
       expect(response).to receive_messages(code: 200, body: { ids: [1, 2] }.to_json)
       expect(rest_client).to receive(:execute).with(params(:post, 'url', id: 1)).and_return(response)
-      expect(session.post('url', { id: 1 }, IGMarkets::API_V1)).to eq(ids: [1, 2])
+      expect(session.post('url', id: 1)).to eq(ids: [1, 2])
     end
 
     it 'can sign out' do
@@ -70,7 +70,7 @@ describe IGMarkets::Session do
     it 'raises RequestFailedError when the HTTP response is an error' do
       expect(response).to receive_messages(code: 404, body: { errorCode: '1' }.to_json)
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
-      expect { session.get('url', IGMarkets::API_V1) }.to raise_error do |error|
+      expect { session.get 'url' }.to raise_error do |error|
         expect(error).to be_a(IGMarkets::RequestFailedError)
         expect(error.error).to eq('1')
         expect(error.http_code).to eq(404)
@@ -80,17 +80,17 @@ describe IGMarkets::Session do
     it 'handles when the HTTP response is not JSON' do
       expect(response).to receive_messages(code: 404, body: 'not_valid_json')
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
-      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+      expect { session.get 'url' }.to raise_error(IGMarkets::RequestFailedError)
     end
 
     it 'converts a SocketError into a RequestFailedError' do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(SocketError)
-      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+      expect { session.get 'url' }.to raise_error(IGMarkets::RequestFailedError)
     end
 
     it 'converts a RestClient::Exception that has no response into a RequestFailedError' do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception)
-      expect { session.get('url', IGMarkets::API_V1) }.to raise_error(IGMarkets::RequestFailedError)
+      expect { session.get 'url' }.to raise_error(IGMarkets::RequestFailedError)
     end
 
     let(:invalid_client_token_exception) do
@@ -115,7 +115,7 @@ describe IGMarkets::Session do
       expect(rest_client).to receive(:execute).and_return(second_response)
       expect(rest_client).to receive(:execute).and_return(third_response)
 
-      expect(session.get('url', IGMarkets::API_V1)).to eq(result: 'test')
+      expect(session.get('url')).to eq(result: 'test')
 
       expect(session.cst).to eq('3')
       expect(session.x_security_token).to match('4')
@@ -125,7 +125,7 @@ describe IGMarkets::Session do
     it 'can process a PUT request' do
       expect(response).to receive_messages(code: 200, body: '')
       expect(rest_client).to receive(:execute).with(params(:put, 'url', id: 1)).and_return(response)
-      expect(session.put('url', { id: 1 }, IGMarkets::API_V1)).to eq({})
+      expect(session.put('url', id: 1)).to eq({})
     end
 
     it 'can process a DELETE request with a payload' do
@@ -134,7 +134,7 @@ describe IGMarkets::Session do
 
       expect(response).to receive_messages(code: 204, body: '')
       expect(rest_client).to receive(:execute).with(execute_params).and_return(response)
-      expect(session.delete('url', { id: 1 }, IGMarkets::API_V1)).to eq({})
+      expect(session.delete('url', id: 1)).to eq({})
     end
 
     it 'inspects correctly' do

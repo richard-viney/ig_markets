@@ -13,7 +13,9 @@ module IGMarkets
       #
       # @return [Array<Account>]
       def all
-        @dealing_platform.gather 'accounts', :accounts, Account
+        result = @dealing_platform.session.get('accounts').fetch :accounts
+
+        @dealing_platform.instantiate_models Account, result
       end
 
       # Returns all account activities that occurred in the specified date range.
@@ -26,7 +28,9 @@ module IGMarkets
         from_date = format_date from_date
         to_date = format_date to_date
 
-        @dealing_platform.gather "history/activity/#{from_date}/#{to_date}", :activities, Activity
+        result = @dealing_platform.session.get("history/activity/#{from_date}/#{to_date}").fetch :activities
+
+        @dealing_platform.instantiate_models Activity, result
       end
 
       # Returns all account activities that occurred in the most recent specified number of days.
@@ -35,7 +39,9 @@ module IGMarkets
       #
       # @return [Array<Activity>]
       def recent_activities(days)
-        @dealing_platform.gather "history/activity/#{milliseconds(days)}", :activities, Activity
+        result = @dealing_platform.session.get("history/activity/#{milliseconds(days)}").fetch :activities
+
+        @dealing_platform.instantiate_models Activity, result
       end
 
       # Returns all transactions that occurred in the specified date range.
@@ -52,8 +58,9 @@ module IGMarkets
         to_date = format_date to_date
 
         url = "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}"
+        result = @dealing_platform.session.get(url).fetch :transactions
 
-        @dealing_platform.gather url, :transactions, Transaction
+        @dealing_platform.instantiate_models Transaction, result
       end
 
       # Returns all transactions that occurred in the last specified number of days.
@@ -66,8 +73,9 @@ module IGMarkets
         validate_transaction_type transaction_type
 
         url = "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds(days)}"
+        result = @dealing_platform.session.get(url).fetch :transactions
 
-        @dealing_platform.gather url, :transactions, Transaction
+        @dealing_platform.instantiate_models Transaction, result
       end
 
       private

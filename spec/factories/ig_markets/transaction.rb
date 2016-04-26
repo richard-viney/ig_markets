@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :transaction, class: IGMarkets::Transaction do
+  factory :transaction, class: IGMarkets::Transaction, parent: :model do
     cash_transaction false
     close_level '0.8'
     currency 'US'

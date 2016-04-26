@@ -9,7 +9,7 @@ module IGMarkets
     attribute :date, Date, format: '%d/%m/%y'
     attribute :instrument_name
     attribute :open_level, String, nil_if: %w(- 0)
-    attribute :period, Time, nil_if: '-', format: '%d/%m/%y %T', time_zone: '+10:00'
+    attribute :period, Time, nil_if: '-', format: '%d/%m/%y %T', time_zone: -> { @dealing_platform.account_time_zone }
     attribute :profit_and_loss
     attribute :reference
     attribute :size, String, nil_if: '-'

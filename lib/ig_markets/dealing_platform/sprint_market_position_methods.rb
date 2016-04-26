@@ -13,7 +13,9 @@ module IGMarkets
       #
       # @return [Array<SprintMarketPosition>]
       def all
-        @dealing_platform.gather 'positions/sprintmarkets', :sprint_market_positions, SprintMarketPosition
+        result = @dealing_platform.session.get('positions/sprintmarkets').fetch :sprint_market_positions
+
+        @dealing_platform.instantiate_models SprintMarketPosition, result
       end
 
       # Returns the sprint market position with the specified deal ID, or `nil` if there is no sprint market position
@@ -42,7 +44,7 @@ module IGMarkets
       def create(attributes)
         payload = PayloadFormatter.format SprintMarketPositionCreateAttributes.new attributes
 
-        @dealing_platform.session.post('positions/sprintmarkets', payload, API_V1).fetch(:deal_reference)
+        @dealing_platform.session.post('positions/sprintmarkets', payload).fetch :deal_reference
       end
 
       # Internal model used by {#create}

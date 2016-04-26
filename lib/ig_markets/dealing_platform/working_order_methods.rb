@@ -14,11 +14,9 @@ module IGMarkets
       # @return [Array<WorkingOrder>]
       def all
         @dealing_platform.session.get('workingorders', API_V2).fetch(:working_orders).map do |attributes|
-          attributes = attributes.fetch(:working_order_data).merge(market: attributes.fetch(:market_data))
+          attributes = attributes.fetch(:working_order_data).merge market: attributes.fetch(:market_data)
 
-          WorkingOrder.new(attributes).tap do |working_order|
-            working_order.instance_variable_set :@dealing_platform, @dealing_platform
-          end
+          @dealing_platform.instantiate_models WorkingOrder, attributes
         end
       end
 

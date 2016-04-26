@@ -161,9 +161,9 @@ module IGMarkets
       end
 
       def position_from_attributes(attributes)
-        Position.new(attributes.fetch(:position).merge(market: attributes.fetch(:market))).tap do |position|
-          position.instance_variable_set :@dealing_platform, @dealing_platform
-        end
+        attributes = attributes.fetch(:position).merge market: attributes.fetch(:market)
+
+        @dealing_platform.instantiate_models Position, attributes
       end
 
       private_constant :PositionCreateAttributes

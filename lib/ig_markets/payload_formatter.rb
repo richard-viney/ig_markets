@@ -45,7 +45,7 @@ module IGMarkets
     def snake_case_to_camel_case(value)
       pieces = value.to_s.split '_'
 
-      (pieces[0] + pieces[1..-1].map(&:capitalize).join).to_sym
+      (pieces.first + pieces[1..-1].map(&:capitalize).join).to_sym
     end
   end
 end

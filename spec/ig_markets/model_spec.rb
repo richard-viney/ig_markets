@@ -4,12 +4,21 @@ describe IGMarkets::Model do
     attribute :bool, IGMarkets::Boolean
     attribute :string, String, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
     attribute :date, Date, format: '%F'
-    attribute :time, Time, format: '%F %T', time_zone: '+0630'
+    attribute :time, Time, format: '%F %T', time_zone: -> { '+0630' }
     attribute :float, Float
     attribute :symbol, Symbol, allowed_values: [:a, :b]
   end
 
   let(:model) { TestModel.new }
+
+  it 'returns the attribute names' do
+    expect(TestModel.defined_attribute_names).to eq([:id, :bool, :string, :date, :time, :float, :symbol])
+  end
+
+  it 'returns an attribute\'s type' do
+    expect(TestModel.attribute_type(:id)).to eq(String)
+    expect(TestModel.attribute_type(:time)).to eq(Time)
+  end
 
   it 'initializes with specified attribute values' do
     expect(TestModel.new(id: 'test', bool: true).attributes).to eq(
@@ -55,30 +64,13 @@ describe IGMarkets::Model do
       '#<TestModel2 test: #<TestModel id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil>>')
   end
 
-  it '#from accepts nil' do
-    expect(TestModel.from(nil)).to be_nil
-  end
-
-  it '#from accepts an attributes hash' do
-    expect(TestModel.from(id: 'test').attributes).to eq(
-      id: 'test', bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil)
-  end
-
-  it '#from accepts an instance and creates a copy' do
-    instance = TestModel.new(id: 'test')
-
-    expect(TestModel.from(instance)).to eq(instance)
-    expect(TestModel.from(instance)).not_to eql(instance)
-  end
-
-  it '#from accepts an Array of attributes hashes' do
-    expect(TestModel.from([{ id: 'a' }, { id: 'b' }])).to eq([TestModel.new(id: 'a'), TestModel.new(id: 'b')])
-  end
-
-  it '#from raises on invalid inputs' do
-    ['', Time.new, IGMarkets::Model.new].each do |invalid_input|
-      expect { TestModel.from(invalid_input) }.to raise_error(ArgumentError)
+  it 'raises an exception when a model attribute is set to the wrong type' do
+    class TestModel2 < IGMarkets::Model
+      attribute :test, TestModel
     end
+
+    expect { TestModel2.new test: nil }.to_not raise_error
+    expect { TestModel2.new test: 'string' }.to raise_error(ArgumentError)
   end
 
   it 'converts an empty string to nil on a Float attribute' do

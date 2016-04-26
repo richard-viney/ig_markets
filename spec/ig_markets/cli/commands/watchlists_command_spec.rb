@@ -13,7 +13,7 @@ describe IGMarkets::CLI::Watchlists do
     watchlists = [build(:watchlist)]
     markets = [build(:market_overview)]
 
-    expect(watchlists[0]).to receive(:markets).and_return(markets)
+    expect(watchlists.first).to receive(:markets).and_return(markets)
     expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
 
     expect { cli.list }.to output(<<-END

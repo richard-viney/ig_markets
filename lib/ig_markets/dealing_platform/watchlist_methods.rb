@@ -13,7 +13,9 @@ module IGMarkets
       #
       # @return [Array<Watchlist>]
       def all
-        @dealing_platform.gather 'watchlists', :watchlists, Watchlist
+        result = @dealing_platform.session.get('watchlists').fetch :watchlists
+
+        @dealing_platform.instantiate_models Watchlist, result
       end
 
       # Returns the watchlist that has the specified ID, or `nil` if there is no watchlist with that ID.
@@ -31,7 +33,7 @@ module IGMarkets
       #
       # @return [Watchlist] The new watchlist.
       def create(name, *epics)
-        result = @dealing_platform.session.post 'watchlists', { name: name, epics: epics.flatten }, API_V1
+        result = @dealing_platform.session.post 'watchlists', name: name, epics: epics.flatten
 
         self[result.fetch(:watchlist_id)]
       end

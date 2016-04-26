@@ -17,7 +17,7 @@ module IGMarkets
               .split(' ')
       end
 
-      # Returns the config file to use, or nil if there is no config file.
+      # Returns the config file to use, or `nil` if there is no config file.
       #
       # @return [CLI::ConfigFile]
       def self.find

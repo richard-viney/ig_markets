@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :sprint_market_position, class: IGMarkets::SprintMarketPosition do
+  factory :sprint_market_position, class: IGMarkets::SprintMarketPosition, parent: :model do
     created_date '2014/10/22 18:30:15:000'
     currency 'USD'
     deal_id 'DEAL'

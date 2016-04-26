@@ -89,7 +89,7 @@ module IGMarkets
 
       payload = PayloadFormatter.format model
 
-      @dealing_platform.session.delete('positions/otc', payload, API_V1).fetch(:deal_reference)
+      @dealing_platform.session.delete('positions/otc', payload).fetch :deal_reference
     end
 
     # Updates this position. No attributes are mandatory, and any attributes not specified will be kept at their
