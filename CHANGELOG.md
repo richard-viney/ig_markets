@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.6 — Unreleased
+### 0.6 — April 27, 2016
 
 - Added `ig_markets prices` command to print historical market prices
 - Added `IGMarkets::DealingPlatform#account_time_zone` to handle the `Time` attributes that come back from the IG
