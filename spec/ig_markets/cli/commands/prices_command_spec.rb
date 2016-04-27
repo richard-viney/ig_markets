@@ -31,7 +31,7 @@ describe IGMarkets::CLI::Main do
 
     expect { cli(epic: 'A', resolution: :day, number: 1).prices }.to output(<<-END
 +-------------------------+------+-------+-----+------+
-|                       Prices                        |
+|                    Prices for A                     |
 +-------------------------+------+-------+-----+------+
 | Date                    | Open | Close | Low | High |
 +-------------------------+------+-------+-----+------+
@@ -55,7 +55,7 @@ END
       cli(epic: 'A', resolution: :day, start_date: '2014-01-02T03:04+00:00', end_date: '2014-02-03T04:05+00:00').prices
     end.to output(<<-END
 +-------------------------+------+-------+-----+------+
-|                       Prices                        |
+|                    Prices for A                     |
 +-------------------------+------+-------+-----+------+
 | Date                    | Open | Close | Low | High |
 +-------------------------+------+-------+-----+------+
