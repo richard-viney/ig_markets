@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.7 — Unreleased
+
+- 
+
 ### 0.6 — April 27, 2016
 
 - Added `ig_markets prices` command to print historical market prices
