@@ -41,7 +41,7 @@ module IGMarkets
       option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop, if set then ' \
                                                    '--stop-level must not be used'
       option :stop_level, type: :numeric, desc: 'The stop level, if set then --stop-distance must not be used'
-      option :time_in_force, enum: %w(execute_and_eliminate fill_or_kill), desc: 'The order fill strategy'
+      option :time_in_force, enum: %w(execute-and-eliminate fill-or-kill), desc: 'The order fill strategy'
       option :trailing_stop, type: :boolean, desc: 'Whether to use a trailing stop, defaults to false'
       option :trailing_stop_increment, type: :numeric, desc: 'The increment step in pips for the trailing stop, ' \
                                                              'required when --trailing-stop is specified'
@@ -75,7 +75,7 @@ module IGMarkets
       option :quote_id, desc: 'The Lightstreamer quote ID, required when using --order-type=quote'
       option :size, type: :numeric, desc: 'The size of the position to close, if not specified then the entire ' \
                                           'position will be closed'
-      option :time_in_force, enum: %w(execute_and_eliminate fill_or_kill), desc: 'The order fill strategy'
+      option :time_in_force, enum: %w(execute-and-eliminate fill-or-kill), desc: 'The order fill strategy'
 
       def close(deal_id)
         with_position(deal_id) do |position|
@@ -91,6 +91,8 @@ module IGMarkets
 
       def position_attributes
         attributes = Main.filter_options options, ATTRIBUTES
+
+        attributes[:time_in_force] = attributes[:time_in_force].tr('-', '_').to_sym if attributes.key? :time_in_force
 
         Main.parse_date_time attributes, :expiry, Date, '%F', 'yyyy-mm-dd'
 
@@ -111,7 +113,7 @@ module IGMarkets
 
       def print_position_totals(positions)
         currency_totals = positions.group_by(&:currency).map do |currency, subset|
-          total = subset.map(&:profit_loss).reduce(:+)
+          total = subset.map(&:profit_loss).reduce :+
 
           Format.currency(total, currency).colorize(total < 0 ? :red : :green)
         end

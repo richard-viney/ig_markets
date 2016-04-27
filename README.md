@@ -127,6 +127,24 @@ ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 -
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 ```
 
+#### Account Time Zone
+
+Some timestamps returned by the IG Markets API are in an unspecified time zone, which can result in some times
+displayed by the command-line client being incorrect. By default the unknown time zone is assumed to be UTC, but if this
+is incorrect then use the `--account-time-zone` argument to specify the actual time zone these times are in.
+
+For example, an IG Markets Australia account requires `--account-time-zone +1000`.
+
+The `--account-time-zone` argument should be put into an `.ig_markets` config file to avoid specifying it on every
+invocation.
+
+To check that the account time zone is correct run the following command and verify that the date and time reported for
+the price is the current date/time in your local time zone.
+
+```
+ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution minute --number 1
+```
+
 ## Usage — Library
 
 #### Documentation
@@ -143,6 +161,10 @@ ig = IGMarkets::DealingPlatform.new
 # Session
 ig.sign_in 'username', 'password', 'api_key', :demo
 ig.sign_out
+
+# Set the time zone for the account, this is applied to time attributes returned from the IG Markets API that are not
+# in a known time zone such as UTC
+ig.account_time_zone = '+0000'
 
 # Account
 ig.account.all

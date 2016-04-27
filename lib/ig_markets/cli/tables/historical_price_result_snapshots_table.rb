@@ -4,10 +4,6 @@ module IGMarkets
     class HistoricalPriceResultSnapshotsTable < Table
       private
 
-      def default_title
-        'Prices'
-      end
-
       def headings
         %w(Date Open Close Low High)
       end

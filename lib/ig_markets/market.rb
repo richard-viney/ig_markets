@@ -86,7 +86,7 @@ module IGMarkets
       resolutions = [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
                      :hour_3, :hour_4, :day, :week, :month]
 
-      raise ArgumentError, 'resolution is invalid' unless resolutions.include? resolution.to_sym
+      raise ArgumentError, 'resolution is invalid' unless resolutions.include? resolution
     end
 
     # Takes a `Time` and formats it for the historical prices API URLs.
