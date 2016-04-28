@@ -69,19 +69,33 @@ END
   end
 
   it 'runs with no config file' do
-    expect(IGMarkets::CLI::ConfigFile).to receive(:find).and_return(nil)
+    expect(IGMarkets::CLI::Main).to receive(:config_file).and_return(IGMarkets::CLI::ConfigFile.new)
     expect(IGMarkets::CLI::Main).to receive(:start).with(['--test'])
 
     IGMarkets::CLI::Main.bootstrap ['--test']
   end
 
   it 'uses a config file if present' do
-    config_file = instance_double IGMarkets::CLI::ConfigFile
+    config_file = IGMarkets::CLI::ConfigFile.new ['--username USERNAME']
 
-    expect(config_file).to receive(:arguments).and_return(['--username', 'USER'])
-    expect(IGMarkets::CLI::ConfigFile).to receive(:find).and_return(config_file)
-    expect(IGMarkets::CLI::Main).to receive(:start).with(['--username', 'USER', '--test'])
+    expect(IGMarkets::CLI::Main).to receive(:config_file).and_return(config_file)
+    expect(IGMarkets::CLI::Main).to receive(:start).with(['--username', 'USERNAME', '--test'])
 
     IGMarkets::CLI::Main.bootstrap ['--test']
+  end
+
+  it 'finds a config file in the working directory and home directory' do
+    expect(Dir).to receive(:pwd).and_return('pwd')
+    expect(Dir).to receive(:home).and_return('home')
+
+    config_file = IGMarkets::CLI::ConfigFile.new
+
+    expect(IGMarkets::CLI::ConfigFile).to receive(:find)
+      .with('pwd/.ig_markets', 'home/.ig_markets')
+      .and_return(config_file)
+
+    expect(IGMarkets::CLI::Main).to receive(:start).with([])
+
+    IGMarkets::CLI::Main.bootstrap []
   end
 end

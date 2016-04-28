@@ -2,9 +2,9 @@ module IGMarkets
   module CLI
     # Helper class for working with the config files supported by the command-line client.
     class ConfigFile
-      # Initializes this config file with the contents of the specified config file.
-      def initialize(config_file)
-        @lines = File.readlines config_file
+      # Initializes this config file with the passed lines.
+      def initialize(lines = [])
+        @lines = lines
       end
 
       # Returns the arguments in this config file as an array.
@@ -17,20 +17,28 @@ module IGMarkets
               .split(' ')
       end
 
-      # Returns the config file to use, or `nil` if there is no config file.
+      # Inserts the arguments from this config file into the passed arguments array.
       #
-      # @return [CLI::ConfigFile]
-      def self.find
-        config_file_locations = [
-          "#{Dir.pwd}/.ig_markets",
-          "#{Dir.home}/.ig_markets"
-        ]
+      # @param [Array<String>] argv The array of command-line arguments to alter.
+      #
+      # @return [void]
+      def prepend_arguments_to_argv(argv)
+        insert_index = argv.index do |argument|
+          argument[0] == '-'
+        end || -1
 
-        config_file = config_file_locations.detect do |filename|
+        argv.insert insert_index, *arguments
+      end
+
+      # Takes a list of potential config files and returns a {ConfigFile} instance for the first one that exists.
+      #
+      # @return [ConfigFile]
+      def self.find(*config_files)
+        config_file = config_files.detect do |filename|
           File.exist? filename
         end
 
-        config_file ? new(config_file) : nil
+        new(config_file ? File.readlines(config_file) : [])
       end
     end
   end

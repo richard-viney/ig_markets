@@ -125,7 +125,7 @@ END
         #
         # @return [void]
         def bootstrap(argv)
-          prepend_config_file_arguments argv
+          config_file.prepend_arguments_to_argv argv
 
           if argv.index('--version') || argv.index('-v')
             puts VERSION
@@ -135,21 +135,8 @@ END
           start argv
         end
 
-        # Searches for a config file and if found inserts its arguments into the passed arguments array.
-        #
-        # @param [Array<String>] argv The array of command-line arguments.
-        #
-        # @return [void]
-        def prepend_config_file_arguments(argv)
-          config_file = ConfigFile.find
-
-          return unless config_file
-
-          insert_index = argv.index do |argument|
-            argument[0] == '-'
-          end || -1
-
-          argv.insert insert_index, *config_file.arguments
+        def config_file
+          ConfigFile.find "#{Dir.pwd}/.ig_markets", "#{Dir.home}/.ig_markets"
         end
       end
     end
