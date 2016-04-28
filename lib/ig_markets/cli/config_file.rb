@@ -3,11 +3,13 @@ module IGMarkets
     # Helper class for working with the config files supported by the command-line client.
     class ConfigFile
       # Initializes this config file with the passed lines.
+      #
+      # @param [Array<String>] lines
       def initialize(lines = [])
         @lines = lines
       end
 
-      # Returns the arguments in this config file as an array.
+      # Returns the arguments contained in this config file.
       #
       # @return [Array<String>]
       def arguments
