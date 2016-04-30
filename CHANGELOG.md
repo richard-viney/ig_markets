@@ -1,13 +1,13 @@
 # IG Markets Changelog
 
-### 0.8 — Unreleased
+### 0.8 — April 30, 2016
 
 - The `ig_markets` prices command now takes `--from` and `--to` arguments accurate to one second
 - Fixed incomplete data being returned by `IGMarkets::DealingPlatform::AccountMethods#activities` and
   `IGMarkets::DealingPlatform::AccountMethods#transactions`
 - Fixed errors calling `IGMarkets::DealingPlatform#instantiate_models` for models that have deprecated attributes
 
-### 0.7 — 1 May, 2016
+### 0.7 — April 30, 2016
 
 - Added `ig_markets console` command which logs in then opens a live Ruby console
 - Merged `IGMarkets::DealingPlatform::AccountMethods#activities_in_date_range` and
@@ -51,7 +51,7 @@
 - Added `IGMarkets::Position#close_level`
 - Removed `IGMarkets::Position#formatted_size` and `IGMarkets::Transaction#formatted_transaction_type`
 
-### 0.4 — April 18, 2016
+### 0.4 — April 17, 2016
 
 - Added `create`, `update` and `delete` subcommands to `ig_markets orders`
 - Added `create`, `update` and `close` subcommands to `ig_markets positions`
