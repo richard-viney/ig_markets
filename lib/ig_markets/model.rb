@@ -118,7 +118,11 @@ module IGMarkets
       end
 
       # Defines a no-op setter method for each of the passed attribute names. This is used to silently allow deprecated
-      # attributes to be set on the model but not have them be otherwise part of the model's structure.
+      # attributes to be set on the model but not have them be part of the model's structure.
+      #
+      # @param [Array<Symbol>] names The names of the deprecated attributes.
+      #
+      # @return [void]
       def deprecated_attribute(*names)
         names.each do |name|
           define_method "#{name}=" do |_value|
