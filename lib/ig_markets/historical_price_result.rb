@@ -36,8 +36,9 @@ module IGMarkets
       attribute :last_traded_volume, Float
       attribute :low_price, Price
       attribute :open_price, Price
-      attribute :snapshot_time
       attribute :snapshot_time_utc, Time, format: '%FT%T'
+
+      deprecated_attribute :snapshot_time
     end
 
     attribute :instrument_type, Symbol, allowed_values: Instrument.allowed_values(:type)

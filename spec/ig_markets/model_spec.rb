@@ -7,6 +7,8 @@ describe IGMarkets::Model do
     attribute :time, Time, format: '%FT%T'
     attribute :float, Float
     attribute :symbol, Symbol, allowed_values: [:a, :b]
+
+    deprecated_attribute :deprecated_0, :deprecated_1
   end
 
   let(:model) { TestModel.new }
@@ -23,6 +25,10 @@ describe IGMarkets::Model do
   it 'initializes with specified attribute values' do
     expect(TestModel.new(id: 'test', bool: true).attributes).to eq(
       id: 'test', bool: true, string: nil, date: nil, time: nil, float: nil, symbol: nil)
+  end
+
+  it 'allows deprecated attributes to be set' do
+    expect { TestModel.new(deprecated_0: '0', deprecated_1: '1') }.not_to raise_error
   end
 
   it 'fails when initialized with an unknown attribute' do

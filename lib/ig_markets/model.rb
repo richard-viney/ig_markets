@@ -11,16 +11,14 @@ module IGMarkets
     #
     # @param [Hash] attributes The attribute values to set on this new model.
     def initialize(attributes = {})
-      defined_attribute_names = self.class.defined_attribute_names
-
-      defined_attribute_names.each do |name|
+      self.class.defined_attribute_names.each do |name|
         send "#{name}=", attributes[name]
       end
 
-      (attributes.keys - defined_attribute_names).map do |attribute|
-        value = attributes[attribute]
+      attributes.each do |name, value|
+        next if respond_to? "#{name}="
 
-        raise ArgumentError, "unknown attribute: #{self.class.name}##{attribute}, value: #{inspect_value value}"
+        raise ArgumentError, "unknown attribute: #{self.class.name}##{name}, value: #{inspect_value value}"
       end
     end
 
@@ -117,6 +115,15 @@ module IGMarkets
 
         self.defined_attributes ||= {}
         self.defined_attributes[name] = options.merge type: type
+      end
+
+      # Defines a no-op setter method for each of the passed attribute names. This is used to silently allow deprecated
+      # attributes to be set on the model but not have them be otherwise part of the model's structure.
+      def deprecated_attribute(*names)
+        names.each do |name|
+          define_method "#{name}=" do |_value|
+          end
+        end
       end
 
       private

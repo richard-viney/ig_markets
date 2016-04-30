@@ -2,7 +2,6 @@ module IGMarkets
   # Contains details on a working order. Returned by {DealingPlatform::WorkingOrderMethods#all} and
   # {DealingPlatform::WorkingOrderMethods#[]}.
   class WorkingOrder < Model
-    attribute :created_date, Time, format: '%Y/%m/%d %T:%L'
     attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency_code, String, regex: Regex::CURRENCY
     attribute :deal_id
@@ -10,7 +9,6 @@ module IGMarkets
     attribute :dma, Boolean
     attribute :epic, String, regex: Regex::EPIC
     attribute :good_till_date, Time, format: '%Y/%m/%d %R'
-    attribute :good_till_date_iso, Time, format: '%FT%R'
     attribute :guaranteed_stop, Boolean
     attribute :limit_distance, Fixnum
     attribute :order_level, Float
@@ -20,6 +18,8 @@ module IGMarkets
     attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
 
     attribute :market, MarketOverview
+
+    deprecated_attribute :created_date, :good_till_date_iso
 
     # Deletes this working order.
     #

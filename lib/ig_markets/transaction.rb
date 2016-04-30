@@ -5,7 +5,6 @@ module IGMarkets
     attribute :cash_transaction, Boolean
     attribute :close_level, String, nil_if: %w(- 0)
     attribute :currency
-    attribute :date, Date, format: '%F'
     attribute :date_utc, Time, format: '%FT%T'
     attribute :instrument_name
     attribute :open_level, String, nil_if: %w(- 0)
@@ -14,6 +13,8 @@ module IGMarkets
     attribute :reference
     attribute :size, String, nil_if: '-'
     attribute :transaction_type, Symbol, allowed_values: [:deal, :depo, :dividend, :exchange, :with]
+
+    deprecated_attribute :date
 
     # Returns whether or not this transaction was an interest payment. Interest payments can be either deposits or
     # withdrawals depending on the underlying instrument and currencies involved. Interest payments are identified by

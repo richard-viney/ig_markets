@@ -29,7 +29,7 @@ module IGMarkets
       def gather_transactions
         regex = Regexp.new options.fetch('instrument', '')
 
-        gather_account_history(:transactions).sort_by(&:date).select do |transaction|
+        gather_account_history(:transactions).sort_by(&:date_utc).select do |transaction|
           regex.match(transaction.instrument_name) && (options[:interest] || !transaction.interest?)
         end
       end

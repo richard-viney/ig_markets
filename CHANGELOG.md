@@ -14,6 +14,7 @@
 - Removed the `--account-time-zone` option and `IGMarkets::DealingPlatform#account_time_zone`
 - Improved error reporting on assignment of invalid values to model attributes
 - `IGMarkets::Model#inspect` now reports `Time` attributes in the local time zone
+- Model attributes that are deprecated in the IG Markets API are now no longer included as part of the model classes
 
 ### 0.6 — April 27, 2016
 

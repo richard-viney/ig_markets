@@ -18,7 +18,8 @@ module IGMarkets
     attribute :percentage_change, Float
     attribute :scaling_factor, Float
     attribute :streaming_prices_available, Boolean
-    attribute :update_time
     attribute :update_time_utc
+
+    deprecated_attribute :update_time
   end
 end

@@ -4,7 +4,6 @@ module IGMarkets
   class Position < Model
     attribute :contract_size, Float
     attribute :controlled_risk, Boolean
-    attribute :created_date, Time, format: '%Y/%m/%d %T:%L'
     attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
@@ -17,6 +16,8 @@ module IGMarkets
     attribute :trailing_stop_distance, Fixnum
 
     attribute :market, MarketOverview
+
+    deprecated_attribute :created_date
 
     # Returns whether this position has a trailing stop.
     def trailing_stop?
