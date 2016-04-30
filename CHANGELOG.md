@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.7 — Unreleased
+### 0.7 — 1 May, 2016
 
 - Added `ig_markets console` command which logs in then opens a live Ruby console
 - Merged `IGMarkets::DealingPlatform::AccountMethods#activities_in_date_range` and
