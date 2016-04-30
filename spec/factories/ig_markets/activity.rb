@@ -5,7 +5,7 @@ FactoryGirl.define do
     activity_history_id '443487452'
     channel 'Charts'
     currency '$'
-    date '20/12/15'
+    date '2015-12-15T15:00:00'
     deal_id 'DIAAAAA4HDKPQEQ'
     epic 'CS.D.NZDUSD.CFD.IP'
     level '0.664'
@@ -16,6 +16,5 @@ FactoryGirl.define do
     size '+1'
     stop '-'
     stop_type '-'
-    time '07:00'
   end
 end

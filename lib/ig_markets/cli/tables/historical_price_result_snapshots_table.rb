@@ -13,7 +13,7 @@ module IGMarkets
       end
 
       def row(snapshot)
-        [snapshot.snapshot_time, format_price(snapshot.open_price), format_price(snapshot.close_price),
+        [snapshot.snapshot_time_utc, format_price(snapshot.open_price), format_price(snapshot.close_price),
          format_price(snapshot.low_price), format_price(snapshot.high_price)]
       end
 

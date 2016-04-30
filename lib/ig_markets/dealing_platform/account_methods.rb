@@ -18,91 +18,67 @@ module IGMarkets
         @dealing_platform.instantiate_models Account, result
       end
 
-      # Returns all account activities that occurred in the specified date range.
+      # Returns activities for this account, either the most recent activities by specifying the `:days` option, or
+      # those from a date range by specifying the `:from` and `:to` options.
       #
-      # @param [Date] from_date The start date of the desired date range.
-      # @param [Date] to_date The end date of the desired date range.
-      #
-      # @return [Array<Activity>]
-      def activities_in_date_range(from_date, to_date)
-        from_date = format_date from_date
-        to_date = format_date to_date
-
-        result = @dealing_platform.session.get("history/activity/#{from_date}/#{to_date}").fetch :activities
-
-        @dealing_platform.instantiate_models Activity, result
-      end
-
-      # Returns all account activities that occurred in the most recent specified number of days.
-      #
-      # @param [Fixnum, Float] days The number of days to return recent activities for.
+      # @param [Hash] options The options hash.
+      # @option options [Float] :days The number of recent days to return activities for. If this is specified then the
+      #                 `:from` and `:to` options must not be specified.
+      # @option options [Date] :from The start of the period to return activities for.
+      # @option options [Date] :to The end of the period to return activities for.
       #
       # @return [Array<Activity>]
-      def recent_activities(days)
-        result = @dealing_platform.session.get("history/activity/#{milliseconds(days)}").fetch :activities
+      def activities(options)
+        parse_history_options options
 
-        @dealing_platform.instantiate_models Activity, result
+        result = history_request('history/activity', options)
+
+        @dealing_platform.instantiate_models Activity, result.fetch(:activities)
       end
 
-      # Returns all transactions that occurred in the specified date range.
+      # Returns transactions for this account, either the most recent transactions by specifying the `:days` option, or
+      # those from a date range by specifying the `:from` and `:to` options.
       #
-      # @param [Date] from_date The start date of the desired date range.
-      # @param [Date] to_date The end date of the desired date range.
-      # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
+      # @param [Hash] options The options hash.
+      # @option options [:all, :all_deal, :deposit, :withdrawal] :type The type of transactions to return. Defaults to
+      #                 `:all`.
+      # @option options [Float] :days The number of recent days to return transactions for. If this is specified then
+      #                 the `:from` and `:to` options must not be specified.
+      # @option options [Date] :from The start of the period to return transactions for.
+      # @option options [Date] :to The end of the period to return transactions for.
       #
-      # @return [Array<Transaction>]
-      def transactions_in_date_range(from_date, to_date, transaction_type = :all)
-        validate_transaction_type transaction_type
+      # @return [Array<Activity>]
+      def transactions(options)
+        options[:type] ||= :all
 
-        from_date = format_date from_date
-        to_date = format_date to_date
+        parse_history_options options
 
-        url = "history/transactions/#{transaction_type.to_s.upcase}/#{from_date}/#{to_date}"
-        result = @dealing_platform.session.get(url).fetch :transactions
+        result = history_request('history/transactions', options)
 
-        @dealing_platform.instantiate_models Transaction, result
-      end
-
-      # Returns all transactions that occurred in the last specified number of days.
-      #
-      # @param [Fixnum, Float] days The number of days to return recent transactions for.
-      # @param [:all, :all_deal, :deposit, :withdrawal] transaction_type The type of transactions to return.
-      #
-      # @return [Array<Transaction>]
-      def recent_transactions(days, transaction_type = :all)
-        validate_transaction_type transaction_type
-
-        url = "history/transactions/#{transaction_type.to_s.upcase}/#{milliseconds(days)}"
-        result = @dealing_platform.session.get(url).fetch :transactions
-
-        @dealing_platform.instantiate_models Transaction, result
+        @dealing_platform.instantiate_models Transaction, result.fetch(:transactions)
       end
 
       private
 
-      # Validates whether the passed argument is a valid transaction type.
+      # Sends a GET request to the specified URL with the passed options and returns the response.
       #
-      # @param [Symbol] type The candidate transaction type to validate.
-      def validate_transaction_type(type)
-        raise ArgumentError, 'transaction type is invalid' unless [:all, :all_deal, :deposit, :withdrawal].include? type
+      # @param [String] url The base URL.
+      # @param [Hash] options The options to put with the URL.
+      #
+      # @return [Hash]
+      def history_request(url, options)
+        url = "#{url}?#{options.map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
+
+        @dealing_platform.session.get url, API_V2
       end
 
-      # Formats the passed `Date` as a string in the manner needed for building IG Markets URLs.
+      # Parses and formats the history options shared by {#activities} and {#transactions}.
       #
-      # @param [Date] date The date to format.
-      #
-      # @return [String]
-      def format_date(date)
-        date.strftime '%d-%m-%Y'
-      end
-
-      # Converts a number of days into a number of milliseconds.
-      #
-      # @param [Fixnum, Float] days The number of days.
-      #
-      # @return [Fixnum]
-      def milliseconds(days)
-        (days.to_f * 24 * 60 * 60 * 1000).to_i
+      # @param [Hash] options
+      def parse_history_options(options)
+        options[:maxSpanSeconds] = (options.delete(:days).to_f * 24 * 60 * 60).to_i if options.key? :days
+        options[:from] = options[:from].strftime('%F') if options.key? :from
+        options[:to] = options[:to].strftime('%F') if options.key? :to
       end
     end
   end

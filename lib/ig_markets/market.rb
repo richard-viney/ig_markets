@@ -43,57 +43,48 @@ module IGMarkets
     attribute :instrument, Instrument
     attribute :snapshot, Snapshot
 
-    # Returns recent historical prices for this market at a specified resolution.
+    # Returns historical prices for this market at a given resolution, either the most recent prices by specifying the
+    # `:number` option, or those from a date range by specifying the `:from` and `:to` options.
     #
-    # @param [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2, :hour_3,
-    #         :hour_4, :day, :week, :month] resolution The resolution of the historical prices to return.
-    # @param [Fixnum] num_points The number of historical prices to return.
-    #
-    # @return [HistoricalPriceResult]
-    def recent_prices(resolution, num_points)
-      validate_historical_price_resolution resolution
-
-      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{num_points.to_i}"
-
-      @dealing_platform.instantiate_models HistoricalPriceResult, @dealing_platform.session.get(url, API_V2)
-    end
-
-    # Returns historical prices for this market at a specified resolution over a specified time period.
-    #
-    # @param [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2, :hour_3,
-    #         :hour_4, :day, :week, :month] resolution The resolution of the historical prices to return.
-    # @param [Time] start_time The start of the desired time period.
-    # @param [Time] end_time The end of the desired time period.
+    # @param [Hash] options The options hash.
+    # @option options [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
+    #                  :hour_3, :hour_4, :day, :week, :month] :resolution The resolution of the prices to return.
+    #                 Required.
+    # @option options [Fixnum] :number The number of historical prices to return. If this is specified then the `:from`
+    #                 and `:to` options must not be specified.
+    # @option options [Time] :from The start of the period to return prices for.
+    # @option options [Time] :to The end of the period to return prices for.
     #
     # @return [HistoricalPriceResult]
-    def prices_in_date_range(resolution, start_time, end_time)
-      validate_historical_price_resolution resolution
+    def historical_prices(options)
+      validate_historical_prices_options options
 
-      start_time = format_time start_time
-      end_time = format_time end_time
+      options[:max] = options.delete(:number) if options.key? :number
+      options[:from] = options[:from].utc.strftime '%FT%T' if options.key? :from
+      options[:to] = options[:to].utc.strftime '%FT%T' if options.key? :to
 
-      url = "prices/#{instrument.epic}/#{resolution.to_s.upcase}/#{start_time}/#{end_time}"
-
-      @dealing_platform.instantiate_models HistoricalPriceResult, @dealing_platform.session.get(url, API_V2)
+      @dealing_platform.instantiate_models HistoricalPriceResult, historical_prices_response(options)
     end
 
     private
 
-    # Validates whether the passed argument is a valid historical price resolution.
-    #
-    # @param [Symbol] resolution The candidate historical price resolution to validate.
-    def validate_historical_price_resolution(resolution)
-      resolutions = [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
-                     :hour_3, :hour_4, :day, :week, :month]
+    # Validates the options passed to {#historical_prices}.
+    def validate_historical_prices_options(options)
+      resolutions = [:second, :minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour,
+                     :hour_2, :hour_3, :hour_4, :day, :week, :month]
 
-      raise ArgumentError, 'resolution is invalid' unless resolutions.include? resolution
+      raise ArgumentError, 'resolution is invalid' unless resolutions.include? options[:resolution]
+
+      if options.keys != [:resolution, :from, :to] && options.keys != [:resolution, :number]
+        raise ArgumentError, 'options must specify either :number or :from and :to'
+      end
     end
 
-    # Takes a `Time` and formats it for the historical prices API URLs.
-    #
-    # @param [Time] time The `Time` to format.
-    def format_time(time)
-      time.utc.strftime '%F %T'
+    # Returns the API response to a request for historical prices.
+    def historical_prices_response(options)
+      url = "prices/#{instrument.epic}?#{options.map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
+
+      @dealing_platform.session.get url, API_V3
     end
   end
 end

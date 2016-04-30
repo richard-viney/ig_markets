@@ -17,27 +17,31 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve activities in a date range' do
     activities = [build(:activity)]
 
-    expect(session).to receive(:get).with('history/activity/20-05-2014/27-10-2014').and_return(activities: activities)
+    expect(session).to receive(:get)
+      .with('history/activity?from=2014-05-20&to=2014-10-27', IGMarkets::API_V2)
+      .and_return(activities: activities)
 
-    expect(platform.account.activities_in_date_range(Date.new(2014, 5, 20), Date.new(2014, 10, 27))).to eq(activities)
+    expect(platform.account.activities(from: Date.new(2014, 5, 20), to: Date.new(2014, 10, 27))).to eq(activities)
   end
 
   it 'can retrieve activities in recent period' do
     activities = [build(:activity)]
 
-    expect(session).to receive(:get).with('history/activity/604800000').and_return(activities: activities)
+    expect(session).to receive(:get)
+      .with('history/activity?maxSpanSeconds=604800', IGMarkets::API_V2)
+      .and_return(activities: activities)
 
-    expect(platform.account.recent_activities(7)).to eq(activities)
+    expect(platform.account.activities(days: 7)).to eq(activities)
   end
 
   it 'can retrieve transactions in a date range' do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions/ALL/20-05-2014/27-10-2014')
+      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
-    result = platform.account.transactions_in_date_range Date.new(2014, 5, 20), Date.new(2014, 10, 27), :all
+    result = platform.account.transactions from: Date.new(2014, 5, 20), to: Date.new(2014, 10, 27)
 
     expect(result).to eq(transactions)
   end
@@ -46,9 +50,9 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions/DEPOSIT/604800000')
+      .with('history/transactions?type=DEPOSIT&maxSpanSeconds=604800', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
-    expect(platform.account.recent_transactions(7, :deposit)).to eq(transactions)
+    expect(platform.account.transactions(type: :deposit, days: 7)).to eq(transactions)
   end
 end

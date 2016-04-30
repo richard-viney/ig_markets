@@ -58,7 +58,7 @@ module IGMarkets
     # Returns the {#inspect} string for the given value.
     def inspect_value(value)
       if value.is_a? Time
-        value.utc.strftime '%F %T %Z'
+        value.localtime.strftime '%F %T %Z'
       elsif value.is_a? Date
         value.strftime '%F'
       else
@@ -107,10 +107,6 @@ module IGMarkets
       #                 Optional.
       # @option options [String] :format When `type` is `Date` or `Time` this specifies the format for parsing String
       #                 and `Fixnum` instances assigned to this attribute.
-      # @option options [String, Proc] :time_zone When `type` is `Time` this specifies the time zone to append to
-      #                 `String` values assigned to this attribute prior to parsing them with `:format`. Defaults to
-      #                 `+0000` (UTC) unless `:format` is `%Q`. Can be a `Proc` that returns the time zone string to
-      #                 use.
       #
       # @macro [attach] attribute
       #   The $1 attribute.
@@ -135,7 +131,7 @@ module IGMarkets
         define_method "#{name}=" do |value|
           value = nil if Array(options.fetch(:nil_if, [])).include? value
 
-          value = typecaster.call value, options, self, name
+          value = typecaster.call value, options, name
 
           allowed_values = options[:allowed_values]
           if !value.nil? && allowed_values

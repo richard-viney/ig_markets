@@ -9,15 +9,15 @@ module IGMarkets
       end
 
       def headings
-        %w(Date Time Channel Type Status EPIC Market Size Level Limit Stop Result)
+        %w(Date Channel Type Status EPIC Market Size Level Limit Stop Result)
       end
 
       def right_aligned_columns
-        [7, 8, 9, 10]
+        [6, 7, 8, 9]
       end
 
       def row(activity)
-        [activity.date, activity.time, activity.channel, activity.activity, activity_status(activity), activity.epic,
+        [activity.date, activity.channel, activity.activity, activity_status(activity), activity.epic,
          activity.market_name, activity.size, activity.level, activity.limit, activity.stop, activity.result]
       end
 

@@ -19,20 +19,17 @@ module IGMarkets
 
       private
 
-      def gather_account_history(type)
-        days = options[:days]
-        start_date = options[:start_date]
+      def gather_account_history(method_name)
+        history_options = if options[:start_date]
+                            from = Date.strptime options[:start_date], '%F'
+                            to = from + options[:days].to_i
 
-        send_args = if start_date
-                      start_date = Date.strptime start_date, '%F'
-                      end_date = start_date + days.to_i
+                            { from: from, to: to }
+                          else
+                            { days: options[:days] }
+                          end
 
-                      ["#{type}_in_date_range", start_date, end_date]
-                    else
-                      ["recent_#{type}", days]
-                    end
-
-        Main.dealing_platform.account.send(*send_args)
+        Main.dealing_platform.account.send method_name, history_options
       end
     end
   end

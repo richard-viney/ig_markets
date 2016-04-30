@@ -69,6 +69,7 @@ commands and their subcommands is:
 - `ig_markets account`
 - `ig_markets activities --days N [--start-date YYYY-MM-DD]`
 - `ig_markets confirmation DEAL-REFERENCE`
+- `ig_markets console`
 - `ig_markets help [COMMAND]`
 - `ig_markets orders [list]`
 - `ig_markets orders create ...`
@@ -125,24 +126,9 @@ ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 -
 
 # Print daily prices for EURUSD from the last two weeks
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
-```
 
-#### Account Time Zone
-
-Some timestamps returned by the IG Markets API are in an unspecified time zone, which can result in some times
-displayed by the command-line client being incorrect. By default the unknown time zone is assumed to be UTC, but if this
-is incorrect then use the `--account-time-zone` argument to specify the actual time zone these times are in.
-
-For example, an IG Markets Australia account requires `--account-time-zone +1000`.
-
-The `--account-time-zone` argument should be put into an `.ig_markets` config file to avoid specifying it on every
-invocation.
-
-To check that the account time zone is correct run the following command and verify that the date and time reported for
-the price is the current date/time in your local time zone.
-
-```
-ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution minute --number 1
+# Log in and then open a live Ruby console which can be used to query the IG API
+ig_markets console
 ```
 
 ## Usage — Library
@@ -162,16 +148,12 @@ ig = IGMarkets::DealingPlatform.new
 ig.sign_in 'username', 'password', 'api_key', :demo
 ig.sign_out
 
-# Set the time zone for the account, this is applied to time attributes returned from the IG Markets API that are not
-# in a known time zone such as UTC
-ig.account_time_zone = '+0000'
-
 # Account
 ig.account.all
-ig.account.recent_activities 365
-ig.account.recent_transactions 365
-ig.account.activities_in_date_range Date.today - 14, Date.today - 7
-ig.account.transactions_in_date_range Date.today - 14, Date.today - 7
+ig.account.activities days: 365
+ig.account.activities from: Date.today - 14, to: Date.today - 7
+ig.account.transactions days: 365
+ig.account.transactions from: Date.today - 14, to: Date.today - 7
 
 # Dealing
 ig.deal_confirmation 'deal_reference'
@@ -195,15 +177,15 @@ ig.working_orders.all
 ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP', level: 0.99,
                          size: 1, type: :limit
 ig.working_orders['deal_id']
-ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 0.02
+ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 50
 ig.working_orders['deal_id'].delete
 
 # Markets
 ig.markets.hierarchy
 ig.markets.search 'EURUSD'
 ig.markets['CS.D.EURUSD.CFD.IP']
-ig.markets['CS.D.EURUSD.CFD.IP'].recent_prices :day, 10
-ig.markets['CS.D.EURUSD.CFD.IP'].prices_in_date_range :day, Date.today - 14, Date.today - 7
+ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :hour, number: 48
+ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :second, from: Time.now - 120, to: Time.now - 60
 
 # Watchlists
 ig.watchlists.all

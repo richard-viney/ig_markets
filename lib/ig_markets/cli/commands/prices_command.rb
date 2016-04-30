@@ -17,14 +17,15 @@ module IGMarkets
       def prices
         self.class.begin_session(options) do |dealing_platform|
           result = historical_price_result dealing_platform
+          allowance = result.metadata.allowance
 
           table = HistoricalPriceResultSnapshotsTable.new result.prices, title: "Prices for #{options[:epic]}"
 
           puts <<-END
 #{table}
 
-Allowance: #{result.allowance.total_allowance}
-Remaining: #{result.allowance.remaining_allowance}
+Allowance: #{allowance.total_allowance}
+Remaining: #{allowance.remaining_allowance}
 END
         end
       end
@@ -50,7 +51,7 @@ END
       end
 
       def historical_price_result_from_number(market)
-        market.recent_prices resolution, options[:number]
+        market.historical_prices resolution: resolution, max: options[:number]
       end
 
       def historical_price_result_from_date_range(market)
@@ -59,7 +60,7 @@ END
         self.class.parse_date_time filtered, :start_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
         self.class.parse_date_time filtered, :end_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
 
-        market.prices_in_date_range resolution, filtered[:start_date], filtered[:end_date]
+        market.historical_prices resolution: resolution, from: filtered[:start_date], to: filtered[:end_date]
       end
     end
   end

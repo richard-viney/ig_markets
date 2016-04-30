@@ -12,7 +12,7 @@ module IGMarkets
 
     # Contains details on the expiry details of an instrument. Returned by {#expiry_details}.
     class ExpiryDetails < Model
-      attribute :last_dealing_date, Time, format: '%FT%R', time_zone: -> { @dealing_platform.account_time_zone }
+      attribute :last_dealing_date, Time, format: '%FT%R'
       attribute :settlement_info
     end
 

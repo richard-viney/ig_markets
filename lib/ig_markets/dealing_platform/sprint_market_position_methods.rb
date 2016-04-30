@@ -13,7 +13,7 @@ module IGMarkets
       #
       # @return [Array<SprintMarketPosition>]
       def all
-        result = @dealing_platform.session.get('positions/sprintmarkets').fetch :sprint_market_positions
+        result = @dealing_platform.session.get('positions/sprintmarkets', API_V2).fetch :sprint_market_positions
 
         @dealing_platform.instantiate_models SprintMarketPosition, result
       end

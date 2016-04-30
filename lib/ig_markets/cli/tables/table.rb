@@ -66,7 +66,7 @@ module IGMarkets
         return format_boolean(value) if value.is_a?(TrueClass) || value.is_a?(FalseClass)
         return format_float(value) if value.is_a? Float
         return format_time(value) if value.is_a? Time
-        return format_date(value) if value.is_a? Date
+        return format_symbol(value) if value.is_a? Symbol
 
         format_string value
       end
@@ -83,16 +83,12 @@ module IGMarkets
         value.localtime.strftime '%F %T %Z'
       end
 
-      def format_date(value)
-        value.strftime '%F'
+      def format_symbol(value)
+        Format.symbol value
       end
 
       def format_string(value)
-        value = if value.is_a? Symbol
-                  Format.symbol value
-                else
-                  value.to_s
-                end
+        value = value.to_s
 
         return '' if value.empty?
 

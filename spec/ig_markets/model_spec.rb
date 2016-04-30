@@ -4,7 +4,7 @@ describe IGMarkets::Model do
     attribute :bool, IGMarkets::Boolean
     attribute :string, String, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
     attribute :date, Date, format: '%F'
-    attribute :time, Time, format: '%F %T', time_zone: -> { '+0630' }
+    attribute :time, Time, format: '%FT%T'
     attribute :float, Float
     attribute :symbol, Symbol, allowed_values: [:a, :b]
   end
@@ -93,7 +93,7 @@ describe IGMarkets::Model do
   end
 
   it 'raises ArgumentError for an invalid time' do
-    expect { model.time = '2015-29-01 09:30:40' }.to raise_error(ArgumentError)
+    expect { model.time = '2015-29-01T09:30:40' }.to raise_error(ArgumentError)
   end
 
   it 'raises ArgumentError for an invalid time' do
@@ -123,8 +123,8 @@ describe IGMarkets::Model do
   end
 
   it 'correctly parses a time in the expected format' do
-    model.time = '2015-01-10 09:30:25'
-    expect(model.time).to eq(Time.new(2015, 1, 10, 9, 30, 25, '+06:30'))
+    model.time = '2015-01-10T09:30:25'
+    expect(model.time).to eq(Time.new(2015, 1, 10, 9, 30, 25, '+00:00'))
   end
 
   context 'with all attributes set' do
@@ -132,21 +132,21 @@ describe IGMarkets::Model do
       model.id = 'id'
       model.bool = true
       model.string = 'ABC'
-      model.date = '2015-01-09'
-      model.time = '2015-01-10 00:00:00'
+      model.date = '2015-01-10'
+      model.time = '2015-01-10T06:30:00'
       model.float = '1.0'
       model.symbol = 'a'
     end
 
     it 'has the correct attributes hash' do
       expect(model.attributes).to eq(
-        id: 'id', bool: true, string: 'ABC', date: Date.new(2015, 1, 9), time: Time.new(2015, 1, 10, 0, 0, 0, '+06:30'),
-        float: 1.0, symbol: :a)
+        id: 'id', bool: true, string: 'ABC', date: Date.new(2015, 1, 10),
+        time: Time.new(2015, 1, 10, 6, 30, 0, '+00:00'), float: 1.0, symbol: :a)
     end
 
     it 'inspects attributes' do
       expect(model.inspect).to eq(
-        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-09, time: 2015-01-09 17:30:00 UTC, ' \
+        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-10, time: 2015-01-10 06:30:00 UTC, ' \
         'float: 1.0, symbol: :a>')
     end
   end

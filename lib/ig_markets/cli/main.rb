@@ -7,7 +7,6 @@ module IGMarkets
       class_option :password, required: true, desc: 'The password for the session'
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
-      class_option :account_time_zone, default: '+0000', desc: 'The time zone of the account'
       class_option :print_requests, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
@@ -33,8 +32,6 @@ module IGMarkets
           platform = options[:demo] ? :demo : :production
 
           RequestPrinter.enabled = true if options[:print_requests]
-
-          dealing_platform.account_time_zone = options[:account_time_zone]
 
           dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
@@ -135,6 +132,9 @@ END
           start argv
         end
 
+        # Returns the config file to use for this invocation.
+        #
+        # @return [ConfigFile]
         def config_file
           ConfigFile.find "#{Dir.pwd}/.ig_markets", "#{Dir.home}/.ig_markets"
         end

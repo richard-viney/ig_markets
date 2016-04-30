@@ -38,11 +38,6 @@ module IGMarkets
     # @return [WorkingOrderMethods] Methods for working with working orders.
     attr_reader :working_orders
 
-    # @return [String] The time zone of the account, e.g. `'+1000'` or `'-0800'`. This is required in order for certain
-    # dates and times reported by this library to be correct, due to the fact that the IG Markets API does not reliably
-    # report time zone details in all attributes. Defaults to `'+0000'`.
-    attr_accessor :account_time_zone
-
     def initialize
       @session = Session.new
 
@@ -53,8 +48,6 @@ module IGMarkets
       @sprint_market_positions = SprintMarketPositionMethods.new self
       @watchlists = WatchlistMethods.new self
       @working_orders = WorkingOrderMethods.new self
-
-      @account_time_zone = '+0000'
     end
 
     # Signs in to the IG Markets Dealing Platform, either the production platform or the demo platform.

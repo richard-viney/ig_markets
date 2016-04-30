@@ -2,7 +2,18 @@
 
 ### 0.7 — Unreleased
 
-- 
+- Added `ig_markets console` command which logs in then opens a live Ruby console
+- Merged `IGMarkets::DealingPlatform::AccountMethods#activities_in_date_range` and
+  `IGMarkets::DealingPlatform::AccountMethods#recent_activities` into
+  `IGMarkets::DealingPlatform::AccountMethods#activities`
+- Merged `IGMarkets::DealingPlatform::AccountMethods#transactions_in_date_range` and
+  `IGMarkets::DealingPlatform::AccountMethods#recent_transactions` into
+  `IGMarkets::DealingPlatform::AccountMethods#transactions`
+- Merged `IGMarkets::Market#recent_prices` and `IGMarkets::Market#prices_in_date_range` into
+  `IGMarkets::Market#historical_prices`
+- Removed the `--account-time-zone` option and `IGMarkets::DealingPlatform#account_time_zone`
+- Improved error reporting on assignment of invalid values to model attributes
+- `IGMarkets::Model#inspect` now reports `Time` attributes in the local time zone
 
 ### 0.6 — April 27, 2016
 

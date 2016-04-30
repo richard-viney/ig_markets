@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Main do
   let(:market) do
     attributes = {
       dealing_rules: build(:market_dealing_rules),
-      instrument: build(:instrument, dealing_platform: dealing_platform),
+      instrument: build(:instrument),
       snapshot: build(:market_snapshot)
     }
 
@@ -25,9 +25,9 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'lists recent prices' do
-    historical_price_result = build :historical_price_result, dealing_platform: dealing_platform
+    historical_price_result = build :historical_price_result
 
-    expect(market).to receive(:recent_prices).with(:day, 1).and_return(historical_price_result)
+    expect(market).to receive(:historical_prices).with(resolution: :day, max: 1).and_return(historical_price_result)
 
     expect { cli(epic: 'A', resolution: :day, number: 1).prices }.to output(<<-END
 +-------------------------+------+-------+-----+------+
@@ -45,11 +45,15 @@ END
   end
 
   it 'lists prices in a date range' do
-    historical_price_result = build :historical_price_result, dealing_platform: dealing_platform
+    historical_price_result = build :historical_price_result
 
-    expect(market).to receive(:prices_in_date_range)
-      .with(:day, Time.new(2014, 1, 2, 3, 4, 0, '+00:00'), Time.new(2014, 2, 3, 4, 5, 0, '+00:00'))
-      .and_return(historical_price_result)
+    options = {
+      resolution: :day,
+      from: Time.new(2014, 1, 2, 3, 4, 0, '+00:00'),
+      to: Time.new(2014, 2, 3, 4, 5, 0, '+00:00')
+    }
+
+    expect(market).to receive(:historical_prices).with(options).and_return(historical_price_result)
 
     expect do
       cli(epic: 'A', resolution: :day, start_date: '2014-01-02T03:04+00:00', end_date: '2014-02-03T04:05+00:00').prices

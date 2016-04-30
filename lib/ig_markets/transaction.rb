@@ -1,15 +1,15 @@
 module IGMarkets
   # Contains details on a single transaction that occurred on an IG Markets account. Returned by
-  # {DealingPlatform::AccountMethods#transactions_in_date_range} and
-  # {DealingPlatform::AccountMethods#recent_transactions}.
+  # {DealingPlatform::AccountMethods#transactions}.
   class Transaction < Model
     attribute :cash_transaction, Boolean
     attribute :close_level, String, nil_if: %w(- 0)
     attribute :currency
-    attribute :date, Date, format: '%d/%m/%y'
+    attribute :date, Date, format: '%F'
+    attribute :date_utc, Time, format: '%FT%T'
     attribute :instrument_name
     attribute :open_level, String, nil_if: %w(- 0)
-    attribute :period, Time, nil_if: '-', format: '%d/%m/%y %T', time_zone: -> { @dealing_platform.account_time_zone }
+    attribute :period, Time, nil_if: '-', format: '%FT%T'
     attribute :profit_and_loss
     attribute :reference
     attribute :size, String, nil_if: '-'

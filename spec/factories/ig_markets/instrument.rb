@@ -1,7 +1,5 @@
 FactoryGirl.define do
   factory :instrument, class: IGMarkets::Instrument do
-    transient { dealing_platform nil }
-
     chart_code 'CODE'
     contract_size '+1'
     controlled_risk_allowed false
@@ -9,7 +7,7 @@ FactoryGirl.define do
     currencies { [build(:instrument_currency)] }
     epic 'ABCDEF'
     expiry '20-DEC-40'
-    expiry_details { build :instrument_expiry_details, dealing_platform: dealing_platform }
+    expiry_details { build :instrument_expiry_details }
     force_open_allowed false
     lot_size 1000.0
     margin_deposit_bands { [build(:instrument_margin_deposit_band)] }
