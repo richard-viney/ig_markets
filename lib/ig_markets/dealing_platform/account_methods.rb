@@ -79,6 +79,7 @@ module IGMarkets
         options[:maxSpanSeconds] = (options.delete(:days).to_f * 24 * 60 * 60).to_i if options.key? :days
         options[:from] = options[:from].strftime('%F') if options.key? :from
         options[:to] = options[:to].strftime('%F') if options.key? :to
+        options[:pageSize] = 0
       end
     end
   end

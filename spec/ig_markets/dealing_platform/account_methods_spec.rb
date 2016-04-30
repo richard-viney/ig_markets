@@ -18,7 +18,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-10-27', IGMarkets::API_V2)
+      .with('history/activity?from=2014-05-20&to=2014-10-27&pageSize=0', IGMarkets::API_V2)
       .and_return(activities: activities)
 
     expect(platform.account.activities(from: Date.new(2014, 5, 20), to: Date.new(2014, 10, 27))).to eq(activities)
@@ -28,7 +28,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity?maxSpanSeconds=604800', IGMarkets::API_V2)
+      .with('history/activity?maxSpanSeconds=604800&pageSize=0', IGMarkets::API_V2)
       .and_return(activities: activities)
 
     expect(platform.account.activities(days: 7)).to eq(activities)
@@ -38,7 +38,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL', IGMarkets::API_V2)
+      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL&pageSize=0', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
     result = platform.account.transactions from: Date.new(2014, 5, 20), to: Date.new(2014, 10, 27)
@@ -50,7 +50,7 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions?type=DEPOSIT&maxSpanSeconds=604800', IGMarkets::API_V2)
+      .with('history/transactions?type=DEPOSIT&maxSpanSeconds=604800&pageSize=0', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
     expect(platform.account.transactions(type: :deposit, days: 7)).to eq(transactions)

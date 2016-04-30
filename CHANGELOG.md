@@ -2,7 +2,8 @@
 
 ### 0.8 — Unreleased
 
-- 
+- Fixed incomplete data being returned by `IGMarkets::DealingPlatform::AccountMethods#activities` and
+  `IGMarkets::DealingPlatform::AccountMethods#transactions`
 
 ### 0.7 — 1 May, 2016
 
