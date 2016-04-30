@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.8 — Unreleased
+
+- 
+
 ### 0.7 — 1 May, 2016
 
 - Added `ig_markets console` command which logs in then opens a live Ruby console
