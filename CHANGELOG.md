@@ -2,6 +2,7 @@
 
 ### 0.8 — Unreleased
 
+- The `ig_markets` prices command now takes `--from` and `--to` arguments accurate to one second
 - Fixed incomplete data being returned by `IGMarkets::DealingPlatform::AccountMethods#activities` and
   `IGMarkets::DealingPlatform::AccountMethods#transactions`
 - Fixed errors calling `IGMarkets::DealingPlatform#instantiate_models` for models that have deprecated attributes

@@ -5,14 +5,14 @@ module IGMarkets
       desc 'prices', 'Prints historical prices for a market'
 
       option :epic, required: true, desc: 'The EPIC of the market to print historical prices for'
-      option :resolution, enum: %w(minute minute-2 minute-3 minute-5 minute-10 minute-15 minute-30 hour hour-2 hour-3
-                                   hour-4 day week month), required: true, desc: 'The price resolution'
+      option :resolution, enum: %w(second minute minute-2 minute-3 minute-5 minute-10 minute-15 minute-30 hour hour-2
+                                   hour-3 hour-4 day week month), required: true, desc: 'The price resolution'
       option :number, type: :numeric, desc: 'The number of historical prices to return, if this is specified then ' \
-                                            '--start-date and --end-date are ignored, otherwise they are required'
-      option :start_date, desc: 'The start of the period to return prices for, required unless --number is specified' \
-                                ', format: yyyy-mm-ddThh:mm(+|-)zz:zz'
-      option :end_date, desc: 'The end of the period to return prices for, required unless --number is specified' \
-                              ', format: yyyy-mm-ddThh:mm(+|-)zz:zz'
+                                            '--from and --to are ignored, otherwise they are required'
+      option :from, desc: 'The start of the period to return prices for, required unless --number is specified, ' \
+                          'format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+      option :to, desc: 'The end of the period to return prices for, required unless --number is specified, ' \
+                        'format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
 
       def prices
         self.class.begin_session(options) do |dealing_platform|
@@ -43,24 +43,25 @@ END
 
         if options[:number]
           historical_price_result_from_number market
-        elsif options[:start_date] && options[:end_date]
+        elsif options[:from] && options[:to]
           historical_price_result_from_date_range market
         else
-          raise ArgumentError, 'specify --number or both --start-date and --end-date'
+          raise ArgumentError, 'specify --number or both --from and --to'
         end
       end
 
       def historical_price_result_from_number(market)
-        market.historical_prices resolution: resolution, max: options[:number]
+        market.historical_prices resolution: resolution, number: options[:number]
       end
 
       def historical_price_result_from_date_range(market)
-        filtered = self.class.filter_options options, [:start_date, :end_date]
+        filtered = self.class.filter_options options, [:from, :to]
 
-        self.class.parse_date_time filtered, :start_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
-        self.class.parse_date_time filtered, :end_date, Time, '%FT%R%z', 'yyyy-mm-ddThh:mm(+|-)zz:zz'
+        [:from, :to].each do |attribute|
+          self.class.parse_date_time filtered, attribute, Time, '%FT%T%z', 'yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+        end
 
-        market.historical_prices resolution: resolution, from: filtered[:start_date], to: filtered[:end_date]
+        market.historical_prices resolution: resolution, from: filtered[:from], to: filtered[:to]
       end
     end
   end
