@@ -68,11 +68,14 @@ module IGMarkets
       # @return [Hash] A hash containing details of all attributes that have been defined on this model.
       attr_accessor :defined_attributes
 
+      # @return [Hash] The names of the deprecated attributes on this model.
+      attr_accessor :deprecated_attributes
+
       # Returns the names of all currently defined attributes for this model.
       #
       # @return [Array<Symbol>]
       def defined_attribute_names
-        (defined_attributes || {}).keys
+        Hash(defined_attributes).keys
       end
 
       # Returns the type of the specified attribute.
@@ -81,7 +84,9 @@ module IGMarkets
       #
       # @return The type of the specified attribute.
       def attribute_type(attribute_name)
-        defined_attributes.fetch(attribute_name).fetch :type
+        return NilClass if Array(deprecated_attributes).include? attribute_name
+
+        Hash(defined_attributes).fetch(attribute_name).fetch :type
       end
 
       # Returns the array of allowed values for the specified attribute that was passed to {attribute}.
@@ -90,7 +95,7 @@ module IGMarkets
       #
       # @return [Array]
       def allowed_values(attribute_name)
-        defined_attributes.fetch(attribute_name).fetch :allowed_values
+        Hash(defined_attributes).fetch(attribute_name).fetch :allowed_values
       end
 
       # Defines setter and getter methods for a new attribute on this class.
@@ -127,6 +132,8 @@ module IGMarkets
         names.each do |name|
           define_method "#{name}=" do |_value|
           end
+
+          (self.deprecated_attributes ||= []) << name
         end
       end
 

@@ -22,6 +22,10 @@ describe IGMarkets::Model do
     expect(TestModel.attribute_type(:time)).to eq(Time)
   end
 
+  it 'returns a deprecated attribute\'s type as NilClass' do
+    expect(TestModel.attribute_type(:deprecated_0)).to eq(NilClass)
+  end
+
   it 'initializes with specified attribute values' do
     expect(TestModel.new(id: 'test', bool: true).attributes).to eq(
       id: 'test', bool: true, string: nil, date: nil, time: nil, float: nil, symbol: nil)

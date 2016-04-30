@@ -50,12 +50,16 @@ describe IGMarkets::DealingPlatform do
     class TestModel3 < IGMarkets::Model
       attribute :test
 
+      deprecated_attribute :deprecated
+
       def self.adjusted_api_attributes(attributes)
         attributes.fetch :parent
       end
     end
 
-    expect(platform.instantiate_models(TestModel3, parent: { test: 'value' })).to eq(TestModel3.new(test: 'value'))
+    result = platform.instantiate_models(TestModel3, parent: { test: 'value', deprecated: '' })
+
+    expect(result).to eq(TestModel3.new(test: 'value'))
   end
 
   it 'raises an error when trying to instantiate from an unsupported type' do
