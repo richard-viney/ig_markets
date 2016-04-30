@@ -32,12 +32,12 @@ END
   end
 
   it 'prints transactions from a number of days and a start date' do
-    start_date = Date.new 2015, 02, 15
-    end_date = Date.new 2015, 02, 18
+    from = Date.new 2015, 02, 15
+    to = Date.new 2015, 02, 18
 
-    expect(dealing_platform.account).to receive(:transactions).with(from: start_date, to: end_date).and_return([])
+    expect(dealing_platform.account).to receive(:transactions).with(from: from, to: to).and_return([])
 
-    expect { cli(days: 3, start_date: '2015-02-15', interest: true).transactions }.to output(<<-END
+    expect { cli(days: 3, from: '2015-02-15', interest: true).transactions }.to output(<<-END
 +------+-----------+------+------------+------+------+-------+-------------+
 |                               Transactions                               |
 +------+-----------+------+------------+------+------+-------+-------------+
@@ -45,7 +45,7 @@ END
 +------+-----------+------+------------+------+------+-------+-------------+
 +------+-----------+------+------------+------+------+-------+-------------+
 END
-                                                                                            ).to_stdout
+                                                                                      ).to_stdout
   end
 
   it 'prints transactions filtered by instrument without interest transactions' do

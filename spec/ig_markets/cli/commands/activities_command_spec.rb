@@ -28,13 +28,13 @@ describe IGMarkets::CLI::Main do
                                                 ).to_stdout
   end
 
-  it 'prints activities from a number of days and a start date' do
-    start_date = Date.new 2015, 01, 15
-    end_date = Date.new 2015, 01, 18
+  it 'prints activities from a number of days and a from date' do
+    from = Date.new 2015, 01, 15
+    to = Date.new 2015, 01, 18
 
-    expect(dealing_platform.account).to receive(:activities).with(from: start_date, to: end_date).and_return([])
+    expect(dealing_platform.account).to receive(:activities).with(from: from, to: to).and_return([])
 
-    expect { cli(days: 3, start_date: '2015-01-15').activities }.to output(<<-END
+    expect { cli(days: 3, from: '2015-01-15').activities }.to output(<<-END
 +------+---------+------+--------+------+--------+------+-------+-------+------+--------+
 |                                      Activities                                       |
 +------+---------+------+--------+------+--------+------+-------+-------+------+--------+
@@ -42,6 +42,6 @@ describe IGMarkets::CLI::Main do
 +------+---------+------+--------+------+--------+------+-------+-------+------+--------+
 +------+---------+------+--------+------+--------+------+-------+-------+------+--------+
 END
-                                                                          ).to_stdout
+                                                                    ).to_stdout
   end
 end

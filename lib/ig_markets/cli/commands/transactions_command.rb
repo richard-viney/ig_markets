@@ -5,7 +5,7 @@ module IGMarkets
       desc 'transactions', 'Prints account transactions'
 
       option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
-      option :start_date, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
+      option :from, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
       option :instrument, desc: 'Regex for filtering transactions based on their instrument'
       option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
 

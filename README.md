@@ -67,7 +67,7 @@ Use `ig_markets help` to get details on the options accepted by the commands and
 commands and their subcommands is:
 
 - `ig_markets account`
-- `ig_markets activities --days N [--start-date YYYY-MM-DD]`
+- `ig_markets activities --days N [--from YYYY-MM-DD]`
 - `ig_markets confirmation DEAL-REFERENCE`
 - `ig_markets console`
 - `ig_markets help [COMMAND]`
@@ -84,7 +84,7 @@ commands and their subcommands is:
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
-- `ig_markets transactions --days N [--start-date YYYY-MM-DD] [--instrument INSTRUMENT] [--no-interest]`
+- `ig_markets transactions --days N [--from YYYY-MM-DD] [--instrument INSTRUMENT] [--no-interest]`
 - `ig_markets watchlists [list]`
 - `ig_markets watchlists create NAME [EPIC EPIC ...]`
 - `ig_markets watchlists add-markets WATCHLIST-ID [EPIC EPIC ...]`

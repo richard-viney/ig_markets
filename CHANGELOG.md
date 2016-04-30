@@ -2,7 +2,7 @@
 
 ### 0.9 — Unreleased
 
-- 
+- Renamed the `--start-date` option for the `ig_markets activities` and `ig_markets transactions` commands to `--from`
 
 ### 0.8 — April 30, 2016
 
