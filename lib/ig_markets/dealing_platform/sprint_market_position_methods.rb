@@ -55,6 +55,8 @@ module IGMarkets
           :one_minute, :two_minutes, :five_minutes, :twenty_minutes, :sixty_minutes]
         attribute :size, Float
       end
+
+      private_constant :SprintMarketPositionCreateAttributes
     end
   end
 end

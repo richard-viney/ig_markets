@@ -15,10 +15,12 @@ module IGMarkets
     # @return [:demo, :production] The platform variant to log into for this session.
     attr_accessor :platform
 
-    # @return [String] The CST for the currently logged in session, or `nil` if there is no active session.
-    attr_reader :cst
+    # @return [String] The client session security access token for the currently logged in session, or `nil` if there
+    # is no active session.
+    attr_reader :client_security_token
 
-    # @return [String] The security token for the currently logged in session, or `nil` if there is no active session.
+    # @return [String] The account session security access token for the currently logged in session, or `nil` if there
+    # is no active session.
     attr_reader :x_security_token
 
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
@@ -31,7 +33,7 @@ module IGMarkets
       sign_in_result = request method: :post, url: 'session', payload: payload, api_version: API_V1
 
       headers = sign_in_result.fetch(:response).headers
-      @cst = headers.fetch :cst
+      @client_security_token = headers.fetch :cst
       @x_security_token = headers.fetch :x_security_token
 
       nil
@@ -42,14 +44,14 @@ module IGMarkets
     def sign_out
       delete 'session' if alive?
 
-      @cst = @x_security_token = nil
+      @client_security_token = @x_security_token = nil
     end
 
     # Returns whether this session is currently alive and successfully signed in.
     #
     # @return [Boolean]
     def alive?
-      !cst.nil? && !x_security_token.nil?
+      !client_security_token.nil? && !x_security_token.nil?
     end
 
     # Sends a POST request to the IG Markets API. If an error occurs then {RequestFailedError} will be raised.
@@ -99,7 +101,7 @@ module IGMarkets
     #
     # @return [String]
     def inspect
-      "#<#{self.class.name} #{cst}, #{x_security_token}>"
+      "#<#{self.class.name} #{client_security_token}, #{x_security_token}>"
     end
 
     private
@@ -143,7 +145,7 @@ module IGMarkets
       headers[:'X-IG-API-KEY'] = api_key
       headers[:version] = options.delete :api_version
 
-      headers[:cst] = cst if cst
+      headers[:cst] = client_security_token if client_security_token
       headers[:x_security_token] = x_security_token if x_security_token
 
       headers

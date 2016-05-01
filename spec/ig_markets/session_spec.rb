@@ -29,7 +29,7 @@ describe IGMarkets::Session do
 
       expect(session.sign_in).to be_nil
 
-      expect(session.cst).to eq('1')
+      expect(session.client_security_token).to eq('1')
       expect(session.x_security_token).to match('2')
       expect(session.alive?).to eq(true)
     end
@@ -44,7 +44,7 @@ describe IGMarkets::Session do
 
   context 'a signed in session' do
     before do
-      session.instance_variable_set :@cst, 'cst'
+      session.instance_variable_set :@client_security_token, 'client_security_token'
       session.instance_variable_set :@x_security_token, 'x_security_token'
       session.instance_variable_set :@api_key, 'api_key'
       session.instance_variable_set :@platform, :production
@@ -117,7 +117,7 @@ describe IGMarkets::Session do
 
       expect(session.get('url')).to eq(result: 'test')
 
-      expect(session.cst).to eq('3')
+      expect(session.client_security_token).to eq('3')
       expect(session.x_security_token).to match('4')
       expect(session.alive?).to eq(true)
     end
@@ -138,14 +138,14 @@ describe IGMarkets::Session do
     end
 
     it 'inspects correctly' do
-      expect(session.inspect).to eq('#<IGMarkets::Session cst, x_security_token>')
+      expect(session.inspect).to eq('#<IGMarkets::Session client_security_token, x_security_token>')
     end
 
     def headers
       hash = {}
       hash[:accept] = hash[:content_type] = 'application/json; charset=UTF-8'
       hash[:version] = 1
-      hash[:cst] = 'cst'
+      hash[:cst] = 'client_security_token'
       hash[:x_security_token] = 'x_security_token'
       hash[:'X-IG-API-KEY'] = 'api_key'
       hash

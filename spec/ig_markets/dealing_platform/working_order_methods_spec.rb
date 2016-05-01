@@ -75,7 +75,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     del_result = { deal_reference: 'reference' }
 
     expect(session).to receive(:get).with('workingorders', IGMarkets::API_V2).and_return(get_result)
-    expect(session).to receive(:delete).with('workingorders/otc/1', {}).and_return(del_result)
+    expect(session).to receive(:delete).with('workingorders/otc/1', nil, IGMarkets::API_V2).and_return(del_result)
 
     expect(platform.working_orders['1'].delete).to eq('reference')
   end
