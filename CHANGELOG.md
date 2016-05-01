@@ -2,7 +2,8 @@
 
 ### 0.9 — Unreleased
 
-- Handle more than 50 EPICs being passed to `IGMarkets::DealingPlatform::MarketMethods#find`
+- `IGMarkets::DealingPlatform#sign_in` now returns an `IGMarkets::ClientAccountSummary` instance
+- `IGMarkets::DealingPlatform::MarketMethods#find` can now handle being passed more than 50 EPICs at once
 - Renamed `--start-date` option for `ig_markets activities` and `ig_markets transactions` commands to `--from`
 
 ### 0.8 — April 30, 2016

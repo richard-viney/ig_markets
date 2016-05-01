@@ -25,18 +25,20 @@ module IGMarkets
 
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
     # occurs then {RequestFailedError} will be raised.
+    #
+    # @return [Hash] The data returned in the body of the sign in request.
     def sign_in
       validate_authentication
 
       payload = { identifier: username, password: password_encryptor.encrypt(password), encryptedPassword: true }
 
-      sign_in_result = request method: :post, url: 'session', payload: payload, api_version: API_V1
+      sign_in_result = request method: :post, url: 'session', payload: payload, api_version: API_V2
 
       headers = sign_in_result.fetch(:response).headers
       @client_security_token = headers.fetch :cst
       @x_security_token = headers.fetch :x_security_token
 
-      nil
+      sign_in_result.fetch :result
     end
 
     # Signs out of IG Markets, ending the current session (if any). If an error occurs then {RequestFailedError} will be

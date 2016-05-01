@@ -1,7 +1,7 @@
 module IGMarkets
   # Contains details on an IG Markets account. Returned by {DealingPlatform::AccountMethods#all}.
   class Account < Model
-    # Contains details on the balance of an {Account}, used by {Account#balance}.
+    # Contains details on the balance of an {Account}, used by {#balance}.
     class Balance < Model
       attribute :available, Float
       attribute :balance, Float

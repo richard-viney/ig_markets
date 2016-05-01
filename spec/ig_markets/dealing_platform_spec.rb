@@ -11,8 +11,10 @@ describe IGMarkets::DealingPlatform do
   end
 
   it 'can sign in' do
-    expect(session).to receive(:sign_in).and_return({})
-    expect(platform.sign_in('username', 'password', 'api_key', :production)).to eq({})
+    client_account_summary = IGMarkets::ClientAccountSummary.new client_id: 'id'
+
+    expect(session).to receive(:sign_in).and_return(client_id: 'id')
+    expect(platform.sign_in('username', 'password', 'api_key', :production)).to eq(client_account_summary)
     expect(session.username).to eq('username')
     expect(session.password).to eq('password')
     expect(session.api_key).to eq('api_key')

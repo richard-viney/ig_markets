@@ -56,13 +56,17 @@ module IGMarkets
     # @param [String] password The account password.
     # @param [String] api_key The account API key.
     # @param [:production, :demo] platform The platform to use.
+    #
+    # @return [ClientAccountSummary] The client account summary returned by the sign in request.
     def sign_in(username, password, api_key, platform)
       session.username = username
       session.password = password
       session.api_key = api_key
       session.platform = platform
 
-      session.sign_in
+      result = session.sign_in
+
+      instantiate_models ClientAccountSummary, result
     end
 
     # Signs out of the IG Markets Dealing Platform, ending any current session.

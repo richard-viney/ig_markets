@@ -21,13 +21,13 @@ describe IGMarkets::Session do
       expect(response).to receive(:body).at_least(:once).and_return(
         { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json)
 
-      second_response = instance_double 'RestClient::Response', code: 200, body: {}.to_json
+      second_response = instance_double 'RestClient::Response', code: 200, body: { clientId: 'id' }.to_json
       expect(second_response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
 
       expect(rest_client).to receive(:execute).and_return(response)
       expect(rest_client).to receive(:execute).and_return(second_response)
 
-      expect(session.sign_in).to be_nil
+      expect(session.sign_in).to eq(client_id: 'id')
 
       expect(session.client_security_token).to eq('1')
       expect(session.x_security_token).to match('2')
