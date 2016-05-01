@@ -60,6 +60,24 @@ END
                                                                             ).to_stdout
   end
 
+  it 'retries the deal confirmation request if the first one returns deal not found' do
+    deal_confirmation = build :deal_confirmation
+    deal_not_found_exception = IGMarkets::RequestFailedError.new 'error.confirms.deal-not-found', 404
+
+    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_raise(deal_not_found_exception)
+    expect(IGMarkets::CLI::Main).to receive(:sleep).with(5)
+    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
+Deal reference: ref
+Deal confirmation not found, pausing for five seconds before retrying ...
+Deal ID: DEAL
+Status: Accepted
+Result: Amended
+END
+                                                                            ).to_stdout
+  end
+
   it 'reports the version' do
     ['-v', '--version'].each do |argument|
       expect do

@@ -5,6 +5,8 @@
 - `IGMarkets::DealingPlatform#sign_in` now returns an `IGMarkets::ClientAccountSummary` instance
 - `IGMarkets::DealingPlatform::MarketMethods#find` can now handle being passed more than 50 EPICs at once
 - Renamed `--start-date` option for `ig_markets activities` and `ig_markets transactions` commands to `--from`
+- Deal confirmations reported by the command-line client are now retried after a five second pause if the intial
+  request returns a 'deal not found' error
 
 ### 0.8 — April 30, 2016
 

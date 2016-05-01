@@ -8,8 +8,8 @@ module IGMarkets
       option :from, desc: 'The start date to print account activities from, format: yyyy-mm-dd'
 
       def activities
-        self.class.begin_session(options) do |_dealing_platform|
-          activities = gather_account_history(:activities).sort_by(&:date)
+        self.class.begin_session(options) do |dealing_platform|
+          activities = gather_account_history(:activities, dealing_platform).sort_by(&:date)
 
           table = ActivitiesTable.new activities
 
@@ -19,7 +19,7 @@ module IGMarkets
 
       private
 
-      def gather_account_history(method_name)
+      def gather_account_history(method_name, dealing_platform)
         history_options = if options[:from]
                             from = Date.strptime options[:from], '%F'
                             to = from + options[:days]
@@ -29,7 +29,7 @@ module IGMarkets
                             { days: options[:days] }
                           end
 
-        Main.dealing_platform.account.send method_name, history_options
+        dealing_platform.account.send method_name, history_options
       end
     end
   end

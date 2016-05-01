@@ -150,9 +150,9 @@ ig.sign_out
 
 # Account
 ig.account.all
-ig.account.activities days: 365
+ig.account.activities days: 30
 ig.account.activities from: Date.today - 14, to: Date.today - 7
-ig.account.transactions days: 365
+ig.account.transactions days: 30
 ig.account.transactions from: Date.today - 14, to: Date.today - 7
 
 # Dealing

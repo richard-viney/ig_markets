@@ -22,6 +22,23 @@ module IGMarkets
       subcommand 'watchlists', Watchlists
 
       class << self
+        # This is the initial entry point for the execution of the command-line client. It is responsible for reading
+        # any config files, implementing the --version/-v options, and then invoking the main application.
+        #
+        # @param [Array<String>] argv The array of command-line arguments.
+        #
+        # @return [void]
+        def bootstrap(argv)
+          config_file.prepend_arguments_to_argv argv
+
+          if argv.index('--version') || argv.index('-v')
+            puts VERSION
+            exit
+          end
+
+          start argv
+        end
+
         # Signs in to IG Markets and yields back a {DealingPlatform} instance, with common error handling if exceptions
         # occur. This method is used by all of the commands in order to authenticate.
         #
@@ -33,29 +50,18 @@ module IGMarkets
 
           RequestPrinter.enabled = true if options[:print_requests]
 
-          dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
+          @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
-          yield dealing_platform
+          yield @dealing_platform
         rescue IGMarkets::RequestFailedError => error
           error "Request error: #{error.error}"
         rescue ArgumentError => error
           error "Argument error: #{error}"
         end
 
-        # Writes the passed message to `stderr` and then exits the application.
-        #
-        # @param [String] message The error message.
-        def error(message)
-          warn message
-          exit 1
-        end
-
-        # The {DealingPlatform} instance used by {begin_session}.
-        def dealing_platform
-          @dealing_platform ||= DealingPlatform.new
-        end
-
-        # Requests and displays the deal confirmation for the passed deal reference.
+        # Requests and displays the deal confirmation for the passed deal reference. If the first request for the deal
+        # confirmation returns a 'deal not found' error then the request is attempted again after a five second pause.
+        # This is done because sometimes there is a delay in the processing of the deal by IG Markets.
         #
         # @param [String] deal_reference The deal reference.
         #
@@ -63,15 +69,14 @@ module IGMarkets
         def report_deal_confirmation(deal_reference)
           puts "Deal reference: #{deal_reference}"
 
-          deal_confirmation = dealing_platform.deal_confirmation deal_reference
+          print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
+        rescue RequestFailedError => request_failed_error
+          raise unless request_failed_error.error == 'error.confirms.deal-not-found'
 
-          puts <<-END
-Deal ID: #{deal_confirmation.deal_id}
-Status: #{Format.symbol deal_confirmation.deal_status}
-Result: #{Format.symbol deal_confirmation.status}
-END
+          puts 'Deal confirmation not found, pausing for five seconds before retrying ...'
 
-          puts "Reason: #{Format.symbol deal_confirmation.reason}" unless deal_confirmation.deal_status == :accepted
+          sleep 5
+          print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
         end
 
         # Parses and validates a `Date` or `Time` option received as a command-line argument. Raises `ArgumentError` if
@@ -115,21 +120,14 @@ END
           end
         end
 
-        # This is the initial entry point for the execution of the command-line client. It is responsible for reading
-        # any config files, implementing the --version/-v options, and then invoking the main application.
-        #
-        # @param [Array<String>] argv The array of command-line arguments.
-        #
-        # @return [void]
-        def bootstrap(argv)
-          config_file.prepend_arguments_to_argv argv
+        private
 
-          if argv.index('--version') || argv.index('-v')
-            puts VERSION
-            exit
-          end
-
-          start argv
+        # Writes the passed message to `stderr` and then exits the application.
+        #
+        # @param [String] message The error message.
+        def error(message)
+          warn message
+          exit 1
         end
 
         # Returns the config file to use for this invocation.
@@ -137,6 +135,21 @@ END
         # @return [ConfigFile]
         def config_file
           ConfigFile.find "#{Dir.pwd}/.ig_markets", "#{Dir.home}/.ig_markets"
+        end
+
+        # Prints out details of the passed deal confirmation.
+        #
+        # @param [DealConfirmation] deal_confirmation The deal confirmation to print out.
+        #
+        # @return [void]
+        def print_deal_confirmation(deal_confirmation)
+          puts <<-END
+Deal ID: #{deal_confirmation.deal_id}
+Status: #{Format.symbol deal_confirmation.deal_status}
+Result: #{Format.symbol deal_confirmation.status}
+END
+
+          puts "Reason: #{Format.symbol deal_confirmation.reason}" unless deal_confirmation.deal_status == :accepted
         end
       end
     end

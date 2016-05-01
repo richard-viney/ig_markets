@@ -1,5 +1,5 @@
 --exclude lib/ig_markets/cli/.*
---exclude lib/ig_markets/model/typecasters.rb
+--exclude lib/ig_markets/model/.*
 --markup markdown
 --markup-provider redcarpet
 --no-private

@@ -10,8 +10,8 @@ module IGMarkets
       option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
 
       def transactions
-        self.class.begin_session(options) do |_dealing_platform|
-          transactions = gather_transactions
+        self.class.begin_session(options) do |dealing_platform|
+          transactions = gather_transactions dealing_platform
 
           table = TransactionsTable.new transactions
 
@@ -26,10 +26,10 @@ module IGMarkets
 
       private
 
-      def gather_transactions
+      def gather_transactions(dealing_platform)
         regex = Regexp.new options.fetch('instrument', '')
 
-        gather_account_history(:transactions).sort_by(&:date_utc).select do |transaction|
+        gather_account_history(:transactions, dealing_platform).sort_by(&:date_utc).select do |transaction|
           regex.match(transaction.instrument_name) && (options[:interest] || !transaction.interest?)
         end
       end
