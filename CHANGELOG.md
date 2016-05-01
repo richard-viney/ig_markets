@@ -2,11 +2,12 @@
 
 ### 0.9 — Unreleased
 
-- Renamed the `--start-date` option for the `ig_markets activities` and `ig_markets transactions` commands to `--from`
+- Handle more than 50 EPICs being passed to `IGMarkets::DealingPlatform::MarketMethods#find`
+- Renamed `--start-date` option for `ig_markets activities` and `ig_markets transactions` commands to `--from`
 
 ### 0.8 — April 30, 2016
 
-- The `ig_markets` prices command now takes `--from` and `--to` arguments accurate to one second
+- The `ig_markets prices` command now takes `--from` and `--to` arguments accurate to one second
 - Fixed incomplete data being returned by `IGMarkets::DealingPlatform::AccountMethods#activities` and
   `IGMarkets::DealingPlatform::AccountMethods#transactions`
 - Fixed errors calling `IGMarkets::DealingPlatform#instantiate_models` for models that have deprecated attributes

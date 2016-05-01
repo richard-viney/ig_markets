@@ -37,6 +37,23 @@ describe IGMarkets::DealingPlatform::MarketMethods do
     expect(platform.markets['ABCDEF']).to eq(result.first)
   end
 
+  it 'can retrieve multiple markets from their EPICs in a single call' do
+    fifty_markets = { market_details: markets_get_result[:market_details] * 50 }
+    ten_markets = { market_details: markets_get_result[:market_details] * 10 }
+
+    epics = Array.new(60) { ('a'..'z').to_a.sample(6).join.upcase }
+
+    expect(session).to receive(:get)
+      .with("markets?epics=#{epics[0...50].join ','}", IGMarkets::API_V2)
+      .and_return(fifty_markets)
+
+    expect(session).to receive(:get)
+      .with("markets?epics=#{epics[50..-1].join ','}", IGMarkets::API_V2)
+      .and_return(ten_markets)
+
+    expect(platform.markets.find(epics).size).to eq(60)
+  end
+
   it 'can search for markets' do
     markets = [build(:market_overview)]
 

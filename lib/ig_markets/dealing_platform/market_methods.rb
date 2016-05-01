@@ -37,9 +37,12 @@ module IGMarkets
           raise ArgumentError, "invalid EPIC: #{epic}" unless epic.to_s =~ Regex::EPIC
         end
 
-        result = @dealing_platform.session.get("markets?epics=#{epics.join(',')}", API_V2).fetch :market_details
+        # The API imposes a maximum of 50 EPICs per request
+        markets = epics.each_slice(50).map do |epics_slice|
+          @dealing_platform.session.get("markets?epics=#{epics_slice.join(',')}", API_V2).fetch :market_details
+        end
 
-        @dealing_platform.instantiate_models Market, result
+        @dealing_platform.instantiate_models Market, markets.flatten
       end
 
       # Searches markets using a search term and returns an array of results.
