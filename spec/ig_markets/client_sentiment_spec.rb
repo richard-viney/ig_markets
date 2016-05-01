@@ -1,7 +1,7 @@
 describe IGMarkets::ClientSentiment do
   include_context 'dealing_platform'
 
-  let(:client_sentiment) { with_dealing_platform build(:client_sentiment, market_id: '1') }
+  let(:client_sentiment) { dealing_platform_model build(:client_sentiment, market_id: '1') }
 
   it 'requests related sentiments' do
     related_sentiments = [build(:client_sentiment), build(:client_sentiment)]

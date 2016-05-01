@@ -7,7 +7,7 @@ RSpec.shared_context 'dealing_platform' do
     end
   end
 
-  def with_dealing_platform(model)
+  def dealing_platform_model(model)
     model.instance_variable_set :@dealing_platform, dealing_platform
 
     model

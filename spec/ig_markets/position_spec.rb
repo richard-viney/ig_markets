@@ -1,9 +1,7 @@
 describe IGMarkets::Position do
   include_context 'dealing_platform'
 
-  let(:position) do
-    with_dealing_platform build(:position, deal_id: '1')
-  end
+  let(:position) { dealing_platform_model build(:position, deal_id: '1') }
 
   let(:profitable_position) do
     market = build :market_overview, bid: 4.0

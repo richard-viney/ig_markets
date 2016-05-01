@@ -1,7 +1,7 @@
 describe IGMarkets::WorkingOrder do
   include_context 'dealing_platform'
 
-  let(:working_order) { with_dealing_platform build(:working_order, deal_id: '1') }
+  let(:working_order) { dealing_platform_model build(:working_order, deal_id: '1') }
 
   it 'can delete a working order' do
     result = { deal_reference: 'reference' }

@@ -1,7 +1,7 @@
 describe IGMarkets::Market do
   include_context 'dealing_platform'
 
-  let(:market) { with_dealing_platform build(:market) }
+  let(:market) { dealing_platform_model build(:market) }
 
   it 'returns a specified number of historical prices' do
     historical_price_results = [build(:historical_price_result)]
