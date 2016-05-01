@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::Main do
-  let(:dealing_platform) { IGMarkets::DealingPlatform.new }
+  include_context 'dealing_platform'
 
   def cli(arguments = {})
     IGMarkets::CLI::Main.new [], { username: 'username', password: 'password', api_key: 'api-key' }.merge(arguments)

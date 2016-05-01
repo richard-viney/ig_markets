@@ -1,10 +1,5 @@
 describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
-  let(:session) { IGMarkets::Session.new }
-  let(:platform) do
-    IGMarkets::DealingPlatform.new.tap do |platform|
-      platform.instance_variable_set :@session, session
-    end
-  end
+  include_context 'dealing_platform'
 
   it 'can retrieve sprint market positions' do
     positions = [build(:sprint_market_position)]
@@ -13,7 +8,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
       .with('positions/sprintmarkets', IGMarkets::API_V2)
       .and_return(sprint_market_positions: positions)
 
-    expect(platform.sprint_market_positions.all).to eq(positions)
+    expect(dealing_platform.sprint_market_positions.all).to eq(positions)
   end
 
   it 'can retrieve a single sprint market position' do
@@ -23,8 +18,8 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
       .with('positions/sprintmarkets', IGMarkets::API_V2)
       .and_return(sprint_market_positions: positions)
 
-    expect(platform.sprint_market_positions['DEAL']).to eq(positions.first)
-    expect(platform.sprint_market_positions['UNKNOWN']).to be_nil
+    expect(dealing_platform.sprint_market_positions['DEAL']).to eq(positions.first)
+    expect(dealing_platform.sprint_market_positions['UNKNOWN']).to be_nil
   end
 
   it 'can create a sprint market position' do
@@ -43,6 +38,6 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
     }
 
     expect(session).to receive(:post).with('positions/sprintmarkets', payload).and_return(deal_reference: 'reference')
-    expect(platform.sprint_market_positions.create(attributes)).to eq('reference')
+    expect(dealing_platform.sprint_market_positions.create(attributes)).to eq('reference')
   end
 end

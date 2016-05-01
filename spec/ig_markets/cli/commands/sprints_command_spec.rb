@@ -1,12 +1,8 @@
 describe IGMarkets::CLI::Sprints do
-  let(:dealing_platform) { IGMarkets::DealingPlatform.new }
+  include_context 'cli_command'
 
   def cli(arguments = {})
     IGMarkets::CLI::Sprints.new [], arguments
-  end
-
-  before do
-    expect(IGMarkets::CLI::Main).to receive(:begin_session).and_yield(dealing_platform)
   end
 
   it 'prints sprint market positions' do

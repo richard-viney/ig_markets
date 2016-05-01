@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::Main do
-  let(:dealing_platform) { IGMarkets::DealingPlatform.new }
+  include_context 'cli_command'
 
   def cli(arguments = {})
     IGMarkets::CLI::Main.new [], { username: '', password: '', api_key: '' }.merge(arguments)
@@ -16,7 +16,6 @@ describe IGMarkets::CLI::Main do
   end
 
   before do
-    expect(IGMarkets::CLI::Main).to receive(:begin_session).and_yield(dealing_platform)
     expect(dealing_platform.markets).to receive(:[]).with('A').and_return(market)
   end
 

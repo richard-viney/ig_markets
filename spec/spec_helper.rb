@@ -10,6 +10,8 @@ end
 
 require 'ig_markets'
 
+require 'support/cli_command_context'
+require 'support/dealing_platform_context'
 require 'support/factory_girl'
 require 'support/random_test_order'
 

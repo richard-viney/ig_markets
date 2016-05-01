@@ -20,12 +20,12 @@ describe IGMarkets::CLI::Table do
       [2]
     end
 
-    def cell_color(value, _model, _row_index, column_index)
-      column_index == 1 && value && :red
-    end
-
     def row(model)
       [model.string, model.boolean, model.float]
+    end
+
+    def cell_color(value, _model, _row_index, column_index)
+      column_index == 1 && value && :red
     end
   end
 
