@@ -127,8 +127,8 @@ ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 -
 # Print daily prices for EURUSD from the last two weeks
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 
-# Log in and then open a live Ruby console which can be used to query the IG API
-ig_markets console
+# Log in and then open a Ruby console which can be used to query the IG API, all REST requests will be printed in full
+ig_markets console --print-requests
 ```
 
 ## Usage — Library
