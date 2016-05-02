@@ -84,7 +84,7 @@ module IGMarkets
     # @param [Fixnum] api_version The API version to target.
     #
     # @return [Hash] The response from the IG Markets API.
-    def put(url, payload, api_version = API_V1)
+    def put(url, payload = nil, api_version = API_V1)
       request(method: :put, url: url, payload: payload, api_version: api_version).fetch :result
     end
 

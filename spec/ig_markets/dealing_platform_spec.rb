@@ -35,6 +35,13 @@ describe IGMarkets::DealingPlatform do
     expect(dealing_platform.applications).to eq(applications)
   end
 
+  it 'can disable the API key' do
+    application = build :application
+
+    expect(session).to receive(:put).with('operations/application/disable').and_return(application)
+    expect(dealing_platform.disable_api_key).to eq(application)
+  end
+
   it 'can instantiate models from existing instances' do
     account = IGMarkets::Account.new account_name: 'test'
 

@@ -2,7 +2,7 @@
 
 ### 0.10 — Unreleased
 
-- 
+- Added `IGMarkets::DealingPlatform#disable_api_key`
 
 ### 0.9 — May 2, 2016
 

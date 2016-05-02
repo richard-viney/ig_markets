@@ -88,6 +88,15 @@ module IGMarkets
       instantiate_models Application, session.get('operations/application')
     end
 
+    # Disables the API key currently in use by the logged in session. This means that any further requests to the IG
+    # Markets API with this key will fail with the error `error.security.api-key-disabled`. Disabled API keys can only
+    # be re-enabled through the web platform.
+    #
+    # @return [Application]
+    def disable_api_key
+      instantiate_models Application, session.put('operations/application/disable')
+    end
+
     # This method is used to instantiate the various `Model` subclasses from data returned by the IG Markets API. It
     # recurses through arrays and sub-hashes present in `source`, instantiating the required models based on the types
     # of each attribute as defined on the models. All model instances returned by this method will have their
