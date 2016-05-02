@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.9 — Unreleased
+### 0.9 — May 2, 2016
 
 - `IGMarkets::DealingPlatform#sign_in` now returns an `IGMarkets::ClientAccountSummary` instance
 - `IGMarkets::DealingPlatform::MarketMethods#find` can now handle being passed more than 50 EPICs at once
