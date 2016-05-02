@@ -50,6 +50,7 @@ module IGMarkets
 
           RequestPrinter.enabled = true if options[:print_requests]
 
+          @dealing_platform ||= DealingPlatform.new
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield @dealing_platform

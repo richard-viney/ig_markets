@@ -1,12 +1,12 @@
 describe IGMarkets::CLI::Main do
   include_context 'dealing_platform'
 
-  def cli(arguments = {})
-    IGMarkets::CLI::Main.new [], { username: 'username', password: 'password', api_key: 'api-key' }.merge(arguments)
-  end
-
   before do
     IGMarkets::CLI::Main.instance_variable_set :@dealing_platform, dealing_platform
+  end
+
+  def cli(arguments = {})
+    IGMarkets::CLI::Main.new [], { username: 'username', password: 'password', api_key: 'api-key' }.merge(arguments)
   end
 
   it 'correctly signs in' do
