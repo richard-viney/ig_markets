@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.10 — Unreleased
+
+- 
+
 ### 0.9 — May 2, 2016
 
 - `IGMarkets::DealingPlatform#sign_in` now returns an `IGMarkets::ClientAccountSummary` instance
