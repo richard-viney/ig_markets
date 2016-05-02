@@ -83,6 +83,21 @@ module IGMarkets
         end
       end
 
+      desc 'close-all', 'Closes all open positions'
+
+      option :order_type, enum: %w(limit market quote), default: 'market', desc: 'The order type'
+      option :time_in_force, enum: %w(execute-and-eliminate fill-or-kill), desc: 'The order fill strategy'
+
+      def close_all
+        Main.begin_session(options) do |dealing_platform|
+          dealing_platform.positions.all.each do |position|
+            deal_reference = position.close position_attributes
+
+            Main.report_deal_confirmation deal_reference
+          end
+        end
+      end
+
       private
 
       ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :guaranteed_stop, :level, :limit_distance,

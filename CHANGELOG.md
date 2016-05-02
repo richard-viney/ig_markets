@@ -2,6 +2,7 @@
 
 ### 0.10 — Unreleased
 
+- Added `ig_markets positions close-all` to close all open positions at once
 - Added `IGMarkets::DealingPlatform#disable_api_key`
 
 ### 0.9 — May 2, 2016

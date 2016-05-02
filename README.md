@@ -79,6 +79,7 @@ commands and their subcommands is:
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
+- `ig_markets positions close-all [...]`
 - `ig_markets prices --epic EPIC --resolution RESOLUTION [...]`
 - `ig_markets search QUERY [--type TYPE]`
 - `ig_markets sentiment MARKET`

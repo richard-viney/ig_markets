@@ -96,4 +96,16 @@ END
 
     cli(arguments).close 'DEAL'
   end
+
+  it 'closes all positions' do
+    positions = [build(:position), build(:position)]
+
+    expect(dealing_platform.positions).to receive(:all).and_return(positions)
+    expect(positions[0]).to receive(:close).and_return('ref0')
+    expect(positions[1]).to receive(:close).and_return('ref1')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref0')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref1')
+
+    cli.close_all
+  end
 end
