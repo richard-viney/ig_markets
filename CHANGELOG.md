@@ -2,6 +2,7 @@
 
 ### 0.10 — Unreleased
 
+- The `--instrument` option for `ig_markets transactions` is no longer case-sensitive
 - Added `ig_markets positions close-all` to close all open positions at once
 - Added `IGMarkets::DealingPlatform#disable_api_key`
 

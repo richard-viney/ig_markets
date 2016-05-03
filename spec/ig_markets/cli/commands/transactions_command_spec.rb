@@ -47,7 +47,7 @@ END
 
     expect(dealing_platform.account).to receive(:transactions).with(days: 3).and_return(transactions)
 
-    expect { cli(days: 3, instrument: '123', interest: false).transactions }.to output(<<-END
+    expect { cli(days: 3, instrument: 'TEST', interest: false).transactions }.to output(<<-END
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
 |                                        Transactions                                         |
 +-------------------------+-----------+------+------------+------+------+-------+-------------+

@@ -27,7 +27,7 @@ module IGMarkets
       private
 
       def gather_transactions(dealing_platform)
-        regex = Regexp.new options.fetch('instrument', '')
+        regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
 
         gather_account_history(:transactions, dealing_platform).sort_by(&:date_utc).select do |transaction|
           regex.match(transaction.instrument_name) && (options[:interest] || !transaction.interest?)
