@@ -58,6 +58,6 @@ END
 
 Profit/loss: US 1.00
 END
-                                                                                      ).to_stdout
+                                                                                       ).to_stdout
   end
 end
