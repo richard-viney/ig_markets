@@ -29,7 +29,7 @@ module IGMarkets
       private
 
       def gather_transactions(dealing_platform)
-        @regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
+        @instrument_regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
 
         result = gather_account_history(:transactions, dealing_platform).select do |transaction|
           transaction_filter transaction
@@ -43,7 +43,7 @@ module IGMarkets
       def transaction_filter(transaction)
         return false if !options[:interest] && transaction.interest?
 
-        @regex.match transaction.instrument_name
+        @instrument_regex.match transaction.instrument_name
       end
 
       def transaction_sort_attribute

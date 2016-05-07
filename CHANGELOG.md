@@ -2,6 +2,7 @@
 
 ### 0.10 — Unreleased
 
+- Added `--epic` option to the `ig_markets activities` command
 - Added `--sort-by` option to the `ig_markets activities` and `ig_markets transactions` commands
 - The `--instrument` option for `ig_markets transactions` is no longer case-sensitive
 - Added `ig_markets positions close-all` to close all open positions at once

@@ -42,4 +42,24 @@ describe IGMarkets::CLI::Main do
 END
                                                                                      ).to_stdout
   end
+
+  it 'prints activities filtered by EPIC' do
+    activities = [
+      build(:activity, epic: 'CS.D.EURUSD.CFD.IP'),
+      build(:activity, epic: 'CS.D.NZDUSD.CFD.IP')
+    ]
+
+    expect(dealing_platform.account).to receive(:activities).with(days: 3).and_return(activities)
+
+    expect { cli(days: 3, sort_by: 'date', epic: 'NZD').activities }.to output(<<-END
++-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+
+|                                                             Activities                                                             |
++-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+
+| Date                    | Channel | Type | Status   | EPIC               | Market          | Size | Level | Limit  | Stop | Result |
++-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+
+| 2015-12-15 15:00:00 UTC | Charts  | S&L  | Accepted | CS.D.NZDUSD.CFD.IP | Spot FX NZD/USD |   +1 | 0.664 | 0.6649 |      | Result |
++-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+
+       END
+                                                                              ).to_stdout
+  end
 end
