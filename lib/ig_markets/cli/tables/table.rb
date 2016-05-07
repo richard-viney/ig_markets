@@ -8,7 +8,7 @@ module IGMarkets
       # @param [Hash] options The options hash.
       # @option options [String] :title The title for this table.
       def initialize(models, options = {})
-        @models = models
+        @models = Array(models).flatten
         @title = options[:title] || default_title
       end
 
@@ -43,7 +43,7 @@ module IGMarkets
       end
 
       def rows
-        @models.flatten.each_with_index.map do |model, row_index|
+        @models.each_with_index.map do |model, row_index|
           if model == :separator
             :separator
           else

@@ -67,7 +67,7 @@ Use `ig_markets help` to get details on the options accepted by the commands and
 commands and their subcommands is:
 
 - `ig_markets account`
-- `ig_markets activities --days N [--from YYYY-MM-DD]`
+- `ig_markets activities --days N [...]`
 - `ig_markets confirmation DEAL-REFERENCE`
 - `ig_markets console`
 - `ig_markets help [COMMAND]`
@@ -75,7 +75,7 @@ commands and their subcommands is:
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
 - `ig_markets orders delete DEAL-ID`
-- `ig_markets positions [list] [--aggregate]`
+- `ig_markets positions [list] [...]`
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
 - `ig_markets positions close DEAL-ID [...]`
@@ -85,11 +85,11 @@ commands and their subcommands is:
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
-- `ig_markets transactions --days N [--from YYYY-MM-DD] [--instrument INSTRUMENT] [--no-interest]`
+- `ig_markets transactions --days N [...]`
 - `ig_markets watchlists [list]`
-- `ig_markets watchlists create NAME [EPIC EPIC ...]`
-- `ig_markets watchlists add-markets WATCHLIST-ID [EPIC EPIC ...]`
-- `ig_markets watchlists remove-markets WATCHLIST-ID [EPIC EPIC ...]`
+- `ig_markets watchlists create NAME [EPIC ...]`
+- `ig_markets watchlists add-markets WATCHLIST-ID [EPIC ...]`
+- `ig_markets watchlists remove-markets WATCHLIST-ID [EPIC ...]`
 - `ig_markets watchlists delete WATCHLIST-ID`
 
 #### Examples
@@ -128,7 +128,7 @@ ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 -
 # Print daily prices for EURUSD from the last two weeks
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 
-# Log in and then open a Ruby console which can be used to query the IG API, all REST requests will be printed in full
+# Log in and then open a Ruby console which can be used to query the IG API, all REST requests will be shown
 ig_markets console --print-requests
 ```
 

@@ -10,7 +10,7 @@ describe IGMarkets::CLI::Main do
 
     expect(dealing_platform.account).to receive(:transactions).with(days: 3).and_return(transactions)
 
-    expect { cli(days: 3, interest: true).transactions }.to output(<<-END
+    expect { cli(days: 3, interest: true, sort_by: 'date').transactions }.to output(<<-END
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
 |                                        Transactions                                         |
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
@@ -22,7 +22,7 @@ describe IGMarkets::CLI::Main do
 Interest: US 0.00
 Profit/loss: US -1.00
 END
-                                                                  ).to_stdout
+                                                                                   ).to_stdout
   end
 
   it 'prints transactions from a number of days and a start date' do
@@ -43,21 +43,26 @@ END
   end
 
   it 'prints transactions filtered by instrument without interest transactions' do
-    transactions = [build(:transaction), build(:transaction, instrument_name: 'Test 123', profit_and_loss: 'US1.00')]
+    transactions = [
+      build(:transaction, date_utc: Time.new(2015, 10, 28, 0, 0, 0, 0)),
+      build(:transaction, instrument_name: 'Test 123', date_utc: Time.new(2015, 10, 28, 0, 0, 0, 0)),
+      build(:transaction, instrument_name: 'Test 456', profit_and_loss: 'US1.00')
+    ]
 
     expect(dealing_platform.account).to receive(:transactions).with(days: 3).and_return(transactions)
 
-    expect { cli(days: 3, instrument: 'TEST', interest: false).transactions }.to output(<<-END
+    expect { cli(days: 3, instrument: 'TEST', interest: false, sort_by: 'date').transactions }.to output(<<-END
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
 |                                        Transactions                                         |
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
 | Date                    | Reference | Type | Instrument | Size | Open | Close | Profit/loss |
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
-| 2015-10-27 14:30:00 UTC | Reference | Deal | Test 123   |   +1 |  0.8 |   0.8 |     #{'US 1.00'.green} |
+| 2015-10-27 14:30:00 UTC | Reference | Deal | Test 456   |   +1 |  0.8 |   0.8 |     #{'US 1.00'.green} |
+| 2015-10-28 00:00:00 UTC | Reference | Deal | Test 123   |   +1 |  0.8 |   0.8 |    #{'US -1.00'.red} |
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
 
-Profit/loss: US 1.00
+Profit/loss: US 0.00
 END
-                                                                                       ).to_stdout
+                                                                                                        ).to_stdout
   end
 end

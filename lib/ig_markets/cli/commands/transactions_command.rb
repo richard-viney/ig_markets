@@ -8,6 +8,8 @@ module IGMarkets
       option :from, desc: 'The start date to print account transactions from, format: yyyy-mm-dd'
       option :instrument, desc: 'Regex for filtering transactions based on their instrument'
       option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
+      option :sort_by, enum: %w(date instrument profit-loss type), default: 'date', desc: 'The attribute to sort ' \
+                                                                                          'transactions by'
 
       def transactions
         self.class.begin_session(options) do |dealing_platform|
@@ -27,11 +29,30 @@ module IGMarkets
       private
 
       def gather_transactions(dealing_platform)
-        regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
+        @regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
 
-        gather_account_history(:transactions, dealing_platform).sort_by(&:date_utc).select do |transaction|
-          regex.match(transaction.instrument_name) && (options[:interest] || !transaction.interest?)
+        result = gather_account_history(:transactions, dealing_platform).select do |transaction|
+          transaction_filter transaction
         end
+
+        result.sort_by do |transaction|
+          [transaction.send(transaction_sort_attribute), transaction.date_utc]
+        end
+      end
+
+      def transaction_filter(transaction)
+        return false if !options[:interest] && transaction.interest?
+
+        @regex.match transaction.instrument_name
+      end
+
+      def transaction_sort_attribute
+        {
+          'date' => :date_utc,
+          'instrument' => :instrument_name,
+          'profit-loss' => :profit_and_loss_amount,
+          'type' => :transaction_type
+        }.fetch options[:sort_by]
       end
 
       def transaction_totals(transactions)
