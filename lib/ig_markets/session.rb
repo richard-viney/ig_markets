@@ -99,16 +99,12 @@ module IGMarkets
       request(method: :delete, url: url, payload: payload, api_version: api_version).fetch :result
     end
 
-    # Returns a human-readable string containing this session's details.
-    #
-    # @return [String]
-    def inspect
-      "#<#{self.class.name} #{client_security_token}, #{x_security_token}>"
-    end
-
     private
 
-    HOST_URLS = { demo: 'https://demo-api.ig.com/gateway/deal/', production: 'https://api.ig.com/gateway/deal/' }.freeze
+    HOST_URLS = {
+      demo: 'https://demo-api.ig.com/gateway/deal/',
+      production: 'https://api.ig.com/gateway/deal/'
+    }.freeze
 
     def validate_authentication
       %i(username password api_key).each do |attribute|

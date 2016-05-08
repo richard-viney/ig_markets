@@ -137,10 +137,6 @@ describe IGMarkets::Session do
       expect(session.delete('url', id: 1)).to eq({})
     end
 
-    it 'inspects correctly' do
-      expect(session.inspect).to eq('#<IGMarkets::Session client_security_token, x_security_token>')
-    end
-
     def headers
       hash = {}
       hash[:accept] = hash[:content_type] = 'application/json; charset=UTF-8'
