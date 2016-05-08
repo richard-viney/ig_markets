@@ -26,8 +26,6 @@ module IGMarkets
         # any config files, implementing the --version/-v options, and then invoking the main application.
         #
         # @param [Array<String>] argv The array of command-line arguments.
-        #
-        # @return [void]
         def bootstrap(argv)
           config_file.prepend_arguments_to_argv argv
 
@@ -43,8 +41,6 @@ module IGMarkets
         # occur. This method is used by all of the commands in order to authenticate.
         #
         # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options hash.
-        #
-        # @return [void]
         def begin_session(options)
           platform = options[:demo] ? :demo : :production
 
@@ -65,8 +61,6 @@ module IGMarkets
         # This is done because sometimes there is a delay in the processing of the deal by IG Markets.
         #
         # @param [String] deal_reference The deal reference.
-        #
-        # @return [void]
         def report_deal_confirmation(deal_reference)
           puts "Deal reference: #{deal_reference}"
 
@@ -89,8 +83,6 @@ module IGMarkets
         # @param [String] format The `strptime` format string for the attribute.
         # @param [String] display_format The human-readable version of `format` to put into the raised exception if
         #                 there is a problem parsing the attribute.
-        #
-        # @return [void]
         def parse_date_time(attributes, attribute, klass, format, display_format)
           return unless attributes.key? attribute
 
@@ -141,8 +133,6 @@ module IGMarkets
         # Prints out details of the passed deal confirmation.
         #
         # @param [DealConfirmation] deal_confirmation The deal confirmation to print out.
-        #
-        # @return [void]
         def print_deal_confirmation(deal_confirmation)
           puts <<-END
 Deal ID: #{deal_confirmation.deal_id}

@@ -22,8 +22,6 @@ module IGMarkets
       # Inserts the arguments from this config file into the passed arguments array.
       #
       # @param [Array<String>] argv The array of command-line arguments to alter.
-      #
-      # @return [void]
       def prepend_arguments_to_argv(argv)
         insert_index = argv.index do |argument|
           argument[0] == '-'

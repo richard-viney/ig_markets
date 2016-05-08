@@ -126,8 +126,6 @@ module IGMarkets
       # attributes to be set on the model but not have them be part of the model's structure.
       #
       # @param [Array<Symbol>] names The names of the deprecated attributes.
-      #
-      # @return [void]
       def deprecated_attribute(*names)
         names.each do |name|
           define_method "#{name}=" do |_value|

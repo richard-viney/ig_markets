@@ -9,8 +9,6 @@ module IGMarkets
       # Prints out an options hash that is ready to be passed to `RestClient::Request.execute`.
       #
       # @param [Hash] options The options hash.
-      #
-      # @return [void]
       def print_options(options)
         return unless enabled
 
@@ -27,8 +25,6 @@ module IGMarkets
       # Formats and prints a JSON response body.
       #
       # @param [String] body The response body.
-      #
-      # @return [void]
       def print_response_body(body)
         return unless enabled
 
