@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.10 — Unreleased
+### 0.10 — May 9, 2016
 
 - Added `--epic` option to the `ig_markets activities` command
 - Added `--sort-by` option to the `ig_markets activities` and `ig_markets transactions` commands
