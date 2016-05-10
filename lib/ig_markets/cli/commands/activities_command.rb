@@ -11,6 +11,8 @@ module IGMarkets
 
       def activities
         self.class.begin_session(options) do |dealing_platform|
+          @epic_regex = Regexp.new options.fetch('epic', ''), Regexp::IGNORECASE
+
           activities = gather_activities dealing_platform
 
           table = ActivitiesTable.new activities
@@ -22,9 +24,7 @@ module IGMarkets
       private
 
       def gather_activities(dealing_platform)
-        @epic_regex = Regexp.new options.fetch('epic', ''), Regexp::IGNORECASE
-
-        result = gather_account_history(:activities, dealing_platform).select do |activity|
+        result = gather_account_history(:activities, dealing_platform) do |activity|
           activity_filter activity
         end
 
@@ -56,7 +56,9 @@ module IGMarkets
                             { days: options[:days] }
                           end
 
-        dealing_platform.account.send method_name, history_options
+        dealing_platform.account.send(method_name, history_options).select do |model|
+          yield model
+        end
       end
     end
   end

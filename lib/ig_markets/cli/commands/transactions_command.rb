@@ -13,6 +13,8 @@ module IGMarkets
 
       def transactions
         self.class.begin_session(options) do |dealing_platform|
+          @instrument_regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
+
           transactions = gather_transactions dealing_platform
 
           table = TransactionsTable.new transactions
@@ -29,9 +31,7 @@ module IGMarkets
       private
 
       def gather_transactions(dealing_platform)
-        @instrument_regex = Regexp.new options.fetch('instrument', ''), Regexp::IGNORECASE
-
-        result = gather_account_history(:transactions, dealing_platform).select do |transaction|
+        result = gather_account_history(:transactions, dealing_platform) do |transaction|
           transaction_filter transaction
         end
 
