@@ -2,7 +2,7 @@
 
 ### 0.11 — Unreleased
 
-- 
+- Accept "`DFB`" (Daily Funded Bet) on instrument expiries, it is silently converted to `nil`
 
 ### 0.10 — May 10, 2016
 
