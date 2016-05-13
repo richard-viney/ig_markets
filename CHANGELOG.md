@@ -3,6 +3,7 @@
 ### 0.11 — Unreleased
 
 - Accept "`DFB`" (Daily Funded Bet) on instrument expiries, it is silently converted to `nil`
+- Show instrument high and low in the `ig_markets positions list` command
 
 ### 0.10 — May 10, 2016
 

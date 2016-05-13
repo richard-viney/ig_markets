@@ -16,11 +16,12 @@ module IGMarkets
       end
 
       def headings
-        ['Date', 'EPIC', 'Type', 'Direction', 'Size', 'Level', 'Current', 'Limit', 'Stop', 'Profit/loss', 'Deal IDs']
+        ['Date', 'EPIC', 'Type', 'Direction', 'Size', 'Level', 'Current', 'High', 'Low', 'Limit', 'Stop', 'Profit/loss',
+         'Deal IDs']
       end
 
       def right_aligned_columns
-        [4, 5, 6, 7, 8, 9]
+        [4, 5, 6, 7, 8, 9, 10, 11]
       end
 
       def row(position)
@@ -39,8 +40,15 @@ module IGMarkets
       end
 
       def position_prices(position)
-        [:level, :close_level, :limit_level, :stop_level].map do |attribute|
-          Format.level position.send(attribute)
+        [
+          position.level,
+          position.close_level,
+          position.market.high,
+          position.market.low,
+          position.limit_level,
+          position.stop_level
+        ].map do |value|
+          Format.level value
         end
       end
 
