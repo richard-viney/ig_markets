@@ -50,28 +50,31 @@ module IGMarkets
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield @dealing_platform
-        rescue IGMarkets::RequestFailedError => error
-          error "Request error: #{error.error}"
-        rescue ArgumentError => error
-          error "Argument error: #{error}"
+        rescue IGMarkets::RequestFailedError => request_failed_error
+          error "Request error: #{request_failed_error.error}"
+        rescue ArgumentError => argument_error
+          error "Argument error: #{argument_error}"
         end
 
-        # Requests and displays the deal confirmation for the passed deal reference. If the first request for the deal
-        # confirmation returns a 'deal not found' error then the request is attempted again after a five second pause.
-        # This is done because sometimes there is a delay in the processing of the deal by IG Markets.
+        # Requests and displays the deal confirmation for the passed deal reference. If the request for the deal
+        # confirmation returns a 'deal not found' error then the request is attempted again after a two second pause.
+        # This is done because sometimes there is a delay in the processing of the deal by IG Markets. A maximum of
+        # five attempts wil be made before failing outright.
         #
         # @param [String] deal_reference The deal reference.
         def report_deal_confirmation(deal_reference)
           puts "Deal reference: #{deal_reference}"
 
-          print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
-        rescue RequestFailedError => request_failed_error
-          raise unless request_failed_error.error == 'error.confirms.deal-not-found'
+          5.times do |index|
+            begin
+              return print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
+            rescue IGMarkets::RequestFailedError => request_failed_error
+              raise if request_failed_error.error != 'error.confirms.deal-not-found' || index == 4
 
-          puts 'Deal confirmation not found, pausing for five seconds before retrying ...'
-
-          sleep 5
-          print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
+              puts 'Deal not found, retrying ...'
+              sleep 2
+            end
+          end
         end
 
         # Parses and validates a `Date` or `Time` option received as a command-line argument. Raises `ArgumentError` if
