@@ -4,6 +4,10 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   let(:from) { Date.new 2014, 5, 20 }
   let(:to) { Date.new 2014, 10, 27 }
 
+  before do
+    allow(Date).to receive(:today).and_return(Date.new(2014, 11, 1))
+  end
+
   it 'can retrieve accounts' do
     accounts = [build(:account)]
 
@@ -16,39 +20,55 @@ describe IGMarkets::DealingPlatform::AccountMethods do
     activities = [build(:activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-10-27&pageSize=0', IGMarkets::API_V2)
+      .with('history/activity?from=2014-05-20&to=2014-10-27&pageSize=500', IGMarkets::API_V2)
       .and_return(activities: activities)
 
     expect(dealing_platform.account.activities(from: from, to: to)).to eq(activities)
   end
 
-  it 'can retrieve activities in recent period' do
+  it 'can retrieve activities starting at a date' do
     activities = [build(:activity)]
 
     expect(session).to receive(:get)
-      .with('history/activity?maxSpanSeconds=604800&pageSize=0', IGMarkets::API_V2)
+      .with('history/activity?from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
       .and_return(activities: activities)
 
-    expect(dealing_platform.account.activities(days: 7)).to eq(activities)
+    expect(dealing_platform.account.activities(from: from)).to eq(activities)
+  end
+
+  it 'can retrieve more activities than the IG Markets API will return in one request' do
+    activities = (0...1200).map { |index| build :activity, deal_id: index, date: Time.new(2014, 10, 27) }
+
+    expect(session).to receive(:get)
+      .with('history/activity?from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
+      .and_return(activities: activities[0...500])
+    expect(session).to receive(:get)
+      .with('history/activity?from=2014-05-20&to=2014-10-28&pageSize=500', IGMarkets::API_V2)
+      .and_return(activities: activities[500...1000])
+    expect(session).to receive(:get)
+      .with('history/activity?from=2014-05-20&to=2014-10-28&pageSize=500', IGMarkets::API_V2)
+      .and_return(activities: activities[1000...1200])
+
+    expect(dealing_platform.account.activities(from: from)).to eq(activities)
   end
 
   it 'can retrieve transactions in a date range' do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL&pageSize=0', IGMarkets::API_V2)
+      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL&pageSize=500', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
     expect(dealing_platform.account.transactions(from: from, to: to)).to eq(transactions)
   end
 
-  it 'can retrieve transactions in recent period' do
+  it 'can retrieve transactions starting at a date' do
     transactions = [build(:transaction)]
 
     expect(session).to receive(:get)
-      .with('history/transactions?type=DEPOSIT&maxSpanSeconds=604800&pageSize=0', IGMarkets::API_V2)
+      .with('history/transactions?type=DEPOSIT&from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
       .and_return(transactions: transactions)
 
-    expect(dealing_platform.account.transactions(type: :deposit, days: 7)).to eq(transactions)
+    expect(dealing_platform.account.transactions(type: :deposit, from: from)).to eq(transactions)
   end
 end

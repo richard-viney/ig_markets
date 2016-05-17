@@ -2,8 +2,13 @@
 
 ### 0.11 — Unreleased
 
+- `IGMarkets::DealingPlatform::AccountMethods#activities` and `IGMarkets::DealingPlatform::AccountMethods#transactions`
+  now send as many requests as necessary in order to get around the fact that the IG Markets API caps the maximum number
+  of results returned by a single request at 500
+- `IGMarkets::DealingPlatform::AccountMethods#activities` and `IGMarkets::DealingPlatform::AccountMethods#transactions`
+  no longer take a `:days` option, and their `:to` option defaults to today's date if it is omitted
 - Accept "`DFB`" (Daily Funded Bet) on instrument expiries, it is silently converted to `nil`
-- Show instrument high and low in the `ig_markets positions list` command
+- Instrument high and low is now shown in the `ig_markets positions list` command
 
 ### 0.10 — May 10, 2016
 
@@ -99,7 +104,7 @@
   `Time` attributes that have a known time zone. Previous uses of `DateTime` should be replaced with either `Date` or
   `Time`.
 - Changed `size` attribute to always be of type `Float` on all models.
-- Changed `limit_distance` and `stop_distance` attributes to always be of type `Fixnum` on all models.
+- Changed `limit_distance` and `stop_distance` attributes to always be of type `Fixnum` on all models
 - Added `IGMarkets::Format` module
 - Added `#expired?` and `#seconds_till_expiry` to `IGMarkets::SprintMarketPosition`
 - Fixed `IGMarkets::RequestFailedError#message`

@@ -63,7 +63,7 @@ module IGMarkets
       options[:from] = options[:from].utc.strftime '%FT%T' if options.key? :from
       options[:to] = options[:to].utc.strftime '%FT%T' if options.key? :to
 
-      @dealing_platform.instantiate_models HistoricalPriceResult, historical_prices_response(options)
+      @dealing_platform.instantiate_models HistoricalPriceResult, historical_prices_request(options)
     end
 
     private
@@ -81,7 +81,7 @@ module IGMarkets
     end
 
     # Returns the API response to a request for historical prices.
-    def historical_prices_response(options)
+    def historical_prices_request(options)
       url = "prices/#{instrument.epic}?#{options.map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
 
       @dealing_platform.session.get url, API_V3

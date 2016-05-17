@@ -24,7 +24,7 @@ module IGMarkets
       private
 
       def gather_activities(dealing_platform)
-        result = gather_account_history(:activities, dealing_platform) do |activity|
+        result = gather_account_history(:activities, dealing_platform).select do |activity|
           activity_filter activity
         end
 
@@ -53,12 +53,10 @@ module IGMarkets
 
                             { from: from, to: to }
                           else
-                            { days: options[:days] }
+                            { from: Date.today - options[:days] }
                           end
 
-        dealing_platform.account.send(method_name, history_options).select do |model|
-          yield model
-        end
+        dealing_platform.account.send method_name, history_options
       end
     end
   end

@@ -5,13 +5,17 @@ describe IGMarkets::CLI::Main do
     IGMarkets::CLI::Main.new [], { username: '', password: '', api_key: '' }.merge(arguments)
   end
 
+  before do
+    allow(Date).to receive(:today).and_return(Date.new(2016, 1, 5))
+  end
+
   it 'prints activities from a recent number of days' do
     activities = [
       build(:activity, date: Time.new(2015, 12, 16, 15, 0, 0, 0)),
       build(:activity, date: Time.new(2015, 12, 15, 15, 0, 0, 0))
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(days: 3).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with(from: Date.new(2016, 1, 2)).and_return(activities)
 
     expect { cli(days: 3, sort_by: 'date').activities }.to output(<<-END
 +-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+
@@ -49,7 +53,7 @@ END
       build(:activity, epic: 'CS.D.NZDUSD.CFD.IP')
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(days: 3).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with(from: Date.new(2016, 1, 2)).and_return(activities)
 
     expect { cli(days: 3, sort_by: 'date', epic: 'NZD').activities }.to output(<<-END
 +-------------------------+---------+------+----------+--------------------+-----------------+------+-------+--------+------+--------+

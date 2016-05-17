@@ -18,68 +18,78 @@ module IGMarkets
         @dealing_platform.instantiate_models Account, result
       end
 
-      # Returns activities for this account, either the most recent activities by specifying the `:days` option, or
-      # those from a date range by specifying the `:from` and `:to` options.
+      # Returns activities for this account in the specified date range.
       #
       # @param [Hash] options The options hash.
-      # @option options [Float] :days The number of recent days to return activities for. If this is specified then the
-      #                 `:from` and `:to` options must not be specified.
-      # @option options [Date] :from The start of the period to return activities for.
-      # @option options [Date] :to The end of the period to return activities for.
+      # @option options [Date] :from The start of the period to return activities for. Required.
+      # @option options [Date] :to The end of the period to return activities for. Defaults to today.
       #
       # @return [Array<Activity>]
       def activities(options)
-        parse_history_options options
-
-        result = history_request('history/activity', options)
-
-        @dealing_platform.instantiate_models Activity, result.fetch(:activities)
+        history_request_complete url: 'history/activity', url_parameters: prepare_history_options(options),
+                                 collection_name: :activities, model_class: Activity, date_attribute: :date
       end
 
-      # Returns transactions for this account, either the most recent transactions by specifying the `:days` option, or
-      # those from a date range by specifying the `:from` and `:to` options.
+      # Returns transactions for this account in the specified date range.
       #
       # @param [Hash] options The options hash.
       # @option options [:all, :all_deal, :deposit, :withdrawal] :type The type of transactions to return. Defaults to
       #                 `:all`.
-      # @option options [Float] :days The number of recent days to return transactions for. If this is specified then
-      #                 the `:from` and `:to` options must not be specified.
-      # @option options [Date] :from The start of the period to return transactions for.
-      # @option options [Date] :to The end of the period to return transactions for.
+      # @option options [Date] :from The start of the period to return transactions for. Required.
+      # @option options [Date] :to The end of the period to return transactions for. Defaults to today.
       #
-      # @return [Array<Activity>]
+      # @return [Array<Transaction>]
       def transactions(options)
         options[:type] ||= :all
 
-        parse_history_options options
-
-        result = history_request('history/transactions', options)
-
-        @dealing_platform.instantiate_models Transaction, result.fetch(:transactions)
+        history_request_complete url: 'history/transactions', url_parameters: prepare_history_options(options),
+                                 collection_name: :transactions, model_class: Transaction, date_attribute: :date_utc
       end
 
       private
 
-      # Sends a GET request to the specified URL with the passed options and returns the response.
-      #
-      # @param [String] url The base URL.
-      # @param [Hash] options The options to put with the URL.
-      #
-      # @return [Hash]
-      def history_request(url, options)
-        url = "#{url}?#{options.map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
+      # The maximum number of results the IG Markets API will return in one request.
+      MAXIMUM_PAGE_SIZE = 500
 
-        @dealing_platform.session.get url, API_V2
+      # Retrieves historical data for this account (either activities or transactions) in the specified date range. This
+      # methods sends a single GET request with the passed URL parameters and returns the response. The maximum number
+      # of items this method can return is capped at 500 {MAXIMUM_PAGE_SIZE}.
+      def history_request(options)
+        url = "#{options[:url]}?#{options[:url_parameters].map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
+
+        get_result = @dealing_platform.session.get url, API_V2
+
+        @dealing_platform.instantiate_models options[:model_class], get_result.fetch(options[:collection_name])
+      end
+
+      # This method is the same as {#history_request} except it will send as many GET requests as are needed in order
+      # to circumvent the maximum number of results that can be returned per request.
+      def history_request_complete(options)
+        models = []
+
+        loop do
+          request_result = history_request options
+          models += request_result
+
+          break if request_result.size < MAXIMUM_PAGE_SIZE
+
+          # Update the :to parameter so the next GET request returns older results
+          options[:url_parameters][:to] = request_result.last.send(options[:date_attribute]).utc.to_date + 1
+        end
+
+        models.uniq
       end
 
       # Parses and formats the history options shared by {#activities} and {#transactions}.
-      #
-      # @param [Hash] options
-      def parse_history_options(options)
-        options[:maxSpanSeconds] = (options.delete(:days).to_f * 24 * 60 * 60).to_i if options.key? :days
-        options[:from] = options[:from].strftime('%F') if options.key? :from
-        options[:to] = options[:to].strftime('%F') if options.key? :to
-        options[:pageSize] = 0
+      def prepare_history_options(options)
+        options[:to] ||= Date.today + 1
+
+        options[:from] = options[:from].strftime('%F')
+        options[:to] = options[:to].strftime('%F')
+
+        options[:pageSize] = MAXIMUM_PAGE_SIZE
+
+        options
       end
     end
   end

@@ -5,10 +5,14 @@ describe IGMarkets::CLI::Main do
     IGMarkets::CLI::Main.new [], { username: '', password: '', api_key: '' }.merge(arguments)
   end
 
+  before do
+    allow(Date).to receive(:today).and_return(Date.new(2016, 1, 5))
+  end
+
   it 'prints transactions from a recent number of days' do
     transactions = [build(:transaction)]
 
-    expect(dealing_platform.account).to receive(:transactions).with(days: 3).and_return(transactions)
+    expect(dealing_platform.account).to receive(:transactions).with(from: Date.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, interest: true, sort_by: 'date').transactions }.to output(<<-END
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
@@ -49,7 +53,7 @@ END
       build(:transaction, instrument_name: 'Test 456', profit_and_loss: 'US1.00')
     ]
 
-    expect(dealing_platform.account).to receive(:transactions).with(days: 3).and_return(transactions)
+    expect(dealing_platform.account).to receive(:transactions).with(from: Date.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, instrument: 'TEST', interest: false, sort_by: 'date').transactions }.to output(<<-END
 +-------------------------+-----------+------+------------+------+------+-------+-------------+
