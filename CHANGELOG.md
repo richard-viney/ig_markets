@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.12 — Unreleased
+
+- 
+
 ### 0.11 — May 23, 2016
 
 - `IGMarkets::DealingPlatform::AccountMethods#activities` and `IGMarkets::DealingPlatform::AccountMethods#transactions`
