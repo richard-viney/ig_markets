@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.11 — Unreleased
+### 0.11 — May 23, 2016
 
 - `IGMarkets::DealingPlatform::AccountMethods#activities` and `IGMarkets::DealingPlatform::AccountMethods#transactions`
   now send as many requests as necessary in order to get around the fact that the IG Markets API caps the maximum number
