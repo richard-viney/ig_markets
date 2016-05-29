@@ -7,7 +7,7 @@ module IGMarkets
       class_option :password, required: true, desc: 'The password for the session'
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
-      class_option :print_requests, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
+      class_option :verbose, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
       subcommand 'orders', Orders
@@ -44,7 +44,7 @@ module IGMarkets
         def begin_session(options)
           platform = options[:demo] ? :demo : :production
 
-          RequestPrinter.enabled = true if options[:print_requests]
+          RequestPrinter.enabled = true if options[:verbose]
 
           @dealing_platform ||= DealingPlatform.new
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform

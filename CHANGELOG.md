@@ -2,7 +2,7 @@
 
 ### 0.12 — Unreleased
 
-- 
+- Renamed `--print-requests` option to `--verbose`
 
 ### 0.11 — May 23, 2016
 
