@@ -18,7 +18,7 @@ module IGMarkets
 
       desc 'create', 'Creates a new working order'
 
-      option :currency_code, default: 'USD', desc: 'The 3 character currency code, must be one of the instrument\'s ' \
+      option :currency_code, required: true, desc: 'The 3 character currency code, must be one of the instrument\'s ' \
                                                    'currencies'
       option :direction, enum: %w(buy sell), required: true, desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'

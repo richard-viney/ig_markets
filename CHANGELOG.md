@@ -3,6 +3,8 @@
 ### 0.12 — Unreleased
 
 - Renamed `--print-requests` option to `--verbose`
+- The `--currency-code` option to `ig_markets positions create` and `ig_markets orders create` no longer defaults to
+  `USD` and must be specified explicitly
 
 ### 0.11 — May 23, 2016
 
