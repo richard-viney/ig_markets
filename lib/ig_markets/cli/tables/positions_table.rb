@@ -84,7 +84,13 @@ module IGMarkets
       end
 
       def combine_position_deal_ids(positions)
-        positions.map(&:deal_id).join ', '
+        lines = []
+
+        positions.map(&:deal_id).each_slice(2) do |deal_ids|
+          lines << deal_ids.join(', ')
+        end
+
+        lines.join "\n"
       end
     end
   end
