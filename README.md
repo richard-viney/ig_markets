@@ -120,15 +120,17 @@ ig_markets positions close DEAL-ID
 ig_markets positions close DEAL-ID --size 1
 
 # Create a EURUSD sprint market short position of size 100 that expires in 20 minutes
-ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 20 --size 100
+ig_markets sprints create --direction sell --epic FM.D.EURUSD24.EURUSD24.IP --expiry-period 20
+                          --size 100
 
 # Create a working order to buy 1 unit of EURUSD at the level 1.1
-ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit --currency-code USD
+ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 --size 1 --type limit
+                         --currency-code USD
 
 # Print daily prices for EURUSD from the last two weeks
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 
-# Log in and then open a Ruby console which can be used to query the IG API, all REST requests will be shown
+# Log in and open a Ruby console which can be used to query the IG API, printing all REST requests
 ig_markets console --verbose
 ```
 
@@ -176,8 +178,8 @@ ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24
 
 # Working orders
 ig.working_orders.all
-ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP', level: 0.99,
-                         size: 1, type: :limit
+ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP',
+                         level: 0.99, size: 1, type: :limit
 ig.working_orders['deal_id']
 ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 50
 ig.working_orders['deal_id'].delete
@@ -187,7 +189,8 @@ ig.markets.hierarchy
 ig.markets.search 'EURUSD'
 ig.markets['CS.D.EURUSD.CFD.IP']
 ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :hour, number: 48
-ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :second, from: Time.now - 120, to: Time.now - 60
+ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :second, from: Time.now - 120,
+                                                   to: Time.now - 60
 
 # Watchlists
 ig.watchlists.all
