@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::SprintMarketPositionsTable do
-  it do
+  it 'prints sprint market positions' do
     sprint_market_positions = [build(:sprint_market_position), build(:sprint_market_position, strike_level: 99)]
     markets = [build(:market, instrument: build(:instrument, epic: 'FM.D.FTSE.FTSE.IP'))]
 

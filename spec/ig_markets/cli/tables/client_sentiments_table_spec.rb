@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::ClientSentimentsTable do
-  it do
+  it 'prints client sentiments' do
     client_sentiments = [
       build(:client_sentiment, market_id: 'A'),
       build(:client_sentiment, market_id: 'B', long_position_percentage: 75, short_position_percentage: 25),

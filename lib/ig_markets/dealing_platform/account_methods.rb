@@ -84,8 +84,8 @@ module IGMarkets
       def prepare_history_options(options)
         options[:to] ||= Date.today + 1
 
-        options[:from] = options[:from].strftime('%F')
-        options[:to] = options[:to].strftime('%F')
+        options[:from] = options.fetch(:from).strftime('%F')
+        options[:to] = options.fetch(:to).strftime('%F')
 
         options[:pageSize] = MAXIMUM_PAGE_SIZE
 

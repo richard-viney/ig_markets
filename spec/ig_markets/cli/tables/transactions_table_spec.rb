@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::TransactionsTable do
-  it do
+  it 'prints transactions' do
     transactions = [
       build(:transaction),
       build(:transaction, instrument_name: 'ABC'),

@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::ActivitiesTable do
-  it do
+  it 'prints activities' do
     activities = [build(:activity, date: Time.new(2015, 12, 16, 15, 0, 0, 0))]
 
     expect(IGMarkets::CLI::ActivitiesTable.new(activities).to_s).to eql(<<-END.strip

@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::AccountsTable do
-  it do
+  it 'prints accounts' do
     accounts = [
       build(:account, balance: build(:account_balance, profit_loss: 20)),
       build(:account, balance: build(:account_balance, profit_loss: -20))

@@ -24,7 +24,7 @@ module IGMarkets
       private
 
       def gather_activities(dealing_platform)
-        result = gather_account_history(:activities, dealing_platform).select do |activity|
+        result = dealing_platform.account.activities(history_options).select do |activity|
           activity_filter activity
         end
 
@@ -44,19 +44,6 @@ module IGMarkets
           'epic' => :epic,
           'type' => :transaction_type
         }.fetch options[:sort_by]
-      end
-
-      def gather_account_history(method_name, dealing_platform)
-        history_options = if options[:from]
-                            from = Date.strptime options[:from], '%F'
-                            to = from + options[:days]
-
-                            { from: from, to: to }
-                          else
-                            { from: Date.today - options[:days] }
-                          end
-
-        dealing_platform.account.send method_name, history_options
       end
     end
   end

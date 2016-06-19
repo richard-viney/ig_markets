@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::HistoricalPriceResultSnapshotsTable do
-  it do
+  it 'prints prices' do
     prices = [build(:historical_price_result_snapshot)]
 
     expect(IGMarkets::CLI::HistoricalPriceResultSnapshotsTable.new(prices, title: 'A').to_s).to eql(<<-END.strip

@@ -31,7 +31,7 @@ module IGMarkets
       private
 
       def gather_transactions(dealing_platform)
-        result = gather_account_history(:transactions, dealing_platform).select do |transaction|
+        result = dealing_platform.account.transactions(history_options).select do |transaction|
           transaction_filter transaction
         end
 

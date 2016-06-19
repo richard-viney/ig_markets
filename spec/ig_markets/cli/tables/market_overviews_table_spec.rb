@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::MarketOverviewsTable do
-  it do
+  it 'prints market overviews' do
     markets = [build(:market_overview, net_change: -1)]
 
     expect(IGMarkets::CLI::MarketOverviewsTable.new(markets).to_s).to eql(<<-END.strip

@@ -21,6 +21,23 @@ module IGMarkets
       desc 'watchlists [SUBCOMAND=list ...]', 'Command for working with watchlists'
       subcommand 'watchlists', Watchlists
 
+      private
+
+      # Turns the `:days` and `:from` options into a hash with `:from` and `:to` keys that can be passed to
+      # {AccountMethods#activities} and {AccountMethods#transactions}.
+      #
+      # @return [Hash]
+      def history_options
+        if options[:from]
+          from = Date.strptime options[:from], '%F'
+          to = from + options[:days]
+
+          { from: from, to: to }
+        else
+          { from: Date.today - options[:days] }
+        end
+      end
+
       class << self
         # This is the initial entry point for the execution of the command-line client. It is responsible for reading
         # any config files, implementing the --version/-v options, and then invoking the main application.

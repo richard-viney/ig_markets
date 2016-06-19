@@ -1,5 +1,5 @@
 describe IGMarkets::CLI::WorkingOrdersTable do
-  it do
+  it 'prints working orders' do
     working_orders = [build(:working_order)]
 
     expect(IGMarkets::CLI::WorkingOrdersTable.new(working_orders).to_s).to eql(<<-END.strip
