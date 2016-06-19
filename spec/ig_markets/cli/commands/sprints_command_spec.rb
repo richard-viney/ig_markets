@@ -22,13 +22,12 @@ describe IGMarkets::CLI::Sprints do
   end
 
   it 'creates a sprint market position' do
-    arguments = { direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: '5', size: '10' }
+    arguments = { direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :five_minutes, size: '10' }
 
-    expect(dealing_platform.sprint_market_positions).to receive(:create).with(
-      direction: 'buy', epic: 'CS.D.EURUSD.CFD.IP', expiry_period: :five_minutes, size: '10').and_return('ref')
+    expect(dealing_platform.sprint_market_positions).to receive(:create).with(arguments).and_return('ref')
 
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
 
-    cli(arguments).create
+    cli(arguments.merge(expiry_period: '5')).create
   end
 end

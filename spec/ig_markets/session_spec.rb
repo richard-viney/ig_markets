@@ -11,6 +11,8 @@ describe IGMarkets::Session do
     end
   end
 
+  let(:key) { Base64.strict_encode64 OpenSSL::PKey::RSA.new(256).to_pem }
+
   context 'a non-signed in session' do
     it 'is not alive' do
       expect(session.alive?).to eq(false)
@@ -18,8 +20,7 @@ describe IGMarkets::Session do
 
     it 'can sign in' do
       expect(response).to receive(:code).at_least(:once).and_return(200)
-      expect(response).to receive(:body).at_least(:once).and_return(
-        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json)
+      expect(response).to receive(:body).at_least(:once).and_return({ encryptionKey: key, timeStamp: '1000' }.to_json)
 
       second_response = instance_double 'RestClient::Response', code: 200, body: { clientId: 'id' }.to_json
       expect(second_response).to receive(:headers).and_return(cst: '1', x_security_token: '2')
@@ -103,8 +104,7 @@ describe IGMarkets::Session do
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(invalid_client_token_exception)
 
       expect(response).to receive(:code).at_least(:once).and_return(200)
-      expect(response).to receive(:body).at_least(:once).and_return(
-        { encryptionKey: Base64.strict_encode64(OpenSSL::PKey::RSA.new(256).to_pem), timeStamp: '1000' }.to_json)
+      expect(response).to receive(:body).at_least(:once).and_return({ encryptionKey: key, timeStamp: '1000' }.to_json)
 
       second_response = instance_double 'RestClient::Response', code: 200, body: {}.to_json
       expect(second_response).to receive(:headers).and_return(cst: '3', x_security_token: '4')

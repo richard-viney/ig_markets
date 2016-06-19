@@ -12,14 +12,14 @@ describe IGMarkets::CLI::Main do
   it 'correctly signs in' do
     expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :production)
 
-    IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
+    IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
   end
 
   it 'reports an argument error' do
     expect(dealing_platform).to receive(:sign_in).and_raise(ArgumentError, 'test')
 
     expect do
-      IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
+      IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
     end.to output("Argument error: test\n").to_stderr.and raise_error(SystemExit)
   end
 
@@ -27,7 +27,7 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError, 'test')
 
     expect do
-      IGMarkets::CLI::Main.begin_session(cli.options) { |dealing_platform| }
+      IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
     end.to output("Request error: test\n").to_stderr.and raise_error(SystemExit)
   end
 

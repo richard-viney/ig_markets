@@ -43,8 +43,8 @@ describe IGMarkets::CLI::Orders do
       type: 'limit'
     }
 
-    expect { cli(arguments).create }.to raise_error(
-      StandardError, 'invalid good_till_date, use format "yyyy-mm-ddThh:mm(+|-)zz:zz"')
+    expect { cli(arguments).create }.to raise_error(StandardError,
+                                                    'invalid good_till_date, use format "yyyy-mm-ddThh:mm(+|-)zz:zz"')
   end
 
   it 'updates a working order' do

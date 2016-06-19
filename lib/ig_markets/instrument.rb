@@ -79,10 +79,10 @@ module IGMarkets
     attribute :sprint_markets_minimum_expiry_time, Float
     attribute :stops_limits_allowed, Boolean
     attribute :streaming_prices_available, Boolean
-    attribute :type, Symbol, allowed_values: [
-      :binary, :bungee_capped, :bungee_commodities, :bungee_currencies, :bungee_indices, :commodities,
-      :currencies, :indices, :opt_commodities, :opt_currencies, :opt_indices, :opt_rates, :opt_shares,
-      :rates, :sectors, :shares, :sprint_market, :test_market, :unknown]
+    attribute :type, Symbol, allowed_values: [:binary, :bungee_capped, :bungee_commodities, :bungee_currencies,
+                                              :bungee_indices, :commodities, :currencies, :indices, :opt_commodities,
+                                              :opt_currencies, :opt_indices, :opt_rates, :opt_shares, :rates, :sectors,
+                                              :shares, :sprint_market, :test_market, :unknown]
     attribute :unit, Symbol, allowed_values: [:amount, :contracts, :shares]
     attribute :value_of_one_pip
   end

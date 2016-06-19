@@ -20,9 +20,10 @@ module IGMarkets
     attribute :account_info, Account::Balance
     attribute :account_type, Symbol, allowed_values: [:cfd, :physical, :spreadbet]
     attribute :accounts, AccountDetails
-    attribute :authentication_status, Symbol, allowed_values: [
-      :authenticated, :authenticated_missing_credentials, :change_environment, :disabled_preferred_account,
-      :missing_preferred_account, :rejected_invalid_client_version]
+    attribute :authentication_status, Symbol, allowed_values: [:authenticated, :authenticated_missing_credentials,
+                                                               :change_environment, :disabled_preferred_account,
+                                                               :missing_preferred_account,
+                                                               :rejected_invalid_client_version]
     attribute :client_id
     attribute :currency_iso_code, String, regex: Regex::CURRENCY
     attribute :currency_symbol

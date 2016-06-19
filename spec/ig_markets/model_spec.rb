@@ -27,8 +27,8 @@ describe IGMarkets::Model do
   end
 
   it 'initializes with specified attribute values' do
-    expect(TestModel.new(id: 'test', bool: true).attributes).to eq(
-      id: 'test', bool: true, string: nil, date: nil, time: nil, float: nil, symbol: nil)
+    expect(TestModel.new(id: 'test', bool: true).attributes).to eq(id: 'test', bool: true, string: nil, date: nil,
+                                                                   time: nil, float: nil, symbol: nil)
   end
 
   it 'allows deprecated attributes to be set' do
@@ -59,8 +59,8 @@ describe IGMarkets::Model do
   end
 
   it 'inspects attributes' do
-    expect(model.inspect).to eq(
-      '#<TestModel id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil>')
+    expect(model.inspect).to eq('#<TestModel id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, ' \
+                                'symbol: nil>')
   end
 
   it 'inspects attributes in nested models' do
@@ -70,8 +70,8 @@ describe IGMarkets::Model do
 
     model = TestModel2.new test: TestModel.new
 
-    expect(model.inspect).to eq(
-      '#<TestModel2 test: #<TestModel id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil>>')
+    expect(model.inspect).to eq('#<TestModel2 test: #<TestModel id: nil, bool: nil, string: nil, date: nil, ' \
+                                'time: nil, float: nil, symbol: nil>>')
   end
 
   it 'raises an exception when a model attribute is set to the wrong type' do
@@ -149,15 +149,13 @@ describe IGMarkets::Model do
     end
 
     it 'has the correct attributes hash' do
-      expect(model.attributes).to eq(
-        id: 'id', bool: true, string: 'ABC', date: Date.new(2015, 1, 10),
-        time: Time.new(2015, 1, 10, 6, 30, 0, '+00:00'), float: 1.0, symbol: :a)
+      expect(model.attributes).to eq(id: 'id', bool: true, string: 'ABC', date: Date.new(2015, 1, 10),
+                                     time: Time.new(2015, 1, 10, 6, 30, 0, '+00:00'), float: 1.0, symbol: :a)
     end
 
     it 'inspects attributes' do
-      expect(model.inspect).to eq(
-        '#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-10, time: 2015-01-10 06:30:00 UTC, ' \
-        'float: 1.0, symbol: :a>')
+      expect(model.inspect).to eq('#<TestModel id: "id", bool: true, string: "ABC", date: 2015-01-10, ' \
+                                  'time: 2015-01-10 06:30:00 UTC, float: 1.0, symbol: :a>')
     end
   end
 end

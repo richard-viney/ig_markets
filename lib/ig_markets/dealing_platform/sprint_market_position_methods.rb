@@ -51,8 +51,8 @@ module IGMarkets
       class SprintMarketPositionCreateAttributes < Model
         attribute :direction, Symbol, allowed_values: [:buy, :sell]
         attribute :epic, String, regex: Regex::EPIC
-        attribute :expiry_period, Symbol, allowed_values: [
-          :one_minute, :two_minutes, :five_minutes, :twenty_minutes, :sixty_minutes]
+        attribute :expiry_period, Symbol, allowed_values: [:one_minute, :two_minutes, :five_minutes, :twenty_minutes,
+                                                           :sixty_minutes]
         attribute :size, Float
       end
 

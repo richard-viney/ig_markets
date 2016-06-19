@@ -11,8 +11,8 @@ module IGMarkets
         attribute :value, Float
       end
 
-      attribute :market_order_preference, Symbol, allowed_values: [
-        :available_default_off, :available_default_on, :not_available]
+      attribute :market_order_preference, Symbol, allowed_values: [:available_default_off, :available_default_on,
+                                                                   :not_available]
       attribute :max_stop_or_limit_distance, RuleDetails
       attribute :min_controlled_risk_stop_distance, RuleDetails
       attribute :min_deal_size, RuleDetails
@@ -30,8 +30,8 @@ module IGMarkets
       attribute :delay_time, Float
       attribute :high, Float
       attribute :low, Float
-      attribute :market_status, Symbol, allowed_values: [
-        :closed, :edits_only, :offline, :on_auction, :on_auction_no_edits, :suspended, :tradeable]
+      attribute :market_status, Symbol, allowed_values: [:closed, :edits_only, :offline, :on_auction,
+                                                         :on_auction_no_edits, :suspended, :tradeable]
       attribute :net_change, Float
       attribute :offer, Float
       attribute :percentage_change, Float

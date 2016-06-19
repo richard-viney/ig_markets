@@ -107,8 +107,8 @@ module IGMarkets
     #         the result of the position update.
     def update(new_attributes)
       new_attributes = { limit_level: limit_level, stop_level: stop_level, trailing_stop: trailing_stop?,
-                         trailing_stop_distance: trailing_stop_distance, trailing_stop_increment: trailing_step
-                       }.merge new_attributes
+                         trailing_stop_distance: trailing_stop_distance, trailing_stop_increment: trailing_step }
+                       .merge new_attributes
 
       unless new_attributes[:trailing_stop]
         new_attributes[:trailing_stop_distance] = new_attributes[:trailing_stop_increment] = nil

@@ -39,8 +39,8 @@ module IGMarkets
 
       def market_status(market_overview)
         { closed: 'Closed', edits_only: 'Edits only', offline: 'Offline', on_auction: 'On auction',
-          on_auction_no_edits: 'On auction no edits', suspended: 'Suspended', tradeable: 'Tradeable'
-        }.fetch market_overview.market_status
+          on_auction_no_edits: 'On auction no edits', suspended: 'Suspended', tradeable: 'Tradeable' }
+          .fetch market_overview.market_status
       end
     end
   end

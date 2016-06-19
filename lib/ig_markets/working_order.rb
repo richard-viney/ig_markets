@@ -44,8 +44,8 @@ module IGMarkets
     #         the result of the working order update.
     def update(new_attributes)
       new_attributes = { good_till_date: good_till_date, level: order_level, limit_distance: limit_distance,
-                         stop_distance: stop_distance, time_in_force: time_in_force, type: order_type
-                       }.merge new_attributes
+                         stop_distance: stop_distance, time_in_force: time_in_force, type: order_type }
+                       .merge new_attributes
 
       new_attributes[:time_in_force] = new_attributes[:good_till_date] ? :good_till_date : :good_till_cancelled
 
