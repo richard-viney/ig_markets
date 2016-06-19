@@ -28,19 +28,15 @@ describe IGMarkets::CLI::Main do
 
     expect(market).to receive(:historical_prices).with(resolution: :day, number: 1).and_return(historical_price_result)
 
-    expect { cli(epic: 'A', resolution: :day, number: 1).prices }.to output(<<-END
-+-------------------------+------+-------+-----+------+
-|                    Prices for A                     |
-+-------------------------+------+-------+-----+------+
-| Date                    | Open | Close | Low | High |
-+-------------------------+------+-------+-----+------+
-| 2015-06-16 00:00:00 UTC |  100 |   100 | 100 |  100 |
-+-------------------------+------+-------+-----+------+
+    expect do
+      cli(epic: 'A', resolution: :day, number: 1).prices
+    end.to output(<<-END
+#{IGMarkets::CLI::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
 
 Allowance: 5000
 Remaining: 4990
 END
-                                                                           ).to_stdout
+                 ).to_stdout
   end
 
   it 'lists prices in a date range' do
@@ -57,13 +53,7 @@ END
     expect do
       cli(epic: 'A', resolution: :day, from: '2014-01-02T03:04:05+00:00', to: '2014-02-03T04:05:06+00:00').prices
     end.to output(<<-END
-+-------------------------+------+-------+-----+------+
-|                    Prices for A                     |
-+-------------------------+------+-------+-----+------+
-| Date                    | Open | Close | Low | High |
-+-------------------------+------+-------+-----+------+
-| 2015-06-16 00:00:00 UTC |  100 |   100 | 100 |  100 |
-+-------------------------+------+-------+-----+------+
+#{IGMarkets::CLI::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
 
 Allowance: 5000
 Remaining: 4990

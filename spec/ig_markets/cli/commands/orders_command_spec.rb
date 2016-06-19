@@ -10,16 +10,7 @@ describe IGMarkets::CLI::Orders do
 
     expect(dealing_platform.working_orders).to receive(:all).and_return(working_orders)
 
-    expect { cli.list }.to output(<<-END
-+-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
-|                                                                         Working orders                                                                         |
-+-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
-| Created date            | EPIC              | Currency | Type  | Direction | Size | Level | Limit distance | Stop distance | Good till date          | Deal ID |
-+-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
-| 2014-10-20 13:30:03 UTC | UA.D.AAPL.CASH.IP | USD      | Limit | Buy       |    1 | 100.0 |             10 |            10 | 2015-10-30 12:59:00 UTC | DEAL    |
-+-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
-END
-                                 ).to_stdout
+    expect { cli.list }.to output("#{IGMarkets::CLI::WorkingOrdersTable.new working_orders}\n").to_stdout
   end
 
   it 'creates a working order' do

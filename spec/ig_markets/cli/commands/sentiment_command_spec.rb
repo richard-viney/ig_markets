@@ -16,19 +16,11 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.client_sentiment).to receive(:[]).with('query').and_return(sentiment)
     expect(sentiment).to receive(:related_sentiments).and_return(related_sentiments)
 
-    expect { cli.sentiment 'query' }.to output(<<-END
-+----------+----------+----------+
-|  Client sentiment for 'query'  |
-+----------+----------+----------+
-| Market   | Long %   | Short %  |
-+----------+----------+----------+
-| EURUSD   |       60 |       40 |
-+----------+----------+----------+
-| A        |       60 |       40 |
-| #{'B'.yellow}        |       #{'75'.yellow} |       #{'25'.yellow} |
-| #{'C'.red}        |       #{'10'.red} |       #{'90'.red} |
-+----------+----------+----------+
-END
-                                              ).to_stdout
+    table_rows = [sentiment, :separator, related_sentiments]
+    table_title = "Client sentiment for 'query'"
+
+    expect do
+      cli.sentiment 'query'
+    end.to output("#{IGMarkets::CLI::ClientSentimentsTable.new table_rows, title: table_title}\n").to_stdout
   end
 end

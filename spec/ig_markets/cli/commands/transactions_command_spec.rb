@@ -15,13 +15,7 @@ describe IGMarkets::CLI::Main do
     expect(dealing_platform.account).to receive(:transactions).with(from: Date.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, interest: true, sort_by: 'date').transactions }.to output(<<-END
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-|                                        Transactions                                         |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-| Date                    | Reference | Type | Instrument | Size | Open | Close | Profit/loss |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-| 2015-10-27 14:30:00 UTC | Reference | Deal | Instrument |   +1 |  0.8 |   0.8 |    #{'US -1.00'.red} |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
+#{IGMarkets::CLI::TransactionsTable.new transactions}
 
 Interest: US 0.00
 Profit/loss: US -1.00
@@ -35,15 +29,9 @@ END
 
     expect(dealing_platform.account).to receive(:transactions).with(from: from, to: to).and_return([])
 
-    expect { cli(days: 3, from: '2015-02-15', interest: true).transactions }.to output(<<-END
-+------+-----------+------+------------+------+------+-------+-------------+
-|                               Transactions                               |
-+------+-----------+------+------------+------+------+-------+-------------+
-| Date | Reference | Type | Instrument | Size | Open | Close | Profit/loss |
-+------+-----------+------+------------+------+------+-------+-------------+
-+------+-----------+------+------------+------+------+-------+-------------+
-END
-                                                                                      ).to_stdout
+    expect do
+      cli(days: 3, from: '2015-02-15', interest: true).transactions
+    end.to output("#{IGMarkets::CLI::TransactionsTable.new []}\n").to_stdout
   end
 
   it 'prints transactions filtered by instrument without interest transactions' do
@@ -56,14 +44,7 @@ END
     expect(dealing_platform.account).to receive(:transactions).with(from: Date.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, instrument: 'TEST', interest: false, sort_by: 'date').transactions }.to output(<<-END
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-|                                        Transactions                                         |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-| Date                    | Reference | Type | Instrument | Size | Open | Close | Profit/loss |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
-| 2015-10-27 14:30:00 UTC | Reference | Deal | Test 456   |   +1 |  0.8 |   0.8 |     #{'US 1.00'.green} |
-| 2015-10-28 00:00:00 UTC | Reference | Deal | Test 123   |   +1 |  0.8 |   0.8 |    #{'US -1.00'.red} |
-+-------------------------+-----------+------+------------+------+------+-------+-------------+
+#{IGMarkets::CLI::TransactionsTable.new [transactions[2], transactions[1]]}
 
 Profit/loss: US 0.00
 END

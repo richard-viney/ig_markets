@@ -9,19 +9,12 @@ describe IGMarkets::CLI::Watchlists do
     watchlists = [build(:watchlist)]
     markets = [build(:market_overview)]
 
-    expect(watchlists.first).to receive(:markets).and_return(markets)
     expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
+    expect(watchlists.first).to receive(:markets).and_return(markets)
 
-    expect { cli.list }.to output(<<-END
-+------------+--------------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
-|                                                       Markets (id: 2547731)                                                       |
-+------------+--------------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
-| Type       | EPIC               | Instrument      | Status    | Expiry | Bid   | Offer | High  | Low  | Change (net) | Change (%) |
-+------------+--------------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
-| Currencies | CS.D.EURUSD.CFD.IP | Spot FX EUR/USD | Tradeable |        | 100.0 |  99.0 | 110.0 | 90.0 |          #{'5.0'.green} |        #{'5.0'.green} |
-+------------+--------------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
-END
-                                 ).to_stdout
+    expect do
+      cli.list
+    end.to output("#{IGMarkets::CLI::MarketOverviewsTable.new(markets, title: 'Markets (id: 2547731)')}\n").to_stdout
   end
 
   it 'creates a watchlist' do
