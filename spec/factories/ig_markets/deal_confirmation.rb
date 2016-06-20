@@ -11,6 +11,8 @@ FactoryGirl.define do
     level 100.0
     limit_distance 10
     limit_level 110.0
+    profit 150.0
+    profit_currency 'USD'
     reason 'SUCCESS'
     size 19.5
     status 'AMENDED'

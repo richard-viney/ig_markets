@@ -160,7 +160,20 @@ Status: #{Format.symbol deal_confirmation.deal_status}
 Result: #{Format.symbol deal_confirmation.status}
 END
 
+          print_deal_confirmation_profit_loss deal_confirmation
+
           puts "Reason: #{Format.symbol deal_confirmation.reason}" unless deal_confirmation.deal_status == :accepted
+        end
+
+        # Prints out the profit/loss for the passed deal confirmation if applicable.
+        #
+        # @param [DealConfirmation] deal_confirmation The deal confirmation to print out the profit/loss for.
+        def print_deal_confirmation_profit_loss(deal_confirmation)
+          return unless deal_confirmation.profit
+
+          profit = Format.currency deal_confirmation.profit, deal_confirmation.profit_currency
+
+          puts "Profit/loss: #{profit.colorize(deal_confirmation.profit < 0 ? :red : :green)}"
         end
       end
     end

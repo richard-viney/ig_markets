@@ -18,6 +18,8 @@ module IGMarkets
     attribute :level, Float
     attribute :limit_distance, Fixnum
     attribute :limit_level, Float
+    attribute :profit, Float
+    attribute :profit_currency, String, regex: Regex::CURRENCY
     attribute :reason, Symbol, allowed_values: [:account_not_enabled_to_trading, :attached_order_level_error,
                                                 :attached_order_trailing_stop_error, :cannot_change_stop_type,
                                                 :cannot_remove_stop, :closing_only_trades_accepted_on_this_market,

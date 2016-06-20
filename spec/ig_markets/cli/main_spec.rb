@@ -32,7 +32,7 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'reports a deal confirmation' do
-    deal_confirmation = build :deal_confirmation
+    deal_confirmation = build :deal_confirmation, profit: -1.5
 
     expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
 
@@ -41,6 +41,7 @@ Deal reference: ref
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
+Profit/loss: #{'USD -1.50'.colorize :red}
 END
                                                                             ).to_stdout
   end
@@ -55,6 +56,7 @@ Deal reference: ref
 Deal ID: DEAL
 Status: Rejected
 Result: Amended
+Profit/loss: #{'USD 150.00'.colorize :green}
 Reason: Unknown
 END
                                                                             ).to_stdout
@@ -75,6 +77,7 @@ Deal not found, retrying ...
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
+Profit/loss: #{'USD 150.00'.colorize :green}
 END
                                                                             ).to_stdout
   end
