@@ -44,9 +44,15 @@ module IGMarkets
       #                    the working order will remain until it is cancelled.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level The level at which the order will be triggered. Required.
-      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. Optional.
+      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. If this is set then
+      #                    the `:limit_level` option must be omitted. Optional.
+      # @option attributes [Float] :limit_level The level at which to place the limit. If this is set then the
+      #                    `:limit_distance` option must be omitted. Optional.
       # @option attributes [Float] :size The size of the working order. Required.
-      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. Optional.
+      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. If this is set then the
+      #                    `:stop_level` option must be omitted. Optional.
+      # @option attributes [Float] :stop_level The level at which to place the stop. If this is set then the
+      #                    `:stop_distance` option must be omitted. Optional.
       # @option attributes [:limit, :stop] :type `:limit` means the working order is intended to buy at a price lower
       #                    than at present, or to sell at a price higher than at present, i.e. there is an expectation
       #                    of a market reversal at the specified `:level`. `:stop` means the working order is intended
@@ -56,30 +62,14 @@ module IGMarkets
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
       #         the working order creation.
       def create(attributes)
-        attributes[:force_open] ||= false
-        attributes[:guaranteed_stop] ||= false
-        attributes[:time_in_force] = attributes[:good_till_date] ? :good_till_date : :good_till_cancelled
-
-        model = build_working_order_model attributes
+        model = WorkingOrderCreateAttributes.new attributes
+        model.validate
 
         payload = PayloadFormatter.format model
 
         payload[:expiry] ||= '-'
 
-        @dealing_platform.session.post('workingorders/otc', payload, API_V2).fetch(:deal_reference)
-      end
-
-      private
-
-      def build_working_order_model(attributes)
-        model = WorkingOrderCreateAttributes.new attributes
-
-        required = [:currency_code, :direction, :epic, :guaranteed_stop, :level, :size, :time_in_force, :type]
-        required.each do |attribute|
-          raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
-        end
-
-        model
+        @dealing_platform.session.post('workingorders/otc', payload, API_V2).fetch :deal_reference
       end
 
       # Internal model used by {#create}.
@@ -93,10 +83,41 @@ module IGMarkets
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
         attribute :limit_distance, Fixnum
+        attribute :limit_level, Float
         attribute :size, Float
         attribute :stop_distance, Fixnum
+        attribute :stop_level, Float
         attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
         attribute :type, Symbol, allowed_values: [:limit, :stop]
+
+        def initialize(attributes)
+          super
+
+          set_defaults
+        end
+
+        # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
+        # Markets API.
+        def validate
+          required = [:currency_code, :direction, :epic, :guaranteed_stop, :level, :size, :time_in_force, :type]
+          required.each do |attribute|
+            raise ArgumentError, "#{attribute} attribute must be set" if send(attribute).nil?
+          end
+
+          if limit_distance && limit_level
+            raise ArgumentError, 'Do not specify both limit_distance and limit_level options'
+          end
+
+          raise ArgumentError, 'Do not specify both stop_distance and stop_level options' if stop_distance && stop_level
+        end
+
+        private
+
+        def set_defaults
+          self.force_open = false if force_open.nil?
+          self.guaranteed_stop = false if guaranteed_stop.nil?
+          self.time_in_force = good_till_date ? :good_till_date : :good_till_cancelled
+        end
       end
 
       private_constant :WorkingOrderCreateAttributes

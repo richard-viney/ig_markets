@@ -2,6 +2,7 @@
 
 ### 0.12 — Unreleased
 
+- Stops and limits can now be specified as levels rather than distances when creating and updating working orders
 - Report profit/loss information when printing deal confirmations
 - Renamed `--print-requests` option to `--verbose`
 - The `--currency-code` option to `ig_markets positions create` and `ig_markets orders create` no longer defaults to

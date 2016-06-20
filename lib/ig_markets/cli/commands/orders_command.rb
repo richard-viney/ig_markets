@@ -28,8 +28,10 @@ module IGMarkets
       option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required'
       option :level, type: :numeric, required: true, desc: 'The level at which the order will be triggered'
       option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit'
+      option :limit_level, type: :numeric, desc: 'The level at which to place the limit'
       option :size, type: :numeric, required: true, desc: 'The size of the order'
       option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop'
+      option :stop_level, type: :numeric, desc: 'The level at which to place the stop'
       option :type, enum: %w(limit stop), required: true, desc: 'The order type'
 
       def create
@@ -45,7 +47,9 @@ module IGMarkets
       option :good_till_date, desc: 'The date that the order will live till, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
       option :level, type: :numeric, desc: 'The level at which the order will be triggered'
       option :limit_distance, desc: 'The distance away in pips to place the limit'
+      option :limit_level, type: :numeric, desc: 'The level at which to place the limit'
       option :stop_distance, desc: 'The distance away in pips to place the stop'
+      option :stop_level, type: :numeric, desc: 'The level at which to place the stop'
       option :type, enum: %w(limit stop), desc: 'The order type'
 
       def update(deal_id)
@@ -73,7 +77,7 @@ module IGMarkets
       private
 
       ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :good_till_date, :guaranteed_stop, :level,
-                    :limit_distance, :size, :stop_distance, :type].freeze
+                    :limit_distance, :limit_level, :size, :stop_distance, :stop_level, :type].freeze
 
       def working_order_attributes
         attributes = Main.filter_options options, ATTRIBUTES

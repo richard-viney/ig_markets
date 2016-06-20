@@ -23,7 +23,15 @@ describe IGMarkets::WorkingOrder do
 
     put_result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:put).with('workingorders/otc/1', payload).and_return(put_result)
+    expect(session).to receive(:put).with('workingorders/otc/1', payload, IGMarkets::API_V2).and_return(put_result)
     expect(working_order.update(level: 1.03, limit_distance: 20, stop_distance: 30)).to eq('reference')
+  end
+
+  it 'fails updating a working order with both a limit distance and a limit level' do
+    expect { working_order.update limit_distance: 20, limit_level: 30 }.to raise_error(ArgumentError)
+  end
+
+  it 'fails updating a working order with both a stop distance and a stop level' do
+    expect { working_order.update stop_distance: 20, stop_level: 30 }.to raise_error(ArgumentError)
   end
 end

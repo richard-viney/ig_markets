@@ -57,4 +57,34 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods do
     expect(session).to receive(:post).with('workingorders/otc', payload, IGMarkets::API_V2).and_return(result)
     expect(dealing_platform.working_orders.create(attributes)).to eq(result.fetch(:deal_reference))
   end
+
+  it 'fails creating a working order with both a limit distance and a limit level' do
+    attributes = {
+      currency_code: 'USD',
+      direction: :buy,
+      epic: 'CS.D.EURUSD.CFD.IP',
+      level: 1.0,
+      size: 2.0,
+      type: :limit,
+      limit_distance: 100,
+      limit_level: 1.1
+    }
+
+    expect { dealing_platform.working_orders.create attributes }.to raise_error(ArgumentError)
+  end
+
+  it 'fails creating a working order with both a stop distance and a stop level' do
+    attributes = {
+      currency_code: 'USD',
+      direction: :buy,
+      epic: 'CS.D.EURUSD.CFD.IP',
+      level: 1.0,
+      size: 2.0,
+      type: :limit,
+      stop_distance: 100,
+      stop_level: 0.9
+    }
+
+    expect { dealing_platform.working_orders.create attributes }.to raise_error(ArgumentError)
+  end
 end

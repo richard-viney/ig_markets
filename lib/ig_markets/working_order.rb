@@ -37,21 +37,23 @@ module IGMarkets
     # @option new_attributes [Time] :good_till_date
     # @option new_attributes [Float] :level
     # @option new_attributes [Fixnum] :limit_distance
+    # @option new_attributes [Float] :limit_level
     # @option new_attributes [Fixnum] :stop_distance
+    # @option new_attributes [Float] :stop_level
     # @option new_attributes [:limit, :stop] :type
     #
     # @return [String] The deal reference of the update operation. Use {DealingPlatform#deal_confirmation} to check
     #         the result of the working order update.
     def update(new_attributes)
-      new_attributes = { good_till_date: good_till_date, level: order_level, limit_distance: limit_distance,
-                         stop_distance: stop_distance, time_in_force: time_in_force, type: order_type }
-                       .merge new_attributes
+      existing_attributes = { good_till_date: good_till_date, level: order_level, limit_distance: limit_distance,
+                              stop_distance: stop_distance, time_in_force: time_in_force, type: order_type }
 
-      new_attributes[:time_in_force] = new_attributes[:good_till_date] ? :good_till_date : :good_till_cancelled
+      model = WorkingOrderUpdateAttributes.new existing_attributes, new_attributes
+      model.validate
 
-      payload = PayloadFormatter.format WorkingOrderUpdateAttributes.new new_attributes
+      payload = PayloadFormatter.format model
 
-      @dealing_platform.session.put("workingorders/otc/#{deal_id}", payload).fetch(:deal_reference)
+      @dealing_platform.session.put("workingorders/otc/#{deal_id}", payload, API_V2).fetch(:deal_reference)
     end
 
     # Internal model used by {#update}.
@@ -59,9 +61,30 @@ module IGMarkets
       attribute :good_till_date, Time, format: '%Y/%m/%d %R:%S'
       attribute :level, Float
       attribute :limit_distance, Fixnum
+      attribute :limit_level, Float
       attribute :stop_distance, Fixnum
+      attribute :stop_level, Float
       attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
       attribute :type, Symbol, allowed_values: [:limit, :stop]
+
+      def initialize(existing_attributes, new_attributes)
+        existing_attributes.delete :limit_distance if new_attributes.key? :limit_level
+        existing_attributes.delete :stop_distance if new_attributes.key? :stop_level
+
+        super existing_attributes.merge(new_attributes)
+
+        self.time_in_force = good_till_date ? :good_till_date : :good_till_cancelled
+      end
+
+      # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
+      # Markets API.
+      def validate
+        if limit_distance && limit_level
+          raise ArgumentError, 'Do not specify both limit_distance and limit_level options'
+        end
+
+        raise ArgumentError, 'Do not specify both stop_distance and stop_level options' if stop_distance && stop_level
+      end
     end
 
     private_constant :WorkingOrderUpdateAttributes
