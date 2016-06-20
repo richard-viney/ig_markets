@@ -76,6 +76,7 @@ commands and their subcommands is:
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
 - `ig_markets orders delete DEAL-ID`
+- `ig_markets performance --days N [...]`
 - `ig_markets positions [list] [...]`
 - `ig_markets positions create ...`
 - `ig_markets positions update DEAL-ID ...`
@@ -133,6 +134,9 @@ ig_markets orders create --direction buy --epic CS.D.EURUSD.CFD.IP --level 1.1 -
 
 # Print daily prices for EURUSD from the last two weeks
 ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
+
+# Print account dealing performance from the last 90 days, broken down by the EPICs that were traded
+ig_markets performance --days 90
 
 # Log in and open a Ruby console which can be used to query the IG API, printing all REST requests
 ig_markets console --verbose
