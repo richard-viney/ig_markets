@@ -21,12 +21,12 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'terminal-table', '~> 1.5'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
-  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.4'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.5'
   s.add_development_dependency 'factory_girl', '~> 4.7'
   s.add_development_dependency 'github-markup', '~> 1.4'
   s.add_development_dependency 'redcarpet', '~> 3.3'
   s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'rspec-mocks', '~> 3.4'
-  s.add_development_dependency 'rubocop', '~> 0.39'
+  s.add_development_dependency 'rubocop', '~> 0.40'
   s.add_development_dependency 'yard', '~> 0.8'
 end
