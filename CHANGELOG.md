@@ -1,12 +1,12 @@
 # IG Markets Changelog
 
-### 0.13 - Unreleased
+### 0.13 — Unreleased
 
 - The platform type previously referred to as `production` is now referred to as `live` to better match standard IG
   terminology, existing calls to `IGMarkets::DealingPlatform#sign_in` and `IGMarkets::Session#sign_in` will need to be
   updated if they explicitly specified `:production`
 
-### 0.12 - June 21, 2016
+### 0.12 — June 21, 2016
 
 - Unrecognized attributes returned by the IG Markets API now trigger a warning rather than causing an error, this makes
   the library able to handle new return values being added to existing APIs
