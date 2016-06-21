@@ -2,7 +2,9 @@
 
 ### 0.13 - Unreleased
 
-- 
+- The platform type previously referred to as `production` is now referred to as `live` to better match standard IG
+  terminology, existing calls to `IGMarkets::DealingPlatform#sign_in` and `IGMarkets::Session#sign_in` will need to be
+  updated if they explicitly specified `:production`
 
 ### 0.12 - June 21, 2016
 
@@ -120,7 +122,7 @@
 - `IGMarkets::Model` now has separate `Date` and `Time` attribute types, and a new `:time_zone` option is used for
   `Time` attributes that have a known time zone. Previous uses of `DateTime` should be replaced with either `Date` or
   `Time`.
-- Changed `size` attribute to always be of type `Float` on all models.
+- Changed `size` attribute to always be of type `Float` on all models
 - Changed `limit_distance` and `stop_distance` attributes to always be of type `Fixnum` on all models
 - Added `IGMarkets::Format` module
 - Added `#expired?` and `#seconds_till_expiry` to `IGMarkets::SprintMarketPosition`

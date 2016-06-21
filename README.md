@@ -22,7 +22,7 @@ Includes support for:
 * Watchlists
 * Client sentiment
 
-An IG Markets production or demo trading account is needed in order to use this gem.
+An IG Markets live or demo trading account is needed in order to use this gem.
 
 ## License
 

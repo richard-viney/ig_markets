@@ -10,7 +10,7 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'correctly signs in' do
-    expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :production)
+    expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :live)
 
     IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
   end

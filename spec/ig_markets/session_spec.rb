@@ -7,7 +7,7 @@ describe IGMarkets::Session do
       session.username = 'username'
       session.password = 'password'
       session.api_key = 'api_key'
-      session.platform = :production
+      session.platform = :live
     end
   end
 
@@ -48,7 +48,7 @@ describe IGMarkets::Session do
       session.instance_variable_set :@client_security_token, 'client_security_token'
       session.instance_variable_set :@x_security_token, 'x_security_token'
       session.instance_variable_set :@api_key, 'api_key'
-      session.instance_variable_set :@platform, :production
+      session.instance_variable_set :@platform, :live
     end
 
     it 'is alive' do

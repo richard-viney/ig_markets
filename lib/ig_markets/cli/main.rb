@@ -6,7 +6,7 @@ module IGMarkets
       class_option :username, required: true, desc: 'The username for the session'
       class_option :password, required: true, desc: 'The password for the session'
       class_option :api_key, required: true, desc: 'The API key for the session'
-      class_option :demo, type: :boolean, desc: 'Use the demo platform (default is production)'
+      class_option :demo, type: :boolean, desc: 'Use the demo platform (default is the live platform)'
       class_option :verbose, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
@@ -59,7 +59,7 @@ module IGMarkets
         #
         # @param [Thor::CoreExt::HashWithIndifferentAccess] options The Thor options hash.
         def begin_session(options)
-          platform = options[:demo] ? :demo : :production
+          platform = options[:demo] ? :demo : :live
 
           RequestPrinter.enabled = true if options[:verbose]
 

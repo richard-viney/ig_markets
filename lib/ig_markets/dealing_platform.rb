@@ -50,12 +50,12 @@ module IGMarkets
       @working_orders = WorkingOrderMethods.new self
     end
 
-    # Signs in to the IG Markets Dealing Platform, either the production platform or the demo platform.
+    # Signs in to the IG Markets Dealing Platform, either the live platform or the demo platform.
     #
     # @param [String] username The account username.
     # @param [String] password The account password.
     # @param [String] api_key The account API key.
-    # @param [:production, :demo] platform The platform to use.
+    # @param [:live, :demo] platform The platform to use.
     #
     # @return [ClientAccountSummary] The client account summary returned by the sign in request.
     def sign_in(username, password, api_key, platform)

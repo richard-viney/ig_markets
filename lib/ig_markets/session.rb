@@ -1,7 +1,7 @@
 module IGMarkets
   # Manages a session with the IG Markets REST API, including signing in, signing out, and the sending of requests.
   # In order to sign in, {#username}, {#password}, {#api_key} and {#platform} must be set. {#platform} must be
-  # either `:demo` or `:production` depending on which platform is being targeted.
+  # either `:demo` or `:live` depending on which platform is being targeted.
   class Session
     # @return [String] The username to use to authenticate this session.
     attr_accessor :username
@@ -12,7 +12,7 @@ module IGMarkets
     # @return [String] The API key to use to authenticate this session.
     attr_accessor :api_key
 
-    # @return [:demo, :production] The platform variant to log into for this session.
+    # @return [:demo, :live] The platform variant to log into for this session.
     attr_accessor :platform
 
     # @return [String] The client session security access token for the currently logged in session, or `nil` if there
@@ -103,7 +103,7 @@ module IGMarkets
 
     HOST_URLS = {
       demo: 'https://demo-api.ig.com/gateway/deal/',
-      production: 'https://api.ig.com/gateway/deal/'
+      live: 'https://api.ig.com/gateway/deal/'
     }.freeze
 
     def validate_authentication
