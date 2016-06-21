@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.12 — Unreleased
+### 0.12 - June 21, 2016
 
 - Unrecognized attributes returned by the IG Markets API now trigger a warning rather than causing an error, this makes
   the library able to handle new return values being added to existing APIs
