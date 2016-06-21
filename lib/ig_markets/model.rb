@@ -68,7 +68,7 @@ module IGMarkets
       # @return [Hash] A hash containing details of all attributes that have been defined on this model.
       attr_accessor :defined_attributes
 
-      # @return [Hash] The names of the deprecated attributes on this model.
+      # @return [Array] The names of the deprecated attributes on this model.
       attr_accessor :deprecated_attributes
 
       # Returns the names of all currently defined attributes for this model.
@@ -76,6 +76,23 @@ module IGMarkets
       # @return [Array<Symbol>]
       def defined_attribute_names
         Hash(defined_attributes).keys
+      end
+
+      # Returns whether the passed value is a valid attribute name. If the passed attribute name is not recognized then
+      # an error will be printed to `stderr`. Only one warning will be printed for each unrecognized attribute.
+      #
+      # @param [Symbol] name The candidate attribute name.
+      #
+      # @return [Boolean]
+      def valid_attribute?(name)
+        return true if defined_attribute_names.include?(name) || Array(deprecated_attributes).include?(name)
+
+        unless Array(@reported_invalid_attributes).include? name
+          warn "ig_markets: unrecognized attribute #{self}##{name}"
+          (@reported_invalid_attributes ||= []) << name
+        end
+
+        false
       end
 
       # Returns the type of the specified attribute.

@@ -2,6 +2,8 @@
 
 ### 0.12 — Unreleased
 
+- Unrecognized attributes returned by the IG Markets API now trigger a warning rather than causing an error, this makes
+  the library able to handle new return values being added to existing APIs
 - Upgraded to version 3 of the activities API, which significantly changes the structure of `IGMarkets::Activity`
 - Accept "`DFB`" (daily funded bet) on instrument periods, it is silently converted to `nil`
 - Correctly handle instrument periods that are formatted as `MMM-YY`

@@ -17,6 +17,18 @@ describe IGMarkets::Model do
     expect(TestModel.defined_attribute_names).to eq([:id, :bool, :string, :date, :time, :float, :symbol])
   end
 
+  it 'reports unrecognized attributes' do
+    expect(TestModel.valid_attribute?(:id)).to be true
+
+    expect do
+      expect(TestModel.valid_attribute?(:unknown)).to be false
+    end.to output("ig_markets: unrecognized attribute TestModel#unknown\n").to_stderr
+
+    expect do
+      expect(TestModel.valid_attribute?(:unknown)).to be false
+    end.to output('').to_stderr
+  end
+
   it 'returns an attribute\'s type' do
     expect(TestModel.attribute_type(:id)).to eq(String)
     expect(TestModel.attribute_type(:time)).to eq(Time)

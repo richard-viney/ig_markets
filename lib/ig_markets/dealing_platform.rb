@@ -135,6 +135,8 @@ module IGMarkets
         model.instance_variable_set :@dealing_platform, self
 
         attributes.each do |attribute, value|
+          next unless model_class.valid_attribute? attribute
+
           type = model_class.attribute_type attribute
           value = instantiate_models(type, value) if type < Model
 
