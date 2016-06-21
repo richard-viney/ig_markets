@@ -17,12 +17,20 @@ module IGMarkets
       end
 
       def row(activity)
-        [activity.date, activity.channel, activity.activity, activity_status(activity), activity.epic,
-         activity.market_name, activity.size, activity.level, activity.limit, activity.stop, activity.result]
+        details = activity.details
+
+        [activity.date, activity.channel, activity.type, activity.status, activity.epic, details.market_name,
+         details.size, details.level, details.limit_level, details.stop_level, action_types(details)]
       end
 
-      def activity_status(activity)
-        { accept: 'Accepted', reject: 'Rejected', manual: 'Manual', not_set: '' }.fetch activity.action_status
+      def action_types(details)
+        types = details.actions.map(&:action_type).uniq
+        types.delete :unknown
+
+        # Fix a typo in one of the values
+        types.map! { |v| v == :position_opended ? :position_opened : v }
+
+        types.map { |v| format_cell_value v }.join ', '
       end
     end
   end

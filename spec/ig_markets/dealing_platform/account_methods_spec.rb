@@ -19,9 +19,8 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve activities in a date range' do
     activities = [build(:activity)]
 
-    expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-10-27&pageSize=500', IGMarkets::API_V2)
-      .and_return(activities: activities)
+    url = 'history/activity?from=2014-05-20&to=2014-10-27&pageSize=500&detailed=TRUE'
+    expect(session).to receive(:get).with(url, IGMarkets::API_V3).and_return(activities: activities)
 
     expect(dealing_platform.account.activities(from: from, to: to)).to eq(activities)
   end
@@ -29,9 +28,8 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve activities starting at a date' do
     activities = [build(:activity)]
 
-    expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
-      .and_return(activities: activities)
+    url = 'history/activity?from=2014-05-20&to=2014-11-02&pageSize=500&detailed=TRUE'
+    expect(session).to receive(:get).with(url, IGMarkets::API_V3).and_return(activities: activities)
 
     expect(dealing_platform.account.activities(from: from)).to eq(activities)
   end
@@ -39,15 +37,14 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve more activities than the IG Markets API will return in one request' do
     activities = (0...1200).map { |index| build :activity, deal_id: index, date: Time.new(2014, 10, 27) }
 
-    expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
-      .and_return(activities: activities[0...500])
-    expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-10-28&pageSize=500', IGMarkets::API_V2)
-      .and_return(activities: activities[500...1000])
-    expect(session).to receive(:get)
-      .with('history/activity?from=2014-05-20&to=2014-10-28&pageSize=500', IGMarkets::API_V2)
-      .and_return(activities: activities[1000...1200])
+    urls = [
+      'history/activity?from=2014-05-20&to=2014-11-02&pageSize=500&detailed=TRUE',
+      'history/activity?from=2014-05-20&to=2014-10-28&pageSize=500&detailed=TRUE',
+      'history/activity?from=2014-05-20&to=2014-10-28&pageSize=500&detailed=TRUE'
+    ]
+    expect(session).to receive(:get).with(urls[0], IGMarkets::API_V3).and_return(activities: activities[0...500])
+    expect(session).to receive(:get).with(urls[1], IGMarkets::API_V3).and_return(activities: activities[500...1000])
+    expect(session).to receive(:get).with(urls[2], IGMarkets::API_V3).and_return(activities: activities[1000...1200])
 
     expect(dealing_platform.account.activities(from: from)).to eq(activities)
   end
@@ -55,9 +52,8 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve transactions in a date range' do
     transactions = [build(:transaction)]
 
-    expect(session).to receive(:get)
-      .with('history/transactions?from=2014-05-20&to=2014-10-27&type=ALL&pageSize=500', IGMarkets::API_V2)
-      .and_return(transactions: transactions)
+    url = 'history/transactions?from=2014-05-20&to=2014-10-27&type=ALL&pageSize=500'
+    expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 
     expect(dealing_platform.account.transactions(from: from, to: to)).to eq(transactions)
   end
@@ -65,9 +61,8 @@ describe IGMarkets::DealingPlatform::AccountMethods do
   it 'can retrieve transactions starting at a date' do
     transactions = [build(:transaction)]
 
-    expect(session).to receive(:get)
-      .with('history/transactions?type=DEPOSIT&from=2014-05-20&to=2014-11-02&pageSize=500', IGMarkets::API_V2)
-      .and_return(transactions: transactions)
+    url = 'history/transactions?type=DEPOSIT&from=2014-05-20&to=2014-11-02&pageSize=500'
+    expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 
     expect(dealing_platform.account.transactions(type: :deposit, from: from)).to eq(transactions)
   end

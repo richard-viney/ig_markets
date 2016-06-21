@@ -26,7 +26,10 @@ module IGMarkets
       #
       # @return [Array<Activity>]
       def activities(options)
-        history_request_complete url: 'history/activity', url_parameters: prepare_history_options(options),
+        url_parameters = history_url_parameters options
+        url_parameters[:detailed] = true
+
+        history_request_complete url: 'history/activity', url_parameters: url_parameters, api_version: API_V3,
                                  collection_name: :activities, model_class: Activity, date_attribute: :date
       end
 
@@ -42,8 +45,9 @@ module IGMarkets
       def transactions(options)
         options[:type] ||= :all
 
-        history_request_complete url: 'history/transactions', url_parameters: prepare_history_options(options),
-                                 collection_name: :transactions, model_class: Transaction, date_attribute: :date_utc
+        history_request_complete url: 'history/transactions', url_parameters: history_url_parameters(options),
+                                 api_version: API_V2, collection_name: :transactions, model_class: Transaction,
+                                 date_attribute: :date_utc
       end
 
       private
@@ -53,11 +57,11 @@ module IGMarkets
 
       # Retrieves historical data for this account (either activities or transactions) in the specified date range. This
       # methods sends a single GET request with the passed URL parameters and returns the response. The maximum number
-      # of items this method can return is capped at 500 {MAXIMUM_PAGE_SIZE}.
+      # of items this method can return is capped at 500 ({MAXIMUM_PAGE_SIZE}).
       def history_request(options)
         url = "#{options[:url]}?#{options[:url_parameters].map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
 
-        get_result = @dealing_platform.session.get url, API_V2
+        get_result = @dealing_platform.session.get url, options.fetch(:api_version)
 
         @dealing_platform.instantiate_models options[:model_class], get_result.fetch(options[:collection_name])
       end
@@ -80,8 +84,8 @@ module IGMarkets
         models.uniq
       end
 
-      # Parses and formats the history options shared by {#activities} and {#transactions}.
-      def prepare_history_options(options)
+      # Parses and formats options shared by {#activities} and {#transactions} into a set of URL parameters.
+      def history_url_parameters(options)
         options[:to] ||= Date.today + 1
 
         options[:from] = options.fetch(:from).strftime('%F')

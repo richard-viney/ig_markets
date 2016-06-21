@@ -2,6 +2,7 @@
 
 ### 0.12 — Unreleased
 
+- Upgraded to version 3 of the activities API, which significantly changes the structure of `IGMarkets::Activity`
 - Accept "`DFB`" (daily funded bet) on instrument periods, it is silently converted to `nil`
 - Correctly handle instrument periods that are formatted as `MMM-YY`
 - Stops and limits can now be specified as levels rather than distances when creating and updating working orders
