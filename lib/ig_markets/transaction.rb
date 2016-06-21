@@ -8,7 +8,7 @@ module IGMarkets
     attribute :date_utc, Time, format: '%FT%T'
     attribute :instrument_name
     attribute :open_level, String, nil_if: %w(- 0)
-    attribute :period, Time, nil_if: '-', format: '%FT%T'
+    attribute :period, Time, nil_if: '-', format: ['%FT%T', '%b-%y']
     attribute :profit_and_loss
     attribute :reference
     attribute :size, String, nil_if: '-'

@@ -4,9 +4,9 @@ module IGMarkets
     module_function
 
     # Takes a {Model} and returns its attributes in a hash ready to be passed as a payload to the IG Markets API.
-    # Attribute names will be converted to use camel case rather than snake case, `Symbol` attributes will be converted
-    # to strings and will be uppercased, and both `Date` and `Time` attributes will be converted to strings using their
-    # ':format' option.
+    # Attribute names will be converted from snake case to camel case, `Symbol` attributes will be converted to strings
+    # and will be uppercased, and both `Date` and `Time` attributes will be converted to strings using their first
+    # available `:format` option.
     #
     # @param [Model] model The model instance to convert attributes for.
     #
@@ -32,7 +32,7 @@ module IGMarkets
 
       value = value.utc if options[:type] == Time
 
-      return value.strftime(options.fetch(:format)) if [Date, Time].include? options[:type]
+      return value.strftime(Array(options.fetch(:format)).first) if [Date, Time].include? options[:type]
 
       value
     end

@@ -108,8 +108,8 @@ module IGMarkets
       # @option options [Array] :nil_if Values that, when set on the attribute, should be converted to `nil`.
       # @option options [Regexp] :regex When `type` is `String` only values matching this regex will be allowed.
       #                 Optional.
-      # @option options [String] :format When `type` is `Date` or `Time` this specifies the format for parsing String
-      #                 and `Fixnum` instances assigned to this attribute.
+      # @option options [String] :format When `type` is `Date` or `Time` this specifies the format or formats for
+      #                 parsing String and `Fixnum` instances assigned to this attribute.
       #
       # @macro [attach] attribute
       #   The $1 attribute.

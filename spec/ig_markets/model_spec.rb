@@ -4,7 +4,7 @@ describe IGMarkets::Model do
     attribute :bool, IGMarkets::Boolean
     attribute :string, String, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
     attribute :date, Date, format: '%F'
-    attribute :time, Time, format: '%FT%T'
+    attribute :time, Time, format: ['%FT%T', '%d-%b-%y']
     attribute :float, Float
     attribute :symbol, Symbol, allowed_values: [:a, :b]
 
@@ -132,9 +132,12 @@ describe IGMarkets::Model do
     expect(model.date).to eq(Date.new(2015, 1, 10))
   end
 
-  it 'correctly parses a time in the expected format' do
+  it 'correctly parses a time in the expected formats' do
     model.time = '2015-01-10T09:30:25'
     expect(model.time).to eq(Time.new(2015, 1, 10, 9, 30, 25, '+00:00'))
+
+    model.time = '20-FEB-11'
+    expect(model.time).to eq(Time.new(2011, 2, 20, 0, 0, 0, '+00:00'))
   end
 
   context 'with all attributes set' do
