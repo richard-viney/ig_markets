@@ -2,6 +2,7 @@
 
 ### 0.12 — Unreleased
 
+- Accept "`DFB`" (daily funded bet) on instrument periods, it is silently converted to `nil`
 - Correctly handle instrument periods that are formatted as `MMM-YY`
 - Stops and limits can now be specified as levels rather than distances when creating and updating working orders
 - Report profit/loss information when printing deal confirmations
@@ -16,7 +17,7 @@
   of results returned by a single request at 500
 - `IGMarkets::DealingPlatform::AccountMethods#activities` and `IGMarkets::DealingPlatform::AccountMethods#transactions`
   no longer take a `:days` option, and their `:to` option defaults to today's date if it is omitted
-- Accept "`DFB`" (Daily Funded Bet) on instrument expiries, it is silently converted to `nil`
+- Accept "`DFB`" (daily funded bet) on instrument expiries, it is silently converted to `nil`
 - Instrument high and low is now shown in the `ig_markets positions list` command
 
 ### 0.10 — May 10, 2016
