@@ -2,6 +2,7 @@
 
 ### 0.12 — Unreleased
 
+- Correctly handle instrument periods that are formatted as `MMM-YY`
 - Stops and limits can now be specified as levels rather than distances when creating and updating working orders
 - Report profit/loss information when printing deal confirmations
 - Renamed `--print-requests` option to `--verbose`
