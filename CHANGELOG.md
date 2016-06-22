@@ -2,6 +2,7 @@
 
 ### 0.13 — Unreleased
 
+- Correctly handle instrument periods that are formatted as `DD-MMM-YY`
 - Added `ig_markets markets` command which prints the current state of all the passed EPICs
 - The `:type` option to `IGMarkets::AccountMethods::transactions` is now validated
 - The platform type previously referred to as `production` is now referred to as `live` to better match standard IG

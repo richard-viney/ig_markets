@@ -39,7 +39,7 @@ module IGMarkets
     attribute :description
     attribute :details, Details
     attribute :epic, String, regex: Regex::EPIC
-    attribute :period, Time, nil_if: %w(- DFB), format: ['%FT%T', '%b-%y']
+    attribute :period, Time, nil_if: %w(- DFB), format: ['%FT%T', '%d-%b-%y', '%b-%y']
     attribute :status, Symbol, allowed_values: [:accepted, :rejected, :unknown]
     attribute :type, Symbol, allowed_values: [:edit_stop_and_limit, :position, :system, :working_order]
   end
