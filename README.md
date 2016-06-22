@@ -71,6 +71,7 @@ commands and their subcommands is:
 - `ig_markets confirmation DEAL-REFERENCE`
 - `ig_markets console`
 - `ig_markets help [COMMAND]`
+- `ig_markets markets EPICS`
 - `ig_markets orders [list]`
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
@@ -103,6 +104,9 @@ ig_markets transactions --days 7 --instrument EUR/USD --no-interest
 
 # Search for EURUSD currency markets
 ig_markets search EURUSD --type currencies
+
+# Print details for the EURUSD currency pair and the Dow Jones Industrial Average
+ig_markets markets CS.D.EURUSD.CFD.IP IX.D.DOW.IFD.IP
 
 # Print current positions in aggregate
 ig_markets positions --aggregate
@@ -187,7 +191,7 @@ ig.working_orders['deal_id'].delete
 # Markets
 ig.markets.hierarchy
 ig.markets.search 'EURUSD'
-ig.markets['CS.D.EURUSD.CFD.IP']
+ig.markets.find 'CS.D.EURUSD.CFD.IP', 'IX.D.DOW.IFD.IP'
 ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :hour, number: 48
 ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :second, from: Time.now - 120,
                                                    to: Time.now - 60
