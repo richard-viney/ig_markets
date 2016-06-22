@@ -102,10 +102,10 @@ module IGMarkets
     # of each attribute as defined on the models. All model instances returned by this method will have their
     # `@dealing_platform` instance variable set.
     #
-    # @param [Class] model_class The type of model to create from `source`.
+    # @param [Class] model_class The top-level model class to create from `source`.
     # @param [nil, Hash, Array, Model] source The source object to construct the model(s) from. If `nil` then `nil` is
     #                                  returned. If an instance of `model_class` subclass then a deep copy of it is
-    #                                  returned. If a `Hash` then it will be interprted as the attributes for a new
+    #                                  returned. If a `Hash` then it will be interpreted as the attributes for a new
     #                                  instance of `model_class. If an `Array` then each entry will be passed through
     #                                  this method individually.
     #
@@ -113,13 +113,11 @@ module IGMarkets
     def instantiate_models(model_class, source)
       return nil if source.nil?
 
-      source = source.attributes if source.is_a? model_class
+      source = prepare_source model_class, source
 
       if source.is_a? Array
         source.map { |entry| instantiate_models model_class, entry }
       elsif source.is_a? Hash
-        source = model_class.adjusted_api_attributes source if model_class.respond_to? :adjusted_api_attributes
-
         instantiate_model_from_attributes_hash model_class, source
       else
         raise ArgumentError, "#{model_class}: can't instantiate from a source of type #{source.class}"
@@ -127,6 +125,17 @@ module IGMarkets
     end
 
     private
+
+    # This method is a helper for {#instantiate_models} that prepares a source object for instantiation.
+    def prepare_source(model_class, source)
+      source = source.attributes if source.is_a? model_class
+
+      if source.is_a?(Hash) && model_class.respond_to?(:adjusted_api_attributes)
+        source = model_class.adjusted_api_attributes source
+      end
+
+      source
+    end
 
     # This method is a companion to {#instantiate_models} and creates a single instance of `model_class` from the passed
     # attributes hash, setting the `@dealing_platform` instance variable on the new model instance.
