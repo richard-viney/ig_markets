@@ -66,4 +66,19 @@ describe IGMarkets::DealingPlatform::AccountMethods do
 
     expect(dealing_platform.account.transactions(type: :deposit, from: from)).to eq(transactions)
   end
+
+  it 'accepts all valid transaction types' do
+    transactions = [build(:transaction)]
+
+    [:all, :all_deal, :withdrawal, :deposit].each do |type|
+      url = "history/transactions?from=2014-05-20&to=2014-10-27&type=#{type.to_s.upcase}&pageSize=500"
+      expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
+
+      expect(dealing_platform.account.transactions(from: from, to: to, type: type)).to eq(transactions)
+    end
+  end
+
+  it 'raises an error on an invalid transaction type' do
+    expect { dealing_platform.account.transactions from: from, type: :invalid }.to raise_error(ArgumentError)
+  end
 end

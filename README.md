@@ -157,7 +157,7 @@ ig.account.activities from: Date.today - 7
 ig.account.activities from: Date.today - 14, to: Date.today - 7
 ig.account.transactions from: Date.today - 7
 ig.account.transactions from: Date.today - 14, to: Date.today - 7
-ig.account.transactions from: Date.today - 14, to: Date.today - 7, type: :deal
+ig.account.transactions from: Date.today - 14, to: Date.today - 7, type: :withdrawal
 
 # Dealing
 ig.deal_confirmation 'deal_reference'

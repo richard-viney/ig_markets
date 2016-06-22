@@ -2,6 +2,7 @@
 
 ### 0.13 — Unreleased
 
+- The `:type` option to `IGMarkets::AccountMethods::transactions` is now validated
 - The platform type previously referred to as `production` is now referred to as `live` to better match standard IG
   terminology, existing calls to `IGMarkets::DealingPlatform#sign_in` and `IGMarkets::Session#sign_in` will need to be
   updated if they explicitly specified `:production`
