@@ -3,8 +3,8 @@
 ### 0.13 — Unreleased
 
 - Added `ig_markets performance` command that summarizes an account's dealing performance over a specified period
-- Correctly handle instrument periods that are formatted as `DD-MMM-YY`
 - Added `ig_markets markets` command which prints the current state of all the passed EPICs
+- Correctly handle instrument periods that are formatted as `DD-MMM-YY`
 - The `:type` option to `IGMarkets::AccountMethods::transactions` is now validated
 - The platform type previously referred to as `production` is now referred to as `live` to better match standard IG
   terminology, existing calls to `IGMarkets::DealingPlatform#sign_in` and `IGMarkets::Session#sign_in` will need to be
