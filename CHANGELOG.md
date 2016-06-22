@@ -1,6 +1,10 @@
 # IG Markets Changelog
 
-### 0.13 — Unreleased
+### 0.14 — Unreleased
+
+-
+
+### 0.13 — June 22, 2016
 
 - Added `ig_markets performance` command that summarizes an account's dealing performance over a specified period
 - Added `ig_markets markets` command which prints the current state of all the passed EPICs
