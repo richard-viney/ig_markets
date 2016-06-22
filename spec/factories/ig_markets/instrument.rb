@@ -30,3 +30,50 @@ FactoryGirl.define do
     value_of_one_pip 'pip'
   end
 end
+
+FactoryGirl.define do
+  factory :instrument_currency, class: IGMarkets::Instrument::Currency do
+    base_exchange_rate 1.5
+    code 'USD'
+    exchange_rate '1.5'
+    is_default false
+    symbol 'USD'
+  end
+end
+
+FactoryGirl.define do
+  factory :instrument_expiry_details, class: IGMarkets::Instrument::ExpiryDetails do
+    last_dealing_date '2022-12-20T23:59'
+    settlement_info 'Info'
+  end
+end
+
+FactoryGirl.define do
+  factory :instrument_margin_deposit_band, class: IGMarkets::Instrument::MarginDepositBand do
+    currency 'USD'
+    margin 0.01
+    max 0.01
+    min 0.01
+  end
+end
+
+FactoryGirl.define do
+  factory :instrument_opening_hours, class: IGMarkets::Instrument::OpeningHours do
+    close_time '5pm'
+    open_time '8am'
+  end
+end
+
+FactoryGirl.define do
+  factory :instrument_rollover_details, class: IGMarkets::Instrument::RolloverDetails do
+    last_rollover_time ''
+    rollover_info ''
+  end
+end
+
+FactoryGirl.define do
+  factory :instrument_slippage_factor, class: IGMarkets::Instrument::SlippageFactor do
+    unit 'USD'
+    value 1
+  end
+end
