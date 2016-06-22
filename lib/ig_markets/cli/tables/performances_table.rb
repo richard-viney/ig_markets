@@ -9,16 +9,18 @@ module IGMarkets
       end
 
       def headings
-        ['EPIC', '# of closed deals', 'Profit/loss']
+        ['EPIC', 'Instrument name', '# of closed deals', 'Profit/loss']
       end
 
       def right_aligned_columns
-        [1, 2]
+        [2, 3]
       end
 
       def row(model)
-        [model[:epic], model[:transactions].size,
-         Format.currency(model[:profit_loss], model[:transactions].first.currency)]
+        transactions = model.fetch :transactions
+
+        [model.fetch(:epic), model.fetch(:instrument_name), transactions.size,
+         Format.currency(model.fetch(:profit_loss), transactions.first.currency)]
       end
 
       def cell_color(value, _transaction, _row_index, column_index)
