@@ -63,11 +63,8 @@ module IGMarkets
       #         the working order creation.
       def create(attributes)
         model = WorkingOrderCreateAttributes.new attributes
-        model.validate
 
-        payload = PayloadFormatter.format model
-
-        payload[:expiry] ||= '-'
+        payload = PayloadFormatter.format model, expiry: '-'
 
         @dealing_platform.session.post('workingorders/otc', payload, API_V2).fetch :deal_reference
       end
@@ -92,8 +89,16 @@ module IGMarkets
 
         def initialize(attributes)
           super
-
           set_defaults
+          validate
+        end
+
+        private
+
+        def set_defaults
+          self.force_open = false if force_open.nil?
+          self.guaranteed_stop = false if guaranteed_stop.nil?
+          self.time_in_force = good_till_date ? :good_till_date : :good_till_cancelled
         end
 
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
@@ -109,14 +114,6 @@ module IGMarkets
           end
 
           raise ArgumentError, 'Do not specify both stop_distance and stop_level options' if stop_distance && stop_level
-        end
-
-        private
-
-        def set_defaults
-          self.force_open = false if force_open.nil?
-          self.guaranteed_stop = false if guaranteed_stop.nil?
-          self.time_in_force = good_till_date ? :good_till_date : :good_till_cancelled
         end
       end
 

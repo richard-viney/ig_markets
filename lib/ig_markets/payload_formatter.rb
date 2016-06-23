@@ -9,10 +9,11 @@ module IGMarkets
     # available `:format` option.
     #
     # @param [Model] model The model instance to convert attributes for.
+    # @param [Hash] defaults The default attribute values to return, can be overridden by values set on `model`.
     #
     # @return [Hash] The resulting attributes hash.
-    def format(model)
-      model.class.defined_attributes.each_with_object({}) do |(name, options), formatted|
+    def format(model, defaults = {})
+      model.class.defined_attributes.each_with_object(defaults.dup) do |(name, options), formatted|
         value = model.send name
 
         next if value.nil?

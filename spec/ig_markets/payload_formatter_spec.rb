@@ -12,6 +12,12 @@ describe IGMarkets::PayloadFormatter do
                                                             theDate: '2010-10-20')
   end
 
+  it 'applies defaults' do
+    model = PayloadModel.new the_string: 'string'
+
+    expect(IGMarkets::PayloadFormatter.format(model, default: '1')).to eq(theString: 'string', default: '1')
+  end
+
   it 'camel cases snake case strings' do
     expect(IGMarkets::PayloadFormatter.snake_case_to_camel_case('one')).to eq(:one)
     expect(IGMarkets::PayloadFormatter.snake_case_to_camel_case('one_two_three')).to eq(:oneTwoThree)

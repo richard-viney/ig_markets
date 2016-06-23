@@ -69,10 +69,8 @@ module IGMarkets
       #         the position creation.
       def create(attributes)
         model = PositionCreateAttributes.new attributes
-        model.validate
 
-        payload = PayloadFormatter.format model
-        payload[:expiry] ||= '-'
+        payload = PayloadFormatter.format model, expiry: '-'
 
         @dealing_platform.session.post('positions/otc', payload, API_V2).fetch(:deal_reference)
       end
@@ -101,8 +99,17 @@ module IGMarkets
 
         def initialize(attributes = {})
           super
-
           set_defaults
+          validate
+        end
+
+        private
+
+        def set_defaults
+          self.force_open = false if force_open.nil?
+          self.guaranteed_stop = false if guaranteed_stop.nil?
+          self.order_type ||= :market
+          self.time_in_force = :execute_and_eliminate if order_type == :market
         end
 
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
@@ -113,15 +120,6 @@ module IGMarkets
           validate_trailing_stop_constraints
           validate_stop_and_limit_constraints
           validate_guaranteed_stop_constraints
-        end
-
-        private
-
-        def set_defaults
-          self.force_open = false if force_open.nil?
-          self.guaranteed_stop = false if guaranteed_stop.nil?
-          self.order_type ||= :market
-          self.time_in_force = :execute_and_eliminate if order_type == :market
         end
 
         # Checks that all required attributes for position creation are present.
