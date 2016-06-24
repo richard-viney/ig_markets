@@ -66,11 +66,13 @@ module IGMarkets
       end
 
       def table_title(watchlist)
-        title = "#{watchlist.name} (id: #{watchlist.id}"
-        title << ', editable' if watchlist.editable
-        title << ', deleteable' if watchlist.deleteable
-        title << ', default' if watchlist.default_system_watchlist
-        title << ')'
+        details = ["id: #{watchlist.id}"]
+
+        details << :default if watchlist.default_system_watchlist
+        details << :editable if watchlist.editable
+        details << :deleteable if watchlist.deleteable
+
+        "#{watchlist.name} (#{details.join ', '})"
       end
     end
   end
