@@ -2,9 +2,12 @@
 
 ### 0.15 — Unreleased
 
-- Added `MarketHierarchyResult::HierarchyNode#markets` and `MarketHierarchyResult::HierarchyNode#nodes` methods
-- If the API key's traffic allowance is exceeded then `IGMarkets::Session` now automatically retries a request after a
-  five second pause
+- Added `ig_markets self-test` command that can be run under a demo account in order to test the library against the
+  live IG Markets API
+- If the API key or account's traffic allowance is exceeded then `IGMarkets::Session` now automatically retries the
+  request after a five second pause
+- Added `IGMarkets::MarketHierarchyResult::HierarchyNode#markets` and
+  `IGMarkets::MarketHierarchyResult::HierarchyNode#nodes` methods
 
 ### 0.14 — July 2, 2016
 

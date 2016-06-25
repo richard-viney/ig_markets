@@ -85,6 +85,7 @@ commands and their subcommands is:
 - `ig_markets positions close-all [...]`
 - `ig_markets prices --epic EPIC --resolution RESOLUTION ...`
 - `ig_markets search QUERY [--type TYPE]`
+- `ig_markets self-test`
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`

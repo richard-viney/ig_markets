@@ -175,7 +175,7 @@ module IGMarkets
         return true
       end
 
-      if error_code == 'error.public-api.exceeded-api-key-allowance'
+      if error_code =~ /^error\.public-api\.exceeded-(api-key|account)-allowance/
         sleep 5
         return true
       end
