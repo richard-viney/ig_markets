@@ -51,6 +51,15 @@ module IGMarkets
       "#<#{self.class.name} #{formatted_attributes.join ', '}>"
     end
 
+    # Mass assigns the passed attributes to this model.
+    #
+    # @param [Hash] new_attributes The attributes to assign on this model.
+    def attributes=(new_attributes)
+      new_attributes.each do |name, value|
+        send "#{name}=", value
+      end
+    end
+
     private
 
     # Returns the {#inspect} string for the given value.

@@ -86,6 +86,12 @@ describe IGMarkets::Model do
                                 'time: nil, float: nil, symbol: nil>>')
   end
 
+  it 'mass assigns attributes' do
+    model.attributes = { id: '1', bool: false }
+
+    expect(model.attributes).to eq(id: '1', bool: false, string: nil, date: nil, time: nil, float: nil, symbol: nil)
+  end
+
   it 'raises an exception when a model attribute is set to the wrong type' do
     class TestModel2 < IGMarkets::Model
       attribute :test, TestModel
