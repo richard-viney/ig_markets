@@ -74,6 +74,18 @@ module IGMarkets
         end
       end
 
+      desc 'delete-all', 'Deletes all working orders'
+
+      def delete_all
+        Main.begin_session(options) do |dealing_platform|
+          dealing_platform.working_orders.all.each do |working_order|
+            deal_reference = working_order.delete
+
+            Main.report_deal_confirmation deal_reference
+          end
+        end
+      end
+
       private
 
       ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :good_till_date, :guaranteed_stop, :level,

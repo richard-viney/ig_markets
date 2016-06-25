@@ -86,4 +86,15 @@ describe IGMarkets::CLI::Orders do
 
     cli.delete working_order.deal_id
   end
+
+  it 'deletes all working orders' do
+    working_orders = [build(:working_order), build(:working_order)]
+
+    expect(dealing_platform.working_orders).to receive(:all).and_return(working_orders)
+    expect(working_orders[0]).to receive(:delete).and_return('ref')
+    expect(working_orders[1]).to receive(:delete).and_return('ref')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref').twice
+
+    cli.delete_all
+  end
 end

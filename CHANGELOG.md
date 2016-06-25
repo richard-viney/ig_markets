@@ -2,7 +2,7 @@
 
 ### 0.14 — Unreleased
 
--
+- Added `delete-all` subcommand to `ig_markets orders`
 
 ### 0.13 — June 22, 2016
 

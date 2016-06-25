@@ -76,6 +76,7 @@ commands and their subcommands is:
 - `ig_markets orders create ...`
 - `ig_markets orders update DEAL-ID ...`
 - `ig_markets orders delete DEAL-ID`
+- `ig_markets orders delete-all`
 - `ig_markets performance --days N [...]`
 - `ig_markets positions [list] [...]`
 - `ig_markets positions create ...`
