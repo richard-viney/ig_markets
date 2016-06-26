@@ -19,5 +19,10 @@ module IGMarkets
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :preferred, Boolean
     attribute :status, Symbol, allowed_values: [:disabled, :enabled, :suspended_from_dealing]
+
+    # Reloads this account's attributes by re-querying the IG Markets API.
+    def reload
+      self.attributes = @dealing_platform.account.all.detect { |a| a.account_id == account_id }.attributes
+    end
   end
 end

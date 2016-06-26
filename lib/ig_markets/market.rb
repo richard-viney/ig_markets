@@ -43,6 +43,11 @@ module IGMarkets
     attribute :instrument, Instrument
     attribute :snapshot, Snapshot
 
+    # Reloads this market's attributes by re-querying the IG Markets API.
+    def reload
+      self.attributes = @dealing_platform.markets[instrument.epic].attributes
+    end
+
     # Returns historical prices for this market at a given resolution, either the most recent prices by specifying the
     # `:number` option, or those from a date range by specifying the `:from` and `:to` options.
     #

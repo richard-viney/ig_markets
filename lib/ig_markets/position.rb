@@ -59,6 +59,11 @@ module IGMarkets
       price_delta * size * contract_size
     end
 
+    # Reloads this position's attributes by re-querying the IG Markets API.
+    def reload
+      self.attributes = @dealing_platform.positions[deal_id].attributes
+    end
+
     # Closes this position. If called with no options then this position will be fully closed at current market prices,
     # partial closes and greater control over the close conditions can be achieved by using the relevant options.
     #

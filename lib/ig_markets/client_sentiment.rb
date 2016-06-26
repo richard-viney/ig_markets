@@ -6,6 +6,11 @@ module IGMarkets
     attribute :market_id
     attribute :short_position_percentage, Float
 
+    # Reloads this client sentiment's attributes by re-querying the IG Markets API.
+    def reload
+      self.attributes = @dealing_platform.client_sentiment[market_id].attributes
+    end
+
     # Returns client sentiments for markets that are related to this one.
     #
     # @return [Array<ClientSentiment>]

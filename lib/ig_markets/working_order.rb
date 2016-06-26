@@ -21,6 +21,11 @@ module IGMarkets
 
     deprecated_attribute :created_date, :good_till_date_iso
 
+    # Reloads this working order's attributes by re-querying the IG Markets API.
+    def reload
+      self.attributes = @dealing_platform.working_orders[deal_id].attributes
+    end
+
     # Deletes this working order.
     #
     # @return [String] The deal reference of the deletion operation. Use {DealingPlatform#deal_confirmation} to check

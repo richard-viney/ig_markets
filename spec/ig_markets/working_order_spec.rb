@@ -3,6 +3,16 @@ describe IGMarkets::WorkingOrder do
 
   let(:working_order) { dealing_platform_model build(:working_order, deal_id: '1') }
 
+  it 'reloads its attributes' do
+    expect(dealing_platform.working_orders).to receive(:[]).with('1').twice.and_return(working_order)
+
+    working_order_copy = dealing_platform.working_orders['1'].dup
+    working_order_copy.direction = nil
+    working_order_copy.reload
+
+    expect(working_order_copy.direction).to eq(:buy)
+  end
+
   it 'can delete a working order' do
     result = { deal_reference: 'reference' }
 

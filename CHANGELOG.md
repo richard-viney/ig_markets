@@ -3,6 +3,8 @@
 ### 0.14 — Unreleased
 
 - Added `delete-all` subcommand to `ig_markets orders`
+- Added a `#reload` method that reloads a model's attributes in-place to `IGMarkets::Account`,
+  `IGMarkets::ClientSentiment`, `IGMarkets::Market`, `IGMarkets::Position` and `IGMarkets::WorkingOrder`
 
 ### 0.13 — June 22, 2016
 

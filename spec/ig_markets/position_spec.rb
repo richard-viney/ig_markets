@@ -42,6 +42,16 @@ describe IGMarkets::Position do
     expect(position.profit_loss).to eq(125)
   end
 
+  it 'reloads its attributes' do
+    expect(dealing_platform.positions).to receive(:[]).with('1').twice.and_return(position)
+
+    position_copy = dealing_platform.positions['1'].dup
+    position_copy.direction = nil
+    position_copy.reload
+
+    expect(position_copy.direction).to eq(:buy)
+  end
+
   it 'can be updated' do
     payload = { limitLevel: 2.0, stopLevel: 1.0, trailingStop: false }
     put_result = { deal_reference: 'reference' }

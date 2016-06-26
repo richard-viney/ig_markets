@@ -177,6 +177,7 @@ ig.positions.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CF
 ig.positions['deal_id']
 ig.positions['deal_id'].profit_loss
 ig.positions['deal_id'].update limit_level: 1.2, stop_level: 1.1
+ig.positions['deal_id'].reload
 ig.positions['deal_id'].close
 
 # Sprint market positions
@@ -191,6 +192,7 @@ ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURU
                          level: 0.99, size: 1, type: :limit
 ig.working_orders['deal_id']
 ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 50
+ig.working_orders['deal_id'].reload
 ig.working_orders['deal_id'].delete
 
 # Markets

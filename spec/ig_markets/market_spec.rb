@@ -3,6 +3,16 @@ describe IGMarkets::Market do
 
   let(:market) { dealing_platform_model build(:market) }
 
+  it 'reloads its attributes' do
+    expect(dealing_platform.markets).to receive(:[]).with('ABCDEF').twice.and_return(market)
+
+    market_copy = dealing_platform.markets['ABCDEF'].dup
+    market_copy.dealing_rules = nil
+    market_copy.reload
+
+    expect(market_copy.dealing_rules).to eq(market.dealing_rules)
+  end
+
   it 'returns a specified number of historical prices' do
     historical_price_results = [build(:historical_price_result)]
 

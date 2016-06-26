@@ -12,7 +12,7 @@ describe IGMarkets::SprintMarketPosition do
     expect(sprint_market_position.expired?).to eq(false)
   end
 
-  it 'correctly calculates seconds till expiry' do
+  it 'reports when it has expired' do
     sprint_market_position = build :sprint_market_position, expiry_time: Time.new(1, 1, 1, 0, 0, 0, 0)
 
     expect(sprint_market_position.expired?).to eq(true)
