@@ -174,47 +174,48 @@ ig.deal_confirmation 'deal_reference'
 # Positions
 ig.positions.all
 ig.positions.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP', size: 2
-ig.positions['deal_id']
-ig.positions['deal_id'].profit_loss
-ig.positions['deal_id'].update limit_level: 1.2, stop_level: 1.1
-ig.positions['deal_id'].reload
-ig.positions['deal_id'].close
+position = ig.positions['deal_id']
+position.profit_loss
+position.update limit_level: 1.2, stop_level: 1.1
+position.reload
+position.close
 
 # Sprint market positions
 ig.sprint_market_positions.all
-ig.sprint_market_positions['deal_id']
 ig.sprint_market_positions.create direction: :buy, epic: 'FM.D.EURUSD24.EURUSD24.IP',
                                   expiry_period: :twenty_minutes, size: 100
+sprint_market_position = ig.sprint_market_positions['deal_id']
 
 # Working orders
 ig.working_orders.all
 ig.working_orders.create currency_code: 'USD', direction: :buy, epic: 'CS.D.EURUSD.CFD.IP',
                          level: 0.99, size: 1, type: :limit
-ig.working_orders['deal_id']
-ig.working_orders['deal_id'].update level: 1.25, limit_distance: 50, stop_distance: 50
-ig.working_orders['deal_id'].reload
-ig.working_orders['deal_id'].delete
+working_order = ig.working_orders['deal_id']
+working_order.update level: 1.25, limit_distance: 50, stop_distance: 50
+working_order.reload
+working_order.delete
 
 # Markets
 ig.markets.hierarchy
 ig.markets.search 'EURUSD'
 ig.markets.find 'CS.D.EURUSD.CFD.IP', 'IX.D.DOW.IFD.IP'
-ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :hour, number: 48
-ig.markets['CS.D.EURUSD.CFD.IP'].historical_prices resolution: :second, from: Time.now - 120,
-                                                   to: Time.now - 60
+market = ig.markets['CS.D.EURUSD.CFD.IP']
+market.historical_prices resolution: :hour, number: 48
+market.historical_prices resolution: :second, from: Time.now - 120, to: Time.now - 60
 
 # Watchlists
 ig.watchlists.all
 ig.watchlists.create 'New Watchlist', 'CS.D.EURUSD.CFD.IP', 'UA.D.AAPL.CASH.IP'
-ig.watchlists['watchlist_id']
-ig.watchlists['watchlist_id'].markets
-ig.watchlists['watchlist_id'].add_market 'CS.D.EURUSD.CFD.IP'
-ig.watchlists['watchlist_id'].remove_market 'CS.D.EURUSD.CFD.IP'
-ig.watchlists['watchlist_id'].delete
+watchlist = ig.watchlists['watchlist_id']
+watchlist.markets
+watchlist.add_market 'CS.D.EURUSD.CFD.IP'
+watchlist.remove_market 'CS.D.EURUSD.CFD.IP'
+watchlist.delete
 
 # Client sentiment
-ig.client_sentiment['EURUSD']
-ig.client_sentiment['EURUSD'].related_sentiments
+client_sentiment = ig.client_sentiment['EURUSD']
+client_sentiment.related_sentiments
+client_sentiment.reload
 
 # Miscellaneous
 ig.applications
