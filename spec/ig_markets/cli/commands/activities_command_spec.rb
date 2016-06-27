@@ -23,8 +23,8 @@ describe IGMarkets::CLI::Main do
   end
 
   it 'prints activities from a number of days and a from date' do
-    from = Date.new 2015, 01, 15
-    to = Date.new 2015, 01, 18
+    from = Date.new 2015, 1, 15
+    to = Date.new 2015, 1, 18
 
     expect(dealing_platform.account).to receive(:activities).with(from: from, to: to).and_return([])
 

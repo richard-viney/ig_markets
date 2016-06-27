@@ -24,8 +24,8 @@ END
   end
 
   it 'prints transactions from a number of days and a start date' do
-    from = Date.new 2015, 02, 15
-    to = Date.new 2015, 02, 18
+    from = Date.new 2015, 2, 15
+    to = Date.new 2015, 2, 18
 
     expect(dealing_platform.account).to receive(:transactions).with(from: from, to: to).and_return([])
 
