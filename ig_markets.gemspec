@@ -15,18 +15,18 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0'
 
-  s.add_runtime_dependency 'colorize', '~> 0.7'
-  s.add_runtime_dependency 'pry', '~> 0.10'
+  s.add_runtime_dependency 'colorize', '~> 0.8'
+  s.add_runtime_dependency 'pry', '~> 0.10.3'
   s.add_runtime_dependency 'rest-client', '~> 1.8'
-  s.add_runtime_dependency 'terminal-table', '~> 1.5'
+  s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
-  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.5'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.6'
   s.add_development_dependency 'factory_girl', '~> 4.7'
   s.add_development_dependency 'github-markup', '~> 1.4'
   s.add_development_dependency 'redcarpet', '~> 3.3'
-  s.add_development_dependency 'rspec', '~> 3.4'
-  s.add_development_dependency 'rspec-mocks', '~> 3.4'
+  s.add_development_dependency 'rspec', '~> 3.5'
+  s.add_development_dependency 'rspec-mocks', '~> 3.5'
   s.add_development_dependency 'rubocop', '~> 0.41'
   s.add_development_dependency 'yard', '~> 0.8'
 end
