@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::WorkingOrderMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
   it 'can retrieve the current working orders' do
     orders = [build(:working_order)]
 

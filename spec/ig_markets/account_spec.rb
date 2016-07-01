@@ -1,6 +1,4 @@
-describe IGMarkets::Account do
-  include_context 'dealing_platform'
-
+describe IGMarkets::Account, :dealing_platform do
   it 'reloads its attributes' do
     account = dealing_platform_model build(:account)
 

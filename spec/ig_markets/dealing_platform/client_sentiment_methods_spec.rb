@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::ClientSentimentMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::ClientSentimentMethods, :dealing_platform do
   it 'can retrieve the client sentiment for a market' do
     client_sentiment = build :client_sentiment
 

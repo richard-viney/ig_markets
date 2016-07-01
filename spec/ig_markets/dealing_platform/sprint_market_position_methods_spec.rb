@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::SprintMarketPositionMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platform do
   it 'can retrieve sprint market positions' do
     positions = [build(:sprint_market_position)]
 

@@ -1,6 +1,4 @@
-describe IGMarkets::CLI::Watchlists do
-  include_context 'cli_command'
-
+describe IGMarkets::CLI::Watchlists, :cli_command do
   def cli
     IGMarkets::CLI::Watchlists.new
   end

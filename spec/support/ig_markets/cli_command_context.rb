@@ -1,4 +1,4 @@
-RSpec.shared_context 'cli_command' do
+RSpec.shared_context 'cli_command', :cli_command do
   include_context 'dealing_platform'
 
   before do

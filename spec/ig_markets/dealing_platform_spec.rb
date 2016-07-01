@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform, :dealing_platform do
   it 'has a valid session' do
     expect(IGMarkets::DealingPlatform.new.session).to be_an_instance_of(IGMarkets::Session)
   end

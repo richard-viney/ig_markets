@@ -1,6 +1,4 @@
-describe IGMarkets::CLI::Main do
-  include_context 'dealing_platform'
-
+describe IGMarkets::CLI::Main, :dealing_platform do
   before do
     IGMarkets::CLI::Main.instance_variable_set :@dealing_platform, dealing_platform
   end

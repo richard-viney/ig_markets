@@ -1,6 +1,4 @@
-describe IGMarkets::Position do
-  include_context 'dealing_platform'
-
+describe IGMarkets::Position, :dealing_platform do
   let(:position) { dealing_platform_model build(:position, deal_id: '1') }
 
   let(:profitable_position) do

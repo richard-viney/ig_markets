@@ -1,6 +1,4 @@
-describe IGMarkets::Watchlist do
-  include_context 'dealing_platform'
-
+describe IGMarkets::Watchlist, :dealing_platform do
   let(:watchlist) { dealing_platform_model build(:watchlist, id: '1') }
 
   it 'can be deleted' do

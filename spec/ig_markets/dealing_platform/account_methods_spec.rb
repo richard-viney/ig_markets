@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::AccountMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   let(:from) { Date.new 2014, 5, 20 }
   let(:to) { Date.new 2014, 10, 27 }
 

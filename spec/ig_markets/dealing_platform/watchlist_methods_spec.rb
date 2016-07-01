@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::WatchlistMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::WatchlistMethods, :dealing_platform do
   it 'can retrieve the watchlists' do
     watchlists = [build(:watchlist)]
 

@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::PositionMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
   let(:positions) { [build(:position, deal_id: '1')] }
   let(:get_result) do
     {

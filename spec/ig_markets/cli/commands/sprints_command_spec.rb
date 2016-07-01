@@ -1,6 +1,4 @@
-describe IGMarkets::CLI::Sprints do
-  include_context 'cli_command'
-
+describe IGMarkets::CLI::Sprints, :cli_command do
   def cli(arguments = {})
     IGMarkets::CLI::Sprints.new [], arguments
   end

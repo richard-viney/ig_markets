@@ -1,6 +1,4 @@
-describe IGMarkets::DealingPlatform::MarketMethods do
-  include_context 'dealing_platform'
-
+describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
   it 'can retrieve the market hierarchy root' do
     result = build :market_hierarchy_result
 

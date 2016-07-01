@@ -1,6 +1,4 @@
-describe IGMarkets::ClientSentiment do
-  include_context 'dealing_platform'
-
+describe IGMarkets::ClientSentiment, :dealing_platform do
   let(:client_sentiment) { dealing_platform_model build(:client_sentiment, market_id: '1') }
 
   it 'reloads its attributes' do

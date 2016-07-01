@@ -1,6 +1,4 @@
-describe IGMarkets::Market do
-  include_context 'dealing_platform'
-
+describe IGMarkets::Market, :dealing_platform do
   let(:market) { dealing_platform_model build(:market) }
 
   it 'reloads its attributes' do

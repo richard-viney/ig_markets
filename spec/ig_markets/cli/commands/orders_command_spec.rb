@@ -1,6 +1,4 @@
-describe IGMarkets::CLI::Orders do
-  include_context 'cli_command'
-
+describe IGMarkets::CLI::Orders, :cli_command do
   def cli(arguments = {})
     IGMarkets::CLI::Orders.new [], arguments
   end

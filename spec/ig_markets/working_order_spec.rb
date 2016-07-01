@@ -1,6 +1,4 @@
-describe IGMarkets::WorkingOrder do
-  include_context 'dealing_platform'
-
+describe IGMarkets::WorkingOrder, :dealing_platform do
   let(:working_order) { dealing_platform_model build(:working_order, deal_id: '1') }
 
   it 'reloads its attributes' do
