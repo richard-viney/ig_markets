@@ -21,7 +21,13 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
-  s.add_development_dependency 'activesupport', '~> 4.2'
+  # Use Active Support 4 on Ruby versions prior to 2.2.2
+  if RUBY_VERSION =~ /^2\.((0|1)\.|2\.(0|1)$)/
+    s.add_development_dependency 'activesupport', '~> 4.2'
+  else
+    s.add_development_dependency 'activesupport', '~> 5.0'
+  end
+
   s.add_development_dependency 'codeclimate-test-reporter', '~> 0.6'
   s.add_development_dependency 'factory_girl', '~> 4.7'
   s.add_development_dependency 'github-markup', '~> 1.4'
