@@ -9,6 +9,8 @@
 - Added `delete-all` subcommand to `ig_markets orders`
 - Added a `#reload` method that reloads a model's attributes in-place to `IGMarkets::Account`,
   `IGMarkets::ClientSentiment`, `IGMarkets::Market`, `IGMarkets::Position` and `IGMarkets::WorkingOrder`
+- Support mass assignment of attributes on models
+- Fixed a compatibility issue with recent IG API changes
 
 ### 0.13 — June 22, 2016
 
