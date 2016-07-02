@@ -97,7 +97,9 @@ describe IGMarkets::Session do
     let(:invalid_client_token_exception) do
       body = { errorCode: 'error.security.client-token-invalid' }.to_json
 
-      RestClient::Exception.new RestClient::Response.create(body, nil, nil, nil)
+      request = RestClient::Request.new method: :get, url: 'http://a.b/'
+
+      RestClient::Exception.new RestClient::Response.create(body, {}, request)
     end
 
     it 'attempts to sign in again if the client token is invalid' do

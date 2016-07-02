@@ -1,6 +1,7 @@
 require 'base64'
 require 'colorize'
 require 'date'
+require 'json'
 require 'pry'
 require 'rest-client'
 require 'terminal-table'
