@@ -8,7 +8,7 @@ module IGMarkets
       class Action < Model
         attribute :action_type, Symbol, allowed_values: [:limit_order_amended, :limit_order_deleted,
                                                          :limit_order_filled, :limit_order_opened, :limit_order_rolled,
-                                                         :position_closed, :position_deleted, :position_opended,
+                                                         :position_closed, :position_deleted, :position_opened,
                                                          :position_partially_closed, :position_rolled,
                                                          :stop_limit_amended, :stop_order_amended, :stop_order_deleted,
                                                          :stop_order_filled, :stop_order_opened, :stop_order_rolled,

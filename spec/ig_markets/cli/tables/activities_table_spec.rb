@@ -1,7 +1,7 @@
 describe IGMarkets::CLI::ActivitiesTable do
   it 'prints activities' do
     activities = [build(:activity)]
-    activities[0].details.actions.first.action_type = :position_opended
+    activities[0].details.actions.first.action_type = :position_opened
 
     expect(IGMarkets::CLI::ActivitiesTable.new(activities).to_s).to eql(<<-END.strip
 +-------------------------+---------+----------+----------+--------------------+-----------------+------+-------+--------+------+-----------------+

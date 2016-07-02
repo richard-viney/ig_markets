@@ -27,9 +27,6 @@ module IGMarkets
         types = details.actions.map(&:action_type).uniq
         types.delete :unknown
 
-        # Fix a typo in one of the values
-        types.map! { |v| v == :position_opended ? :position_opened : v }
-
         types.map { |v| format_cell_value v }.join ', '
       end
     end
