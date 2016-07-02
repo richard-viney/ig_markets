@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.14 — Unreleased
+### 0.14 — July 2, 2016
 
 - Added `delete-all` subcommand to `ig_markets orders`
 - Added a `#reload` method that reloads a model's attributes in-place to `IGMarkets::Account`,
