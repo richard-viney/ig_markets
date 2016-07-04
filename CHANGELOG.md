@@ -2,7 +2,7 @@
 
 ### 0.15 — Unreleased
 
-- 
+- Added `MarketHierarchyResult::HierarchyNode#markets` and `MarketHierarchyResult::HierarchyNode#nodes` methods
 
 ### 0.14 — July 2, 2016
 

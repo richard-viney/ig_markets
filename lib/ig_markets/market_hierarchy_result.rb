@@ -5,6 +5,20 @@ module IGMarkets
     class HierarchyNode < Model
       attribute :id
       attribute :name
+
+      # Returns an array of the markets under this node in the market hierarchy.
+      #
+      # @return [Array<MarketOverview>]
+      def markets
+        @dealing_platform.markets.hierarchy(id).markets
+      end
+
+      # Returns an array of the child nodes under this node in the market hierarchy.
+      #
+      # @return [Array<HierarchyNode>]
+      def nodes
+        @nodes ||= @dealing_platform.markets.hierarchy(id).nodes
+      end
     end
 
     attribute :markets, MarketOverview
