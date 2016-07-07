@@ -101,10 +101,7 @@ module IGMarkets
 
     private
 
-    HOST_URLS = {
-      demo: 'https://demo-api.ig.com/gateway/deal/',
-      live: 'https://api.ig.com/gateway/deal/'
-    }.freeze
+    HOST_URLS = { demo: 'https://demo-api.ig.com/gateway/deal/', live: 'https://api.ig.com/gateway/deal/' }.freeze
 
     def validate_authentication
       %i(username password api_key).each do |attribute|
@@ -163,24 +160,34 @@ module IGMarkets
     rescue RestClient::Exception => exception
       raise RequestFailedError, exception.message unless exception.response
 
-      return exception.response unless !options[:retry] && client_token_invalid?(exception.response)
+      return exception.response unless should_retry_request? exception.response, options
 
-      sign_in
       execute_request options.merge(retry: true)
     rescue SocketError => socket_error
       raise RequestFailedError, socket_error
     end
 
-    def client_token_invalid?(response)
-      ResponseParser.parse_json(response.body)[:error_code] == 'error.security.client-token-invalid'
+    def should_retry_request?(response, options)
+      error_code = ResponseParser.parse_json(response.body)[:error_code]
+
+      if error_code == 'error.security.client-token-invalid' && !options[:retry]
+        sign_in
+        return true
+      end
+
+      if error_code == 'error.public-api.exceeded-api-key-allowance'
+        sleep 5
+        return true
+      end
+
+      false
     end
 
     def process_response(response)
       result = ResponseParser.parse_json response.body
+      http_code = response.code
 
-      unless response.code >= 200 && response.code < 300
-        raise RequestFailedError.new(result[:error_code], response.code)
-      end
+      raise RequestFailedError.new(result[:error_code], http_code) unless http_code >= 200 && http_code < 300
 
       result
     end

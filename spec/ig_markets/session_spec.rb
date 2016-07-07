@@ -68,6 +68,16 @@ describe IGMarkets::Session do
       expect(session.alive?).to eq(false)
     end
 
+    it 'retries after a pause if the API key allowance was exceeded' do
+      api_key_allowance_exception = build_exception 'error.public-api.exceeded-api-key-allowance'
+
+      expect(response).to receive_messages(code: 200, body: {}.to_json)
+      expect(rest_client).to receive(:execute).with(params(:post, 'test', {})).and_raise(api_key_allowance_exception)
+      expect(session).to receive(:sleep).with(5)
+      expect(rest_client).to receive(:execute).with(params(:post, 'test', {}).merge(retry: true)).and_return(response)
+      expect(session.post('test', {})).to eq({})
+    end
+
     it 'raises RequestFailedError when the HTTP response is an error' do
       expect(response).to receive_messages(code: 404, body: { errorCode: '1' }.to_json)
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(RestClient::Exception, response)
@@ -94,15 +104,9 @@ describe IGMarkets::Session do
       expect { session.get 'url' }.to raise_error(IGMarkets::RequestFailedError)
     end
 
-    let(:invalid_client_token_exception) do
-      body = { errorCode: 'error.security.client-token-invalid' }.to_json
-
-      request = RestClient::Request.new method: :get, url: 'http://a.b/'
-
-      RestClient::Exception.new RestClient::Response.create(body, {}, request)
-    end
-
     it 'attempts to sign in again if the client token is invalid' do
+      invalid_client_token_exception = build_exception 'error.security.client-token-invalid'
+
       expect(rest_client).to receive(:execute).with(params(:get, 'url')).and_raise(invalid_client_token_exception)
 
       expect(response).to receive(:code).at_least(:once).and_return(200)
@@ -156,6 +160,13 @@ describe IGMarkets::Session do
       hash[:headers] = headers
       hash[:payload] = payload && payload.to_json
       hash
+    end
+
+    def build_exception(error_code)
+      body = { errorCode: error_code }.to_json
+      request = RestClient::Request.new method: :get, url: 'http://a.b/'
+
+      RestClient::Exception.new RestClient::Response.create(body, {}, request)
     end
   end
 end

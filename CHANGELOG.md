@@ -3,6 +3,8 @@
 ### 0.15 — Unreleased
 
 - Added `MarketHierarchyResult::HierarchyNode#markets` and `MarketHierarchyResult::HierarchyNode#nodes` methods
+- If the API key's traffic allowance is exceeded then `IGMarkets::Session` now automatically retries a request after a
+  five second pause
 
 ### 0.14 — July 2, 2016
 
