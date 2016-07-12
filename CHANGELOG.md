@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.16 — Unreleased
+
+- 
+
 ### 0.15 — July 11, 2016
 
 - Added `ig_markets self-test` command that can be run under a demo account in order to test the library against the
