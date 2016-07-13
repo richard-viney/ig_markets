@@ -22,14 +22,14 @@ module IGMarkets
       attribute :direction, Symbol, allowed_values: [:buy, :sell]
       attribute :good_till_date
       attribute :guaranteed_stop, Boolean
-      attribute :level, Float, nil_if: 0
+      attribute :level, Float
       attribute :limit_distance, Fixnum
-      attribute :limit_level, Float, nil_if: 0
+      attribute :limit_level, Float
       attribute :market_name
       attribute :size
       attribute :stop_distance, Fixnum
-      attribute :stop_level, Float, nil_if: 0
-      attribute :trailing_step, Float, nil_if: 0
+      attribute :stop_level, Float
+      attribute :trailing_step, Float
       attribute :trailing_stop_distance, Fixnum
     end
 
