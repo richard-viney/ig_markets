@@ -22,11 +22,11 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   end
 
   it 'reports a request failure' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError, 'test')
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError.new('test', 404))
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("Request error: test\n").to_stderr.and raise_error(SystemExit)
+    end.to output("Request error (HTTP 404): test\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a deal confirmation' do

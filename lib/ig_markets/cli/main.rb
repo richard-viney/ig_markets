@@ -68,7 +68,7 @@ module IGMarkets
 
           yield @dealing_platform
         rescue IGMarkets::RequestFailedError => request_failed_error
-          error "Request error: #{request_failed_error.error}"
+          error "Request error (HTTP #{request_failed_error.http_code}): #{request_failed_error.error}"
         rescue ArgumentError => argument_error
           error "Argument error: #{argument_error}"
         end

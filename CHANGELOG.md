@@ -2,7 +2,7 @@
 
 ### 0.16 — Unreleased
 
-- 
+- Report the HTTP code when a request fails
 
 ### 0.15 — July 11, 2016
 
