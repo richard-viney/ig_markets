@@ -2,6 +2,8 @@
 
 ### 0.16 — Unreleased
 
+- Switched to YAML for the `.ig_markets` config files and added support for storing multiple authentication profiles in
+  the config files that can then be selected on the command-line using the new `--profile NAME` argument
 - Report the HTTP code when a request fails
 
 ### 0.15 — July 11, 2016

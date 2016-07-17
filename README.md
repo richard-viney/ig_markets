@@ -46,21 +46,31 @@ $ ig_markets COMMAND [SUBCOMMAND] --username USERNAME --password PASSWORD --api-
 
 #### Config File
 
-On startup `ig_markets` searches for config files named `"./.ig_markets"` and then `"~/.ig_markets"`, and if they are
-present interprets their contents as command-line arguments. This can be used to avoid having to specify authentication
-details with every invocation.
+On startup `ig_markets` looks for config files at `./.ig_markets.yml` and `~/.ig_markets.yml`. These are YAML files that
+can hold named sets of predefined authentication profiles in order to avoid having to specify these repeatedly on the
+command-line for every invocation.
 
-To do this create a config file at `"./.ig_markets"` or `"~/.ig_markets"` with the following contents:
+The desired authentication profile is specified using the `--profile` command-line argument, and if the `--profile`
+argument is omitted then the `default` profile will be used.
 
-```shell
---username USERNAME
---password PASSWORD
---api-key API-KEY
---demo              # Include only if this is a demo account
+Here is an example of a config file with a `default` profile and a `demo` profile:
+
+```yaml
+profiles:
+  default:
+    username: USERNAME
+    password: PASSWORD
+    api-key: API-KEY
+
+  demo:
+    username: DEMO-USERNAME
+    password: DEMO-PASSWORD
+    api-key: DEMO-API-KEY
+    demo: true
 ```
 
-The following examples assume the presence of a config file that contains valid authentication details.
-
+The following examples assume the presence of a config file that contains a valid default authentication profile.
+    
 #### Commands
 
 Use `ig_markets help` to get details on the options accepted by the commands and subcommands. The list of available

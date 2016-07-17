@@ -7,6 +7,7 @@ require 'rest-client'
 require 'securerandom'
 require 'terminal-table'
 require 'thor'
+require 'yaml'
 
 require 'ig_markets/boolean'
 require 'ig_markets/model'

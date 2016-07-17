@@ -114,10 +114,10 @@ END
   end
 
   it 'uses a config file if present' do
-    config_file = IGMarkets::CLI::ConfigFile.new ['--username USERNAME']
+    config_file = IGMarkets::CLI::ConfigFile.new('profiles' => { 'default' => { 'username' => 'USERNAME' } })
 
     expect(IGMarkets::CLI::Main).to receive(:config_file).and_return(config_file)
-    expect(IGMarkets::CLI::Main).to receive(:start).with(['--username', 'USERNAME', '--test'])
+    expect(IGMarkets::CLI::Main).to receive(:start).with(['--username=USERNAME', '--test'])
 
     IGMarkets::CLI::Main.bootstrap ['--test']
   end
@@ -129,7 +129,7 @@ END
     config_file = IGMarkets::CLI::ConfigFile.new
 
     expect(IGMarkets::CLI::ConfigFile).to receive(:find)
-      .with('pwd/.ig_markets', 'home/.ig_markets')
+      .with('pwd/.ig_markets.yml', 'home/.ig_markets.yml')
       .and_return(config_file)
 
     expect(IGMarkets::CLI::Main).to receive(:start).with([])

@@ -8,6 +8,7 @@ module IGMarkets
       class_option :api_key, required: true, desc: 'The API key for the session'
       class_option :demo, type: :boolean, desc: 'Use the demo platform (default is the live platform)'
       class_option :verbose, type: :boolean, desc: 'Whether to print the raw REST API requests and responses'
+      class_option :profile, desc: 'The name of the authentication profile to use (will be read from the config file)'
 
       desc 'orders [SUBCOMAND=list ...]', 'Command for working with orders'
       subcommand 'orders', Orders
@@ -44,7 +45,7 @@ module IGMarkets
         #
         # @param [Array<String>] argv The array of command-line arguments.
         def bootstrap(argv)
-          config_file.prepend_arguments_to_argv argv
+          config_file.prepend_profile_arguments_to_argv argv
 
           if argv.index('--version') || argv.index('-v')
             puts VERSION
@@ -147,7 +148,7 @@ module IGMarkets
         #
         # @return [ConfigFile]
         def config_file
-          ConfigFile.find "#{Dir.pwd}/.ig_markets", "#{Dir.home}/.ig_markets"
+          ConfigFile.find "#{Dir.pwd}/.ig_markets.yml", "#{Dir.home}/.ig_markets.yml"
         end
 
         # Prints out details of the passed deal confirmation.
