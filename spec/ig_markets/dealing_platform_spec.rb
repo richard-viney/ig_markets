@@ -8,6 +8,7 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
 
     expect(session).to receive(:sign_in).and_return(client_id: 'id')
     expect(dealing_platform.sign_in('username', 'password', 'api_key', :live)).to eq(client_account_summary)
+    expect(dealing_platform.client_account_summary).to eq(client_account_summary)
     expect(session.username).to eq('username')
     expect(session.password).to eq('password')
     expect(session.api_key).to eq('api_key')

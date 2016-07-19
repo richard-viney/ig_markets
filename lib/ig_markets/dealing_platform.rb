@@ -17,6 +17,9 @@ module IGMarkets
     # @return [Session] The session used by this dealing platform.
     attr_reader :session
 
+    # @return [ClientAccountSummary] The summary of the client account that is returned as part of a successful sign in.
+    attr_reader :client_account_summary
+
     # @return [AccountMethods] Methods for working with the logged in account.
     attr_reader :account
 
@@ -57,7 +60,8 @@ module IGMarkets
     # @param [String] api_key The account API key.
     # @param [:live, :demo] platform The platform to use.
     #
-    # @return [ClientAccountSummary] The client account summary returned by the sign in request.
+    # @return [ClientAccountSummary] The client account summary returned by the sign in request. This result can also
+    #                                be accessed through the {#client_account_summary} accessor.
     def sign_in(username, password, api_key, platform)
       session.username = username
       session.password = password
@@ -66,7 +70,7 @@ module IGMarkets
 
       result = session.sign_in
 
-      instantiate_models ClientAccountSummary, result
+      @client_account_summary = instantiate_models ClientAccountSummary, result
     end
 
     # Signs out of the IG Markets Dealing Platform, ending any current session.

@@ -25,7 +25,7 @@ module IGMarkets
     def parse(response)
       if response.is_a? Hash
         response.each_with_object({}) do |(key, value), new_hash|
-          new_hash[camel_case_to_snake_case(key).downcase.to_sym] = parse(value)
+          new_hash[camel_case_to_snake_case(key).to_sym] = parse(value)
         end
       elsif response.is_a? Array
         response.map { |item| parse item }
@@ -40,7 +40,7 @@ module IGMarkets
     #
     # @return [String]
     def camel_case_to_snake_case(camel_case)
-      camel_case.to_s.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z])([a-z])/, '\1_\2\3')
+      camel_case.to_s.gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/([A-Z])([A-Z])([a-z])/, '\1_\2\3').downcase
     end
   end
 end

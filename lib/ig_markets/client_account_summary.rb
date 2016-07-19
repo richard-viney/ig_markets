@@ -1,5 +1,5 @@
 module IGMarkets
-  # Contains details on an IG Markets client account summary. Returned by {DealingPlatform#sign_in}.
+  # Contains details on an IG Markets client account summary. Returned by {DealingPlatform#client_account_summary}.
   class ClientAccountSummary < Model
     # Contains details on a form, used by {#form_details}.
     class FormDetails < Model
