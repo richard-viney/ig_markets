@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.16 — Unreleased
+### 0.16 — July 20, 2016
 
 - Switched to YAML for the `.ig_markets` config files and added support for storing multiple authentication profiles in
   the config files that can then be selected on the command-line using the new `--profile NAME` argument
