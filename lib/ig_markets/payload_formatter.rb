@@ -1,5 +1,7 @@
 module IGMarkets
   # Contains methods for formatting payloads that can be passed to the IG Markets API.
+  #
+  # @private
   module PayloadFormatter
     module_function
 

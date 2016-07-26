@@ -14,31 +14,49 @@ module IGMarkets
   #
   # If any errors occur while executing requests to the IG Markets API then {RequestFailedError} will be raised.
   class DealingPlatform
-    # @return [Session] The session used by this dealing platform.
+    # The session used by this dealing platform.
+    #
+    # @return [Session] 
     attr_reader :session
 
-    # @return [ClientAccountSummary] The summary of the client account that is returned as part of a successful sign in.
+    # The summary of the client account that is returned as part of a successful sign in.
+    #
+    # @return [ClientAccountSummary]
     attr_reader :client_account_summary
 
-    # @return [AccountMethods] Methods for working with the logged in account.
+    # Methods for working with the logged in account.
+    #
+    # @return [AccountMethods]
     attr_reader :account
 
-    # @return [ClientSentimentMethods] Methods for working with client sentiment.
+    # Methods for working with client sentiment.
+    #
+    # @return [ClientSentimentMethods]
     attr_reader :client_sentiment
 
-    # @return [MarketMethods] Methods for working with markets.
+    # Methods for working with markets.
+    #
+    # @return [MarketMethods]
     attr_reader :markets
 
-    # @return [PositionMethods] Methods for working with positions.
+    # Methods for working with positions.
+    #
+    # @return [PositionMethods]
     attr_reader :positions
 
-    # @return [SprintMarketPositionMethods] Methods for working with sprint market positions.
+    # Methods for working with sprint market positions.
+    #
+    # @return [SprintMarketPositionMethods]
     attr_reader :sprint_market_positions
 
-    # @return [WatchlistMethods] Methods for working with watchlists.
+    # Methods for working with watchlists.
+    #
+    # @return [WatchlistMethods]
     attr_reader :watchlists
 
-    # @return [WorkingOrderMethods] Methods for working with working orders.
+    # Methods for working with working orders.
+    #
+    # @return [WorkingOrderMethods]
     attr_reader :working_orders
 
     def initialize

@@ -1,9 +1,13 @@
 module IGMarkets
   # This class contains methods for printing a REST request and its JSON response for inspection and debugging.
   # Request printing is enabled by setting {enabled} to `true`.
+  #
+  # @private
   class RequestPrinter
     class << self
-      # @return [Boolean] Whether the request printer is enabled.
+      # Whether the request printer is enabled.
+      #
+      # @return [Boolean]
       attr_accessor :enabled
 
       # Prints out an options hash that is ready to be passed to `RestClient::Request.execute`.

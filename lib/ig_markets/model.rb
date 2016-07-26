@@ -3,7 +3,9 @@ module IGMarkets
   # attribute is defined by a call to {attribute}. Attributes have standard getter and setter methods and can also
   # be subject to a variety of constraints and validations, see {attribute} for further details.
   class Model
-    # @return [Hash] The current attribute values set on this model.
+    # The current attribute values set on this model.
+    #
+    # @return [Hash]
     attr_reader :attributes
 
     # Initializes this new model with the given attribute values. Attributes not known to this model will raise
@@ -74,10 +76,14 @@ module IGMarkets
     end
 
     class << self
-      # @return [Hash] A hash containing details of all attributes that have been defined on this model.
+      # A hash containing details of all attributes that have been defined on this model.
+      #
+      # @return [Hash]
       attr_accessor :defined_attributes
 
-      # @return [Array] The names of the deprecated attributes on this model.
+      # The names of the deprecated attributes on this model.
+      #
+      # @return [Array]
       attr_accessor :deprecated_attributes
 
       # Returns the names of all currently defined attributes for this model.

@@ -1,10 +1,14 @@
 module IGMarkets
   # This error class is raised by {Session} when a request to the IG Markets API fails.
   class RequestFailedError < StandardError
-    # @return [String] A description of the error that occurred when the request was attempted.
+    # A description of the error that occurred when the request was attempted.
+    #
+    # @return [String]
     attr_reader :error
 
-    # @return [Fixnum] The HTTP code that was returned, or `nil` if unknown.
+    # The HTTP code that was returned, or `nil` if unknown.
+    #
+    # @return [Fixnum]
     attr_reader :http_code
 
     # Initializes this request failure error with a message and an HTTP code.

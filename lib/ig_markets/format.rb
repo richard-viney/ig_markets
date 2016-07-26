@@ -1,5 +1,7 @@
 module IGMarkets
   # This module contains shared methods for formatting different content types for display.
+  #
+  # @private
   module Format
     module_function
 

@@ -1,5 +1,7 @@
 module IGMarkets
   # Contains methods for parsing responses received from the IG Markets API.
+  #
+  # @private
   module ResponseParser
     module_function
 

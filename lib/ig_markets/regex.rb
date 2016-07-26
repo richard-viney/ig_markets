@@ -1,5 +1,7 @@
 module IGMarkets
   # Contains regex's for validating specific types of strings.
+  #
+  # @private
   module Regex
     # Regex used to validate an ISO currency code.
     CURRENCY = /\A[A-Z]{3}\Z/
