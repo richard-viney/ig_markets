@@ -130,7 +130,7 @@ module IGMarkets
           options.each_with_object({}) do |(key, value), new_hash|
             next unless whitelist.include? key.to_sym
 
-            new_hash[key.to_sym] = (value == key) ? nil : value
+            new_hash[key.to_sym] = value == key ? nil : value
           end
         end
 
