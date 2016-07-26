@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0'
 
   s.add_runtime_dependency 'colorize', '~> 0.8'
+  s.add_runtime_dependency 'excon', '~> 0.51'
   s.add_runtime_dependency 'pry', '~> 0.10.4'
-  s.add_runtime_dependency 'rest-client', '~> 2.0'
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_runtime_dependency 'thor', '~> 0.19'
 

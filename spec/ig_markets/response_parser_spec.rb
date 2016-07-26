@@ -10,16 +10,4 @@ describe IGMarkets::ResponseParser do
 
     expect(parsed).to eq([{ a_b: 1 }, { c_d: 2 }])
   end
-
-  it 'parses json' do
-    parsed = IGMarkets::ResponseParser.parse_json '{"aB":1,"cD":"two"}'
-
-    expect(parsed).to eq(a_b: 1, c_d: 'two')
-  end
-
-  it 'handles invalid json' do
-    parsed = IGMarkets::ResponseParser.parse_json 'invalid json'
-
-    expect(parsed).to eq({})
-  end
 end

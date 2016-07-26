@@ -13,20 +13,20 @@ describe IGMarkets::CLI::Main, :dealing_platform do
     IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
   end
 
-  it 'reports an argument error' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(ArgumentError, 'test')
+  it 'reports a connection error' do
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::ConnectionError)
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("Argument error: test\n").to_stderr.and raise_error(SystemExit)
+    end.to output("Error: IGMarkets::ConnectionError\n").to_stderr.and raise_error(SystemExit)
   end
 
-  it 'reports a request failure' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::RequestFailedError.new('test', 404))
+  it 'reports a connection error with details' do
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::ConnectionError.new('details'))
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("Request error (HTTP 404): test\n").to_stderr.and raise_error(SystemExit)
+    end.to output("Error: IGMarkets::ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a deal confirmation' do
@@ -62,9 +62,8 @@ END
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
     deal_confirmation = build :deal_confirmation
-    deal_not_found_exception = IGMarkets::RequestFailedError.new 'error.confirms.deal-not-found', 404
 
-    expect(dealing_platform).to receive(:deal_confirmation).twice.with('ref').and_raise(deal_not_found_exception)
+    expect(dealing_platform).to receive(:deal_confirmation).twice.with('ref').and_raise(IGMarkets::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).twice.with(2)
     expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
 
@@ -81,10 +80,8 @@ END
   end
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
-    deal_not_found_exception = IGMarkets::RequestFailedError.new 'error.confirms.deal-not-found', 404
-
     expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('ref')
-      .and_raise(deal_not_found_exception)
+      .and_raise(IGMarkets::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }
@@ -95,7 +92,7 @@ Deal not found, retrying ...
 Deal not found, retrying ...
 Deal not found, retrying ...
 END
-                ).to_stdout.and raise_error(IGMarkets::RequestFailedError)
+                ).to_stdout.and raise_error(IGMarkets::DealNotFoundError)
   end
 
   it 'reports the version' do

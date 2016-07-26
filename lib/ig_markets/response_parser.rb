@@ -5,23 +5,12 @@ module IGMarkets
   module ResponseParser
     module_function
 
-    # Parses the passed JSON string and then passes it on to {parse}. If `json` is not valid JSON then `{}` is returned.
-    #
-    # @param [String] json The JSON string.
-    #
-    # @return [Hash]
-    def parse_json(json)
-      parse JSON.parse(json)
-    rescue JSON::ParserError
-      {}
-    end
-
     # Parses the specified value that was returned from a call to the IG Markets API.
     #
-    # @param [Hash, Array, Object] response The response or part of a reponse that should be parsed. If this is of type
+    # @param [Hash, Array, Object] response The response or part of a response that should be parsed. If this is of type
     #        `Hash` then all hash keys will converted from camel case into snake case and their values each to parsed
-    #        individually by a recursive call. If this is of type `Array` then each item will be parsed indidiaully by a
-    #        recursive call. All other types are passed through unchanged.
+    #        individually by a recursive call. If this is of type `Array` then each item will be parsed individually by
+    #        a recursive call. All other types are passed through unchanged.
     #
     # @return [Hash, Array, Object] The parsed object, the type depends on the type of the `response` parameter.
     def parse(response)

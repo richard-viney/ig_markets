@@ -26,8 +26,6 @@ module IGMarkets
 
       # Turns the `:days` and `:from` options into a hash with `:from` and `:to` keys that can be passed to
       # {AccountMethods#activities} and {AccountMethods#transactions}.
-      #
-      # @return [Hash]
       def history_options
         if options[:from]
           from = Date.strptime options[:from], '%F'
@@ -68,10 +66,8 @@ module IGMarkets
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield @dealing_platform
-        rescue IGMarkets::RequestFailedError => request_failed_error
-          error "Request error (HTTP #{request_failed_error.http_code}): #{request_failed_error.error}"
-        rescue ArgumentError => argument_error
-          error "Argument error: #{argument_error}"
+        rescue IGMarketsError => error
+          warn_and_exit error
         end
 
         # Requests and displays the deal confirmation for the passed deal reference. If the request for the deal
@@ -86,8 +82,8 @@ module IGMarkets
           5.times do |index|
             begin
               return print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
-            rescue IGMarkets::RequestFailedError => request_failed_error
-              raise if request_failed_error.error != 'error.confirms.deal-not-found' || index == 4
+            rescue DealNotFoundError
+              raise if index == 4
 
               puts 'Deal not found, retrying ...'
               sleep 2
@@ -136,24 +132,23 @@ module IGMarkets
 
         private
 
-        # Writes the passed message to `stderr` and then exits the application.
-        #
-        # @param [String] message The error message.
-        def error(message)
-          warn message
+        # Prints the passed error to `stderr` and then exits the application.
+        def warn_and_exit(error)
+          if error.message.to_s == error.class.to_s
+            warn "Error: #{error.message}"
+          else
+            warn "Error: #{error.class}, #{error.message}"
+          end
+
           exit 1
         end
 
         # Returns the config file to use for this invocation.
-        #
-        # @return [ConfigFile]
         def config_file
           ConfigFile.find "#{Dir.pwd}/.ig_markets.yml", "#{Dir.home}/.ig_markets.yml"
         end
 
         # Prints out details of the passed deal confirmation.
-        #
-        # @param [DealConfirmation] deal_confirmation The deal confirmation to print out.
         def print_deal_confirmation(deal_confirmation)
           puts <<-END
 Deal ID: #{deal_confirmation.deal_id}
@@ -167,8 +162,6 @@ END
         end
 
         # Prints out the profit/loss for the passed deal confirmation if applicable.
-        #
-        # @param [DealConfirmation] deal_confirmation The deal confirmation to print out the profit/loss for.
         def print_deal_confirmation_profit_loss(deal_confirmation)
           return unless deal_confirmation.profit
 

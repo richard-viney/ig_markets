@@ -12,11 +12,11 @@ module IGMarkets
   #
   # See `README.md` for examples.
   #
-  # If any errors occur while executing requests to the IG Markets API then {RequestFailedError} will be raised.
+  # If any errors occur while executing requests to the IG Markets API then an {IGMarketsError} will be raised.
   class DealingPlatform
     # The session used by this dealing platform.
     #
-    # @return [Session] 
+    # @return [Session]
     attr_reader :session
 
     # The summary of the client account that is returned as part of a successful sign in.
