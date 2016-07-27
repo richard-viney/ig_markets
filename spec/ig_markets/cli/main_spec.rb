@@ -14,19 +14,19 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   end
 
   it 'reports a connection error' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::ConnectionError)
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::Errors::ConnectionError)
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("Error: IGMarkets::ConnectionError\n").to_stderr.and raise_error(SystemExit)
+    end.to output("IG Markets: ConnectionError\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a connection error with details' do
-    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::ConnectionError.new('details'))
+    expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::Errors::ConnectionError.new('details'))
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("Error: IGMarkets::ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
+    end.to output("IG Markets: ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a deal confirmation' do
@@ -63,7 +63,8 @@ END
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
     deal_confirmation = build :deal_confirmation
 
-    expect(dealing_platform).to receive(:deal_confirmation).twice.with('ref').and_raise(IGMarkets::DealNotFoundError)
+    expect(dealing_platform).to receive(:deal_confirmation).twice.with('ref')
+      .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).twice.with(2)
     expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
 
@@ -81,7 +82,7 @@ END
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
     expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('ref')
-      .and_raise(IGMarkets::DealNotFoundError)
+      .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }
@@ -92,7 +93,7 @@ Deal not found, retrying ...
 Deal not found, retrying ...
 Deal not found, retrying ...
 END
-                ).to_stdout.and raise_error(IGMarkets::DealNotFoundError)
+                ).to_stdout.and raise_error(IGMarkets::Errors::DealNotFoundError)
   end
 
   it 'reports the version' do

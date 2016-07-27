@@ -77,7 +77,7 @@ describe IGMarkets::Session do
     it 'raises ConnectionError when excon raises an error' do
       expect(Excon).to receive(:send).and_raise(Excon::Error, 'error')
       expect { session.get 'url' }.to raise_error do |error|
-        expect(error).to be_a(IGMarkets::ConnectionError)
+        expect(error).to be_a(IGMarkets::Errors::ConnectionError)
         expect(error.message).to eq('error')
       end
     end
@@ -85,7 +85,7 @@ describe IGMarkets::Session do
     it 'raises InvalidJSONError when the HTTP response is not valid JSON' do
       response = build_response body: 'not_valid_json'
       expect(Excon).to receive(:get).with(full_url('url'), options).and_return(response)
-      expect { session.get 'url' }.to raise_error(IGMarkets::InvalidJSONError)
+      expect { session.get 'url' }.to raise_error(IGMarkets::Errors::InvalidJSONError)
     end
 
     it 'attempts to sign in again if the client token is invalid' do

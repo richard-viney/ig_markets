@@ -82,7 +82,7 @@ module IGMarkets
           5.times do |index|
             begin
               return print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
-            rescue DealNotFoundError
+            rescue Errors::DealNotFoundError
               raise if index == 4
 
               puts 'Deal not found, retrying ...'
@@ -134,11 +134,12 @@ module IGMarkets
 
         # Prints the passed error to `stderr` and then exits the application.
         def warn_and_exit(error)
-          if error.message.to_s == error.class.to_s
-            warn "Error: #{error.message}"
-          else
-            warn "Error: #{error.class}, #{error.message}"
-          end
+          class_name = error.class.name.split('::').last
+
+          message = error.message.to_s
+          message = nil if message.empty? || message == error.class.to_s
+
+          warn ["IG Markets: #{class_name}", message].compact.join(', ')
 
           exit 1
         end

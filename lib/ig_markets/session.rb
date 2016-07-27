@@ -156,7 +156,7 @@ module IGMarkets
 
       process_response response, options
     rescue Excon::Error => error
-      raise ConnectionError, error.message
+      raise Errors::ConnectionError, error.message
     end
 
     def process_response(response, options)
@@ -178,14 +178,14 @@ module IGMarkets
 
       ResponseParser.parse JSON.parse(response.body)
     rescue JSON::ParserError
-      raise InvalidJSONError, response.body
+      raise Errors::InvalidJSONError, response.body
     end
 
     def should_retry_request?(error, options)
-      if error.is_a?(ClientTokenInvalidError) && !options[:retry]
+      if error.is_a?(Errors::ClientTokenInvalidError) && !options[:retry]
         sign_in
         true
-      elsif error.is_a?(ExceededAPIKeyAllowanceError) || error.is_a?(ExceededAccountAllowanceError)
+      elsif error.is_a?(Errors::ExceededAPIKeyAllowanceError) || error.is_a?(Errors::ExceededAccountAllowanceError)
         sleep 5
         true
       end
