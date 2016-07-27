@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.17 — Unreleased
+### 0.17 — July 27, 2016
 
 - Switched to the `excon` HTTP library
 - Replaced `IGMarkets::RequestFailedError` with a new `IGMarkets::IGMarketsError` class which is used as a base class
