@@ -1,4 +1,4 @@
 module IGMarkets
   # The version of this gem.
-  VERSION = '0.17'.freeze
+  VERSION = '0.18.pre'.freeze
 end

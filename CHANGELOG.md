@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.18 — Unreleased
+
+- 
+
 ### 0.17 — July 27, 2016
 
 - Switched to the `excon` HTTP library
