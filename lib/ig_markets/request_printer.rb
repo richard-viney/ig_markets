@@ -23,7 +23,7 @@ module IGMarkets
           print_request_header name, value
         end
 
-        print_request_body options[:payload]
+        print_request_body options[:body]
       end
 
       # Formats and prints a JSON response body.

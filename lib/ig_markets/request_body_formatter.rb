@@ -1,11 +1,11 @@
 module IGMarkets
-  # Contains methods for formatting payloads that can be passed to the IG Markets API.
+  # Contains methods for formatting request bodies that can be passed to the IG Markets API.
   #
   # @private
-  module PayloadFormatter
+  module RequestBodyFormatter
     module_function
 
-    # Takes a {Model} and returns its attributes in a hash ready to be passed as a payload to the IG Markets API.
+    # Takes a {Model} and returns its attributes in a hash ready to be passed as a request body to the IG Markets API.
     # Attribute names will be converted from snake case to camel case, `Symbol` attributes will be converted to strings
     # and will be uppercased, and both `Date` and `Time` attributes will be converted to strings using their first
     # available `:format` option.

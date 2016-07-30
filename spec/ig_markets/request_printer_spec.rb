@@ -13,7 +13,7 @@ describe IGMarkets::RequestPrinter do
         method: :get,
         url: 'url',
         headers: { name: 'value' },
-        payload: { data: 'ABC' }.to_json
+        body: { data: 'ABC' }.to_json
       }
 
       IGMarkets::RequestPrinter.print_options options

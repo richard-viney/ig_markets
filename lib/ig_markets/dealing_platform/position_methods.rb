@@ -70,9 +70,9 @@ module IGMarkets
       def create(attributes)
         model = PositionCreateAttributes.new attributes
 
-        payload = PayloadFormatter.format model, expiry: '-'
+        body = RequestBodyFormatter.format model, expiry: '-'
 
-        @dealing_platform.session.post('positions/otc', payload, API_V2).fetch(:deal_reference)
+        @dealing_platform.session.post('positions/otc', body, API_V2).fetch(:deal_reference)
       end
 
       private

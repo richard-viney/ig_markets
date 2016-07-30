@@ -40,6 +40,8 @@ module IGMarkets
     #
     # @return [Hash] The data returned in the body of the sign in request.
     def sign_in
+      @client_security_token = @x_security_token = nil
+
       body = { identifier: username, password: password_encryptor.encrypt(password), encryptedPassword: true }
 
       sign_in_result = request method: :post, url: 'session', body: body, api_version: API_V2

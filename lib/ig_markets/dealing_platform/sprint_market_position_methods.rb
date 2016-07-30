@@ -42,9 +42,9 @@ module IGMarkets
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
       #         the sprint market position creation.
       def create(attributes)
-        payload = PayloadFormatter.format SprintMarketPositionCreateAttributes.new attributes
+        body = RequestBodyFormatter.format SprintMarketPositionCreateAttributes.new(attributes)
 
-        @dealing_platform.session.post('positions/sprintmarkets', payload).fetch :deal_reference
+        @dealing_platform.session.post('positions/sprintmarkets', body).fetch :deal_reference
       end
 
       # Internal model used by {#create}

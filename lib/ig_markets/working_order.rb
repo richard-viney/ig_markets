@@ -56,9 +56,9 @@ module IGMarkets
       model = WorkingOrderUpdateAttributes.new existing_attributes, new_attributes
       model.validate
 
-      payload = PayloadFormatter.format model
+      body = RequestBodyFormatter.format model
 
-      @dealing_platform.session.put("workingorders/otc/#{deal_id}", payload, API_V2).fetch(:deal_reference)
+      @dealing_platform.session.put("workingorders/otc/#{deal_id}", body, API_V2).fetch(:deal_reference)
     end
 
     # Internal model used by {#update}.

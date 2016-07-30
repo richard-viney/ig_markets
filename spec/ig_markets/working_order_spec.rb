@@ -20,7 +20,7 @@ describe IGMarkets::WorkingOrder, :dealing_platform do
   end
 
   it 'can update a working order' do
-    payload = {
+    body = {
       goodTillDate: '2015/10/30 12:59:00',
       level: 1.03,
       limitDistance: 20,
@@ -31,7 +31,7 @@ describe IGMarkets::WorkingOrder, :dealing_platform do
 
     put_result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:put).with('workingorders/otc/1', payload, IGMarkets::API_V2).and_return(put_result)
+    expect(session).to receive(:put).with('workingorders/otc/1', body, IGMarkets::API_V2).and_return(put_result)
     expect(working_order.update(level: 1.03, limit_distance: 20, stop_distance: 30)).to eq('reference')
   end
 

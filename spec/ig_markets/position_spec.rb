@@ -51,19 +51,19 @@ describe IGMarkets::Position, :dealing_platform do
   end
 
   it 'can be updated' do
-    payload = { limitLevel: 2.0, stopLevel: 1.0, trailingStop: false }
+    body = { limitLevel: 2.0, stopLevel: 1.0, trailingStop: false }
     put_result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:put).with('positions/otc/1', payload, IGMarkets::API_V2).and_return(put_result)
+    expect(session).to receive(:put).with('positions/otc/1', body, IGMarkets::API_V2).and_return(put_result)
 
     expect(position.update(stop_level: 1, limit_level: 2)).to eq('reference')
   end
 
   it 'can be closed' do
-    payload = { dealId: '1', direction: 'SELL', orderType: 'MARKET', size: 10.4, timeInForce: 'EXECUTE_AND_ELIMINATE' }
+    body = { dealId: '1', direction: 'SELL', orderType: 'MARKET', size: 10.4, timeInForce: 'EXECUTE_AND_ELIMINATE' }
     delete_result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:delete).with('positions/otc', payload).and_return(delete_result)
+    expect(session).to receive(:delete).with('positions/otc', body).and_return(delete_result)
 
     expect(position.close).to eq('reference')
   end

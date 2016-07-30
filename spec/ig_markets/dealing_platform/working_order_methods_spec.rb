@@ -36,7 +36,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
       type: :limit
     }
 
-    payload = {
+    body = {
       currencyCode: 'USD',
       direction: 'BUY',
       epic: 'CS.D.EURUSD.CFD.IP',
@@ -52,7 +52,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
 
     result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:post).with('workingorders/otc', payload, IGMarkets::API_V2).and_return(result)
+    expect(session).to receive(:post).with('workingorders/otc', body, IGMarkets::API_V2).and_return(result)
     expect(dealing_platform.working_orders.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 

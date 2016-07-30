@@ -37,7 +37,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
       size: 2.0
     }
 
-    payload = {
+    body = {
       currencyCode: 'USD',
       direction: 'BUY',
       epic: 'CS.D.EURUSD.CFD.IP',
@@ -51,7 +51,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
 
     result = { deal_reference: 'reference' }
 
-    expect(session).to receive(:post).with('positions/otc', payload, IGMarkets::API_V2).and_return(result)
+    expect(session).to receive(:post).with('positions/otc', body, IGMarkets::API_V2).and_return(result)
     expect(dealing_platform.positions.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 

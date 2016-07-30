@@ -28,14 +28,14 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platf
       size: 2.0
     }
 
-    payload = {
+    body = {
       direction: 'BUY',
       epic: 'CS.D.EURUSD.CFD.IP',
       expiryPeriod: 'FIVE_MINUTES',
       size: 2.0
     }
 
-    expect(session).to receive(:post).with('positions/sprintmarkets', payload).and_return(deal_reference: 'reference')
+    expect(session).to receive(:post).with('positions/sprintmarkets', body).and_return(deal_reference: 'reference')
     expect(dealing_platform.sprint_market_positions.create(attributes)).to eq('reference')
   end
 end

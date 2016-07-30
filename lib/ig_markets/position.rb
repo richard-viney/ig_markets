@@ -93,9 +93,9 @@ module IGMarkets
       model = PositionCloseAttributes.build options
       model.validate
 
-      payload = PayloadFormatter.format model
+      body = RequestBodyFormatter.format model
 
-      @dealing_platform.session.delete('positions/otc', payload).fetch :deal_reference
+      @dealing_platform.session.delete('positions/otc', body).fetch :deal_reference
     end
 
     # Updates this position. No attributes are mandatory, and any attributes not specified will be kept at their
@@ -119,9 +119,9 @@ module IGMarkets
         new_attributes[:trailing_stop_distance] = new_attributes[:trailing_stop_increment] = nil
       end
 
-      payload = PayloadFormatter.format PositionUpdateAttributes.new new_attributes
+      body = RequestBodyFormatter.format PositionUpdateAttributes.new(new_attributes)
 
-      @dealing_platform.session.put("positions/otc/#{deal_id}", payload, API_V2).fetch(:deal_reference)
+      @dealing_platform.session.put("positions/otc/#{deal_id}", body, API_V2).fetch(:deal_reference)
     end
 
     # Validates the internal consistency of the `:order_type`, `:quote_id` and `:level` attributes.

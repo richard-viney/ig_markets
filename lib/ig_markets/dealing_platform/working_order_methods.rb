@@ -64,9 +64,9 @@ module IGMarkets
       def create(attributes)
         model = WorkingOrderCreateAttributes.new attributes
 
-        payload = PayloadFormatter.format model, expiry: '-'
+        body = RequestBodyFormatter.format model, expiry: '-'
 
-        @dealing_platform.session.post('workingorders/otc', payload, API_V2).fetch :deal_reference
+        @dealing_platform.session.post('workingorders/otc', body, API_V2).fetch :deal_reference
       end
 
       # Internal model used by {#create}.
