@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.19 — Unreleased
+
+- 
+
 ### 0.18 — August 2, 2016
 
 - Added support for the recently added `#date` attribute on `IGMarkets::DealConfirmation`
