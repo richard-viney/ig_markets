@@ -13,14 +13,15 @@ provided command-line client. Written against the [official REST API](http://lab
 
 Includes support for:
 
-* Activity and transaction history
-* Positions
-* Sprint market positions
-* Working orders
-* Market navigation, searches and snapshots
-* Historical prices
-* Watchlists
-* Client sentiment
+- Activity and transaction history
+- Positions
+- Sprint market positions
+- Working orders
+- Market navigation, searches and snapshots
+- Historical prices
+- Watchlists
+- Client sentiment
+- Authentication profiles
 
 An IG Markets live or demo trading account is needed in order to use this gem.
 
