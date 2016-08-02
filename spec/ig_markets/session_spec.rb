@@ -128,12 +128,11 @@ describe IGMarkets::Session do
     end
 
     it 'prints requests' do
-      expect(Excon).to receive(:post)
-        .with(full_url('test'), request_options(body: { test: 1 }))
-        .and_return(build_response(body: { test: 2 }.to_json))
+      response = build_response body: { test: 2 }.to_json
 
-      expect(IGMarkets::RequestPrinter).to receive(:print_options).with(hash_including(:method, :url, :body, :headers))
-      expect(IGMarkets::RequestPrinter).to receive(:print_response_body).with('{"test":2}')
+      expect(IGMarkets::RequestPrinter).to receive(:print_request).with(hash_including(:method, :url, :body, :headers))
+      expect(Excon).to receive(:post).with(full_url('test'), request_options(body: { test: 1 })).and_return(response)
+      expect(IGMarkets::RequestPrinter).to receive(:print_response).with(response)
 
       session.post 'test', test: 1
     end

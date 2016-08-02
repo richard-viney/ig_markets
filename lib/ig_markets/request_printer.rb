@@ -1,6 +1,6 @@
 module IGMarkets
-  # This class contains methods for printing a REST request and its JSON response for inspection and debugging.
-  # Request printing is enabled by setting {enabled} to `true`.
+  # This class contains methods for printing a REST request and its response for inspection and debugging. Request
+  # printing is enabled by setting {enabled} to `true`.
   #
   # @private
   class RequestPrinter
@@ -10,42 +10,58 @@ module IGMarkets
       # @return [Boolean]
       attr_accessor :enabled
 
-      # Prints out an options hash that is ready to be passed to `RestClient::Request.execute`.
+      # Prints out a request options hash that is ready to be passed to `Excon`.
       #
-      # @param [Hash] options The options hash.
-      def print_options(options)
+      # @param [Hash] options The request options.
+      def print_request(options)
         return unless enabled
 
         puts "#{options[:method].to_s.upcase} #{options[:url]}"
 
-        puts '  Headers:'
-        options[:headers].each do |name, value|
-          puts "    #{name}: #{value}"
-        end
-
+        print_request_headers options[:headers]
         print_request_body options[:body]
       end
 
-      # Formats and prints a JSON response body.
+      # Formats and prints a response received form `Excon`.
       #
-      # @param [String] body The response body.
-      def print_response_body(body)
+      # @param [#headers, #body] response The response.
+      def print_response(response)
         return unless enabled
 
-        print '  Response: '
+        puts '  Response:'
 
-        puts JSON.pretty_generate(JSON.parse(body)).gsub "\n", "\n            "
-      rescue JSON::ParserError
-        puts body
+        print_response_headers response.headers
+        print_response_body response.body
       end
 
       private
 
+      def print_request_headers(headers)
+        puts '  Headers:'
+        headers.each do |name, value|
+          puts "    #{name}: #{value}"
+        end
+      end
+
       def print_request_body(body)
         return unless body
 
-        print '  Body: '
-        puts JSON.pretty_generate(JSON.parse(body)).gsub("\n", "\n        ")
+        print "  Body:\n    "
+        puts JSON.pretty_generate(JSON.parse(body)).gsub("\n", "\n    ")
+      end
+
+      def print_response_headers(headers)
+        puts '    Headers:'
+        headers.each do |name, value|
+          puts "      #{name}: #{value}"
+        end
+      end
+
+      def print_response_body(body)
+        print "    Body:\n      "
+        puts JSON.pretty_generate(JSON.parse(body)).gsub "\n", "\n      "
+      rescue JSON::ParserError
+        puts body
       end
     end
   end

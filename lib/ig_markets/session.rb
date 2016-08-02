@@ -150,11 +150,11 @@ module IGMarkets
     end
 
     def execute_request(options)
-      RequestPrinter.print_options options
+      RequestPrinter.print_request options
 
       response = Excon.send options[:method], options[:url], headers: options[:headers], body: options[:body]
 
-      RequestPrinter.print_response_body response.body
+      RequestPrinter.print_response response
 
       process_response response, options
     rescue Excon::Error => error
