@@ -12,7 +12,7 @@ describe IGMarkets::RequestPrinter do
       options = {
         method: :get,
         url: 'url',
-        headers: { name: 'value' },
+        headers: { 'Name' => 'value', '_method' => 'DELETE' },
         body: { data: 'ABC' }.to_json
       }
 
@@ -21,6 +21,7 @@ describe IGMarkets::RequestPrinter do
 GET url
   Headers:
     Name: value
+    _method: DELETE
   Body: {
           "data": "ABC"
         }

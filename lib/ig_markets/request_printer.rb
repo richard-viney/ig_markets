@@ -20,7 +20,7 @@ module IGMarkets
 
         puts '  Headers:'
         options[:headers].each do |name, value|
-          print_request_header name, value
+          puts "    #{name}: #{value}"
         end
 
         print_request_body options[:body]
@@ -40,10 +40,6 @@ module IGMarkets
       end
 
       private
-
-      def print_request_header(name, value)
-        puts "    #{name.to_s.split('_').map { |h| h[0].upcase + h[1..-1] }.join('-')}: #{value}"
-      end
 
       def print_request_body(body)
         return unless body
