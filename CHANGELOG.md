@@ -2,6 +2,7 @@
 
 ### 0.18 — Unreleased
 
+- Added support for the recently added `#date` attribute on `IGMarkets::DealConfirmation`
 - Fixed the second call to `IGMarkets::Session#sign_in` looping indefinitely if the previously logged in session was not
   explicitly signed out
 - Fixed automatic re-sign-in when the client security token is invalid not working correctly

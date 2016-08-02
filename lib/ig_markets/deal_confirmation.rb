@@ -8,6 +8,7 @@ module IGMarkets
     end
 
     attribute :affected_deals, AffectedDeal
+    attribute :date, Time, format: '%FT%T.%L'
     attribute :deal_id
     attribute :deal_reference
     attribute :deal_status, Symbol, allowed_values: [:accepted, :fund_account, :rejected]
