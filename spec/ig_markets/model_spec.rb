@@ -61,8 +61,15 @@ describe IGMarkets::Model do
 
   it 'has the correct getter and setter methods' do
     [:id, :id=, :bool, :bool=, :string, :string=, :date, :date=, :time, :time=,
-     :float, :float=, :symbol, :symbol=].each do |id|
-      expect(model.respond_to?(id)).to eq(true)
+     :float, :float=, :symbol, :symbol=].each do |method_name|
+      expect(model.respond_to?(method_name)).to eq(true)
+    end
+  end
+
+  it 'has the correct sanitize class methods' do
+    [:sanitize_id_value, :sanitize_bool_value, :sanitize_string_value, :sanitize_date_value, :sanitize_time_value,
+     :sanitize_float_value, :sanitize_symbol_value].each do |method_name|
+      expect(TestModel.respond_to?(method_name)).to eq(true)
     end
   end
 

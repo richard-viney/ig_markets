@@ -130,7 +130,19 @@ module IGMarkets
         Hash(defined_attributes).fetch(attribute_name).fetch :allowed_values
       end
 
-      # Defines setter and getter methods for a new attribute on this class.
+      # Returns whether the passed value is allowed to set be set as the value of the specified attribute.
+      #
+      # @param [Symbol] attribute_name
+      # @param value The candidate attribute value.
+      #
+      # @return [Boolean] Whether the passed value is allowed for the attribute.
+      def attribute_value_allowed?(attribute_name, value)
+        allowed_values = Hash(defined_attributes).fetch(attribute_name, {})[:allowed_values]
+
+        value.nil? || allowed_values.nil? || allowed_values.include?(value)
+      end
+
+      # Defines setter and getter instance methods and a sanitizer class method for a new attribute on this class.
       #
       # @param [Symbol] name The name of the new attribute.
       # @param [Boolean, String, Date, Time, Fixnum, Float, Symbol, Model] type The attribute's type.
@@ -148,22 +160,24 @@ module IGMarkets
       #   @return [$2]
       def attribute(name, type = String, options = {})
         define_attribute_reader name
-        define_attribute_writer name, type, options
+        define_attribute_writer name
+        define_attribute_sanitizer name, type, options
 
-        self.defined_attributes ||= {}
-        self.defined_attributes[name] = options.merge type: type
+        @defined_attributes ||= {}
+        @defined_attributes[name] = options.merge type: type
       end
 
-      # Defines a no-op setter method for each of the passed attribute names. This is used to silently allow deprecated
-      # attributes to be set on the model but not have them be part of the model's structure.
+      # Defines no-op setter, getter and sanitize methods for each of the passed attribute names. This is used to
+      # silently allow deprecated attributes to be used on the model but not have them be part of the model's structure.
       #
       # @param [Array<Symbol>] names The names of the deprecated attributes.
       def deprecated_attribute(*names)
         names.each do |name|
-          define_method "#{name}=" do |_value|
-          end
+          define_method(name) {}
+          define_method("#{name}=") { |_value| }
+          define_singleton_method("sanitize_#{name}_value") { |value| value }
 
-          (self.deprecated_attributes ||= []) << name
+          (@deprecated_attributes ||= []) << name
         end
       end
 
@@ -173,20 +187,25 @@ module IGMarkets
         define_method(name) { @attributes[name] }
       end
 
-      def define_attribute_writer(name, type, options)
-        typecaster = typecaster_for type
-
+      def define_attribute_writer(name)
         define_method "#{name}=" do |value|
-          value = nil if Array(options.fetch(:nil_if, [])).include? value
+          value = self.class.send "sanitize_#{name}_value", value
 
-          value = typecaster.call value, options, name
-
-          allowed_values = options[:allowed_values]
-          if !value.nil? && allowed_values
-            raise ArgumentError, "#{self}##{name}: invalid value: #{value.inspect}" unless allowed_values.include? value
+          unless self.class.attribute_value_allowed? name, value
+            raise ArgumentError, "#{self}##{name}: invalid value: #{value.inspect}"
           end
 
           (@attributes ||= {})[name] = value
+        end
+      end
+
+      def define_attribute_sanitizer(name, type, options)
+        typecaster = typecaster_for type
+
+        define_singleton_method "sanitize_#{name}_value" do |value|
+          value = nil if Array(options[:nil_if]).include? value
+
+          typecaster.call value, options, name
         end
       end
     end

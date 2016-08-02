@@ -49,20 +49,31 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     expect(dealing_platform.instantiate_models(IGMarkets::Account, [account])).to eq([account])
   end
 
-  it 'can instantiate models from an attributes hash' do
-    class TestModel3 < IGMarkets::Model
-      attribute :test
+  class DealingPlatformSpecModel < IGMarkets::Model
+    attribute :test
+    attribute :test2, Symbol, allowed_values: [:one, :two, :three]
 
-      deprecated_attribute :deprecated
+    deprecated_attribute :deprecated
 
-      def self.adjusted_api_attributes(attributes)
-        attributes.keys == [:parent] ? attributes[:parent] : attributes
-      end
+    def self.adjusted_api_attributes(attributes)
+      attributes.keys == [:parent] ? attributes[:parent] : attributes
     end
+  end
 
-    result = dealing_platform.instantiate_models(TestModel3, parent: [{ test: 'value', deprecated: '' }])
+  it 'instantiates models from an attributes hash' do
+    result = dealing_platform.instantiate_models(DealingPlatformSpecModel, parent: [{ test: 'value', deprecated: '' }])
+    expect(result).to eq([DealingPlatformSpecModel.new(test: 'value')])
+  end
 
-    expect(result).to eq([TestModel3.new(test: 'value')])
+  it 'reports unrecognized values when instantiating models exactly once and sets their value to nil' do
+    expect do
+      result = dealing_platform.instantiate_models(DealingPlatformSpecModel, test: 'value', test2: 'FOUR')
+      expect(result).to eq(DealingPlatformSpecModel.new(test: 'value', test2: nil))
+    end.to output("ig_markets: received unrecognized value for DealingPlatformSpecModel#test2: four\n").to_stderr
+
+    expect do
+      dealing_platform.instantiate_models(DealingPlatformSpecModel, test: 'value', test2: 'FOUR')
+    end.to output('').to_stderr
   end
 
   it 'raises an error when trying to instantiate from an unsupported type' do

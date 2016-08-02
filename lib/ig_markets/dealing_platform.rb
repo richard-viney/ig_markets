@@ -166,12 +166,31 @@ module IGMarkets
         model.instance_variable_set :@dealing_platform, self
 
         attributes.each do |attribute, value|
-          next unless model_class.valid_attribute? attribute
+          next unless model.class.valid_attribute? attribute
 
-          type = model_class.attribute_type attribute
-          value = instantiate_models(type, value) if type < Model
+          type = model.class.attribute_type attribute
+          value = instantiate_models type, value if type < Model
 
-          model.send "#{attribute}=", value
+          set_model_attribute_value model, attribute, value
+        end
+      end
+    end
+
+    # Sets the specified attribute value on the passed model instance. If a future version of the IG Markets API adds
+    # new valid values for attributes that are of type `Symbol` then assigning them here would cause an `ArgumentError`
+    # exception due to them not being in the `allowed_values` list for the attribute. This means that an API addition
+    # by IG Markets could cause this library to crash, which is undesirable. Instead of crashing this method issues a
+    # warning about the unrecognized value, and a future version of this library can then be updated to properly support
+    # the new valid value(s) that were added in the API update.
+    def set_model_attribute_value(model, attribute, value)
+      value = model.class.send "sanitize_#{attribute}_value", value
+
+      if model.class.attribute_value_allowed? attribute, value
+        model.send "#{attribute}=", value
+      else
+        unless Array(@reported_unrecognized_values).include? [model.class, attribute, value]
+          warn "ig_markets: received unrecognized value for #{model.class}##{attribute}: #{value}"
+          (@reported_unrecognized_values ||= []) << [model.class, attribute, value]
         end
       end
     end

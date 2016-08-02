@@ -2,6 +2,8 @@
 
 ### 0.19 — Unreleased
 
+- If the API returns an unexpected enum value then a one-time warning is now emitted and the value is treated as `nil`,
+  this replaces the previous behavior of raising an exception and makes the library more future-proof
 - When a traffic allowance is exceeded the time waited before retrying is now ten seconds instead of five
 - HTTP response headers are now shown when in verbose mode
 
