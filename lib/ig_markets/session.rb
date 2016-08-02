@@ -141,7 +141,7 @@ module IGMarkets
 
       headers['Content-Type'] = headers['Accept'] = 'application/json; charset=UTF-8'
       headers['X-IG-API-KEY'] = api_key
-      headers['Version'] = options.delete :api_version
+      headers['Version'] = options.fetch :api_version
 
       headers['CST'] = client_security_token if client_security_token
       headers['X-SECURITY-TOKEN'] = x_security_token if x_security_token
@@ -164,12 +164,12 @@ module IGMarkets
     def process_response(response, options)
       body = parse_body response
 
-      if body.key? :error_code
+      if body.is_a?(Hash) && body.key?(:error_code)
         error = IGMarketsError.build body[:error_code]
 
         raise error unless should_retry_request? error, options
 
-        execute_request options.merge(retry: true)
+        execute_request options.merge(retry: true, headers: request_headers(options))
       else
         { response: response, body: body }
       end

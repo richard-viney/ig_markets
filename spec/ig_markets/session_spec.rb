@@ -101,7 +101,9 @@ describe IGMarkets::Session do
         .with(full_url('session/encryptionKey'), request_options(client_security_token: false, x_security_token: false))
         .and_return(responses[1])
       expect(Excon).to receive(:post).and_return(responses[2])
-      expect(Excon).to receive(:get).with(full_url('url'), request_options).and_return(responses[3])
+      expect(Excon).to receive(:get)
+        .with(full_url('url'), request_options(client_security_token: '3', x_security_token: '4'))
+        .and_return(responses[3])
 
       expect(session.get('url')).to eq(result: 'test')
 
@@ -142,11 +144,17 @@ describe IGMarkets::Session do
 
     def headers(options)
       hash = {}
+
       hash['Accept'] = hash['Content-Type'] = 'application/json; charset=UTF-8'
       hash['Version'] = 1
-      hash['CST'] = 'client_security_token' unless options[:client_security_token] == false
-      hash['X-SECURITY-TOKEN'] = 'x_security_token' unless options[:x_security_token] == false
       hash['X-IG-API-KEY'] = 'api_key'
+
+      client_security_token = options.fetch :client_security_token, 'client_security_token'
+      hash['CST'] = client_security_token if client_security_token
+
+      x_security_token = options.fetch :x_security_token, 'x_security_token'
+      hash['X-SECURITY-TOKEN'] = x_security_token if x_security_token
+
       hash
     end
 
