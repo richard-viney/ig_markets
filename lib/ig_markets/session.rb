@@ -188,7 +188,7 @@ module IGMarkets
         sign_in
         true
       elsif error.is_a?(Errors::ExceededAPIKeyAllowanceError) || error.is_a?(Errors::ExceededAccountAllowanceError)
-        sleep 5
+        sleep 10
         true
       end
     end

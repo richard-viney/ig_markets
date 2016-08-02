@@ -68,7 +68,7 @@ describe IGMarkets::Session do
       ]
 
       expect(Excon).to receive(:post).with(full_url('test'), request_options(body: {})).and_return(responses[0])
-      expect(session).to receive(:sleep).with(5)
+      expect(session).to receive(:sleep).with(10)
       expect(Excon).to receive(:post).with(full_url('test'), request_options(body: {})).and_return(responses[1])
 
       expect(session.post('test', {})).to eq({})

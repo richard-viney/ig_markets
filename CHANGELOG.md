@@ -2,7 +2,7 @@
 
 ### 0.19 — Unreleased
 
-- 
+- When a traffic allowance is exceeded the time waited before retrying is now ten seconds instead of five
 
 ### 0.18 — August 2, 2016
 
