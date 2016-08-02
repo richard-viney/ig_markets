@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.18 — Unreleased
+### 0.18 — August 2, 2016
 
 - Added support for the recently added `#date` attribute on `IGMarkets::DealConfirmation`
 - Fixed the second call to `IGMarkets::Session#sign_in` looping indefinitely if the previously logged in session was not
