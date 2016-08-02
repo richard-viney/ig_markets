@@ -119,6 +119,19 @@ module IGMarkets
       instantiate_models Application, session.put('operations/application/disable')
     end
 
+    # Creates a new Lightstreamer session instance from this dealing platform's {#session} that is ready to connect
+    # and start streaming account and market data.
+    #
+    # @return [Lightstreamer::Session, nil] The new Lightstreamer session instance, or `nil` if there is no active
+    #         IG Markets session to connect through.
+    def lightstreamer_session
+      return nil unless session.alive?
+
+      Lightstreamer::Session.new server_url: client_account_summary.lightstreamer_endpoint,
+                                 username: client_account_summary.client_id,
+                                 password: "CST-#{session.client_security_token}|XST-#{session.x_security_token}"
+    end
+
     # This method is used to instantiate the various `Model` subclasses from data returned by the IG Markets API. It
     # recurses through arrays and sub-hashes present in `source`, instantiating the required models based on the types
     # of each attribute as defined on the models. All model instances returned by this method will have their
@@ -132,6 +145,8 @@ module IGMarkets
     #                                  this method individually.
     #
     # @return [nil, `model_class`, Array<`model_class`>] The resulting instantiated model(s).
+    #
+    # @private
     def instantiate_models(model_class, source)
       return nil if source.nil?
 

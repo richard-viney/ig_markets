@@ -4,9 +4,9 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
   end
 
   it 'can sign in' do
-    client_account_summary = IGMarkets::ClientAccountSummary.new client_id: 'id'
+    client_account_summary = build :client_account_summary, client_id: 'id'
 
-    expect(session).to receive(:sign_in).and_return(client_id: 'id')
+    expect(session).to receive(:sign_in).and_return(client_account_summary.attributes)
     expect(dealing_platform.sign_in('username', 'password', 'api_key', :live)).to eq(client_account_summary)
     expect(dealing_platform.client_account_summary).to eq(client_account_summary)
     expect(session.username).to eq('username')
@@ -39,6 +39,22 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
 
     expect(session).to receive(:put).with('operations/application/disable').and_return(application)
     expect(dealing_platform.disable_api_key).to eq(application)
+  end
+
+  it 'can create a Lightstreamer session' do
+    client_account_summary = build :client_account_summary
+    dealing_platform.instance_variable_set :@client_account_summary, client_account_summary
+
+    lightstreamer_session = instance_double 'Lightstreamer::Session'
+
+    expect(session).to receive(:alive?).and_return(true)
+    expect(session).to receive(:client_security_token).and_return('cst')
+    expect(session).to receive(:x_security_token).and_return('xst')
+
+    expect(Lightstreamer::Session).to receive(:new)
+      .with(server_url: 'http://lightstreamer.com', username: 'ABC123', password: 'CST-cst|XST-xst')
+      .and_return(lightstreamer_session)
+    expect(dealing_platform.lightstreamer_session).to eq(lightstreamer_session)
   end
 
   it 'can instantiate models from existing instances' do

@@ -7,6 +7,7 @@ require 'yaml'
 
 require 'colorize'
 require 'excon'
+require 'lightstreamer'
 require 'pry'
 require 'terminal-table'
 require 'thor'

@@ -82,14 +82,14 @@ describe IGMarkets::Model do
                                 'symbol: nil>')
   end
 
+  class NestedModel < IGMarkets::Model
+    attribute :test, TestModel
+  end
+
   it 'inspects attributes in nested models' do
-    class TestModel2 < IGMarkets::Model
-      attribute :test, TestModel
-    end
+    model = NestedModel.new test: TestModel.new
 
-    model = TestModel2.new test: TestModel.new
-
-    expect(model.inspect).to eq('#<TestModel2 test: #<TestModel id: nil, bool: nil, string: nil, date: nil, ' \
+    expect(model.inspect).to eq('#<NestedModel test: #<TestModel id: nil, bool: nil, string: nil, date: nil, ' \
                                 'time: nil, float: nil, symbol: nil>>')
   end
 
@@ -100,12 +100,8 @@ describe IGMarkets::Model do
   end
 
   it 'raises an exception when a model attribute is set to the wrong type' do
-    class TestModel2 < IGMarkets::Model
-      attribute :test, TestModel
-    end
-
-    expect { TestModel2.new test: nil }.to_not raise_error
-    expect { TestModel2.new test: 'string' }.to raise_error(ArgumentError)
+    expect { NestedModel.new test: nil }.to_not raise_error
+    expect { NestedModel.new test: 'string' }.to raise_error(ArgumentError)
   end
 
   it 'converts an empty string to nil on a Float attribute' do
