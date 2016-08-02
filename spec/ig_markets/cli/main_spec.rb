@@ -18,7 +18,7 @@ describe IGMarkets::CLI::Main, :dealing_platform do
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("IG Markets: ConnectionError\n").to_stderr.and raise_error(SystemExit)
+    end.to output("ig_markets: ConnectionError\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a connection error with details' do
@@ -26,7 +26,7 @@ describe IGMarkets::CLI::Main, :dealing_platform do
 
     expect do
       IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }
-    end.to output("IG Markets: ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
+    end.to output("ig_markets: ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a deal confirmation' do

@@ -135,11 +135,12 @@ module IGMarkets
         # Prints the passed error to `stderr` and then exits the application.
         def warn_and_exit(error)
           class_name = error.class.name.split('::').last
+          class_name = nil if class_name == 'IGMarketsError'
 
           message = error.message.to_s
-          message = nil if message.empty? || message == error.class.to_s
+          message = nil if ['', error.class.to_s].include? message
 
-          warn ["IG Markets: #{class_name}", message].compact.join(', ')
+          warn "ig_markets: #{[class_name, message].compact.join ', '}"
 
           exit 1
         end
