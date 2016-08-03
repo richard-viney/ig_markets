@@ -1,5 +1,5 @@
 describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platform do
-  it 'can retrieve sprint market positions' do
+  it 'retrieves sprint market positions' do
     positions = [build(:sprint_market_position)]
 
     expect(session).to receive(:get)
@@ -9,7 +9,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platf
     expect(dealing_platform.sprint_market_positions.all).to eq(positions)
   end
 
-  it 'can retrieve a single sprint market position' do
+  it 'retrieves a single sprint market position' do
     positions = [build(:sprint_market_position)]
 
     expect(session).to receive(:get).twice
@@ -20,7 +20,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platf
     expect(dealing_platform.sprint_market_positions['UNKNOWN']).to be_nil
   end
 
-  it 'can create a sprint market position' do
+  it 'creates a new sprint market position' do
     attributes = {
       direction: :buy,
       epic: 'CS.D.EURUSD.CFD.IP',

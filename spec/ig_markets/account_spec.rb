@@ -1,5 +1,5 @@
 describe IGMarkets::Account, :dealing_platform do
-  it 'reloads its attributes' do
+  it 'reloads itself' do
     account = dealing_platform_model build(:account)
 
     expect(dealing_platform.account).to receive(:all).twice.and_return([account])

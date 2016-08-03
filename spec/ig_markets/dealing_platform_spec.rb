@@ -1,9 +1,5 @@
 describe IGMarkets::DealingPlatform, :dealing_platform do
-  it 'has a valid session' do
-    expect(IGMarkets::DealingPlatform.new.session).to be_an_instance_of(IGMarkets::Session)
-  end
-
-  it 'can sign in' do
+  it 'signs in' do
     client_account_summary = build :client_account_summary, client_id: 'id'
 
     expect(session).to receive(:sign_in).and_return(client_account_summary.attributes)
@@ -15,33 +11,33 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     expect(session.platform).to eq(:live)
   end
 
-  it 'can sign out' do
+  it 'signs out' do
     expect(session).to receive(:sign_out).and_return(nil)
     expect(dealing_platform.sign_out).to be_nil
   end
 
-  it 'can retrieve a deal confirmation' do
+  it 'retrieves a deal confirmation' do
     deal_confirmation = build :deal_confirmation
 
     expect(session).to receive(:get).with('confirms/DEAL').and_return(deal_confirmation)
     expect(dealing_platform.deal_confirmation(deal_confirmation.deal_id)).to eq(deal_confirmation)
   end
 
-  it 'can retrieve the current applications' do
+  it 'retrieves the current applications' do
     applications = [build(:application)]
 
     expect(session).to receive(:get).with('operations/application').and_return(applications)
     expect(dealing_platform.applications).to eq(applications)
   end
 
-  it 'can disable the API key' do
+  it 'disables the API key' do
     application = build :application
 
     expect(session).to receive(:put).with('operations/application/disable').and_return(application)
     expect(dealing_platform.disable_api_key).to eq(application)
   end
 
-  it 'can create a Lightstreamer session' do
+  it 'creates a Lightstreamer session' do
     client_account_summary = build :client_account_summary
     dealing_platform.instance_variable_set :@client_account_summary, client_account_summary
 
@@ -57,7 +53,7 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     expect(dealing_platform.lightstreamer_session).to eq(lightstreamer_session)
   end
 
-  it 'can instantiate models from existing instances' do
+  it 'instantiates models from existing instances' do
     account = IGMarkets::Account.new account_name: 'test'
 
     expect(dealing_platform.instantiate_models(IGMarkets::Account, nil)).to be_nil
@@ -92,7 +88,7 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     end.to output('').to_stderr
   end
 
-  it 'raises an error when trying to instantiate from an unsupported type' do
+  it 'raises an error when trying to instantiate a model from an unsupported type' do
     expect { dealing_platform.instantiate_models IGMarkets::Model, 100 }.to raise_error(ArgumentError)
   end
 end

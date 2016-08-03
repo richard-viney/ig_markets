@@ -43,15 +43,15 @@ describe IGMarkets::Model do
                                                                    time: nil, float: nil, symbol: nil)
   end
 
-  it 'allows deprecated attributes to be set' do
-    expect { TestModel.new(deprecated_0: '0', deprecated_1: '1') }.not_to raise_error
+  it 'allows deprecated attributes to be get and set' do
+    expect { TestModel.new(deprecated_0: '0', deprecated_1: '1').deprecated_0 }.not_to raise_error
   end
 
   it 'fails when initialized with an unknown attribute' do
     expect { TestModel.new id: 'test', unknown: '' }.to raise_error(ArgumentError)
   end
 
-  it 'duplicates itself correctly' do
+  it 'duplicates itself' do
     instance = TestModel.new id: '1'
     copy = instance.dup
     copy.id = '2'
@@ -59,21 +59,21 @@ describe IGMarkets::Model do
     expect(instance.id).to eq('1')
   end
 
-  it 'has the correct getter and setter methods' do
+  it 'has attribute getter and setter methods' do
     [:id, :id=, :bool, :bool=, :string, :string=, :date, :date=, :time, :time=,
      :float, :float=, :symbol, :symbol=].each do |method_name|
       expect(model.respond_to?(method_name)).to eq(true)
     end
   end
 
-  it 'has the correct sanitize class methods' do
+  it 'has sanitize attribute class methods' do
     [:sanitize_id_value, :sanitize_bool_value, :sanitize_string_value, :sanitize_date_value, :sanitize_time_value,
      :sanitize_float_value, :sanitize_symbol_value].each do |method_name|
       expect(TestModel.respond_to?(method_name)).to eq(true)
     end
   end
 
-  it 'has the correct attributes hash' do
+  it 'returns the attributes hash' do
     expect(model.attributes).to eq(id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil)
   end
 
@@ -111,35 +111,32 @@ describe IGMarkets::Model do
     expect(model.float).to be_nil
   end
 
-  it 'raises ArgumentError for an invalid boolean' do
+  it 'raises on an invalid boolean' do
     expect { model.bool = '' }.to raise_error(ArgumentError)
   end
 
-  it 'raises ArgumentError when string value does not match the regex' do
+  it 'raises when a string value does not match the regex' do
     expect { model.string = 'abc' }.to raise_error(ArgumentError)
   end
 
-  it 'raises ArgumentError for an invalid date' do
+  it 'raises on an invalid date' do
     expect { model.date = '2015-29-01 A:B:C' }.to raise_error(ArgumentError)
   end
 
-  it 'raises ArgumentError for an invalid time' do
+  it 'raises on an invalid time' do
     expect { model.time = '2015-29-01T09:30:40' }.to raise_error(ArgumentError)
-  end
-
-  it 'raises ArgumentError for an invalid time' do
     expect { model.time = '2015-29-01' }.to raise_error(ArgumentError)
   end
 
-  it 'raises ArgumentError for an invalid float' do
+  it 'raises on an invalid float' do
     expect { model.float = 'a' }.to raise_error(ArgumentError)
   end
 
-  it 'raises ArgumentError for an invalid symbol' do
+  it 'raises on an invalid symbol' do
     expect { model.symbol = :invalid }.to raise_error(ArgumentError)
   end
 
-  it 'returns the correct set of allowed values for an attribute' do
+  it 'returns the allowed values for an attribute' do
     expect(TestModel.allowed_values(:symbol)).to eq([:a, :b])
   end
 
@@ -148,12 +145,12 @@ describe IGMarkets::Model do
     expect(model.string).to be_nil
   end
 
-  it 'correctly parses a date in the expected format' do
+  it 'parses a date in the expected format' do
     model.date = '2015-01-10'
     expect(model.date).to eq(Date.new(2015, 1, 10))
   end
 
-  it 'correctly parses a time in the expected formats' do
+  it 'parses a time in the expected formats' do
     model.time = '2015-01-10T09:30:25'
     expect(model.time).to eq(Time.new(2015, 1, 10, 9, 30, 25, '+00:00'))
 
@@ -172,7 +169,7 @@ describe IGMarkets::Model do
       model.symbol = 'a'
     end
 
-    it 'has the correct attributes hash' do
+    it 'returns the attributes hash' do
       expect(model.attributes).to eq(id: 'id', bool: true, string: 'ABC', date: Date.new(2015, 1, 10),
                                      time: Time.new(2015, 1, 10, 6, 30, 0, '+00:00'), float: 1.0, symbol: :a)
     end

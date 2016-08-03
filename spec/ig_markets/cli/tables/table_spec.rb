@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Table do
     ]
   end
 
-  it 'prints the correct table' do
+  it 'prints the table' do
     expect(TestTable.new(models).to_s + "\n").to eq(<<-END
 +-------+--------+--------+
 |          Test           |
@@ -52,7 +52,7 @@ END
                                                    )
   end
 
-  it 'can use a custom title' do
+  it 'uses a custom title' do
     expect(TestTable.new(models, title: 'Title').to_s + "\n").to eq(<<-END
 +-------+--------+--------+
 |          Title          |

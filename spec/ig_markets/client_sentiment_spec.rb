@@ -1,7 +1,7 @@
 describe IGMarkets::ClientSentiment, :dealing_platform do
   let(:client_sentiment) { dealing_platform_model build(:client_sentiment, market_id: '1') }
 
-  it 'reloads its attributes' do
+  it 'reloads itself' do
     expect(dealing_platform.client_sentiment).to receive(:[]).with('1').twice.and_return(client_sentiment)
 
     client_sentiment_copy = dealing_platform.client_sentiment['1'].dup

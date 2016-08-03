@@ -1,12 +1,12 @@
 describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
-  it 'can retrieve the market hierarchy root' do
+  it 'retrieves the market hierarchy root' do
     result = build :market_hierarchy_result
 
     expect(session).to receive(:get).with('marketnavigation').and_return(result)
     expect(dealing_platform.markets.hierarchy).to eq(result)
   end
 
-  it 'can retrieve a market hierarchy node' do
+  it 'retrieves a market hierarchy node' do
     result = build :market_hierarchy_result
 
     expect(session).to receive(:get).with('marketnavigation/1').and_return(result)
@@ -23,14 +23,14 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
     }
   end
 
-  it 'can retrieve a market from an EPIC' do
+  it 'retrieves a market from an EPIC' do
     result = dealing_platform.instantiate_models IGMarkets::Market, markets_get_result[:market_details]
 
     expect(session).to receive(:get).with('markets?epics=ABCDEF', IGMarkets::API_V2).and_return(markets_get_result)
     expect(dealing_platform.markets['ABCDEF']).to eq(result.first)
   end
 
-  it 'can retrieve multiple markets from their EPICs in a single call' do
+  it 'retrieves multiple markets from their EPICs in a single call' do
     fifty_markets = { market_details: markets_get_result[:market_details] * 50 }
     ten_markets = { market_details: markets_get_result[:market_details] * 10 }
 
@@ -47,7 +47,7 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
     expect(dealing_platform.markets.find(epics).size).to eq(60)
   end
 
-  it 'can search for markets' do
+  it 'searches for markets' do
     markets = [build(:market_overview)]
 
     expect(session).to receive(:get).with('markets?searchTerm=USD').and_return(markets: markets)

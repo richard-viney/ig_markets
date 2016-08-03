@@ -3,7 +3,7 @@ describe IGMarkets::Instrument do
     expect(build(:instrument, expiry: 'DFB').expiry).to eq(nil)
   end
 
-  it 'adjusts API attributes correctly' do
+  it 'adjusts API attributes' do
     expect(IGMarkets::Instrument::OpeningHours.adjusted_api_attributes({})).to eq({})
     expect(IGMarkets::Instrument::OpeningHours.adjusted_api_attributes(market_times: [])).to eq([])
   end

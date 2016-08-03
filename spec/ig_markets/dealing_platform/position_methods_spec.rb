@@ -11,13 +11,13 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
     }
   end
 
-  it 'can retrieve the current positions' do
+  it 'retrieves the current positions' do
     expect(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
 
     expect(dealing_platform.positions.all).to eq(positions)
   end
 
-  it 'can retrieve a single position' do
+  it 'retrieves a single position' do
     expect(session).to receive(:get).with('positions', IGMarkets::API_V2).and_return(get_result)
 
     expect(dealing_platform.positions[positions.first.deal_id]).to eq(positions.first)
@@ -29,7 +29,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
     expect(dealing_platform.positions['UNKNOWN']).to be_nil
   end
 
-  it 'can create a position' do
+  it 'creates a new position' do
     attributes = {
       currency_code: 'USD',
       direction: :buy,
@@ -55,7 +55,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
     expect(dealing_platform.positions.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 
-  it 'validates position creation attributes correctly' do
+  it 'validates position creation attributes' do
     attributes = {
       currency_code: 'USD',
       direction: :buy,

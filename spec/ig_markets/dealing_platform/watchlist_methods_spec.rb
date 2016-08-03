@@ -1,12 +1,12 @@
 describe IGMarkets::DealingPlatform::WatchlistMethods, :dealing_platform do
-  it 'can retrieve the watchlists' do
+  it 'retrieves the current watchlists' do
     watchlists = [build(:watchlist)]
 
     expect(session).to receive(:get).with('watchlists').and_return(watchlists: watchlists)
     expect(dealing_platform.watchlists.all).to eq(watchlists)
   end
 
-  it 'can retrieve the markets for a watchlist' do
+  it 'retrieves the markets for a watchlist' do
     markets = [build(:market_overview)]
 
     expect(session).to receive(:get).with('watchlists').and_return(watchlists: [{ id: 1 }])
@@ -14,7 +14,7 @@ describe IGMarkets::DealingPlatform::WatchlistMethods, :dealing_platform do
     expect(dealing_platform.watchlists['1'].markets).to eq(markets)
   end
 
-  it 'can create a watchlist' do
+  it 'creates a new watchlist' do
     watchlist_id = '1000'
     name = 'New Watchlist'
     epics = ['ABCDEF']

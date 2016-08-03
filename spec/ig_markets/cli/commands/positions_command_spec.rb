@@ -58,7 +58,7 @@ END
     cli(arguments).update 'DEAL'
   end
 
-  it 'can remove a stop and limit from a position' do
+  it 'removes a stop and limit from a position' do
     arguments = { limit_level: '', stop_level: 'stop_level' }
 
     position = build :position

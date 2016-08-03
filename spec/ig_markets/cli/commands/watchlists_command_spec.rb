@@ -15,7 +15,7 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
     end.to output("#{IGMarkets::CLI::MarketOverviewsTable.new(markets, title: 'Markets (id: 2547731)')}\n").to_stdout
   end
 
-  it 'creates a watchlist' do
+  it 'creates a new watchlist' do
     watchlist = build :watchlist
 
     expect(dealing_platform.watchlists).to receive(:create).with('name', 'epic1', 'epic2').and_return(watchlist)

@@ -2,11 +2,12 @@ describe IGMarkets::PasswordEncryptor do
   let(:encryptor) { IGMarkets::PasswordEncryptor.new }
   let(:rsa_key_pair) { OpenSSL::PKey::RSA.new 2048 }
 
-  it 'can set its public key from an encoded public key' do
-    expect { encryptor.encoded_public_key = Base64.strict_encode64 rsa_key_pair.to_pem }.not_to raise_error
+  it 'sets its public key from an encoded public key' do
+    encryptor.encoded_public_key = Base64.strict_encode64 rsa_key_pair.to_pem
+    expect(encryptor.public_key.to_pem).to eq(rsa_key_pair.to_pem)
   end
 
-  it 'can encrypt a password' do
+  it 'encrypts a password' do
     password = 'test'
 
     encryptor.time_stamp = '1000'

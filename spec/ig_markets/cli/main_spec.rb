@@ -7,7 +7,7 @@ describe IGMarkets::CLI::Main, :dealing_platform do
     IGMarkets::CLI::Main.new [], { username: 'username', password: 'password', api_key: 'api-key' }.merge(arguments)
   end
 
-  it 'correctly signs in' do
+  it 'signs in' do
     expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :live)
 
     IGMarkets::CLI::Main.begin_session(cli.options) { |_dealing_platform| }

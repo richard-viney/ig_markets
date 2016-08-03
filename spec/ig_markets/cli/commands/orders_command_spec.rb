@@ -11,7 +11,7 @@ describe IGMarkets::CLI::Orders, :cli_command do
     expect { cli.list }.to output("#{IGMarkets::CLI::WorkingOrdersTable.new working_orders}\n").to_stdout
   end
 
-  it 'creates a working order' do
+  it 'creates a new working order' do
     arguments = {
       currency_code: 'USD',
       direction: 'buy',

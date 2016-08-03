@@ -1,7 +1,7 @@
 describe IGMarkets::Watchlist, :dealing_platform do
   let(:watchlist) { dealing_platform_model build(:watchlist, id: '1') }
 
-  it 'can be deleted' do
+  it 'deletes itself' do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:delete).with('watchlists/1').and_return(result)
@@ -9,7 +9,7 @@ describe IGMarkets::Watchlist, :dealing_platform do
     expect(watchlist.delete).to eq(result)
   end
 
-  it 'can add a market' do
+  it 'adds a new market' do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:put).with('watchlists/1', epic: 'ABCDEF').and_return(result)
@@ -17,7 +17,7 @@ describe IGMarkets::Watchlist, :dealing_platform do
     expect(watchlist.add_market('ABCDEF')).to eq(result)
   end
 
-  it 'can remove a market' do
+  it 'removes a market' do
     result = { status: 'SUCCESS' }
 
     expect(session).to receive(:delete).with('watchlists/1/ABCDEF').and_return(result)

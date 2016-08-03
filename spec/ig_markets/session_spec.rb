@@ -19,7 +19,7 @@ describe IGMarkets::Session do
       expect(session.alive?).to eq(false)
     end
 
-    it 'can sign in' do
+    it 'sign ins' do
       responses = [
         build_response(body: { encryptionKey: key, timeStamp: '1000' }.to_json),
         build_response(body: { clientId: 'id' }.to_json, headers: { 'CST' => '1', 'X-SECURITY-TOKEN' => '2' })
@@ -48,13 +48,13 @@ describe IGMarkets::Session do
       expect(session.alive?).to eq(true)
     end
 
-    it 'passes correct details for a post request' do
+    it 'performs a POST request' do
       response = build_response body: { ids: [1, 2] }.to_json
       expect(Excon).to receive(:post).with(full_url('url'), request_options(body: { id: 1 })).and_return(response)
       expect(session.post('url', id: 1)).to eq(ids: [1, 2])
     end
 
-    it 'can sign out' do
+    it 'signs out' do
       response = build_response body: {}.to_json
       expect(Excon).to receive(:delete).with(full_url('session'), request_options).and_return(response)
       expect(session.sign_out).to be_nil
@@ -74,7 +74,7 @@ describe IGMarkets::Session do
       expect(session.post('test', {})).to eq({})
     end
 
-    it 'raises ConnectionError when excon raises an error' do
+    it 'raises ConnectionError when Excon raises an error' do
       expect(Excon).to receive(:send).and_raise(Excon::Error, 'error')
       expect { session.get 'url' }.to raise_error do |error|
         expect(error).to be_a(IGMarkets::Errors::ConnectionError)
@@ -112,13 +112,13 @@ describe IGMarkets::Session do
       expect(session.alive?).to eq(true)
     end
 
-    it 'can process a PUT request' do
+    it 'performs a PUT request' do
       response = build_response body: ''
       expect(Excon).to receive(:put).with(full_url('url'), request_options(body: { id: 1 })).and_return(response)
       expect(session.put('url', id: 1)).to eq({})
     end
 
-    it 'can process a DELETE request with a body' do
+    it 'performs a DELETE request with a body' do
       post_options = request_options body: { id: 1 }
       post_options[:headers]['_method'] = 'DELETE'
 

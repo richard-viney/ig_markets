@@ -1,7 +1,7 @@
 describe IGMarkets::Market, :dealing_platform do
   let(:market) { dealing_platform_model build(:market) }
 
-  it 'reloads its attributes' do
+  it 'reloads itself' do
     expect(dealing_platform.markets).to receive(:[]).with('ABCDEF').twice.and_return(market)
 
     market_copy = dealing_platform.markets['ABCDEF'].dup
@@ -11,7 +11,7 @@ describe IGMarkets::Market, :dealing_platform do
     expect(market_copy.dealing_rules).to eq(market.dealing_rules)
   end
 
-  it 'returns a specified number of historical prices' do
+  it 'retrieves a specified number of historical prices' do
     historical_price_results = [build(:historical_price_result)]
 
     expect(session).to receive(:get)
@@ -21,7 +21,7 @@ describe IGMarkets::Market, :dealing_platform do
     expect(market.historical_prices(resolution: :day, number: 5)).to eq(historical_price_results)
   end
 
-  it 'returns historical prices from a date range' do
+  it 'retrieves historical prices in a date range' do
     from_time = Time.new 2014, 1, 2, 3, 4, 5, '+00:00'
     to_time = Time.new 2014, 2, 3, 4, 5, 6, '+00:00'
 

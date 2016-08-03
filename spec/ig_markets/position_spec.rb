@@ -16,31 +16,31 @@ describe IGMarkets::Position, :dealing_platform do
     expect(build(:position, trailing_step: 1, trailing_stop_distance: 10).trailing_stop?).to be true
   end
 
-  it 'returns correct close levels' do
+  it 'returns close levels' do
     expect(profitable_position.close_level).to eq(4.0)
     expect(unprofitable_position.close_level).to eq(4.0)
   end
 
-  it 'calculates correct price deltas' do
+  it 'calculates price deltas' do
     expect(profitable_position.price_delta).to eq(3.0)
     expect(unprofitable_position.price_delta).to eq(-3.0)
     expect(profitable_position.profitable?).to be true
     expect(unprofitable_position.profitable?).to be false
   end
 
-  it 'calculates correct profit/loss amounts' do
+  it 'calculates profit/loss amounts' do
     expect(profitable_position.profit_loss).to eq(6000)
     expect(unprofitable_position.profit_loss).to eq(-6000)
   end
 
-  it 'calculates correct payout amount for binaries' do
+  it 'calculates payout amounts for binaries' do
     market = build :market_overview, instrument_type: :binary
     position = build :position, size: 100, level: 0.8, market: market
 
     expect(position.profit_loss).to eq(125)
   end
 
-  it 'reloads its attributes' do
+  it 'reloads itself' do
     expect(dealing_platform.positions).to receive(:[]).with('1').twice.and_return(position)
 
     position_copy = dealing_platform.positions['1'].dup
@@ -50,7 +50,7 @@ describe IGMarkets::Position, :dealing_platform do
     expect(position_copy.direction).to eq(:buy)
   end
 
-  it 'can be updated' do
+  it 'updates itself' do
     body = { limitLevel: 2.0, stopLevel: 1.0, trailingStop: false }
     put_result = { deal_reference: 'reference' }
 
@@ -59,7 +59,7 @@ describe IGMarkets::Position, :dealing_platform do
     expect(position.update(stop_level: 1, limit_level: 2)).to eq('reference')
   end
 
-  it 'can be closed' do
+  it 'closes itself' do
     body = { dealId: '1', direction: 'SELL', orderType: 'MARKET', size: 10.4, timeInForce: 'EXECUTE_AND_ELIMINATE' }
     delete_result = { deal_reference: 'reference' }
 
@@ -68,7 +68,7 @@ describe IGMarkets::Position, :dealing_platform do
     expect(position.close).to eq('reference')
   end
 
-  it 'validates close attributes correctly' do
+  it 'validates close attributes' do
     attributes = { time_in_force: :execute_and_eliminate }
 
     close_position_proc = proc do |override_attributes = {}|

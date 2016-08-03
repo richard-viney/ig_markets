@@ -1,5 +1,5 @@
 describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
-  it 'can retrieve the current working orders' do
+  it 'retrieves the current working orders' do
     orders = [build(:working_order)]
 
     get_result = {
@@ -12,7 +12,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
     expect(dealing_platform.working_orders.all).to eq(orders)
   end
 
-  it 'can retrieve a single working order' do
+  it 'retrieves a single working order' do
     orders = [build(:working_order, deal_id: '1')]
 
     get_result = {
@@ -25,7 +25,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
     expect(dealing_platform.working_orders['1']).to eq(orders.first)
   end
 
-  it 'can create a working order' do
+  it 'creates a new working order' do
     attributes = {
       currency_code: 'USD',
       direction: :buy,
@@ -56,7 +56,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
     expect(dealing_platform.working_orders.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 
-  it 'fails creating a working order with both a limit distance and a limit level' do
+  it 'raises when creating a working order with both a limit distance and a limit level' do
     attributes = {
       currency_code: 'USD',
       direction: :buy,
@@ -71,7 +71,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
     expect { dealing_platform.working_orders.create attributes }.to raise_error(ArgumentError)
   end
 
-  it 'fails creating a working order with both a stop distance and a stop level' do
+  it 'raises when creating a working order with both a stop distance and a stop level' do
     attributes = {
       currency_code: 'USD',
       direction: :buy,

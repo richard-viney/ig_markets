@@ -5,7 +5,7 @@ describe IGMarkets::RequestBodyFormatter do
     attribute :the_date, Date, format: '%F'
   end
 
-  it 'formats request bodies correctly' do
+  it 'formats request bodies' do
     model = RequestBodyModel.new the_string: 'string', the_symbol: :two_three, the_date: Date.new(2010, 10, 20)
 
     expect(IGMarkets::RequestBodyFormatter.format(model)).to eq(theString: 'string', theSymbol: 'TWO_THREE',
