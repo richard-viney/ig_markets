@@ -100,6 +100,7 @@ commands and their subcommands is:
 - `ig_markets sentiment MARKET`
 - `ig_markets sprints [list]`
 - `ig_markets sprints create ...`
+- `ig_markets stream ...`
 - `ig_markets transactions --days N [...]`
 - `ig_markets watchlists [list]`
 - `ig_markets watchlists create NAME [EPIC ...]`
@@ -116,10 +117,10 @@ ig_markets account
 # Print EUR/USD transactions from the last week, excluding interest transactions
 ig_markets transactions --days 7 --instrument EUR/USD --no-interest
 
-# Search for EURUSD currency markets
+# Search for EURUSD markets
 ig_markets search EURUSD --type currencies
 
-# Print details for the EURUSD currency pair and the Dow Jones Industrial Average
+# Print details for the EURUSD pair and the Dow Jones Industrial Average
 ig_markets markets CS.D.EURUSD.CFD.IP IX.D.DOW.IFD.IP
 
 # Print current positions in aggregate
@@ -150,6 +151,9 @@ ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 
 # Print account dealing performance from the last 90 days, broken down by the EPICs that were traded
 ig_markets performance --days 90
+
+# Print streaming details of account balances, trading actions, and the live price of the EURUSD pair
+ig_markets stream --accounts --trades --markets CS.D.EURUSD.CFD.IP
 
 # Log in and open a Ruby console which can be used to query the IG API, printing all REST requests
 ig_markets console --verbose

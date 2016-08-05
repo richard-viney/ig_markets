@@ -2,6 +2,7 @@
 
 ### 0.19 — Unreleased
 
+- Added `ig_markets stream` command that displays live streaming data for accounts, markets and trading activity
 - Added `IGMarkets::DealingPlatform#lightstreamer_session` that returns a `Lightstreamer::Session` instance that is
   ready to connect and start streaming data
 - Improved parsing of expiry dates on instruments and dealing confirmations
