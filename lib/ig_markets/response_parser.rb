@@ -8,9 +8,9 @@ module IGMarkets
     # Parses the specified value that was returned from a call to the IG Markets API.
     #
     # @param [Hash, Array, Object] response The response or part of a response that should be parsed. If this is of type
-    #        `Hash` then all hash keys will converted from camel case into snake case and their values each to parsed
-    #        individually by a recursive call. If this is of type `Array` then each item will be parsed individually by
-    #        a recursive call. All other types are passed through unchanged.
+    #        `Hash` then all hash keys will converted from camel case into snake case and their values will each be
+    #        parsed individually by a recursive call. If this is of type `Array` then each item will be parsed
+    #        individually by a recursive call. All other types are passed through unchanged.
     #
     # @return [Hash, Array, Object] The parsed object, the type depends on the type of the `response` parameter.
     def parse(response)
