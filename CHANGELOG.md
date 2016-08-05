@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.19 — Unreleased
+### 0.19 — August 5, 2016
 
 - Added `ig_markets stream` command that displays live streaming data for accounts, markets and trading activity
 - Added `IGMarkets::DealingPlatform#lightstreamer_session` that returns a `Lightstreamer::Session` instance that is
