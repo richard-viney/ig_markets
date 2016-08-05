@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.20 — Unreleased
+
+- 
+
 ### 0.19 — August 5, 2016
 
 - Added `ig_markets stream` command that displays live streaming data for accounts, markets and trading activity
