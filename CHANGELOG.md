@@ -4,6 +4,7 @@
 
 - Added `IGMarkets::DealingPlatform#lightstreamer_session` that returns a `Lightstreamer::Session` instance that is
   ready to connect and start streaming data
+- Improved parsing of expiry dates on instruments and dealing confirmations
 - If the API returns an unexpected enum value then a one-time warning is now emitted and the value is treated as `nil`,
   this replaces the previous behavior of raising an exception and makes the library more future-proof
 - When a traffic allowance is exceeded the time waited before retrying is now ten seconds instead of five

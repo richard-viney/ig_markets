@@ -60,7 +60,7 @@ module IGMarkets
     attribute :country
     attribute :currencies, Currency
     attribute :epic, String, regex: Regex::EPIC
-    attribute :expiry, Date, nil_if: %w(- DFB), format: '%d-%b-%y'
+    attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
     attribute :expiry_details, ExpiryDetails
     attribute :force_open_allowed, Boolean
     attribute :lot_size, Float

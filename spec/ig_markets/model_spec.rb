@@ -3,7 +3,7 @@ describe IGMarkets::Model do
     attribute :id
     attribute :bool, IGMarkets::Boolean
     attribute :string, String, regex: /\A[A-Z]{3}\Z/, nil_if: '-'
-    attribute :date, Date, format: '%F'
+    attribute :date, Date, format: ['%F', '%b-%y']
     attribute :time, Time, format: ['%FT%T', '%d-%b-%y']
     attribute :float, Float
     attribute :symbol, Symbol, allowed_values: [:a, :b]
@@ -145,9 +145,12 @@ describe IGMarkets::Model do
     expect(model.string).to be_nil
   end
 
-  it 'parses a date in the expected format' do
+  it 'parses a date in the expected formats' do
     model.date = '2015-01-10'
     expect(model.date).to eq(Date.new(2015, 1, 10))
+
+    model.date = 'SEP-16'
+    expect(model.date).to eq(Date.new(2016, 9, 1))
   end
 
   it 'parses a time in the expected formats' do

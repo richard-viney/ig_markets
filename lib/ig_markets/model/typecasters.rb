@@ -53,24 +53,26 @@ module IGMarkets
       end
 
       def typecaster_date(value, options, name)
-        raise ArgumentError, "#{self}##{name}: invalid date format" unless options[:format].is_a? String
-
         if value.is_a? String
-          begin
-            Date.strptime value, options[:format]
-          rescue ArgumentError
-            raise ArgumentError, "#{self}##{name}: failed parsing date: #{value}"
-          end
+          parse_formatted_date_value value, options, name
         else
           value
         end
       end
 
+      def parse_formatted_date_value(value, options, name)
+        Array(options[:format]).each do |format|
+          begin
+            return Date.strptime value, format
+          rescue ArgumentError
+            next
+          end
+        end
+
+        raise ArgumentError, "#{self}##{name}: failed parsing date: #{value}"
+      end
+
       def typecaster_time(value, options, name)
-        format = options[:format]
-
-        raise ArgumentError, "#{self}##{name}: invalid time format" unless [Array, String].include? format.class
-
         if value.is_a?(String) || value.is_a?(Fixnum)
           parse_formatted_time_value value.to_s, options, name
         else
