@@ -72,66 +72,52 @@ module IGMarkets
         fields = [:confirms, :opu, :wou]
 
         subscription = @lightstreamer.build_subscription items: items, fields: fields, mode: :distinct
-
-        subscription.on_data do |_subscription, item_name, item_data, _new_data|
-          process_confirmation item_name, item_data[:confirms]
-          process_position_update item_name, item_data[:opu]
-          process_working_order_update item_name, item_data[:wou]
-        end
+        subscription.on_data(&method(:on_trade_data))
 
         subscription
       end
 
-      def process_confirmation(item_name, json)
-        return unless json
+      def on_trade_data(_subscription, item_name, item_data, _new_data)
+        {
+          confirms: [:format_confirmation, DealConfirmation, 'Confirmation'],
+          opu: [:format_position_update, PositionUpdate, 'Position update'],
+          wou: [:format_working_order_update, WorkingOrderUpdate, 'Order update']
+        }.each do |key, (handler_method, model_class, title)|
+          next unless item_data[key]
 
-        model = DealConfirmation.new ResponseParser.parse(JSON.parse(json)).merge(affected_deals: nil)
+          model = @dealing_platform.instantiate_models_from_json model_class, item_data[key]
 
-        queue_item = "#{item_name} - Confirmation - id: #{model.deal_id}"
-
-        [:status, :deal_status, :epic, :direction, :size, :level, :stop_distance, :stop_level, :limit_distance,
-         :limit_level].each do |attribute|
-          value = model.send attribute
-          queue_item << ", #{attribute}: #{value}" if value
+          @queue.push "#{item_name} - #{title} - id: #{model.deal_id}#{send handler_method, model}"
         end
+      end
+
+      def format_confirmation(model)
+        queue_item = format_attributes model, [:status, :deal_status, :epic, :direction, :size, :level, :stop_distance,
+                                               :stop_level, :limit_distance, :limit_level]
 
         queue_item << ", profit: #{Format.currency(model.profit, model.profit_currency)}" if model.profit
 
-        @queue.push queue_item
+        queue_item
       end
 
-      def process_position_update(item_name, json)
-        return unless json
+      def format_position_update(model)
+        format_attributes model, [:status, :deal_status, :epic, :direction, :size, :level, :stop_level, :limit_level]
+      end
 
-        model = OpenPositionUpdate.new ResponseParser.parse(JSON.parse(json))
+      def format_working_order_update(model)
+        format_attributes model, [:status, :deal_status, :epic, :direction, :size, :level, :stop_distance,
+                                  :limit_distance]
+      end
 
-        queue_item = "#{item_name} - Position update - id: #{model.deal_id}"
-
-        [:status, :deal_status, :epic, :direction, :size, :level, :stop_level, :limit_level].each do |attribute|
+      def format_attributes(model, attributes)
+        attributes.each_with_object('') do |attribute, result|
           value = model.send attribute
-          queue_item << ", #{attribute}: #{value}" if value
+          result << ", #{attribute}: #{value}" if value
         end
-
-        @queue.push queue_item
       end
 
-      def process_working_order_update(item_name, json)
-        return unless json
-
-        model = WorkingOrderUpdate.new ResponseParser.parse(JSON.parse(json))
-
-        queue_item = "#{item_name} - Order update - id: #{model.deal_id}"
-
-        [:status, :deal_status, :epic, :direction, :size, :level, :stop_distance, :limit_distance].each do |attribute|
-          value = model.send attribute
-          queue_item << ", #{attribute}: #{value}" if value
-        end
-
-        @queue.push queue_item
-      end
-
-      # Internal model used to parse streaming open position updates.
-      class OpenPositionUpdate < Model
+      # Internal model used to parse streaming position updates.
+      class PositionUpdate < Model
         attribute :channel
         attribute :deal_id
         attribute :deal_id_origin

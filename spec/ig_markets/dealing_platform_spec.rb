@@ -91,4 +91,9 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
   it 'raises an error when trying to instantiate a model from an unsupported type' do
     expect { dealing_platform.instantiate_models IGMarkets::Model, 100 }.to raise_error(ArgumentError)
   end
+
+  it 'instantiates models from raw JSON' do
+    model = dealing_platform.instantiate_models_from_json DealingPlatformSpecModel, { test2: 'ONE' }.to_json
+    expect(model.attributes).to eq(test: nil, test2: :one)
+  end
 end

@@ -161,6 +161,18 @@ module IGMarkets
       end
     end
 
+    # This method is the same as {#instantiate_models} but takes an unparsed JSON string as its input.
+    #
+    # @param [Class] model_class The top-level model class to create from `json`.
+    # @param [String] json The JSON string to parse.
+    #
+    # @return [nil, `model_class`] The resulting instantiated model.
+    #
+    # @private
+    def instantiate_models_from_json(model_class, json)
+      instantiate_models model_class, ResponseParser.parse(JSON.parse(json))
+    end
+
     private
 
     # This method is a helper for {#instantiate_models} that prepares a source object for instantiation.
