@@ -17,7 +17,7 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platf
       .and_return(sprint_market_positions: positions)
 
     expect(dealing_platform.sprint_market_positions['DEAL']).to eq(positions.first)
-    expect(dealing_platform.sprint_market_positions['UNKNOWN']).to be_nil
+    expect(dealing_platform.sprint_market_positions['UNKNOWN']).to be nil
   end
 
   it 'creates a new sprint market position' do

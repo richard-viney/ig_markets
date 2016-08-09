@@ -1,2 +1,5 @@
+ClassLength:
+  Max: 120
+
 Metrics/LineLength:
   Max: 120

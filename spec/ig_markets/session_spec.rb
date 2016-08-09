@@ -57,7 +57,7 @@ describe IGMarkets::Session do
     it 'signs out' do
       response = build_response body: {}.to_json
       expect(Excon).to receive(:delete).with(full_url('session'), request_options).and_return(response)
-      expect(session.sign_out).to be_nil
+      expect(session.sign_out).to be nil
       expect(session.alive?).to eq(false)
     end
 

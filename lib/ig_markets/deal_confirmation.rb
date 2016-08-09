@@ -7,6 +7,7 @@ module IGMarkets
       attribute :status, Symbol, allowed_values: [:amended, :deleted, :fully_closed, :opened, :partially_closed]
     end
 
+    attribute :account_id
     attribute :affected_deals, AffectedDeal
     attribute :date, Time, format: '%FT%T.%L'
     attribute :deal_id

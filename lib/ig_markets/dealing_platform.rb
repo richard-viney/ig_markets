@@ -9,6 +9,7 @@ module IGMarkets
   # - {#sprint_market_positions}
   # - {#watchlists}
   # - {#working_orders}
+  # - {#streaming}
   #
   # See `README.md` for examples.
   #
@@ -59,6 +60,11 @@ module IGMarkets
     # @return [WorkingOrderMethods]
     attr_reader :working_orders
 
+    # Methods for working with live streaming of IG Markets data.
+    #
+    # @return [StreamingMethods]
+    attr_reader :streaming
+
     def initialize
       @session = Session.new
 
@@ -69,6 +75,7 @@ module IGMarkets
       @sprint_market_positions = SprintMarketPositionMethods.new self
       @watchlists = WatchlistMethods.new self
       @working_orders = WorkingOrderMethods.new self
+      @streaming = StreamingMethods.new self
     end
 
     # Signs in to the IG Markets Dealing Platform, either the live platform or the demo platform.
@@ -93,6 +100,7 @@ module IGMarkets
 
     # Signs out of the IG Markets Dealing Platform, ending any current session.
     def sign_out
+      streaming.disconnect
       session.sign_out
     end
 
@@ -117,19 +125,6 @@ module IGMarkets
     # @return [Application]
     def disable_api_key
       instantiate_models Application, session.put('operations/application/disable')
-    end
-
-    # Creates a new Lightstreamer session instance from this dealing platform's {#session} that is ready to connect
-    # and start streaming account and market data.
-    #
-    # @return [Lightstreamer::Session, nil] The new Lightstreamer session instance, or `nil` if there is no active
-    #         IG Markets session to connect through.
-    def lightstreamer_session
-      return nil unless session.alive?
-
-      Lightstreamer::Session.new server_url: client_account_summary.lightstreamer_endpoint,
-                                 username: client_account_summary.client_id,
-                                 password: "CST-#{session.client_security_token}|XST-#{session.x_security_token}"
     end
 
     # This method is used to instantiate the various `Model` subclasses from data returned by the IG Markets API. It

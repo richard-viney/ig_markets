@@ -2,7 +2,9 @@
 
 ### 0.20 — Unreleased
 
-- 
+- Added `IGMarkets::DealingPlatform#streaming` which provides an interface to the IG Markets streaming API
+- Removed `IGMarkets::DealingPlatform#lightstreamer_session`
+- The `ig_markets self-test` command now runs self-tests on the streaming functionality as well
 
 ### 0.19 — August 5, 2016
 

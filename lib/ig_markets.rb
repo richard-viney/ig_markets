@@ -30,6 +30,7 @@ require 'ig_markets/dealing_platform/client_sentiment_methods'
 require 'ig_markets/dealing_platform/market_methods'
 require 'ig_markets/dealing_platform/position_methods'
 require 'ig_markets/dealing_platform/sprint_market_position_methods'
+require 'ig_markets/dealing_platform/streaming_methods'
 require 'ig_markets/dealing_platform/watchlist_methods'
 require 'ig_markets/dealing_platform/working_order_methods'
 require 'ig_markets/errors'
@@ -46,6 +47,10 @@ require 'ig_markets/request_printer'
 require 'ig_markets/response_parser'
 require 'ig_markets/session'
 require 'ig_markets/sprint_market_position'
+require 'ig_markets/streaming/account_update'
+require 'ig_markets/streaming/market_update'
+require 'ig_markets/streaming/position_update'
+require 'ig_markets/streaming/working_order_update'
 require 'ig_markets/transaction'
 require 'ig_markets/version'
 require 'ig_markets/watchlist'
@@ -85,4 +90,8 @@ require 'ig_markets/cli/tables/working_orders_table'
 # This module contains all the code for the IG Markets gem. See `README.md` and the {DealingPlatform} class to get
 # started with using this gem.
 module IGMarkets
+  # This module contains classes used when streaming live data from the IG Markets API. See
+  # {DealingPlatform::StreamingMethods} for details.
+  module Streaming
+  end
 end

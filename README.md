@@ -22,6 +22,7 @@ Includes support for:
 - Watchlists
 - Client sentiment
 - Authentication profiles
+- Live streaming of account, trade and market updates
 
 An IG Markets live or demo trading account is needed in order to use this gem.
 
@@ -152,7 +153,7 @@ ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 # Print account dealing performance from the last 90 days, broken down by the EPICs that were traded
 ig_markets performance --days 90
 
-# Print streaming details of account balances, trading actions, and the live price of the EURUSD pair
+# Print streaming details of account balances, trading actions, and the price of the EURUSD pair
 ig_markets stream --accounts --trades --markets CS.D.EURUSD.CFD.IP
 
 # Log in and open a Ruby console which can be used to query the IG API, printing all REST requests
@@ -235,6 +236,18 @@ client_sentiment.reload
 
 # Miscellaneous
 ig.applications
+
+# Streaming
+ig.streaming.connect
+subscriptions = [ig.streaming.build_accounts_subscription]
+ig.streaming.start_subscriptions subscriptions, snapshot: true
+
+loop do
+  data = ig.streaming.pop_data
+  raise data if data.is_a? Lightstreamer::Error
+
+  puts data[:data].inspect
+end
 ```
 
 ## Contributors

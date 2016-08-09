@@ -12,8 +12,9 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
   end
 
   it 'signs out' do
+    expect(dealing_platform.streaming).to receive(:disconnect)
     expect(session).to receive(:sign_out).and_return(nil)
-    expect(dealing_platform.sign_out).to be_nil
+    expect(dealing_platform.sign_out).to be nil
   end
 
   it 'retrieves a deal confirmation' do
@@ -37,26 +38,10 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     expect(dealing_platform.disable_api_key).to eq(application)
   end
 
-  it 'creates a Lightstreamer session' do
-    client_account_summary = build :client_account_summary
-    dealing_platform.instance_variable_set :@client_account_summary, client_account_summary
-
-    lightstreamer_session = instance_double 'Lightstreamer::Session'
-
-    expect(session).to receive(:alive?).and_return(true)
-    expect(session).to receive(:client_security_token).and_return('cst')
-    expect(session).to receive(:x_security_token).and_return('xst')
-
-    expect(Lightstreamer::Session).to receive(:new)
-      .with(server_url: 'http://lightstreamer.com', username: 'ABC123', password: 'CST-cst|XST-xst')
-      .and_return(lightstreamer_session)
-    expect(dealing_platform.lightstreamer_session).to eq(lightstreamer_session)
-  end
-
   it 'instantiates models from existing instances' do
     account = IGMarkets::Account.new account_name: 'test'
 
-    expect(dealing_platform.instantiate_models(IGMarkets::Account, nil)).to be_nil
+    expect(dealing_platform.instantiate_models(IGMarkets::Account, nil)).to be nil
     expect(dealing_platform.instantiate_models(IGMarkets::Account, account)).to eq(account)
     expect(dealing_platform.instantiate_models(IGMarkets::Account, [account])).to eq([account])
   end

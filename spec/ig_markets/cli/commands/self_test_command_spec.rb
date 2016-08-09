@@ -85,6 +85,16 @@ describe IGMarkets::CLI::Main do
 
     expect(dealing_platform).to receive(:applications).and_return([build(:application)])
 
+    # Streaming
+
+    expect(dealing_platform.streaming).to receive(:connect)
+    expect(dealing_platform.streaming).to receive(:build_accounts_subscription).and_return(1)
+    expect(dealing_platform.streaming).to receive(:build_markets_subscription).and_return(2)
+    expect(dealing_platform.streaming).to receive(:build_trades_subscription).and_return(3)
+    expect(dealing_platform.streaming).to receive(:start_subscriptions).with([1, 2, 3], snapshot: true)
+    expect(dealing_platform.streaming).to receive(:pop_data).exactly(10).times
+    expect(dealing_platform.streaming).to receive(:disconnect).twice
+
     cli.self_test
   end
 end
