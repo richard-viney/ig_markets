@@ -7,6 +7,7 @@ module IGMarkets
       option :accounts, type: :boolean, desc: 'Whether to stream changes to account balances'
       option :markets, type: :array, desc: 'The EPICs of the markets to stream live prices for'
       option :trades, type: :boolean, desc: 'Whether to stream details of any trades and position or order updates'
+      option :chart_ticks, type: :array, desc: 'The EPICs of the markets to stream live chart tick data for'
 
       def stream
         self.class.begin_session(options) do |dealing_platform|
@@ -22,7 +23,7 @@ module IGMarkets
       private
 
       def subscriptions
-        [accounts_subscription, markets_subscription, trades_subscription].compact
+        [accounts_subscription, markets_subscription, trades_subscription, chart_ticks_subscription].compact
       end
 
       def accounts_subscription
@@ -41,6 +42,12 @@ module IGMarkets
         return unless options[:accounts]
 
         @dealing_platform.streaming.build_trades_subscription
+      end
+
+      def chart_ticks_subscription
+        return unless options[:chart_ticks]
+
+        @dealing_platform.streaming.build_chart_ticks_subscription options[:chart_ticks]
       end
 
       def tick

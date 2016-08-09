@@ -40,7 +40,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['ACCOUNT:123456'],
-              fields: [:pnl, :deposit, :available_cash, :funds, :margin, :available_to_deal, :equity], mode: :merge)
+              fields: [:available_cash, :available_to_deal, :deposit, :equity, :funds, :margin, :pnl], mode: :merge)
         .and_return(subscription)
       expect(subscription).to receive(:on_data) { |&block| expect(block).to be_a(Proc) }
 
@@ -52,7 +52,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['MARKET:ABC1234', 'MARKET:DEF5678'],
-              fields: [:bid, :offer, :high, :low, :mid_open, :strike_price, :odds], mode: :merge)
+              fields: [:bid, :high, :low, :mid_open, :odds, :offer, :strike_price], mode: :merge)
         .and_return(subscription)
       expect(subscription).to receive(:on_data) { |&block| expect(block).to be_a(Proc) }
 
@@ -68,6 +68,34 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(subscription).to receive(:on_data) { |&block| expect(block).to be_a(Proc) }
 
       expect(dealing_platform.streaming.build_trades_subscription).to eq(subscription)
+    end
+
+    it 'builds a chart ticks subscription' do
+      subscription = instance_double 'Lightstreamer::Subscription'
+
+      expect(lightstreamer_session).to receive(:build_subscription)
+        .with(items: ['CHART:ABC1234:TICK', 'CHART:DEF5678:TICK'], mode: :distinct,
+              fields: [:bid, :day_high, :day_low, :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp, :ltv, :ofr,
+                       :ttv, :utm])
+        .and_return(subscription)
+      expect(subscription).to receive(:on_data) { |&block| expect(block).to be_a(Proc) }
+
+      expect(dealing_platform.streaming.build_chart_ticks_subscription(%w(ABC1234 DEF5678))).to eq(subscription)
+    end
+
+    it 'builds a consolidated chart data subscription' do
+      subscription = instance_double 'Lightstreamer::Subscription'
+
+      expect(lightstreamer_session).to receive(:build_subscription)
+        .with(items: ['CHART:ABC1234:1MINUTE'], mode: :merge,
+              fields: [:bid_close, :bid_high, :bid_low, :bid_open, :cons_end, :cons_tick_count, :day_high, :day_low,
+                       :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp_close, :ltp_high, :ltp_low, :ltp_open,
+                       :ltv, :ofr_close, :ofr_high, :ofr_low, :ofr_open, :ttv, :utm])
+        .and_return(subscription)
+      expect(subscription).to receive(:on_data) { |&block| expect(block).to be_a(Proc) }
+
+      expect(dealing_platform.streaming.build_consolidated_chart_data_subscription('ABC1234', :one_minute))
+        .to eq(subscription)
     end
 
     it 'starts subscriptions' do
@@ -152,6 +180,29 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(queue).to receive(:push).with(data: model)
 
       dealing_platform.streaming.send :on_trade_data, nil, 'TRADE:ABC1234', nil, wou: item_data.to_json
+    end
+
+    it 'processes a chart tick update' do
+      item_data = { bid: '1.13', day_high: '1.15', day_low: '1.09', day_net_chg_mid: '0.02', day_open_mid: '1.11',
+                    day_perc_chg_mid: '1.2', epic: 'CS.D.EURUSD.CFD.IP', ltp: '1.13', ltv: '10', ofr: '1.132',
+                    ttv: '100', utm: '1470731056283' }
+      model = IGMarkets::Streaming::ChartTickUpdate.new item_data.merge(epic: 'ABC1234')
+
+      expect(queue).to receive(:push).with(data: model)
+
+      dealing_platform.streaming.send :on_chart_tick_data, nil, 'CHART:ABC1234:TICK', nil, item_data
+    end
+
+    it 'processes a consolidated chart data update' do
+      item_data = { bid_close: '1.10883', bid_high: '1.10886', bid_low: '1.10877', bid_open: '1.10878',
+                    cons_tick_count: '58', day_high: '1.10967', day_low: '1.10703', day_net_chg_mid: '0.00006',
+                    day_open_mid: '1.1088', day_perc_chg_mid: '0.01', ltv: '58', ofr_close: '1.10889',
+                    ofr_high: '1.10892', ofr_low: '1.10883', ofr_open: '1.10884', utm: '1470731056283' }
+      model = IGMarkets::Streaming::ConsolidatedChartDataUpdate.new item_data.merge(epic: 'ABC1234', scale: :one_hour)
+
+      expect(queue).to receive(:push).with(data: model, merged_data: model)
+
+      dealing_platform.streaming.send :on_consolidated_chart_data, nil, 'CHART:ABC1234:HOUR', item_data, item_data
     end
   end
 end

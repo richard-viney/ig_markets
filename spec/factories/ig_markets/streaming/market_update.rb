@@ -12,6 +12,6 @@ FactoryGirl.define do
     odds nil
     offer 1.12
     strike_price 1.11
-    update_time nil
+    update_time '2015-12-15T15:00:00'
   end
 end

@@ -111,6 +111,14 @@ describe IGMarkets::Model do
     expect(model.float).to be nil
   end
 
+  it 'accepts 0 and 1 on boolean attributes' do
+    model.bool = '1'
+    expect(model.bool).to be true
+
+    model.bool = '0'
+    expect(model.bool).to be false
+  end
+
   it 'raises on an invalid boolean' do
     expect { model.bool = '' }.to raise_error(ArgumentError)
   end

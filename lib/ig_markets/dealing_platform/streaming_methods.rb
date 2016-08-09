@@ -39,7 +39,7 @@ module IGMarkets
         accounts ||= @dealing_platform.client_account_summary.accounts
 
         items = accounts.map { |account| "ACCOUNT:#{account.account_id}" }
-        fields = [:pnl, :deposit, :available_cash, :funds, :margin, :available_to_deal, :equity]
+        fields = [:available_cash, :available_to_deal, :deposit, :equity, :funds, :margin, :pnl]
 
         build_subscription items, fields, :merge, :on_account_data
       end
@@ -53,7 +53,7 @@ module IGMarkets
       # @return [Lightstreamer::Subscription]
       def build_markets_subscription(epics)
         items = epics.map { |epic| "MARKET:#{epic}" }
-        fields = [:bid, :offer, :high, :low, :mid_open, :strike_price, :odds]
+        fields = [:bid, :high, :low, :mid_open, :odds, :offer, :strike_price]
 
         build_subscription items, fields, :merge, :on_market_data
       end
@@ -73,6 +73,40 @@ module IGMarkets
         fields = [:confirms, :opu, :wou]
 
         build_subscription items, fields, :distinct, :on_trade_data
+      end
+
+      # Creates a new Lightstreamer subscription for chart tick data for the specified EPICs. The returned
+      # `Lightstreamer::Subscription` must be passed to {#start_subscriptions} in order to actually start streaming its
+      # data.
+      #
+      # @param [Array<String>] epics The EPICs of the markets to create a chart tick data subscription for.
+      #
+      # @return [Lightstreamer::Subscription]
+      def build_chart_ticks_subscription(epics)
+        items = epics.map { |epic| "CHART:#{epic}:TICK" }
+        fields = [:bid, :day_high, :day_low, :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp, :ltv, :ofr, :ttv,
+                  :utm]
+
+        build_subscription items, fields, :distinct, :on_chart_tick_data
+      end
+
+      # Creates a new Lightstreamer subscription for consolidated chart data for the specified EPIC and scale. The
+      # returned `Lightstreamer::Subscription` must be passed to {#start_subscriptions} in order to actually start
+      # streaming its data.
+      #
+      # @param [String] epic The EPIC of the market to create a consolidated chart data subscription for.
+      # @param [:one_second, :one_minute, :five_minutes, :one_hour] scale The scale of the consolidated data.
+      #
+      # @return [Lightstreamer::Subscription]
+      def build_consolidated_chart_data_subscription(epic, scale)
+        scale = { one_second: 'SECOND', one_minute: '1MINUTE', five_minutes: '5MINUTE', one_hour: 'HOUR' }.fetch scale
+        items = ["CHART:#{epic}:#{scale}"]
+
+        fields = [:bid_close, :bid_high, :bid_low, :bid_open, :cons_end, :cons_tick_count, :day_high, :day_low,
+                  :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp_close, :ltp_high, :ltp_low, :ltp_open, :ltv,
+                  :ofr_close, :ofr_high, :ofr_low, :ofr_open, :ttv, :utm]
+
+        build_subscription items, fields, :merge, :on_consolidated_chart_data
       end
 
       # Starts streaming data from the passed Lightstreamer subscriptions. The return value indicates the error state,
@@ -99,10 +133,11 @@ module IGMarkets
       # streaming data available then this method will block the calling thread until some is available. The return
       # value can take several forms. If an error occurs then a `Lightstreamer::Error` subclass will be returned. If a
       # new piece of data is available then a hash will be returned with a key of `:new_data`, and also `:merged_data`
-      # for updates containing account and market data.
+      # for updates containing account data, market data, or consolidated chart data.
       #
       # The data will be an instance of {Streaming::AccountUpdate}, {Streaming::MarketUpdate}, {DealConfirmation},
-      # {Streaming::PositionUpdate} or {Streaming::WorkingOrderUpdate}.
+      # {Streaming::PositionUpdate}, {Streaming::WorkingOrderUpdate}, {Streaming::ConsolidatedChartDataUpdate} or
+      # {Streaming::ChartTickUpdate}.
       #
       # @return [Hash, Lightstreamer::LightstreamerError, nil]
       def pop_data
@@ -176,6 +211,26 @@ module IGMarkets
 
           @queue.push data: data
         end
+      end
+
+      def on_chart_tick_data(_subscription, item_name, _item_data, new_data)
+        new_data = @dealing_platform.instantiate_models Streaming::ChartTickUpdate, new_data
+
+        new_data.epic = item_name.match(/^CHART:(.*):TICK$/).captures.first
+
+        @queue.push data: new_data
+      end
+
+      def on_consolidated_chart_data(_subscription, item_name, item_data, new_data)
+        item_data = @dealing_platform.instantiate_models Streaming::ConsolidatedChartDataUpdate, item_data
+        new_data = @dealing_platform.instantiate_models Streaming::ConsolidatedChartDataUpdate, new_data
+
+        captures = item_name.match(/^CHART:(.*):(SECOND|1MINUTE|5MINUTE|HOUR)$/).captures
+        item_data.epic = new_data.epic = captures[0]
+        item_data.scale = new_data.scale = { 'SECOND' => :one_second, '1MINUTE' => :one_minute,
+                                             '5MINUTE' => :five_minutes, 'HOUR' => :one_hour }.fetch captures[1]
+
+        @queue.push data: new_data, merged_data: item_data
       end
     end
   end
