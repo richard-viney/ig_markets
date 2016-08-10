@@ -39,7 +39,7 @@ module IGMarkets
       end
 
       def trades_subscription
-        return unless options[:accounts]
+        return unless options[:trades]
 
         @dealing_platform.streaming.build_trades_subscription
       end
