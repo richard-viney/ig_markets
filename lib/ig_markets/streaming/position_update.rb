@@ -18,7 +18,7 @@ module IGMarkets
       attribute :size, Float
       attribute :status, Symbol, allowed_values: [:deleted, :open, :updated]
       attribute :stop_level, Float
-      attribute :timestamp, Time, format: '%FT%T'
+      attribute :timestamp, Time, format: '%FT%T.%L'
     end
   end
 end

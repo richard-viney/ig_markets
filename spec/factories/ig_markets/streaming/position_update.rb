@@ -15,6 +15,6 @@ FactoryGirl.define do
     size 5
     status 'OPEN'
     stop_level 1.0
-    timestamp '2015-12-15T15:00:00'
+    timestamp '2015-12-15T15:00:00.123'
   end
 end
