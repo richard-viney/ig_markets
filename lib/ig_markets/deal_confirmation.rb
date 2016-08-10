@@ -14,7 +14,7 @@ module IGMarkets
     attribute :deal_reference
     attribute :deal_status, Symbol, allowed_values: [:accepted, :fund_account, :rejected]
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
-    attribute :epic
+    attribute :epic, String, regex: Regex::EPIC
     attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
     attribute :guaranteed_stop, Boolean
     attribute :level, Float
