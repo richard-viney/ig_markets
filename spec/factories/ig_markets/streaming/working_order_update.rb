@@ -14,6 +14,6 @@ FactoryGirl.define do
     size 5
     status 'OPEN'
     stop_distance 50
-    timestamp '2015-12-15T15:00:00'
+    timestamp '2015-12-15T15:00:00.123'
   end
 end

@@ -49,7 +49,8 @@ module IGMarkets
         accounts ||= @dealing_platform.client_account_summary.accounts
 
         items = Array(accounts).map { |account| "ACCOUNT:#{account.account_id}" }
-        fields = [:available_cash, :available_to_deal, :deposit, :equity, :funds, :margin, :pnl]
+        fields = [:available_cash, :available_to_deal, :deposit, :equity, :equity_used, :funds, :margin, :margin_lr,
+                  :margin_nlr, :pnl, :pnl_lr, :pnl_nlr]
 
         build_subscription items: items, fields: fields, mode: :merge
       end
@@ -63,7 +64,8 @@ module IGMarkets
       # @return [Streaming::Subscription]
       def build_markets_subscription(epics)
         items = Array(epics).map { |epic| "MARKET:#{epic}" }
-        fields = [:bid, :high, :low, :mid_open, :odds, :offer, :strike_price]
+        fields = [:bid, :change, :change_pct, :high, :low, :market_delay, :market_state, :mid_open, :odds, :offer,
+                  :strike_price, :update_time]
 
         build_subscription items: items, fields: fields, mode: :merge
       end
@@ -129,7 +131,9 @@ module IGMarkets
       # @return [Array<Lightstreamer::LightstreamerError, nil>] An array with one entry per subscription which indicates
       #         the error state returned for that subscription's start request, or `nil` if no error occurred.
       def start_subscriptions(subscriptions, options = {})
-        lightstreamer_subscriptions = Array(subscriptions).map(&:lightstreamer_subscription)
+        lightstreamer_subscriptions = Array(subscriptions).compact.map(&:lightstreamer_subscription)
+
+        return if lightstreamer_subscriptions.empty?
 
         @lightstreamer.bulk_subscription_start lightstreamer_subscriptions, options
       end
@@ -138,7 +142,11 @@ module IGMarkets
       #
       # @param [Array<Lightstreamer::Subscription>] subscriptions The subscriptions to stop.
       def remove_subscriptions(subscriptions)
-        Array(subscriptions).each do |subscription|
+        lightstreamer_subscriptions = Array(subscriptions).compact.map(&:lightstreamer_subscription)
+
+        return if lightstreamer_subscriptions.empty?
+
+        lightstreamer_subscriptions.each do |subscription|
           @lightstreamer.remove_subscription subscription
         end
       end

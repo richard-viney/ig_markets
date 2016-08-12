@@ -49,7 +49,8 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['ACCOUNT:123456'],
-              fields: [:available_cash, :available_to_deal, :deposit, :equity, :funds, :margin, :pnl], mode: :merge)
+              fields: [:available_cash, :available_to_deal, :deposit, :equity, :equity_used, :funds, :margin,
+                       :margin_lr, :margin_nlr, :pnl, :pnl_lr, :pnl_nlr], mode: :merge)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_accounts_subscription).to be_a(IGMarkets::Streaming::Subscription)
@@ -62,7 +63,8 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['MARKET:ABC1234', 'MARKET:DEF5678'],
-              fields: [:bid, :high, :low, :mid_open, :odds, :offer, :strike_price], mode: :merge)
+              fields: [:bid, :change, :change_pct, :high, :low, :market_delay, :market_state, :mid_open, :odds, :offer,
+                       :strike_price, :update_time], mode: :merge)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_markets_subscription(%w(ABC1234 DEF5678)))
@@ -120,12 +122,18 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(lightstreamer_session).to receive(:bulk_subscription_start).with([lightstreamer_subscription], {})
 
       dealing_platform.streaming.start_subscriptions streaming_subscription
+      dealing_platform.streaming.start_subscriptions [nil]
     end
 
-    it 'removes subscription' do
-      expect(lightstreamer_session).to receive(:remove_subscription).with(:subscription)
+    it 'removes subscriptions' do
+      lightstreamer_subscription = instance_double 'Lightstreamer::Subscription'
+      streaming_subscription = instance_double 'IGMarkets::Streaming::Subscription',
+                                               lightstreamer_subscription: lightstreamer_subscription
 
-      dealing_platform.streaming.remove_subscriptions :subscription
+      expect(lightstreamer_session).to receive(:remove_subscription).with(lightstreamer_subscription)
+
+      dealing_platform.streaming.remove_subscriptions streaming_subscription
+      dealing_platform.streaming.remove_subscriptions [nil]
     end
   end
 end
