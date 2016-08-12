@@ -19,6 +19,9 @@ module IGMarkets
       desc 'sprints [SUBCOMAND=list ...]', 'Command for working with sprint market positions'
       subcommand 'sprints', Sprints
 
+      desc 'stream [SUBCOMAND=dashboard ...]', 'Command for working with display of streaming data'
+      subcommand 'stream', Stream
+
       desc 'watchlists [SUBCOMAND=list ...]', 'Command for working with watchlists'
       subcommand 'watchlists', Watchlists
 

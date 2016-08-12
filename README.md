@@ -153,8 +153,8 @@ ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 # Print account dealing performance from the last 90 days, broken down by the EPICs that were traded
 ig_markets performance --days 90
 
-# Print streaming details of account balances, trading actions, and the price of the EURUSD pair
-ig_markets stream --accounts --trades --markets CS.D.EURUSD.CFD.IP
+# Print raw streaming details of account balances, trading actions, and the price of the EURUSD pair
+ig_markets stream raw --accounts --trades --markets CS.D.EURUSD.CFD.IP
 
 # Log in and open a Ruby console which can be used to query the IG API, printing all REST requests
 ig_markets console --verbose

@@ -1,16 +1,16 @@
 module IGMarkets
   module CLI
     # Implements the `ig_markets stream` command.
-    class Main < Thor
-      desc 'stream', 'Displays live streaming updates of account balances, markets and trading activity'
+    class Stream < Thor
+      desc 'raw', 'Displays raw live streaming updates of account balances, markets and trading activity'
 
       option :accounts, type: :boolean, desc: 'Whether to stream changes to account balances'
       option :markets, type: :array, desc: 'The EPICs of the markets to stream live prices for'
       option :trades, type: :boolean, desc: 'Whether to stream details of any trades and position or order updates'
       option :chart_ticks, type: :array, desc: 'The EPICs of the markets to stream live chart tick data for'
 
-      def stream
-        self.class.begin_session(options) do |dealing_platform|
+      def raw
+        Main.begin_session(options) do |dealing_platform|
           @dealing_platform = dealing_platform
           @queue = Queue.new
 
