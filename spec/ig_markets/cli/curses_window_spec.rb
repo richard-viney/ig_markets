@@ -15,6 +15,9 @@ describe IGMarkets::CLI::CursesWindow do
       def <<(_)
       end
 
+      def clear
+      end
+
       def refresh
       end
     end
@@ -43,25 +46,38 @@ describe IGMarkets::CLI::CursesWindow do
     IGMarkets::CLI::CursesWindow.prepare
   end
 
-  it 'prints tables with colors' do
-    curses_window = instance_double 'Curses::Window'
+  context do
+    let(:curses_window) { instance_double 'Curses::Window' }
 
-    expect(IGMarkets::CLI::CursesWindow).to receive(:prepare)
-    expect(Curses::Window).to receive(:new).and_return(curses_window)
+    let(:window) do
+      expect(IGMarkets::CLI::CursesWindow).to receive(:prepare)
+      expect(Curses::Window).to receive(:new).and_return(curses_window)
 
-    expect(curses_window).to receive(:attron)
-    expect(curses_window).to receive(:setpos).with(0, 0)
-    expect(curses_window).to receive(:<<).with('a')
-    expect(curses_window).to receive(:attron)
-    expect(curses_window).to receive(:setpos).with(1, 0)
-    expect(curses_window).to receive(:<<).with('b')
-    expect(curses_window).to receive(:attron)
-    expect(curses_window).to receive(:setpos).with(2, 0)
-    expect(curses_window).to receive(:<<).with('c')
-    expect(curses_window).to receive(:setpos).with(4, 0)
-    expect(curses_window).to receive(:<<).with('d')
-    expect(curses_window).to receive(:refresh)
+      IGMarkets::CLI::CursesWindow.new
+    end
 
-    IGMarkets::CLI::CursesWindow.new.print_tables "a\n#{'b'.red}\nc", "d"
+    it 'clears its contents' do
+      expect(curses_window).to receive(:clear)
+      window.clear
+    end
+
+    it 'refreshes its contents' do
+      expect(curses_window).to receive(:refresh)
+      window.refresh
+    end
+
+    it 'prints lines with colors' do
+      expect(curses_window).to receive(:attron)
+      expect(curses_window).to receive(:setpos).with(0, 0)
+      expect(curses_window).to receive(:<<).with('a')
+      expect(curses_window).to receive(:attron)
+      expect(curses_window).to receive(:setpos).with(1, 0)
+      expect(curses_window).to receive(:<<).with('b')
+      expect(curses_window).to receive(:attron)
+      expect(curses_window).to receive(:setpos).with(2, 0)
+      expect(curses_window).to receive(:<<).with('c')
+
+      window.print_lines ['a', 'b'.red, 'c']
+    end
   end
 end

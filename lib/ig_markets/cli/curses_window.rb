@@ -1,6 +1,6 @@
 module IGMarkets
   module CLI
-    # This class supports the display of a {Table} with live updates using a fullscreen curses window.
+    # This helper class supports the display of text in a fullscreen curses window.
     #
     # @private
     class CursesWindow
@@ -9,28 +9,32 @@ module IGMarkets
         self.class.prepare
 
         @window = Curses::Window.new 0, 0, 0, 0
+        @position = [0, 0]
       end
 
-      # Prints the specified tables in this fullscreen curses window,
+      # Clears the contents of this curses window and resets the cursor to the top left.
+      def clear
+        @window.clear
+        @position = [0, 0]
+      end
+
+      # Refreshes this curses window so its content is updated on the screen.
+      def refresh
+        @window.refresh
+      end
+
+      # Prints the specified lines in this fullscreen curses window.
       #
-      # @param [Array<Table>] tables The tables to display.
-      def print_tables(*tables)
+      # @param [Array<String>] lines The lines to print.
+      def print_lines(lines)
         change_foreground_color nil
 
-        offset = 0
+        lines.each do |line|
+          print_next_line_segment line until line.empty?
 
-        tables.each do  |table|
-          table_lines = table.to_s.split "\n"
-
-          table_lines.each_with_index do |line, index|
-            @position = [offset + index, 0]
-            print_next_line_segment line until line.empty?
-          end
-
-          offset += table_lines.size + 1
+          @position[0] += 1
+          @position[1] = 0
         end
-
-        @window.refresh
       end
 
       private

@@ -53,17 +53,14 @@ END
   end
 
   it 'uses a custom title' do
-    expect(TestTable.new(models, title: 'Title').to_s + "\n").to eq(<<-END
-+-------+--------+--------+
-|          Title          |
-+-------+--------+--------+
-| First | Second | Third  |
-+-------+--------+--------+
-| Test  | #{'Yes'.red}    |     -1 |
-+-------+--------+--------+
-| Test  | No     | 0.1234 |
-+-------+--------+--------+
-END
-                                                                   )
+    expect(TestTable.new(models, title: 'Title').lines).to eq(['+-------+--------+--------+',
+                                                               '|          Title          |',
+                                                               '+-------+--------+--------+',
+                                                               '| First | Second | Third  |',
+                                                               '+-------+--------+--------+',
+                                                               "| Test  | #{'Yes'.red}    |     -1 |",
+                                                               '+-------+--------+--------+',
+                                                               '| Test  | No     | 0.1234 |',
+                                                               '+-------+--------+--------+'])
   end
 end

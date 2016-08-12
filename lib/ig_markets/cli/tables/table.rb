@@ -17,6 +17,13 @@ module IGMarkets
         table.to_s
       end
 
+      # Returns the individual formatted lines that make up this table.
+      #
+      # @return [Array<String>]
+      def lines
+        to_s.split "\n"
+      end
+
       private
 
       def default_title
