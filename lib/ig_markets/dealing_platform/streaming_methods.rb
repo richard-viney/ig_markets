@@ -29,7 +29,7 @@ module IGMarkets
 
       # Adds the passed block to the list of callbacks that will be run when the streaming session encounters an error.
       # The block will be called on a worker thread and so the code that is run by the block must be thread-safe.
-      # The argument passed to the block is `|error|`, which will be a {Lightstreamer::LightstreamerError} subclass
+      # The argument passed to the block is `|error|`, which will be a `Lightstreamer::LightstreamerError` subclass
       # detailing the error that occurred.
       #
       # @param [Proc] callback The callback that is to be run.

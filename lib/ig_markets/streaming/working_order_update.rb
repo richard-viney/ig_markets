@@ -1,7 +1,7 @@
 module IGMarkets
   module Streaming
     # Contains details on a working order update received via the streaming API. Used by
-    # {DealingPlatform::StreamingMethods#pop_data}.
+    # {Streaming::Subscription#on_data}.
     class WorkingOrderUpdate < Model
       attribute :account_id
       attribute :channel

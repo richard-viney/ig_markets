@@ -1,7 +1,6 @@
 module IGMarkets
   module Streaming
-    # Contains details on an account update received via the streaming API. Used by
-    # {DealingPlatform::StreamingMethods#pop_data}.
+    # Contains details on an account update received via the streaming API. Used by {Streaming::Subscription#on_data}.
     class AccountUpdate < Model
       attribute :account_id
       attribute :available_cash, Float

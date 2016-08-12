@@ -1,7 +1,7 @@
 module IGMarkets
   module Streaming
     # Contains details on a consolidated chart data update received via the streaming API. Used by
-    # {DealingPlatform::StreamingMethods#pop_data}.
+    # {Streaming::Subscription#on_data}.
     class ConsolidatedChartDataUpdate < Model
       attribute :bid_close, Float
       attribute :bid_high, Float

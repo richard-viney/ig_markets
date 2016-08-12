@@ -32,8 +32,8 @@ module IGMarkets
       # confirmations, position updates, working order updates, and chart tick updates.
       #
       # @param [Proc] callback The callback that is to be run.
-      def on_data(&block)
-        @on_data_callbacks << block
+      def on_data(&callback)
+        @on_data_callbacks << callback
       end
 
       private

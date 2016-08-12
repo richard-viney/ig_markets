@@ -1,7 +1,6 @@
 module IGMarkets
   module Streaming
-    # Contains details on a position update received via the streaming API. Used by
-    # {DealingPlatform::StreamingMethods#pop_data}.
+    # Contains details on a position update received via the streaming API. Used by {Streaming::Subscription#on_data}.
     class PositionUpdate < Model
       attribute :account_id
       attribute :channel

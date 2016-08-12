@@ -1,7 +1,6 @@
 module IGMarkets
   module Streaming
-    # Contains details on a market update received via the streaming API. Used by
-    # {DealingPlatform::StreamingMethods#pop_data}.
+    # Contains details on a market update received via the streaming API. Used by {Streaming::Subscription#on_data}.
     class MarketUpdate < Model
       attribute :bid, Float
       attribute :change, Float
