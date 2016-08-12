@@ -7,6 +7,7 @@ module IGMarkets
     attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
+    attribute :deal_reference
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :level, Float
     attribute :limit_level, Float
