@@ -47,7 +47,8 @@ module IGMarkets
         deal_reference = @dealing_platform.positions.create currency_code: 'USD', direction: :buy,
                                                             epic: 'CS.D.EURUSD.CFD.IP', size: 2
 
-        @position = @dealing_platform.positions[@dealing_platform.deal_confirmation(deal_reference).deal_id]
+        deal_confirmation = @dealing_platform.deal_confirmation deal_reference
+        @position = @dealing_platform.positions[deal_confirmation.deal_id]
 
         raise 'Error: failed creating position' unless @position
       end
@@ -70,11 +71,11 @@ module IGMarkets
       end
 
       def test_sprint_market_positions
-        deal_reference = @dealing_platform.sprint_market_positions.create direction: :buy, expiry_period: :one_hour,
-                                                                          epic: 'FM.D.EURUSD24.EURUSD24.IP', size: 100
+        create_options = { direction: :buy, expiry_period: :sixty_minutes, epic: 'FM.D.EURUSD24.EURUSD24.IP',
+                           size: 100 }
 
+        deal_reference = @dealing_platform.sprint_market_positions.create create_options
         deal_confirmation = @dealing_platform.deal_confirmation deal_reference
-
         sprint_market_position = @dealing_platform.sprint_market_positions[deal_confirmation.deal_id]
 
         raise 'Error: failed creating sprint market position' unless sprint_market_position
@@ -149,7 +150,9 @@ module IGMarkets
 
         streaming.start_subscriptions subscriptions, snapshot: true
 
-        10.times { streaming.pop_data }
+        queue = Queue.new
+        subscriptions.each { |subscription| subscription.on_data { |data| queue.push data } }
+        10.times { queue.pop }
 
         streaming.disconnect
       end

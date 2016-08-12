@@ -12,18 +12,27 @@ module IGMarkets
       def stream
         self.class.begin_session(options) do |dealing_platform|
           @dealing_platform = dealing_platform
+          @queue = Queue.new
 
+          @dealing_platform.streaming.on_error(&method(:on_error))
           @dealing_platform.streaming.connect
-          @dealing_platform.streaming.start_subscriptions subscriptions, snapshot: true
+          start_subscriptions
 
-          loop { tick }
+          main_loop
         end
       end
 
       private
 
-      def subscriptions
-        [accounts_subscription, markets_subscription, trades_subscription, chart_ticks_subscription].compact
+      def start_subscriptions
+        subscriptions = [accounts_subscription, markets_subscription, trades_subscription,
+                         chart_ticks_subscription].compact
+
+        subscriptions.each do |subscription|
+          subscription.on_data(&method(:on_data))
+        end
+
+        @dealing_platform.streaming.start_subscriptions subscriptions, snapshot: true
       end
 
       def accounts_subscription
@@ -50,21 +59,28 @@ module IGMarkets
         @dealing_platform.streaming.build_chart_ticks_subscription options[:chart_ticks]
       end
 
-      def tick
-        data = @dealing_platform.streaming.pop_data
-        raise data if data.is_a? Lightstreamer::LightstreamerError
-
-        process_new_data data[:data]
-      end
-
-      def process_new_data(data)
+      def on_data(data, _merged_data)
         if data.is_a? DealConfirmation
           data.affected_deals = nil
           data.date = nil
         end
 
-        summary = data.attributes.keys.sort.map { |key| "#{key}: #{data.send key}" if data.send(key) }
-        puts "#{data.class.name.split('::').last} - #{summary.compact.join ', '}"
+        summary = data.attributes.keys.sort.map { |key| "#{key}: #{data.send key}" if data.send key }
+
+        @queue.push "#{data.class.name.split('::').last} - #{summary.compact.join ', '}"
+      end
+
+      def on_error(error)
+        @queue.push error
+      end
+
+      def main_loop
+        loop do
+          data = @queue.pop
+          raise data if data.is_a? Lightstreamer::LightstreamerError
+
+          puts data
+        end
       end
     end
   end

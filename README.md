@@ -238,15 +238,20 @@ client_sentiment.reload
 ig.applications
 
 # Streaming
+queue = Queue.new
+
 ig.streaming.connect
-subscriptions = [ig.streaming.build_accounts_subscription]
-ig.streaming.start_subscriptions subscriptions, snapshot: true
+ig.streaming.on_error { |error| queue.push error }
+
+subscription = ig.streaming.build_accounts_subscription
+subscription.on_data { |data, _merged_data| queue.push data }
+ig.streaming.start_subscriptions subscription, snapshot: true
 
 loop do
-  data = ig.streaming.pop_data
-  raise data if data.is_a? Lightstreamer::Error
+  data = queue.pop
+  raise data if data.is_a? Lightstreamer::LightstreamerError
 
-  puts data[:data].inspect
+  puts data.inspect
 end
 ```
 

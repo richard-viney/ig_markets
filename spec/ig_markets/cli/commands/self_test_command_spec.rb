@@ -87,12 +87,20 @@ describe IGMarkets::CLI::Main do
 
     # Streaming
 
+    accounts_subscription = instance_double 'IGMarkets::Streaming::Subscription'
+    markets_subscription = instance_double 'IGMarkets::Streaming::Subscription'
+    trades_subscription = instance_double 'IGMarkets::Streaming::Subscription'
+
+    expect(accounts_subscription).to receive(:on_data) { |&block| 5.times { block.call '' } }
+    expect(markets_subscription).to receive(:on_data) { |&block| 3.times { block.call '' } }
+    expect(trades_subscription).to receive(:on_data) { |&block| 2.times { block.call '' } }
+
     expect(dealing_platform.streaming).to receive(:connect)
-    expect(dealing_platform.streaming).to receive(:build_accounts_subscription).and_return(1)
-    expect(dealing_platform.streaming).to receive(:build_markets_subscription).and_return(2)
-    expect(dealing_platform.streaming).to receive(:build_trades_subscription).and_return(3)
-    expect(dealing_platform.streaming).to receive(:start_subscriptions).with([1, 2, 3], snapshot: true)
-    expect(dealing_platform.streaming).to receive(:pop_data).exactly(10).times
+    expect(dealing_platform.streaming).to receive(:build_accounts_subscription).and_return(accounts_subscription)
+    expect(dealing_platform.streaming).to receive(:build_markets_subscription).and_return(markets_subscription)
+    expect(dealing_platform.streaming).to receive(:build_trades_subscription).and_return(trades_subscription)
+    expect(dealing_platform.streaming).to receive(:start_subscriptions)
+      .with([accounts_subscription, markets_subscription, trades_subscription], snapshot: true)
     expect(dealing_platform.streaming).to receive(:disconnect).twice
 
     cli.self_test
