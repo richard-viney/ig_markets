@@ -29,7 +29,7 @@ module IGMarkets
       def print_lines(lines)
         change_foreground_color nil
 
-        lines.each do |line|
+        Array(lines).each do |line|
           print_next_line_segment line until line.empty?
 
           @position[0] += 1
