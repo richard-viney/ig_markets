@@ -15,7 +15,7 @@ module IGMarkets
       attribute :odds, Float
       attribute :offer, Float
       attribute :strike_price, Float
-      attribute :update_time, Time, format: '%T'
+      attribute :update_time
     end
   end
 end

@@ -35,7 +35,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect { cli_instance.raw }.to output(<<-END
 AccountUpdate - account_id: ABC1234, available_cash: 8000.0, available_to_deal: 8000.0, deposit: 10000.0, equity: 10000.0, equity_used: 1000.0, funds: 10500.0, margin: 100.0, margin_lr: 100.0, margin_nlr: 0.0, pnl: 500.0, pnl_lr: 500.0, pnl_nlr: 0.0
-MarketUpdate - bid: 1.11, change: 0.02, change_pct: 1.2, epic: CS.D.EURUSD.CFD.IP, high: 1.2, low: 1.01, market_state: tradeable, mid_open: 1.11, offer: 1.12, strike_price: 1.11, update_time: 2016-08-12 15:00:00 +0000
+MarketUpdate - bid: 1.11, change: 0.02, change_pct: 1.2, epic: CS.D.EURUSD.CFD.IP, high: 1.2, low: 1.01, market_state: tradeable, mid_open: 1.11, offer: 1.12, strike_price: 1.11, update_time: 15:00:00
 DealConfirmation - deal_id: DEAL, deal_reference: REFERENCE, deal_status: accepted, direction: buy, epic: CS.D.EURUSD.CFD.IP, expiry: 2040-12-20, level: 100.0, limit_distance: 10, limit_level: 110.0, profit: 150.0, profit_currency: USD, reason: success, size: 19.5, status: amended, stop_distance: 10, stop_level: 90.0
 PositionUpdate - account_id: ABC1234, channel: web, deal_id: id, deal_id_origin: id, deal_reference: ref, deal_status: accepted, direction: buy, epic: CS.D.EURUSD.CFD.IP, level: 1.1, limit_level: 1.2, size: 5.0, status: open, stop_level: 1.0, timestamp: 2015-12-15 15:00:00 +0000
 WorkingOrderUpdate - account_id: ABC1234, channel: web, deal_id: id, deal_reference: ref, deal_status: accepted, direction: buy, epic: CS.D.EURUSD.CFD.IP, level: 1.09, limit_distance: 50, size: 5.0, status: open, stop_distance: 50, timestamp: 2015-12-15 15:00:00 +0000
