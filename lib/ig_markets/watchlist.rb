@@ -10,7 +10,7 @@ module IGMarkets
 
     # Returns the markets for this watchlist.
     #
-    # @return [Array<Market>]
+    # @return [Array<MarketOverview>]
     def markets
       result = @dealing_platform.session.get("watchlists/#{id}").fetch :markets
 
