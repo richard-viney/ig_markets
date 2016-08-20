@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :streaming_working_order_update, class: IGMarkets::Streaming::WorkingOrderUpdate do
-    account_id 'ABC1234'
-    channel 'web'
-    deal_id 'id'
-    deal_reference 'ref'
+    account_id 'ACCOUNT'
+    channel 'Web'
+    deal_id 'DEAL'
+    deal_reference 'reference'
     deal_status 'ACCEPTED'
     direction 'BUY'
     epic 'CS.D.EURUSD.CFD.IP'

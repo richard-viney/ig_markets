@@ -2,6 +2,28 @@ module IGMarkets
   module CLI
     # Implements the `ig_markets stream` command.
     class Stream < Thor
+      desc 'dashboard', 'Displays an updating live display of account balances, positions and working orders'
+
+      option :aggregate, type: :boolean, desc: 'Whether to aggregate separate positions in the same market'
+
+      def dashboard
+        Main.begin_session(options) do |dealing_platform|
+          dealing_platform.streaming.connect
+          dealing_platform.streaming.on_error { |error| @error = error }
+
+          window = CursesWindow.new
+
+          account_state = Streaming::AccountState.new dealing_platform
+          account_state.start
+
+          redraw_account_state account_state, window until @error
+
+          raise @error
+        end
+      end
+
+      default_task :dashboard
+
       desc 'raw', 'Displays raw live streaming updates of account balances, markets and trading activity'
 
       option :accounts, type: :boolean, desc: 'Whether to stream changes to account balances'
@@ -16,7 +38,7 @@ module IGMarkets
 
           @dealing_platform.streaming.on_error(&method(:on_error))
           @dealing_platform.streaming.connect
-          start_subscriptions
+          start_raw_subscriptions
 
           main_loop
         end
@@ -24,7 +46,7 @@ module IGMarkets
 
       private
 
-      def start_subscriptions
+      def start_raw_subscriptions
         subscriptions = [accounts_subscription, markets_subscription, trades_subscription,
                          chart_ticks_subscription].compact
 
@@ -81,6 +103,16 @@ module IGMarkets
 
           puts data
         end
+      end
+
+      def redraw_account_state(account_state, window)
+        account_state.process_queued_data
+
+        window.clear
+        window.print_lines AccountsTable.new(account_state.accounts).lines, '',
+                           PositionsTable.new(account_state.positions, aggregate: options[:aggregate]).lines, '',
+                           WorkingOrdersTable.new(account_state.working_orders).lines, ''
+        window.refresh
       end
     end
   end

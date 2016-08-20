@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :application, class: IGMarkets::Application do
-    id 1234
+    id 1
     client_id '8761232322'
-    name 'TestAccount'
+    name 'Test'
     tier 'B2C'
     api_key 'api_key'
     status 'ENABLED'

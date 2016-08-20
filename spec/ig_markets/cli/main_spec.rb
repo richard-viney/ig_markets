@@ -32,10 +32,10 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   it 'reports a deal confirmation' do
     deal_confirmation = build :deal_confirmation, profit: -1.5
 
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
-Deal reference: ref
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+Deal reference: reference
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
@@ -47,10 +47,10 @@ END
   it 'reports a deal confirmation that was rejected' do
     deal_confirmation = build :deal_confirmation, deal_status: :rejected, reason: :unknown
 
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
-Deal reference: ref
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+Deal reference: reference
 Deal ID: DEAL
 Status: Rejected
 Result: Amended
@@ -63,13 +63,13 @@ END
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
     deal_confirmation = build :deal_confirmation
 
-    expect(dealing_platform).to receive(:deal_confirmation).twice.with('ref')
+    expect(dealing_platform).to receive(:deal_confirmation).twice.with('reference')
       .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).twice.with(2)
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(deal_confirmation)
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }.to output(<<-END
-Deal reference: ref
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+Deal reference: reference
 Deal not found, retrying ...
 Deal not found, retrying ...
 Deal ID: DEAL
@@ -81,13 +81,13 @@ END
   end
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
-    expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('ref')
+    expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('reference')
       .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'ref' }
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }
       .to output(<<-END
-Deal reference: ref
+Deal reference: reference
 Deal not found, retrying ...
 Deal not found, retrying ...
 Deal not found, retrying ...

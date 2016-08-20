@@ -7,7 +7,7 @@ FactoryGirl.define do
     high 1.2
     low 1.01
     market_delay false
-    market_state'TRADEABLE'
+    market_state 'TRADEABLE'
     mid_open 1.11
     odds nil
     offer 1.12

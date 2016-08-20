@@ -24,8 +24,8 @@ describe IGMarkets::CLI::Orders, :cli_command do
 
     attributes = arguments.merge good_till_date: Time.new(2016, 5, 15, 9, 45, 0, 0)
 
-    expect(dealing_platform.working_orders).to receive(:create).with(attributes).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(dealing_platform.working_orders).to receive(:create).with(attributes).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).create
   end
@@ -57,8 +57,8 @@ describe IGMarkets::CLI::Orders, :cli_command do
     attributes = arguments.merge good_till_date: Time.new(2016, 5, 15, 9, 45, 0, 0)
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
-    expect(working_order).to receive(:update).with(attributes).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(working_order).to receive(:update).with(attributes).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).update working_order.deal_id
   end
@@ -69,8 +69,8 @@ describe IGMarkets::CLI::Orders, :cli_command do
     working_order = build :working_order
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
-    expect(working_order).to receive(:update).with(arguments).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(working_order).to receive(:update).with(arguments).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).update working_order.deal_id
   end
@@ -79,8 +79,8 @@ describe IGMarkets::CLI::Orders, :cli_command do
     working_order = build :working_order
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
-    expect(working_order).to receive(:delete).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(working_order).to receive(:delete).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli.delete working_order.deal_id
   end
@@ -89,9 +89,9 @@ describe IGMarkets::CLI::Orders, :cli_command do
     working_orders = [build(:working_order), build(:working_order)]
 
     expect(dealing_platform.working_orders).to receive(:all).and_return(working_orders)
-    expect(working_orders[0]).to receive(:delete).and_return('ref')
-    expect(working_orders[1]).to receive(:delete).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref').twice
+    expect(working_orders[0]).to receive(:delete).and_return('reference')
+    expect(working_orders[1]).to receive(:delete).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference').twice
 
     cli.delete_all
   end

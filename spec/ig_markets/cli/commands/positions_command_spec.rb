@@ -37,8 +37,8 @@ END
       size: 2
     }
 
-    expect(dealing_platform.positions).to receive(:create).with(arguments).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(dealing_platform.positions).to receive(:create).with(arguments).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).create
   end
@@ -52,8 +52,8 @@ END
     position = build :position
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
-    expect(position).to receive(:update).with(arguments).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(position).to receive(:update).with(arguments).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).update 'DEAL'
   end
@@ -64,8 +64,8 @@ END
     position = build :position
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
-    expect(position).to receive(:update).with(limit_level: '', stop_level: nil).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(position).to receive(:update).with(limit_level: '', stop_level: nil).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).update 'DEAL'
   end
@@ -76,8 +76,8 @@ END
     position = build :position
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
-    expect(position).to receive(:close).with(arguments).and_return('ref')
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(position).to receive(:close).with(arguments).and_return('reference')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).close 'DEAL'
   end

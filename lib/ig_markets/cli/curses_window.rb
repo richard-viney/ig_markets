@@ -26,10 +26,10 @@ module IGMarkets
       # Prints the specified lines in this fullscreen curses window.
       #
       # @param [Array<String>] lines The lines to print.
-      def print_lines(lines)
+      def print_lines(*lines)
         change_foreground_color nil
 
-        Array(lines).each do |line|
+        lines.flatten.each do |line|
           print_next_line_segment line until line.empty?
 
           @position[0] += 1
@@ -50,7 +50,7 @@ module IGMarkets
         end
 
         def prepare
-          raise 'Curses gem is not installed' unless available?
+          raise IGMarketsError, 'curses gem is not installed' unless available?
 
           return if @prepared
 

@@ -4,10 +4,10 @@ FactoryGirl.define do
     account_type 'CFD'
     accounts { [build(:client_account_summary_account_details)] }
     authentication_status 'AUTHENTICATED'
-    client_id 'ABC123'
+    client_id 'CLIENT'
     currency_iso_code 'USD'
     currency_symbol '$'
-    current_account_id '123456'
+    current_account_id 'ACCOUNT'
     dealing_enabled true
     encrypted true
     form_details { [build(:client_account_summary_form_details)] }
@@ -32,7 +32,7 @@ end
 
 FactoryGirl.define do
   factory :client_account_summary_account_details, class: IGMarkets::ClientAccountSummary::AccountDetails do
-    account_id '123456'
+    account_id 'ACCOUNT'
     account_name 'Account name'
     account_type 'CFD'
     preferred true

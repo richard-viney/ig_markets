@@ -135,7 +135,7 @@ module IGMarkets
 
         return if lightstreamer_subscriptions.empty?
 
-        @lightstreamer.bulk_subscription_start lightstreamer_subscriptions, options
+        @lightstreamer.start_subscriptions lightstreamer_subscriptions, options
       end
 
       # Stops streaming data for the specified subscription(s) and removes them from the streaming session.
@@ -146,9 +146,7 @@ module IGMarkets
 
         return if lightstreamer_subscriptions.empty?
 
-        lightstreamer_subscriptions.each do |subscription|
-          @lightstreamer.remove_subscription subscription
-        end
+        @lightstreamer.remove_subscriptions lightstreamer_subscriptions
       end
 
       private

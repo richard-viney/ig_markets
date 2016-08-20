@@ -4,7 +4,7 @@ module IGMarkets
     # be created using the methods provided by {DealingPlatform::StreamingMethods}. Data can be consumed by registering
     # an asynchronous data callback using {#on_data}.
     class Subscription
-      # The underlying Lightstreamer subscription being managed by this class.
+      # The underlying Lightstreamer subscription instance being managed by this class.
       #
       # @return [Lightstreamer::Subscription]
       attr_reader :lightstreamer_subscription
@@ -22,6 +22,12 @@ module IGMarkets
         @lightstreamer_subscription.on_data(&method(:on_raw_data))
 
         @on_data_callbacks = []
+      end
+
+      # If this subscription was started with the `silent: true` option then this method can be called to unsilence the
+      # subscription and start receiving its data.
+      def unsilence
+        lightstreamer_subscription.unsilence
       end
 
       # Adds the passed block to the list of callbacks that will be run when this subscription receives new data. The

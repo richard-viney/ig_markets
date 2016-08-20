@@ -2,9 +2,9 @@ describe IGMarkets::Market, :dealing_platform do
   let(:market) { dealing_platform_model build(:market) }
 
   it 'reloads itself' do
-    expect(dealing_platform.markets).to receive(:[]).with('ABCDEF').twice.and_return(market)
+    expect(dealing_platform.markets).to receive(:[]).with('CS.D.EURUSD.CFD.IP').twice.and_return(market)
 
-    market_copy = dealing_platform.markets['ABCDEF'].dup
+    market_copy = dealing_platform.markets['CS.D.EURUSD.CFD.IP'].dup
     market_copy.dealing_rules = nil
     market_copy.reload
 
@@ -15,7 +15,7 @@ describe IGMarkets::Market, :dealing_platform do
     historical_price_results = [build(:historical_price_result)]
 
     expect(session).to receive(:get)
-      .with('prices/ABCDEF?resolution=DAY&max=5', IGMarkets::API_V3)
+      .with('prices/CS.D.EURUSD.CFD.IP?resolution=DAY&max=5', IGMarkets::API_V3)
       .and_return(historical_price_results)
 
     expect(market.historical_prices(resolution: :day, number: 5)).to eq(historical_price_results)
@@ -27,9 +27,9 @@ describe IGMarkets::Market, :dealing_platform do
 
     historical_price_results = [build(:historical_price_result)]
 
-    expect(session).to receive(:get)
-      .with('prices/ABCDEF?resolution=DAY&from=2014-01-02T03:04:05&to=2014-02-03T04:05:06', IGMarkets::API_V3)
-      .and_return(historical_price_results)
+    url = 'prices/CS.D.EURUSD.CFD.IP?resolution=DAY&from=2014-01-02T03:04:05&to=2014-02-03T04:05:06'
+
+    expect(session).to receive(:get).with(url, IGMarkets::API_V3).and_return(historical_price_results)
 
     result = market.historical_prices resolution: :day, from: from_time, to: to_time
     expect(result).to eq(historical_price_results)

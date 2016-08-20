@@ -22,38 +22,38 @@ describe IGMarkets::CLI::Main do
 
     position = dealing_platform_model build(:position)
 
-    expect(dealing_platform.positions).to receive(:create).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(build(:deal_confirmation))
+    expect(dealing_platform.positions).to receive(:create).and_return('reference')
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(build(:deal_confirmation))
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
 
-    expect(position).to receive(:update).and_return('ref')
+    expect(position).to receive(:update).and_return('reference')
     expect(dealing_platform.positions).to receive(:[]).with('DEAL')
       .and_return(build(:position, stop_level: position.level - 0.01))
 
-    expect(position).to receive(:close).and_return('ref')
+    expect(position).to receive(:close).and_return('reference')
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(nil)
 
     # Sprint market positions
 
     sprint_market_position = build :sprint_market_position
 
-    expect(dealing_platform.sprint_market_positions).to receive(:create).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(sprint_market_position)
+    expect(dealing_platform.sprint_market_positions).to receive(:create).and_return('reference')
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(sprint_market_position)
     expect(dealing_platform.sprint_market_positions).to receive(:[]).with('DEAL').and_return(sprint_market_position)
 
     # Working orders
 
     working_order = dealing_platform_model build(:working_order)
 
-    expect(dealing_platform.working_orders).to receive(:create).and_return('ref')
-    expect(dealing_platform).to receive(:deal_confirmation).with('ref').and_return(build(:deal_confirmation))
+    expect(dealing_platform.working_orders).to receive(:create).and_return('reference')
+    expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(build(:deal_confirmation))
     expect(dealing_platform.working_orders).to receive(:[]).with('DEAL').twice.and_return(working_order)
 
-    expect(working_order).to receive(:update).and_return('ref')
+    expect(working_order).to receive(:update).and_return('reference')
     expect(dealing_platform.working_orders).to receive(:[]).with('DEAL')
       .and_return(build(:working_order, order_level: 99))
 
-    expect(working_order).to receive(:delete).and_return('ref')
+    expect(working_order).to receive(:delete).and_return('reference')
     expect(dealing_platform.working_orders).to receive(:[]).with('DEAL').and_return(nil)
 
     # Watchlists

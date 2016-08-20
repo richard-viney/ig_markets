@@ -12,7 +12,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
     lightstreamer_session = instance_double 'Lightstreamer::Session'
 
     expect(Lightstreamer::Session).to receive(:new)
-      .with(server_url: 'http://lightstreamer.com', username: 'ABC123', password: 'CST-cst|XST-xst')
+      .with(server_url: 'http://lightstreamer.com', username: 'CLIENT', password: 'CST-cst|XST-xst')
       .and_return(lightstreamer_session)
 
     on_error_block = nil
@@ -48,7 +48,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(subscription).to receive(:on_data)
 
       expect(lightstreamer_session).to receive(:build_subscription)
-        .with(items: ['ACCOUNT:123456'],
+        .with(items: ['ACCOUNT:ACCOUNT'],
               fields: [:available_cash, :available_to_deal, :deposit, :equity, :equity_used, :funds, :margin,
                        :margin_lr, :margin_nlr, :pnl, :pnl_lr, :pnl_nlr], mode: :merge)
         .and_return(subscription)
@@ -77,7 +77,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(subscription).to receive(:on_data)
 
       expect(lightstreamer_session).to receive(:build_subscription)
-        .with(items: ['TRADE:123456'], fields: [:confirms, :opu, :wou], mode: :distinct)
+        .with(items: ['TRADE:ACCOUNT'], fields: [:confirms, :opu, :wou], mode: :distinct)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_trades_subscription).to be_a(IGMarkets::Streaming::Subscription)
@@ -119,7 +119,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       streaming_subscription = instance_double 'IGMarkets::Streaming::Subscription',
                                                lightstreamer_subscription: lightstreamer_subscription
 
-      expect(lightstreamer_session).to receive(:bulk_subscription_start).with([lightstreamer_subscription], {})
+      expect(lightstreamer_session).to receive(:start_subscriptions).with([lightstreamer_subscription], {})
 
       dealing_platform.streaming.start_subscriptions streaming_subscription
       dealing_platform.streaming.start_subscriptions [nil]
@@ -130,7 +130,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       streaming_subscription = instance_double 'IGMarkets::Streaming::Subscription',
                                                lightstreamer_subscription: lightstreamer_subscription
 
-      expect(lightstreamer_session).to receive(:remove_subscription).with(lightstreamer_subscription)
+      expect(lightstreamer_session).to receive(:remove_subscriptions).with([lightstreamer_subscription])
 
       dealing_platform.streaming.remove_subscriptions streaming_subscription
       dealing_platform.streaming.remove_subscriptions [nil]

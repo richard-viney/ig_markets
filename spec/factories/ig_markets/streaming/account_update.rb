@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :streaming_account_update, class: IGMarkets::Streaming::AccountUpdate do
-    account_id 'ABC1234'
+    account_id 'ACCOUNT'
     available_cash 8_000.0
     available_to_deal 8_000.0
     deposit 10_000.0

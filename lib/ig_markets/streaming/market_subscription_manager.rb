@@ -1,8 +1,10 @@
 module IGMarkets
   module Streaming
-    # This class manages streaming subscriptions for a changing set of EPICs. The set of EPICs to stream data for is
-    # set by calls to {#epics=}, and when streaming market data becomes available it is passed to all registered
+    # This class manages a set of streaming subscriptions for a changing set of EPICs. The set of EPICs to stream data
+    # for is set by calls to {#epics=}, and when streaming market data becomes available it is passed to all registered
     # {#on_data} callbacks.
+    #
+    # This class can be used standalone, but its primary function is as a helper for the {AccountState} class.
     class MarketSubscriptionManager
       # Initializes this market subscription manager with the specified dealing platform.
       #

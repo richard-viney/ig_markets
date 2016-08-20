@@ -5,7 +5,7 @@ FactoryGirl.define do
     controlled_risk_allowed false
     country 'US'
     currencies { [build(:instrument_currency)] }
-    epic 'ABCDEF'
+    epic 'CS.D.EURUSD.CFD.IP'
     expiry '20-DEC-40'
     expiry_details { build :instrument_expiry_details }
     force_open_allowed false

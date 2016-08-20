@@ -4,8 +4,8 @@ describe IGMarkets::CLI::Main, :cli_command do
   end
 
   it 'prints a deal confirmation' do
-    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('ref')
+    expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
-    cli.confirmation 'ref'
+    cli.confirmation 'reference'
   end
 end

@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :activity, class: IGMarkets::Activity do
     channel 'WEB'
     date '2015-12-15T15:00:00'
-    deal_id 'DIAAAAA4HDKPQEQ'
+    deal_id 'DEAL1'
     details { build :activity_details }
     epic 'CS.D.NZDUSD.CFD.IP'
     period '-'
@@ -26,6 +26,6 @@ end
 FactoryGirl.define do
   factory :activity_details_action, class: IGMarkets::Activity::Details::Action do
     action_type 'POSITION_CLOSED'
-    affected_deal_id 'DIAAAAA4HDKPQEQ'
+    affected_deal_id 'DEAL1'
   end
 end
