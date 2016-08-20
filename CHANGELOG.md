@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.20 — Unreleased
+### 0.20 — August 20, 2016
 
 - Added `IGMarkets::DealingPlatform#streaming` which along with new classes in the `IGMarkets::Streaming` module
   provides a simple interface to the IG Markets streaming API
