@@ -4,6 +4,8 @@
 
 - Added `IGMarkets::DealingPlatform#streaming` which along with new classes in the `IGMarkets::Streaming` module
   provides a simple interface to the IG Markets streaming API
+- Added `ig_markets stream` command that shows a live display of account balances, positions and working orders, the
+  previous behavior of showing raw streaming output is still available using `ig_markets stream raw`
 - Added new `IGMarkets::Position#deal_reference` attribute
 - The `ig_markets self-test` command now runs self-tests on the streaming functionality as well
 - Removed `IGMarkets::DealingPlatform#lightstreamer_session`

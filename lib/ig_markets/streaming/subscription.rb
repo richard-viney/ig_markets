@@ -1,7 +1,7 @@
 module IGMarkets
   module Streaming
     # This class manages a single Lightstreamer subscription used to handle streaming data. Subscriptions should always
-    # be created using the methods provided by {DealingPlatform::StreamingMethods}. Data can be consumed by registering
+    # be managed using the methods provided by {DealingPlatform::StreamingMethods}. Data can be consumed by registering
     # an asynchronous data callback using {#on_data}.
     class Subscription
       # The underlying Lightstreamer subscription instance being managed by this class.
