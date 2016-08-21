@@ -41,7 +41,7 @@ Status: Accepted
 Result: Amended
 Profit/loss: #{'USD -1.50'.colorize :red}
 END
-                                                                            ).to_stdout
+                                                                                  ).to_stdout
   end
 
   it 'reports a deal confirmation that was rejected' do
@@ -57,7 +57,7 @@ Result: Amended
 Profit/loss: #{'USD 150.00'.colorize :green}
 Reason: Unknown
 END
-                                                                            ).to_stdout
+                                                                                  ).to_stdout
   end
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
@@ -77,7 +77,7 @@ Status: Accepted
 Result: Amended
 Profit/loss: #{'USD 150.00'.colorize :green}
 END
-                                                                            ).to_stdout
+                                                                                  ).to_stdout
   end
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
