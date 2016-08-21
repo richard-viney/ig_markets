@@ -2,7 +2,7 @@
 
 ### 0.21 — Unreleased
 
-- 
+- Fixed circular references in the `IGMarkets::DealingPlatform` subclasses
 
 ### 0.20 — August 20, 2016
 

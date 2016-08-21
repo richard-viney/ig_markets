@@ -6,7 +6,7 @@ module IGMarkets
       #
       # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
-        @dealing_platform = dealing_platform
+        @dealing_platform = WeakRef.new dealing_platform
       end
 
       # Returns all watchlists.
