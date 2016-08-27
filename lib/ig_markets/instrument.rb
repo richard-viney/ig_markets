@@ -31,12 +31,14 @@ module IGMarkets
       attribute :open_time
 
       # This method is used by {DealingPlatform#instantiate_models} to work around a vagary in the IG API where there
-      # is a seemingly unnecessary hash for the :opening_hours value that contains a single :market_times key which is
+      # is a seemingly unnecessary hash for the :opening_hours value that contains a single `:market_times` key which is
       # what holds the actual opening hours data.
       #
       # @param [Hash] attributes
       #
       # @return [Hash]
+      #
+      # @private
       def self.adjusted_api_attributes(attributes)
         attributes.keys == [:market_times] ? attributes[:market_times] : attributes
       end
