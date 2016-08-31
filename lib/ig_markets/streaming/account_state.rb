@@ -51,11 +51,12 @@ module IGMarkets
         update_market_subscriptions
       end
 
-      # Returns whether there is any data waiting to be processed by a call to {#process_queued_data}
+      # Returns whether the data queue is empty. If this returns false then there is data waiting to be processed by a
+      # call to {#process_queued_data}.
       #
       # @return [Boolean]
-      def data_to_process?
-        !@data_queue.empty?
+      def data_queue_empty?
+        @data_queue.empty?
       end
 
       # Processes all queued data and updates {#accounts}, {#positions} and {#working_orders} accordingly. If there are

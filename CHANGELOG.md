@@ -2,6 +2,8 @@
 
 ### 0.21 — Unreleased
 
+- Replaced `IGMarkets::Streaming::AccountState#data_to_process?` with
+  `IGMarkets::Streaming::AccountState#data_queue_empty?`
 - Fixed circular references in the `IGMarkets::DealingPlatform` subclasses
 
 ### 0.20 — August 20, 2016

@@ -12,9 +12,9 @@ describe IGMarkets::Streaming::AccountState, :dealing_platform do
   end
 
   it 'checks whether there is data to process' do
-    expect(account_state.data_to_process?).to be false
+    expect(account_state.data_queue_empty?).to be true
     data_queue.push :test
-    expect(account_state.data_to_process?).to be true
+    expect(account_state.data_queue_empty?).to be false
   end
 
   it 'streams and processes live data' do
