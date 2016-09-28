@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.22 — Unreleased
+
+- 
+
 ### 0.21 — September 29, 2016
 
 - Replaced `IGMarkets::Streaming::AccountState#data_to_process?` with
