@@ -89,6 +89,10 @@ module IGMarkets
     class TooManyEPICSError < IGMarketsError
     end
 
+    # This error is raised when an invalid page size is specified.
+    class InvalidPageSizeError < IGMarketsError
+    end
+
     # This error is raised when the account has been denied login privileges.
     class AccountAccessDeniedError < IGMarketsError
     end
@@ -142,6 +146,10 @@ module IGMarkets
     class APIKeyRevokedError < IGMarketsError
     end
 
+    # This error is raised when a timeout occurs during authentication.
+    class AuthenticationTimeoutError < IGMarketsError
+    end
+
     # This error is raised when the client has been suspended from using the platform.
     class ClientSuspendedError < IGMarketsError
     end
@@ -170,12 +178,32 @@ module IGMarkets
     class InvalidWebsiteError < IGMarketsError
     end
 
+    # This error is raised when an invalid OAuth access token is encountered.
+    class OAuthTokenInvalidError < IGMarketsError
+    end
+
     # This error is raised when there have been too many failed login attempts.
     class TooManyFailedLoginAttemptsError < IGMarketsError
     end
 
     # This error is raised when an invalid EPIC was used when interacting with a watchlist.
     class WatchlistInvalidEPICError < IGMarketsError
+    end
+
+    # This error is raised when the expiry period of the sprint market position is invalid.
+    class SprintMarketPositionInvalidExpiryError < IGMarketsError
+    end
+
+    # This error is raised when an unspecified error occurs trying to create a sprint market position.
+    class SprintMarketPositionCreateError < IGMarketsError
+    end
+
+    # This error is raised when the expiry time of a sprint market falls outside market trading hours.
+    class SprintMarketClosedError < IGMarketsError
+    end
+
+    # This error is raised when a sprint market position's order size is invalid.
+    class SprintMarketInvalidOrderSizeError < IGMarketsError
     end
 
     # This error is raised when trying to set the current account to the current account.
@@ -188,6 +216,10 @@ module IGMarkets
 
     # This error is raised when an invalid account ID was specified.
     class InvalidAccountIDError < IGMarketsError
+    end
+
+    # This error is raised when a specified instrument is not found.
+    class InstrumentNotFoundError < IGMarketsError
     end
 
     # This error is raised when an unsupported EPIC was specified.
@@ -246,13 +278,20 @@ module IGMarkets
     #
     # @param [String] error_code The error code.
     #
-    # @return [LightstreamerError]
+    # @return [IGMarketsError]
     #
     # @private
     def self.build(error_code)
       if API_ERROR_CODE_TO_CLASS.key? error_code
         API_ERROR_CODE_TO_CLASS[error_code].new ''
       else
+        @reported_unrecognized_error_codes ||= []
+
+        unless @reported_unrecognized_error_codes.include? error_code
+          @reported_unrecognized_error_codes << error_code
+          warn "ig_markets: unrecognized error code #{error_code}"
+        end
+
         new error_code
       end
     end
@@ -280,6 +319,8 @@ module IGMarkets
       'error.public-api.failure.preferred.account.not.set' => Errors::PreferredAccountNotSetError,
       'error.public-api.failure.stockbroking-not-supported' => Errors::StockbrokingNotSupportedError,
       'error.public-api.too-many-epics' => Errors::TooManyEPICSError,
+      'error.request.invalid.date-range' => Errors::InvalidDateRangeError,
+      'error.request.invalid.page-size' => Errors::InvalidPageSizeError,
       'error.security.account-access-denied' => Errors::AccountAccessDeniedError,
       'error.security.account-migrated' => Errors::AccountMigratedError,
       'error.security.account-not-yet-activated' => Errors::AccountNotYetActivatedError,
@@ -293,6 +334,7 @@ module IGMarkets
       'error.security.api-key-missing' => Errors::APIKeyMissingError,
       'error.security.api-key-restricted' => Errors::APIKeyRestrictedError,
       'error.security.api-key-revoked' => Errors::APIKeyRevokedError,
+      'error.security.authentication.timeout' => Errors::AuthenticationTimeoutError,
       'error.security.client-suspended' => Errors::ClientSuspendedError,
       'error.security.client-token-invalid' => Errors::ClientTokenInvalidError,
       'error.security.client-token-missing' => Errors::ClientTokenMissingError,
@@ -300,11 +342,17 @@ module IGMarkets
       'error.security.invalid-application' => Errors::InvalidApplicationError,
       'error.security.invalid-details' => Errors::InvalidCredentialsError,
       'error.security.invalid-website' => Errors::InvalidWebsiteError,
+      'error.security.oauth-token-invalid' => Errors::OAuthTokenInvalidError,
       'error.security.too-many-failed-attempts' => Errors::TooManyFailedLoginAttemptsError,
       'error.service.watchlists.add-instrument.invalid-epic' => Errors::WatchlistInvalidEPICError,
+      'error.sprintmarket.create-position.expiry.outside-valid-range' => Errors::SprintMarketPositionInvalidExpiryError,
+      'error.sprintmarket.create-position.failure' => Errors::SprintMarketPositionCreateError,
+      'error.sprintmarket.create-position.market-closed' => Errors::SprintMarketPositionInvalidExpiryError,
+      'error.sprintmarket.create-position.order-size.invalid' => Errors::SprintMarketInvalidOrderSizeError,
       'error.switch.accountId-must-be-different' => Errors::AccountAlreadyCurrentError,
       'error.switch.cannot-set-default-account' => Errors::CannotSetDefaultAccountError,
       'error.switch.invalid-accountId' => Errors::InvalidAccountIDError,
+      'error.trading.otc.instrument-not-found' => Errors::InstrumentNotFoundError,
       'error.unsupported.epic' => Errors::UnsupportedEPICError,
       'error.watchlists.management.cannot-delete-watchlist' => Errors::CannotDeleteWatchlistError,
       'error.watchlists.management.duplicate-name' => Errors::DuplicateWatchlistNameError,

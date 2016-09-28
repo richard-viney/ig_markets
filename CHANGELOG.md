@@ -5,6 +5,8 @@
 - Replaced `IGMarkets::Streaming::AccountState#data_to_process?` with
   `IGMarkets::Streaming::AccountState#data_queue_empty?`
 - Fixed circular references in the `IGMarkets::DealingPlatform` subclasses
+- All documented IG Markets API errors now have a matching `IGMarkets::IGMarketsError` subclass, and any unrecognized
+  error codes returned by the API cause a warning to be written to `stderr`
 
 ### 0.20 — August 20, 2016
 

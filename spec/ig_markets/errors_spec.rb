@@ -23,6 +23,8 @@ describe IGMarkets::IGMarketsError do
       'error.public-api.failure.preferred.account.not.set' => IGMarkets::Errors::PreferredAccountNotSetError,
       'error.public-api.failure.stockbroking-not-supported' => IGMarkets::Errors::StockbrokingNotSupportedError,
       'error.public-api.too-many-epics' => IGMarkets::Errors::TooManyEPICSError,
+      'error.request.invalid.date-range' => IGMarkets::Errors::InvalidDateRangeError,
+      'error.request.invalid.page-size' => IGMarkets::Errors::InvalidPageSizeError,
       'error.security.account-access-denied' => IGMarkets::Errors::AccountAccessDeniedError,
       'error.security.account-migrated' => IGMarkets::Errors::AccountMigratedError,
       'error.security.account-not-yet-activated' => IGMarkets::Errors::AccountNotYetActivatedError,
@@ -36,6 +38,7 @@ describe IGMarkets::IGMarketsError do
       'error.security.api-key-missing' => IGMarkets::Errors::APIKeyMissingError,
       'error.security.api-key-restricted' => IGMarkets::Errors::APIKeyRestrictedError,
       'error.security.api-key-revoked' => IGMarkets::Errors::APIKeyRevokedError,
+      'error.security.authentication.timeout' => IGMarkets::Errors::AuthenticationTimeoutError,
       'error.security.client-suspended' => IGMarkets::Errors::ClientSuspendedError,
       'error.security.client-token-invalid' => IGMarkets::Errors::ClientTokenInvalidError,
       'error.security.client-token-missing' => IGMarkets::Errors::ClientTokenMissingError,
@@ -43,11 +46,18 @@ describe IGMarkets::IGMarketsError do
       'error.security.invalid-application' => IGMarkets::Errors::InvalidApplicationError,
       'error.security.invalid-details' => IGMarkets::Errors::InvalidCredentialsError,
       'error.security.invalid-website' => IGMarkets::Errors::InvalidWebsiteError,
+      'error.security.oauth-token-invalid' => IGMarkets::Errors::OAuthTokenInvalidError,
       'error.security.too-many-failed-attempts' => IGMarkets::Errors::TooManyFailedLoginAttemptsError,
       'error.service.watchlists.add-instrument.invalid-epic' => IGMarkets::Errors::WatchlistInvalidEPICError,
+      'error.sprintmarket.create-position.expiry.outside-valid-range' =>
+        IGMarkets::Errors::SprintMarketPositionInvalidExpiryError,
+      'error.sprintmarket.create-position.failure' => IGMarkets::Errors::SprintMarketPositionCreateError,
+      'error.sprintmarket.create-position.market-closed' => IGMarkets::Errors::SprintMarketPositionInvalidExpiryError,
+      'error.sprintmarket.create-position.order-size.invalid' => IGMarkets::Errors::SprintMarketInvalidOrderSizeError,
       'error.switch.accountId-must-be-different' => IGMarkets::Errors::AccountAlreadyCurrentError,
       'error.switch.cannot-set-default-account' => IGMarkets::Errors::CannotSetDefaultAccountError,
       'error.switch.invalid-accountId' => IGMarkets::Errors::InvalidAccountIDError,
+      'error.trading.otc.instrument-not-found' => IGMarkets::Errors::InstrumentNotFoundError,
       'error.unsupported.epic' => IGMarkets::Errors::UnsupportedEPICError,
       'error.watchlists.management.cannot-delete-watchlist' => IGMarkets::Errors::CannotDeleteWatchlistError,
       'error.watchlists.management.duplicate-name' => IGMarkets::Errors::DuplicateWatchlistNameError,
@@ -64,9 +74,10 @@ describe IGMarkets::IGMarketsError do
     end
   end
 
-  it 'builds a base error when the error code is unknown' do
-    expect(IGMarkets::IGMarketsError).to receive(:new).with('error.unknown')
-
-    IGMarkets::IGMarketsError.build 'error.unknown'
+  it 'builds a base error and writes a one-time warning to stderr when the error code is unknown' do
+    expect do
+      expect(IGMarkets::IGMarketsError.build('error.unknown')).to be_a(IGMarkets::IGMarketsError)
+      expect(IGMarkets::IGMarketsError.build('error.unknown')).to be_a(IGMarkets::IGMarketsError)
+    end.to output("ig_markets: unrecognized error code error.unknown\n").to_stderr
   end
 end
