@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.21 — Unreleased
+### 0.21 — September 29, 2016
 
 - Replaced `IGMarkets::Streaming::AccountState#data_to_process?` with
   `IGMarkets::Streaming::AccountState#data_queue_empty?`
