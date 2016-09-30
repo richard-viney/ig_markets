@@ -2,7 +2,8 @@
 
 ### 0.22 — Unreleased
 
-- 
+- The `curses` gem is no longer a dependency because it can be difficult to install on Windows, it now has to be
+  installed separately in order to use the `ig_markets stream` command that relies on curses functionality
 
 ### 0.21 — September 29, 2016
 

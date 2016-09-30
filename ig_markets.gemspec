@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0'
 
   s.add_runtime_dependency 'colorize', '~> 0.8'
-  s.add_runtime_dependency 'curses', '~> 1.0' unless Gem.win_platform?
   s.add_runtime_dependency 'excon', '~> 0.51'
   s.add_runtime_dependency 'lightstreamer', '0.12'
   s.add_runtime_dependency 'pry', '~> 0.10.4'
