@@ -76,14 +76,10 @@ module IGMarkets
     end
 
     class << self
-      # A hash containing details of all attributes that have been defined on this model.
-      #
-      # @return [Hash]
+      # @return [Hash] a hash containing details of all attributes that have been defined on this model.
       attr_accessor :defined_attributes
 
-      # The names of the deprecated attributes on this model.
-      #
-      # @return [Array]
+      # @return [Array] the names of the deprecated attributes on this model.
       attr_accessor :deprecated_attributes
 
       # Returns the names of all currently defined attributes for this model.

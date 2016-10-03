@@ -3,36 +3,24 @@ module IGMarkets
   # In order to sign in, {#username}, {#password}, {#api_key} and {#platform} must be set. {#platform} must be
   # either `:demo` or `:live` depending on which platform is being targeted.
   class Session
-    # The username to use to authenticate this session.
-    #
-    # @return [String]
+    # @return [String] the username to use to authenticate this session.
     attr_accessor :username
 
-    # The password to use to authenticate this session.
-    #
-    # @return [String]
+    # @return [String] the password to use to authenticate this session.
     attr_accessor :password
 
-    # The API key to use to authenticate this session.
-    #
-    # @return [String]
+    # @return [String] the API key to use to authenticate this session.
     attr_accessor :api_key
 
-    # The platform variant to log into for this session.
-    #
-    # @return [:demo, :live]
+    # @return [:demo, :live] The platform variant to log into for this session.
     attr_accessor :platform
 
-    # The client session security access token for the currently logged in session, or `nil` if there is no active
-    # session.
-    #
-    # @return [String]
+    # @return [String] the client session security access token for the currently logged in session, or `nil` if there
+    #         is no active session.
     attr_reader :client_security_token
 
-    # The account session security access token for the currently logged in session, or `nil` if there is no active
-    # session.
-    #
-    # @return [String]
+    # @return [String] the account session security access token for the currently logged in session, or `nil` if there
+    #         is no active session.
     attr_reader :x_security_token
 
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error

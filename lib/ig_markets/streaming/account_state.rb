@@ -5,21 +5,16 @@ module IGMarkets
     # making repeated calls to the REST API to get current account, position or working order details, and also avoids
     # running into API traffic allowance limits.
     class AccountState
-      # The current state of the accounts. The balances will be updated automatically as new streaming data arrives.
-      #
-      # @return [Array<Account>]
+      # @return [Array<Account>] the current state of the accounts. The balances will be updated automatically as new
+      #         streaming data arrives.
       attr_accessor :accounts
 
-      # The current positions for this account. This set of positions will be updated automatically as new streaming
-      # data arrives.
-      #
-      # @return [Array<Position>]
+      # @return [Array<Position>] the current positions for this account. This set of positions will be updated
+      #         automatically as new streaming data arrives.
       attr_accessor :positions
 
-      # The current working orders for this account. This set of working orders will be updated automatically as new
-      # streaming data arrives.
-      #
-      # @return [Array<WorkingOrder>]
+      # @return [Array<WorkingOrder>] the current working orders for this account. This set of working orders will be
+      #         updated automatically as new streaming data arrives.
       attr_accessor :working_orders
 
       # Initializes this account state with the specified dealing platform.
