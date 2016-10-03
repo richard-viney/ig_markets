@@ -10,11 +10,11 @@ module IGMarkets
     attribute :epic, String, regex: Regex::EPIC
     attribute :good_till_date, Time, format: '%Y/%m/%d %R'
     attribute :guaranteed_stop, Boolean
-    attribute :limit_distance, Fixnum
+    attribute :limit_distance, Integer
     attribute :order_level, Float
     attribute :order_size, Float
     attribute :order_type, Symbol, allowed_values: [:limit, :stop]
-    attribute :stop_distance, Fixnum
+    attribute :stop_distance, Integer
     attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
 
     attribute :market, MarketOverview
@@ -41,9 +41,9 @@ module IGMarkets
     #        {DealingPlatform::WorkingOrderMethods#create} for a description of the attributes.
     # @option new_attributes [Time] :good_till_date
     # @option new_attributes [Float] :level
-    # @option new_attributes [Fixnum] :limit_distance
+    # @option new_attributes [Integer] :limit_distance
     # @option new_attributes [Float] :limit_level
-    # @option new_attributes [Fixnum] :stop_distance
+    # @option new_attributes [Integer] :stop_distance
     # @option new_attributes [Float] :stop_level
     # @option new_attributes [:limit, :stop] :type
     #
@@ -65,9 +65,9 @@ module IGMarkets
     class WorkingOrderUpdateAttributes < Model
       attribute :good_till_date, Time, format: '%Y/%m/%d %R:%S'
       attribute :level, Float
-      attribute :limit_distance, Fixnum
+      attribute :limit_distance, Integer
       attribute :limit_level, Float
-      attribute :stop_distance, Fixnum
+      attribute :stop_distance, Integer
       attribute :stop_level, Float
       attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
       attribute :type, Symbol, allowed_values: [:limit, :stop]

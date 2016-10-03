@@ -8,7 +8,7 @@ module IGMarkets
       attribute :bid_low, Float
       attribute :bid_open, Float
       attribute :cons_end, Boolean
-      attribute :cons_tick_count, Fixnum
+      attribute :cons_tick_count, Integer
       attribute :day_high, Float
       attribute :day_low, Float
       attribute :day_net_chg_mid, Float

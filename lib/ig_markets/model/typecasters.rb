@@ -5,7 +5,7 @@ module IGMarkets
       private
 
       def typecaster_for(type)
-        if [Boolean, String, Fixnum, Float, Symbol, Date, Time].include? type
+        if [Boolean, String, Integer, Float, Symbol, Date, Time].include? type
           method "typecaster_#{type.to_s.gsub(/\AIGMarkets::/, '').downcase}"
         elsif type
           lambda do |value, _options, name|
@@ -35,7 +35,7 @@ module IGMarkets
         value.to_s
       end
 
-      def typecaster_fixnum(value, _options, _name)
+      def typecaster_integer(value, _options, _name)
         return nil if value.nil?
 
         value.to_s.to_i
@@ -74,7 +74,7 @@ module IGMarkets
       end
 
       def typecaster_time(value, options, name)
-        if value.is_a?(String) || value.is_a?(Fixnum)
+        if value.is_a?(String) || value.is_a?(Integer)
           parse_formatted_time_value value.to_s, options, name
         else
           value

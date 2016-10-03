@@ -141,7 +141,7 @@ module IGMarkets
       # Defines setter and getter instance methods and a sanitizer class method for a new attribute on this class.
       #
       # @param [Symbol] name The name of the new attribute.
-      # @param [Boolean, String, Date, Time, Fixnum, Float, Symbol, Model] type The attribute's type.
+      # @param [Boolean, String, Date, Time, Integer, Float, Symbol, Model] type The attribute's type.
       # @param [Hash] options The configuration options for the new attribute.
       # @option options [Array] :allowed_values The set of values that this attribute is allowed to be set to. An
       #                 attempt to set this attribute to a value not in this list will raise `ArgumentError`. Optional.
@@ -149,7 +149,7 @@ module IGMarkets
       # @option options [Regexp] :regex When `type` is `String` only values matching this regex will be allowed.
       #                 Optional.
       # @option options [String] :format When `type` is `Date` or `Time` this specifies the format or formats for
-      #                 parsing String and `Fixnum` instances assigned to this attribute.
+      #                 parsing String and `Integer` instances assigned to this attribute.
       #
       # @macro [attach] attribute
       #   The $1 attribute.

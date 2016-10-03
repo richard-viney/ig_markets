@@ -51,13 +51,14 @@ module IGMarkets
       CONSOLIDATED_CHART_DATA_REGEX = /^CHART:(.*):(SECOND|1MINUTE|5MINUTE|HOUR)$/
 
       def on_raw_data(subscription, item_name, item_data, new_data)
-        on_account_data subscription, item_name, item_data, new_data if item_name =~ ACCOUNT_DATA_REGEX
-        on_market_data subscription, item_name, item_data, new_data if item_name =~ MARKET_DATA_REGEX
-        on_trade_data subscription, item_name, item_data, new_data if item_name =~ TRADE_DATA_REGEX
-        on_chart_tick_data subscription, item_name, item_data, new_data if item_name =~ CHART_TICK_DATA_REGEX
-
-        if item_name =~ CONSOLIDATED_CHART_DATA_REGEX
-          on_consolidated_chart_data subscription, item_name, item_data, new_data
+        {
+          ACCOUNT_DATA_REGEX => :on_account_data,
+          MARKET_DATA_REGEX => :on_market_data,
+          TRADE_DATA_REGEX => :on_trade_data,
+          CHART_TICK_DATA_REGEX => :on_chart_tick_data,
+          CONSOLIDATED_CHART_DATA_REGEX => :on_consolidated_chart_data
+        }.each do |regex, handler|
+          send handler, subscription, item_name, item_data, new_data if item_name =~ regex
         end
       end
 

@@ -13,10 +13,10 @@ module IGMarkets
       attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
       attribute :guaranteed_stop, Boolean
       attribute :level, Float
-      attribute :limit_distance, Fixnum
+      attribute :limit_distance, Integer
       attribute :size, Float
       attribute :status, Symbol, allowed_values: [:deleted, :open, :updated]
-      attribute :stop_distance, Fixnum
+      attribute :stop_distance, Integer
       attribute :timestamp, Time, format: '%FT%T.%L'
     end
   end

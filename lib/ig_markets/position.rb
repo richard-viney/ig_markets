@@ -14,7 +14,7 @@ module IGMarkets
     attribute :size, Float
     attribute :stop_level, Float
     attribute :trailing_step, Float
-    attribute :trailing_stop_distance, Fixnum
+    attribute :trailing_stop_distance, Integer
 
     attribute :market, MarketOverview
 
@@ -106,8 +106,8 @@ module IGMarkets
     # @option new_attributes [Float] :limit_level The new limit level for this position.
     # @option new_attributes [Float] :stop_level The new stop level for this position.
     # @option new_attributes [Boolean] :trailing_stop Whether to use a trailing stop for this position.
-    # @option new_attributes [Fixnum] :trailing_stop_distance The distance away in pips to place the trailing stop.
-    # @option new_attributes [Fixnum] :trailing_stop_increment The step increment to use for the trailing stop.
+    # @option new_attributes [Integer] :trailing_stop_distance The distance away in pips to place the trailing stop.
+    # @option new_attributes [Integer] :trailing_stop_increment The step increment to use for the trailing stop.
     #
     # @return [String] The deal reference of the update operation. Use {DealingPlatform#deal_confirmation} to check
     #         the result of the position update.
@@ -176,8 +176,8 @@ module IGMarkets
       attribute :limit_level, Float
       attribute :stop_level, Float
       attribute :trailing_stop, Boolean
-      attribute :trailing_stop_distance, Fixnum
-      attribute :trailing_stop_increment, Fixnum
+      attribute :trailing_stop_distance, Integer
+      attribute :trailing_stop_increment, Integer
     end
 
     private_constant :PositionCloseAttributes, :PositionUpdateAttributes

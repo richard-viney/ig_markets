@@ -5,21 +5,21 @@ module IGMarkets
     class Metadata < Model
       # Contains details on the remaining allowance for looking up historical prices. Used by {#allowance}.
       class Allowance < Model
-        attribute :allowance_expiry, Fixnum
-        attribute :remaining_allowance, Fixnum
-        attribute :total_allowance, Fixnum
+        attribute :allowance_expiry, Integer
+        attribute :remaining_allowance, Integer
+        attribute :total_allowance, Integer
       end
 
       # Contains details on paging status for a historical price lookup. Used by {#page_data}.
       class PageData < Model
-        attribute :page_number, Fixnum
-        attribute :page_size, Fixnum
-        attribute :total_pages, Fixnum
+        attribute :page_number, Integer
+        attribute :page_size, Integer
+        attribute :total_pages, Integer
       end
 
       attribute :allowance, Allowance
       attribute :page_data, PageData
-      attribute :size, Fixnum
+      attribute :size, Integer
     end
 
     # Contains details on a single historical price snapshot. Used by {#prices}.

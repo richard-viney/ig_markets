@@ -18,7 +18,7 @@ module IGMarkets
     attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
     attribute :guaranteed_stop, Boolean
     attribute :level, Float
-    attribute :limit_distance, Fixnum
+    attribute :limit_distance, Integer
     attribute :limit_level, Float
     attribute :profit, Float
     attribute :profit_currency, String, regex: Regex::CURRENCY
@@ -44,7 +44,7 @@ module IGMarkets
                                                 :trailing_stop_not_allowed, :unknown, :wrong_side_of_market]
     attribute :size, Float
     attribute :status, Symbol, allowed_values: [:amended, :closed, :deleted, :open, :partially_closed]
-    attribute :stop_distance, Fixnum
+    attribute :stop_distance, Integer
     attribute :stop_level, Float
     attribute :trailing_stop, Boolean
   end

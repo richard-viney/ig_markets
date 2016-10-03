@@ -3,13 +3,13 @@ module IGMarkets
   class Application < Model
     attribute :allow_equities, Boolean
     attribute :allow_quote_orders, Boolean
-    attribute :allowance_account_historical_data, Fixnum
-    attribute :allowance_account_overall, Fixnum
-    attribute :allowance_account_trading, Fixnum
-    attribute :allowance_application_overall, Fixnum
+    attribute :allowance_account_historical_data, Integer
+    attribute :allowance_account_overall, Integer
+    attribute :allowance_account_trading, Integer
+    attribute :allowance_application_overall, Integer
     attribute :api_key
     attribute :client_id
-    attribute :concurrent_subscriptions_limit, Fixnum
+    attribute :concurrent_subscriptions_limit, Integer
     attribute :created_date, Time, format: '%Q'
     attribute :fast_markets_settlement_price_enabled, Boolean
     attribute :id

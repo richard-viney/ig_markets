@@ -40,7 +40,7 @@ module IGMarkets
       # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level Required if and only if `:order_type` is `:limit` or `:quote`.
-      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. If this is set then
+      # @option attributes [Integer] :limit_distance The distance away in pips to place the limit. If this is set then
       #                    `:limit_level` must be `nil`. Optional.
       # @option attributes [Float] :limit_level The limit level. If this is set then `:limit_distance` must be `nil`.
       #                    Optional.
@@ -50,7 +50,7 @@ module IGMarkets
       #                    Defaults to `:market`.
       # @option attributes [String] :quote_id The Lightstreamer quote ID. Required when `:order_type` is `:quote`.
       # @option attributes [Float] :size The size of the position to create. Required.
-      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. If this is set then
+      # @option attributes [Integer] :stop_distance The distance away in pips to place the stop. If this is set then
       #                    `:stop_level` must be `nil`. Optional.
       # @option attributes [Float] :stop_level The stop level. If this is set then `:stop_distance` must be `nil`.
       #                    Optional.
@@ -62,7 +62,7 @@ module IGMarkets
       #                    `:market` (the default) then `:time_in_force` will be automatically set to
       #                    `:execute_and_eliminate`.
       # @option attributes [Boolean] :trailing_stop Whether to use a trailing stop. Defaults to false. Optional.
-      # @option attributes [Fixnum] :trailing_stop_increment The increment step in pips for the trailing stop. Required
+      # @option attributes [Integer] :trailing_stop_increment The increment step in pips for the trailing stop. Required
       #                    when `:trailing_stop` is `true`.
       #
       # @return [String] The resulting deal reference, use {DealingPlatform#deal_confirmation} to check the result of
@@ -86,16 +86,16 @@ module IGMarkets
         attribute :force_open, Boolean
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
-        attribute :limit_distance, Fixnum
+        attribute :limit_distance, Integer
         attribute :limit_level, Float
         attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
         attribute :quote_id
         attribute :size, Float
-        attribute :stop_distance, Fixnum
+        attribute :stop_distance, Integer
         attribute :stop_level, Float
         attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]
         attribute :trailing_stop, Boolean
-        attribute :trailing_stop_increment, Fixnum
+        attribute :trailing_stop_increment, Integer
 
         def initialize(attributes = {})
           super
@@ -137,10 +137,9 @@ module IGMarkets
           if trailing_stop
             raise ArgumentError, 'do not set stop_level when trailing_stop is true' if stop_level
             raise ArgumentError, 'set stop_distance when trailing_stop is true' unless stop_distance
-          end
-
-          if trailing_stop == trailing_stop_increment.nil?
-            raise ArgumentError, 'set trailing_stop_increment if and only if trailing_stop is true'
+            raise ArgumentError, 'set trailing_stop_increment when trailing_stop is true' unless trailing_stop_increment
+          elsif trailing_stop_increment
+            raise ArgumentError, 'do not set trailing_stop_increment when trailing_stop is false'
           end
         end
 
@@ -152,9 +151,9 @@ module IGMarkets
 
         # Checks that attributes associated with the guaranteed stop are valid.
         def validate_guaranteed_stop_constraints
-          if guaranteed_stop && !(stop_level.nil? ^ stop_distance.nil?)
-            raise ArgumentError, 'set exactly one of stop_level or stop_distance when guaranteed_stop is true'
-          end
+          return if !guaranteed_stop || (stop_level.nil? ^ stop_distance.nil?)
+
+          raise ArgumentError, 'set exactly one of stop_level or stop_distance when guaranteed_stop is true'
         end
       end
 

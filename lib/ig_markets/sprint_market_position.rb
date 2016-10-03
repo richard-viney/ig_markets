@@ -17,7 +17,7 @@ module IGMarkets
     # Returns the number of seconds till when this sprint market position expires. This will be a negative number if
     # this sprint market position has expired.
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def seconds_till_expiry
       (expiry_time - Time.now).to_i
     end

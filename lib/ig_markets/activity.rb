@@ -23,14 +23,14 @@ module IGMarkets
       attribute :good_till_date
       attribute :guaranteed_stop, Boolean
       attribute :level, Float
-      attribute :limit_distance, Fixnum
+      attribute :limit_distance, Integer
       attribute :limit_level, Float
       attribute :market_name
       attribute :size
-      attribute :stop_distance, Fixnum
+      attribute :stop_distance, Integer
       attribute :stop_level, Float
       attribute :trailing_step, Float
-      attribute :trailing_stop_distance, Fixnum
+      attribute :trailing_stop_distance, Integer
     end
 
     attribute :channel, Symbol, allowed_values: [:dealer, :mobile, :public_fix_api, :public_web_api, :system, :web]

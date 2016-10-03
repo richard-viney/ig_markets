@@ -55,7 +55,7 @@ module IGMarkets
     # @option options [:minute, :minute_2, :minute_3, :minute_5, :minute_10, :minute_15, :minute_30, :hour, :hour_2,
     #                  :hour_3, :hour_4, :day, :week, :month] :resolution The resolution of the prices to return.
     #                 Required.
-    # @option options [Fixnum] :number The number of historical prices to return. If this is specified then the `:from`
+    # @option options [Integer] :number The number of historical prices to return. If this is specified then the `:from`
     #                 and `:to` options must not be specified.
     # @option options [Time] :from The start of the period to return prices for.
     # @option options [Time] :to The end of the period to return prices for.
@@ -80,9 +80,9 @@ module IGMarkets
 
       raise ArgumentError, 'resolution is invalid' unless resolutions.include? options[:resolution]
 
-      if options.keys != [:resolution, :from, :to] && options.keys != [:resolution, :number]
-        raise ArgumentError, 'options must specify either :number or :from and :to'
-      end
+      return if options.keys == [:resolution, :from, :to] || options.keys == [:resolution, :number]
+
+      raise ArgumentError, 'options must specify either :number or :from and :to'
     end
 
     # Returns the API response to a request for historical prices.

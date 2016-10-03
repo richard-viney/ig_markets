@@ -79,6 +79,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
     expect { create_position.call order_type: :limit, level: 1 }.to_not raise_error
     expect { create_position.call trailing_stop: true, stop_distance: 1 }.to raise_error(ArgumentError)
     expect { create_position.call trailing_stop: true, stop_distance: 1, trailing_stop_increment: 1 }.not_to raise_error
+    expect { create_position.call trailing_stop: false, trailing_stop_increment: 1 }.to raise_error(ArgumentError)
     expect { create_position.call limit_distance: 1 }.not_to raise_error
     expect { create_position.call limit_level: 1 }.not_to raise_error
     expect { create_position.call limit_distance: 1, limit_level: 1 }.to raise_error(ArgumentError)

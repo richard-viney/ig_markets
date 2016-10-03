@@ -44,12 +44,12 @@ module IGMarkets
       #                    the working order will remain until it is cancelled.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
       # @option attributes [Float] :level The level at which the order will be triggered. Required.
-      # @option attributes [Fixnum] :limit_distance The distance away in pips to place the limit. If this is set then
+      # @option attributes [Integer] :limit_distance The distance away in pips to place the limit. If this is set then
       #                    the `:limit_level` option must be omitted. Optional.
       # @option attributes [Float] :limit_level The level at which to place the limit. If this is set then the
       #                    `:limit_distance` option must be omitted. Optional.
       # @option attributes [Float] :size The size of the working order. Required.
-      # @option attributes [Fixnum] :stop_distance The distance away in pips to place the stop. If this is set then the
+      # @option attributes [Integer] :stop_distance The distance away in pips to place the stop. If this is set then the
       #                    `:stop_level` option must be omitted. Optional.
       # @option attributes [Float] :stop_level The level at which to place the stop. If this is set then the
       #                    `:stop_distance` option must be omitted. Optional.
@@ -79,10 +79,10 @@ module IGMarkets
         attribute :good_till_date, Time, format: '%Y/%m/%d %R:%S'
         attribute :guaranteed_stop, Boolean
         attribute :level, Float
-        attribute :limit_distance, Fixnum
+        attribute :limit_distance, Integer
         attribute :limit_level, Float
         attribute :size, Float
-        attribute :stop_distance, Fixnum
+        attribute :stop_distance, Integer
         attribute :stop_level, Float
         attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
         attribute :type, Symbol, allowed_values: [:limit, :stop]
