@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.23 — Unreleased
+
+- 
+
 ### 0.22 — October 3, 2016
 
 - The `curses` gem is no longer a dependency because it can be difficult to install on Windows, it now has to be
