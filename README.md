@@ -154,7 +154,7 @@ ig_markets prices --epic CS.D.EURUSD.CFD.IP --resolution day --number 14
 # Print account dealing performance from the last 90 days, broken down by the EPICs that were traded
 ig_markets performance --days 90
 
-# Print an updating live display of account balances, positions and working orders
+# Print an updating live display of accounts, positions and working orders (requires the curses gem)
 ig_markets stream
 
 # Print raw streaming details of account balances, trading actions, and the price of the EURUSD pair
