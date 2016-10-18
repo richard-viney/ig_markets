@@ -1,5 +1,8 @@
 ClassLength:
   Max: 120
 
+Metrics/BlockLength:
+  Max: 30
+
 Metrics/LineLength:
   Max: 120

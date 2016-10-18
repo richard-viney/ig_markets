@@ -133,9 +133,9 @@ module IGMarkets
         raise ArgumentError, 'set quote_id if and only if order_type is :quote'
       end
 
-      if [:limit, :quote].include?(attributes[:order_type]) == attributes[:level].nil?
-        raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
-      end
+      return unless [:limit, :quote].include?(attributes[:order_type]) == attributes[:level].nil?
+
+      raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
     end
 
     # Internal model used by {#close}.
