@@ -62,6 +62,7 @@ module IGMarkets
         end
       end
 
+      # Handles streaming account data.
       def on_account_data(_subscription, item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models AccountUpdate, item_data
         new_data = @dealing_platform.instantiate_models AccountUpdate, new_data
@@ -72,6 +73,7 @@ module IGMarkets
         run_callbacks new_data, item_data
       end
 
+      # Handles streaming market data.
       def on_market_data(_subscription, item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models MarketUpdate, item_data
         new_data = @dealing_platform.instantiate_models MarketUpdate, new_data
@@ -82,6 +84,7 @@ module IGMarkets
         run_callbacks new_data, item_data
       end
 
+      # Handles streaming trade data.
       def on_trade_data(_subscription, item_name, _item_data, new_data)
         account_id = item_name.match(TRADE_DATA_REGEX).captures.first
 
@@ -95,6 +98,7 @@ module IGMarkets
         end
       end
 
+      # Handles streaming chart tick data.
       def on_chart_tick_data(_subscription, item_name, _item_data, new_data)
         new_data = @dealing_platform.instantiate_models ChartTickUpdate, new_data
 
@@ -103,6 +107,7 @@ module IGMarkets
         run_callbacks new_data
       end
 
+      # Handles streaming consolidated chart data.
       def on_consolidated_chart_data(_subscription, item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models ConsolidatedChartDataUpdate, item_data
         new_data = @dealing_platform.instantiate_models ConsolidatedChartDataUpdate, new_data
