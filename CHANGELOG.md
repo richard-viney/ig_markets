@@ -3,6 +3,7 @@
 ### 0.23 — Unreleased
 
 - Use `Integer` instead of `Fixnum` in preparation for Ruby 2.4
+- Fixed documentation warnings found by Inch CI
 
 ### 0.22 — October 3, 2016
 
