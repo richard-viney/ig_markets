@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.24 — Unreleased
+
+- 
+
 ### 0.23 — October 19, 2016
 
 - Use `Integer` instead of `Fixnum` in preparation for Ruby 2.4
