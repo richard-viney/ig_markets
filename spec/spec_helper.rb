@@ -1,7 +1,7 @@
 require 'bundler/setup'
 Bundler.setup
 
-require 'support/code_climate'
+require 'support/simplecov'
 
 require 'ig_markets'
 

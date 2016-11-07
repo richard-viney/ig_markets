@@ -29,12 +29,13 @@ Gem::Specification.new do |s|
     s.add_development_dependency 'activesupport', '~> 5.0'
   end
 
-  s.add_development_dependency 'codeclimate-test-reporter', '~> 0.6'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   s.add_development_dependency 'factory_girl', '~> 4.7'
   s.add_development_dependency 'github-markup', '~> 1.4'
   s.add_development_dependency 'redcarpet', '~> 3.3'
   s.add_development_dependency 'rspec', '~> 3.5'
   s.add_development_dependency 'rspec-mocks', '~> 3.5'
-  s.add_development_dependency 'rubocop', '~> 0.44'
+  s.add_development_dependency 'rubocop', '~> 0.45'
+  s.add_development_dependency 'simplecov', '~> 0.12'
   s.add_development_dependency 'yard', '~> 0.9'
 end
