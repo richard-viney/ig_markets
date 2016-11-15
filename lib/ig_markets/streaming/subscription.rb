@@ -50,7 +50,7 @@ module IGMarkets
       CHART_TICK_DATA_REGEX = /^CHART:(.*):TICK$/
       CONSOLIDATED_CHART_DATA_REGEX = /^CHART:(.*):(SECOND|1MINUTE|5MINUTE|HOUR)$/
 
-      def on_raw_data(subscription, item_name, item_data, new_data)
+      def on_raw_data(_subscription, item_name, item_data, new_data)
         {
           ACCOUNT_DATA_REGEX => :on_account_data,
           MARKET_DATA_REGEX => :on_market_data,
@@ -58,11 +58,11 @@ module IGMarkets
           CHART_TICK_DATA_REGEX => :on_chart_tick_data,
           CONSOLIDATED_CHART_DATA_REGEX => :on_consolidated_chart_data
         }.each do |regex, handler|
-          send handler, subscription, item_name, item_data, new_data if item_name =~ regex
+          send handler, item_name, item_data, new_data if item_name =~ regex
         end
       end
 
-      def on_account_data(_subscription, item_name, item_data, new_data)
+      def on_account_data(item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models AccountUpdate, item_data
         new_data = @dealing_platform.instantiate_models AccountUpdate, new_data
 
@@ -72,7 +72,7 @@ module IGMarkets
         run_callbacks new_data, item_data
       end
 
-      def on_market_data(_subscription, item_name, item_data, new_data)
+      def on_market_data(item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models MarketUpdate, item_data
         new_data = @dealing_platform.instantiate_models MarketUpdate, new_data
 
@@ -82,7 +82,7 @@ module IGMarkets
         run_callbacks new_data, item_data
       end
 
-      def on_trade_data(_subscription, item_name, _item_data, new_data)
+      def on_trade_data(item_name, _item_data, new_data)
         account_id = item_name.match(TRADE_DATA_REGEX).captures.first
 
         { confirms: DealConfirmation, opu: PositionUpdate, wou: WorkingOrderUpdate }.each do |key, model_class|
@@ -95,7 +95,7 @@ module IGMarkets
         end
       end
 
-      def on_chart_tick_data(_subscription, item_name, _item_data, new_data)
+      def on_chart_tick_data(item_name, _item_data, new_data)
         new_data = @dealing_platform.instantiate_models ChartTickUpdate, new_data
 
         new_data.epic = item_name.match(CHART_TICK_DATA_REGEX).captures.first
@@ -103,7 +103,7 @@ module IGMarkets
         run_callbacks new_data
       end
 
-      def on_consolidated_chart_data(_subscription, item_name, item_data, new_data)
+      def on_consolidated_chart_data(item_name, item_data, new_data)
         item_data = @dealing_platform.instantiate_models ConsolidatedChartDataUpdate, item_data
         new_data = @dealing_platform.instantiate_models ConsolidatedChartDataUpdate, new_data
 

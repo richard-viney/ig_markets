@@ -2,7 +2,7 @@
 
 ### 0.24 — Unreleased
 
-- 
+- Update to `codeclimate-test-reporter` 1.0
 
 ### 0.23 — October 19, 2016
 
