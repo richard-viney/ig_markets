@@ -9,6 +9,7 @@ module IGMarkets
 
     attribute :account_id
     attribute :affected_deals, AffectedDeal
+    attribute :channel
     attribute :date, Time, format: '%FT%T.%L'
     attribute :deal_id
     attribute :deal_reference

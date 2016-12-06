@@ -2,6 +2,7 @@
 
 ### 0.24 — Unreleased
 
+- Added `IGMarkets::DealConfirmation#channel` attribute which is used by the streaming API
 - Update to `codeclimate-test-reporter` 1.0
 
 ### 0.23 — October 19, 2016
