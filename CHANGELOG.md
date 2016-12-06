@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.24 — Unreleased
+### 0.24 — December 6, 2016
 
 - Added `IGMarkets::DealConfirmation#channel` attribute which is used by the streaming API
 - Update to `codeclimate-test-reporter` 1.0
