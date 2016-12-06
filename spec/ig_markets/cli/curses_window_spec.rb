@@ -6,20 +6,15 @@ describe IGMarkets::CLI::CursesWindow do
     end
 
     class Window
-      def attron(_)
-      end
+      def attron(_); end
 
-      def setpos(_, _)
-      end
+      def setpos(_, _); end
 
-      def <<(_)
-      end
+      def <<(_); end
 
-      def clear
-      end
+      def clear; end
 
-      def refresh
-      end
+      def refresh; end
     end
   end
 

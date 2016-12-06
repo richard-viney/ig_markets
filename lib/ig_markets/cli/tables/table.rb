@@ -26,20 +26,15 @@ module IGMarkets
 
       private
 
-      def default_title
-      end
+      def default_title; end
 
-      def headings
-      end
+      def headings; end
 
-      def right_aligned_columns
-      end
+      def right_aligned_columns; end
 
-      def row(_model)
-      end
+      def row(_model); end
 
-      def cell_color(_value, _model, _row_index, _column_index)
-      end
+      def cell_color(_value, _model, _row_index, _column_index); end
 
       def table
         Terminal::Table.new(title: @title, headings: headings, rows: rows).tap do |t|
