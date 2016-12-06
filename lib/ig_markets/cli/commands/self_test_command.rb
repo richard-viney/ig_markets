@@ -6,7 +6,7 @@ module IGMarkets
 
       def self_test
         self.class.begin_session(options) do |dealing_platform|
-          raise 'Error: self-tests must be run on a demo account' unless dealing_platform.session.platform == :demo
+          raise 'The self-test command must be run on a demo account' unless dealing_platform.session.platform == :demo
 
           @dealing_platform = dealing_platform
           run_self_test
