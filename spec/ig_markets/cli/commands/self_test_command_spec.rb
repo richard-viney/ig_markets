@@ -105,4 +105,9 @@ describe IGMarkets::CLI::Main do
 
     cli.self_test
   end
+
+  it 'raises an error when run on a live account' do
+    expect(session).to receive(:platform).and_return(:live)
+    expect { cli.self_test }.to raise_error('The self-test command must be run on a demo account')
+  end
 end
