@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.25 — Unreleased
+### 0.25 — December 7, 2016
 
 - Increased required Ruby version to >= 2.2.2
 
