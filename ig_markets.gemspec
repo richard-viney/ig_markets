@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files = Dir['bin/ig_markets', 'lib/**/*.rb', 'CHANGELOG.md', 'LICENSE.md', 'README.md']
   s.executables = ['ig_markets']
 
-  s.required_ruby_version = '>= 2.0'
+  s.required_ruby_version = '>= 2.2.2'
 
   s.add_runtime_dependency 'colorize', '~> 0.8'
   s.add_runtime_dependency 'excon', '~> 0.51'
@@ -21,13 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'pry', '~> 0.10.4'
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_runtime_dependency 'thor', '~> 0.19'
-
-  # Use Active Support 4 on Ruby versions prior to 2.2.2
-  if RUBY_VERSION =~ /^2\.((0|1)\.|2\.(0|1)$)/
-    s.add_development_dependency 'activesupport', '~> 4.2'
-  else
-    s.add_development_dependency 'activesupport', '~> 5.0'
-  end
 
   s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   s.add_development_dependency 'factory_girl', '~> 4.7'
