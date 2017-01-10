@@ -89,6 +89,10 @@ module IGMarkets
     class TooManyEPICSError < IGMarketsError
     end
 
+    # This error is raised when too many markets are specified for a request.
+    class TooManyMarketsError < IGMarketsError
+    end
+
     # This error is raised when an invalid page size is specified.
     class InvalidPageSizeError < IGMarketsError
     end
@@ -222,6 +226,10 @@ module IGMarkets
     class InstrumentNotFoundError < IGMarketsError
     end
 
+    # This error is raised when market orders are not supported.
+    class MarketOrdersNotSupported < IGMarketsError
+    end
+
     # This error is raised when an unsupported EPIC was specified.
     class UnsupportedEPICError < IGMarketsError
     end
@@ -353,12 +361,14 @@ module IGMarkets
       'error.switch.cannot-set-default-account' => Errors::CannotSetDefaultAccountError,
       'error.switch.invalid-accountId' => Errors::InvalidAccountIDError,
       'error.trading.otc.instrument-not-found' => Errors::InstrumentNotFoundError,
+      'error.trading.otc.market-orders.not-supported' => Errors::MarketOrdersNotSupported,
       'error.unsupported.epic' => Errors::UnsupportedEPICError,
       'error.watchlists.management.cannot-delete-watchlist' => Errors::CannotDeleteWatchlistError,
       'error.watchlists.management.duplicate-name' => Errors::DuplicateWatchlistNameError,
       'error.watchlists.management.error' => Errors::WatchlistError,
       'error.watchlists.management.watchlist-not-found' => Errors::WatchlistNotFoundError,
       'invalid.input' => Errors::InvalidInputError,
+      'invalid.input.too.many.markets' => Errors::TooManyMarketsError,
       'invalid.url' => Errors::InvalidURLError,
       'system.error' => Errors::SystemError,
       'unauthorised.access.to.equity.exception' => Errors::UnauthorisedAccessToEquityError,
