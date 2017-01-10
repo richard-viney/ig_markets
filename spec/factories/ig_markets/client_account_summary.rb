@@ -19,18 +19,14 @@ FactoryGirl.define do
     timezone_offset 0
     trailing_stops_enabled false
   end
-end
 
-FactoryGirl.define do
   factory :client_account_summary_form_details, class: IGMarkets::ClientAccountSummary::FormDetails do
     form_dismissable true
     form_title ''
     form_type 'KYC'
     form_url nil
   end
-end
 
-FactoryGirl.define do
   factory :client_account_summary_account_details, class: IGMarkets::ClientAccountSummary::AccountDetails do
     account_id 'ACCOUNT'
     account_name 'Account name'

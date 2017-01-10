@@ -11,9 +11,7 @@ FactoryGirl.define do
     preferred true
     status 'ENABLED'
   end
-end
 
-FactoryGirl.define do
   factory :account_balance, class: IGMarkets::Account::Balance do
     available 500.0
     balance 500.0

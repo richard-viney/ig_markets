@@ -9,9 +9,7 @@ FactoryGirl.define do
     status 'ACCEPTED'
     type 'POSITION'
   end
-end
 
-FactoryGirl.define do
   factory :activity_details, class: IGMarkets::Activity::Details do
     actions { [build(:activity_details_action)] }
     currency '$'
@@ -21,9 +19,7 @@ FactoryGirl.define do
     market_name 'Spot FX NZD/USD'
     size '+1'
   end
-end
 
-FactoryGirl.define do
   factory :activity_details_action, class: IGMarkets::Activity::Details::Action do
     action_type 'POSITION_CLOSED'
     affected_deal_id 'DEAL1'

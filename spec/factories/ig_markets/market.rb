@@ -4,9 +4,7 @@ FactoryGirl.define do
     instrument { build :instrument }
     snapshot { build :market_snapshot }
   end
-end
 
-FactoryGirl.define do
   factory :market_dealing_rules, class: IGMarkets::Market::DealingRules do
     market_order_preference 'AVAILABLE_DEFAULT_ON'
     trailing_stops_preference 'AVAILABLE'
@@ -16,16 +14,12 @@ FactoryGirl.define do
     min_normal_stop_or_limit_distance { build :market_dealing_rules_rule_details }
     min_step_distance { build :market_dealing_rules_rule_details }
   end
-end
 
-FactoryGirl.define do
   factory :market_dealing_rules_rule_details, class: IGMarkets::Market::DealingRules::RuleDetails do
     unit 'POINTS'
     value 1.0
   end
-end
 
-FactoryGirl.define do
   factory :market_snapshot, class: IGMarkets::Market::Snapshot do
     bid 100.0
     binary_odds 0.5
