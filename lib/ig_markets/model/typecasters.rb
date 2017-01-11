@@ -18,14 +18,14 @@ module IGMarkets
         end
       end
 
-      def typecaster_boolean(value, _options, _name)
+      def typecaster_boolean(value, _options, name)
         return value if [nil, true, false].include? value
         return value == '1' if %w(0 1).include? value
 
         raise ArgumentError, "#{self}##{name}: invalid boolean value: #{value}"
       end
 
-      def typecaster_string(value, options, _name)
+      def typecaster_string(value, options, name)
         return nil if value.nil?
 
         if options.key?(:regex) && !options[:regex].match(value.to_s)
@@ -41,10 +41,12 @@ module IGMarkets
         value.to_s.to_i
       end
 
-      def typecaster_float(value, _options, _name)
+      def typecaster_float(value, _options, name)
         return nil if value.nil? || value == ''
 
         Float(value)
+      rescue ArgumentError
+        raise ArgumentError, "#{self}##{name}: invalid float value: #{value}"
       end
 
       def typecaster_symbol(value, _options, _name)

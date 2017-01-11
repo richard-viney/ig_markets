@@ -188,7 +188,7 @@ module IGMarkets
           value = self.class.send "sanitize_#{name}_value", value
 
           unless self.class.attribute_value_allowed? name, value
-            raise ArgumentError, "#{self}##{name}: invalid value: #{value.inspect}"
+            raise ArgumentError, "#{self.class}##{name}: invalid value: #{value.inspect}"
           end
 
           (@attributes ||= {})[name] = value
