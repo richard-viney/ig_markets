@@ -74,7 +74,8 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
   end
 
   it 'raises an error when trying to instantiate a model from an unsupported type' do
-    expect { dealing_platform.instantiate_models IGMarkets::Model, 100 }.to raise_error(ArgumentError)
+    expect { dealing_platform.instantiate_models IGMarkets::Model, 100 }
+      .to raise_error(ArgumentError, "IGMarkets::Model: can't instantiate from a source of type Fixnum")
   end
 
   it 'instantiates models from raw JSON' do

@@ -39,7 +39,7 @@ END
       def historical_price_result(dealing_platform)
         market = dealing_platform.markets[options[:epic]]
 
-        raise ArgumentError, 'invalid epic' unless market
+        raise ArgumentError, 'invalid EPIC' unless market
 
         if options[:number]
           historical_price_result_from_number market
@@ -55,13 +55,13 @@ END
       end
 
       def historical_price_result_from_date_range(market)
-        filtered = self.class.filter_options options, [:from, :to]
+        filtered_options = self.class.filter_options options, [:from, :to]
 
         [:from, :to].each do |attribute|
-          self.class.parse_date_time filtered, attribute, Time, '%FT%T%z', 'yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+          self.class.parse_date_time filtered_options, attribute, Time, '%FT%T%z', 'yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
         end
 
-        market.historical_prices resolution: resolution, from: filtered[:from], to: filtered[:to]
+        market.historical_prices resolution: resolution, from: filtered_options[:from], to: filtered_options[:to]
       end
     end
   end

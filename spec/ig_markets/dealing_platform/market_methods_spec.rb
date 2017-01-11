@@ -30,6 +30,10 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
     expect(dealing_platform.markets['ABCDEF']).to eq(result.first)
   end
 
+  it 'raises on retrieving an invalid EPIC' do
+    expect { dealing_platform.markets['ABC'] }.to raise_error(ArgumentError, 'invalid EPIC: ABC')
+  end
+
   it 'retrieves multiple markets from their EPICs in a single call' do
     fifty_markets = { market_details: markets_get_result[:market_details] * 50 }
     ten_markets = { market_details: markets_get_result[:market_details] * 10 }

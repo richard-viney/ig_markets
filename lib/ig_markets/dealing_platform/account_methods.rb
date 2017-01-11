@@ -46,7 +46,7 @@ module IGMarkets
         options[:type] ||= :all
 
         unless [:all, :all_deal, :deposit, :withdrawal].include? options[:type]
-          raise ArgumentError, "Invalid transaction type: #{options[:type]}"
+          raise ArgumentError, "invalid transaction type: #{options[:type]}"
         end
 
         history_request_complete url: 'history/transactions', url_parameters: history_url_parameters(options),

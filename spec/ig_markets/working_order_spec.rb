@@ -36,10 +36,12 @@ describe IGMarkets::WorkingOrder, :dealing_platform do
   end
 
   it 'fails updating with both a limit distance and a limit level' do
-    expect { working_order.update limit_distance: 20, limit_level: 30 }.to raise_error(ArgumentError)
+    expect { working_order.update limit_distance: 20, limit_level: 30 }
+      .to raise_error(ArgumentError, 'do not specify both limit_distance and limit_level')
   end
 
   it 'fails updating with both a stop distance and a stop level' do
-    expect { working_order.update stop_distance: 20, stop_level: 30 }.to raise_error(ArgumentError)
+    expect { working_order.update stop_distance: 20, stop_level: 30 }
+      .to raise_error(ArgumentError, 'do not specify both stop_distance and stop_level')
   end
 end

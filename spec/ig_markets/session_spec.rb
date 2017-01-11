@@ -76,10 +76,7 @@ describe IGMarkets::Session do
 
     it 'raises ConnectionError when Excon raises an error' do
       expect(Excon).to receive(:send).and_raise(Excon::Error, 'error')
-      expect { session.get 'url' }.to raise_error do |error|
-        expect(error).to be_a(IGMarkets::Errors::ConnectionError)
-        expect(error.message).to eq('error')
-      end
+      expect { session.get 'url' }.to raise_error(IGMarkets::Errors::ConnectionError, 'error')
     end
 
     it 'raises InvalidJSONError when the HTTP response is not valid JSON' do

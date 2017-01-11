@@ -77,6 +77,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   end
 
   it 'raises on an invalid transaction type' do
-    expect { dealing_platform.account.transactions from: from, type: :invalid }.to raise_error(ArgumentError)
+    expect { dealing_platform.account.transactions from: from, type: :invalid }
+      .to raise_error(ArgumentError, 'invalid transaction type: invalid')
   end
 end

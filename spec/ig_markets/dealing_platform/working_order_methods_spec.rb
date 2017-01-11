@@ -56,6 +56,11 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
     expect(dealing_platform.working_orders.create(attributes)).to eq(result.fetch(:deal_reference))
   end
 
+  it 'raises when creating a working order without required attributes' do
+    expect { dealing_platform.working_orders.create({}) }
+      .to raise_error(ArgumentError, 'currency_code attribute must be set')
+  end
+
   it 'raises when creating a working order with both a limit distance and a limit level' do
     attributes = {
       currency_code: 'USD',
@@ -68,7 +73,8 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
       limit_level: 1.1
     }
 
-    expect { dealing_platform.working_orders.create attributes }.to raise_error(ArgumentError)
+    expect { dealing_platform.working_orders.create attributes }
+      .to raise_error(ArgumentError, 'do not specify both limit_distance and limit_level options')
   end
 
   it 'raises when creating a working order with both a stop distance and a stop level' do
@@ -83,6 +89,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
       stop_level: 0.9
     }
 
-    expect { dealing_platform.working_orders.create attributes }.to raise_error(ArgumentError)
+    expect { dealing_platform.working_orders.create attributes }
+      .to raise_error(ArgumentError, 'do not specify both stop_distance and stop_level options')
   end
 end

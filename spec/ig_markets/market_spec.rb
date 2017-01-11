@@ -36,12 +36,12 @@ describe IGMarkets::Market, :dealing_platform do
   end
 
   it 'raises when querying historical prices with invalid options' do
-    [
-      {},
-      { resolution: :day },
-      { resolution: :day, from: Time.now }
-    ].each do |options|
-      expect { market.historical_prices options }.to raise_error(ArgumentError)
-    end
+    expect { market.historical_prices({}) }.to raise_error(ArgumentError, 'resolution is invalid')
+
+    expect { market.historical_prices resolution: :day }
+      .to raise_error(ArgumentError, 'options must specify either :number or :from and :to')
+
+    expect { market.historical_prices resolution: :day, from: Time.now }
+      .to raise_error(ArgumentError, 'options must specify either :number or :from and :to')
   end
 end

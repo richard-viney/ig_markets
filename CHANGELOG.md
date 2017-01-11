@@ -3,6 +3,7 @@
 ### 0.26 — Unreleased
 
 - Added `IGMarkets::Errors::MarketOrdersNotSupported` and `IGMarkets::Errors::TooManyMarketsError`
+- Fixed the exception messages when trying to set an invalid or disallowed value on an attribute
 
 ### 0.25 — December 7, 2016
 

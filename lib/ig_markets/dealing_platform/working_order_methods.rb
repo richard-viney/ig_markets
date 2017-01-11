@@ -110,10 +110,10 @@ module IGMarkets
           end
 
           if limit_distance && limit_level
-            raise ArgumentError, 'Do not specify both limit_distance and limit_level options'
+            raise ArgumentError, 'do not specify both limit_distance and limit_level options'
           end
 
-          raise ArgumentError, 'Do not specify both stop_distance and stop_level options' if stop_distance && stop_level
+          raise ArgumentError, 'do not specify both stop_distance and stop_level options' if stop_distance && stop_level
         end
       end
 

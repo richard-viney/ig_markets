@@ -48,7 +48,8 @@ describe IGMarkets::Model do
   end
 
   it 'fails when initialized with an unknown attribute' do
-    expect { TestModel.new id: 'test', unknown: '' }.to raise_error(ArgumentError)
+    expect { TestModel.new id: 'test', unknown: '' }
+      .to raise_error(ArgumentError, 'unknown attribute: TestModel#unknown, value: ""')
   end
 
   it 'duplicates itself' do
@@ -101,7 +102,9 @@ describe IGMarkets::Model do
 
   it 'raises an exception when a model attribute is set to the wrong type' do
     expect { NestedModel.new test: nil }.to_not raise_error
-    expect { NestedModel.new test: 'string' }.to raise_error(ArgumentError)
+
+    expect { NestedModel.new test: 'string' }
+      .to raise_error(ArgumentError, 'incorrect type set on NestedModel#test: "string"')
   end
 
   it 'converts an empty string to nil on a Float attribute' do
@@ -120,28 +123,32 @@ describe IGMarkets::Model do
   end
 
   it 'raises on an invalid boolean' do
-    expect { model.bool = '' }.to raise_error(ArgumentError)
+    expect { model.bool = '' }.to raise_error(ArgumentError, 'TestModel#bool: invalid boolean value: ')
   end
 
   it 'raises when a string value does not match the regex' do
-    expect { model.string = 'abc' }.to raise_error(ArgumentError)
+    expect { model.string = 'abc' }.to raise_error(ArgumentError, 'TestModel#string: invalid string value: abc')
   end
 
   it 'raises on an invalid date' do
-    expect { model.date = '2015-29-01 A:B:C' }.to raise_error(ArgumentError)
+    expect { model.date = '2015-29-01 A:B:C' }
+      .to raise_error(ArgumentError, 'TestModel#date: failed parsing date: 2015-29-01 A:B:C')
   end
 
   it 'raises on an invalid time' do
-    expect { model.time = '2015-29-01T09:30:40' }.to raise_error(ArgumentError)
-    expect { model.time = '2015-29-01' }.to raise_error(ArgumentError)
+    expect { model.time = '2015-29-01T09:30:40' }
+      .to raise_error(ArgumentError, 'TestModel#time: failed parsing time: 2015-29-01T09:30:40')
+
+    expect { model.time = '2015-29-01' }
+      .to raise_error(ArgumentError, 'TestModel#time: failed parsing time: 2015-29-01')
   end
 
   it 'raises on an invalid float' do
-    expect { model.float = 'a' }.to raise_error(ArgumentError)
+    expect { model.float = 'a' }.to raise_error(ArgumentError, 'TestModel#float: invalid float value: a')
   end
 
   it 'raises on an invalid symbol' do
-    expect { model.symbol = :invalid }.to raise_error(ArgumentError)
+    expect { model.symbol = :wrong }.to raise_error(ArgumentError, 'TestModel#symbol: invalid value: :wrong')
   end
 
   it 'returns the allowed values for an attribute' do
