@@ -1,11 +1,12 @@
 # IG Markets Changelog
 
-### 0.26 — Unreleased
+### 0.26 — January 12, 2017
 
+- Fully support Ruby 2.4
 - Added `IGMarkets::Errors::MarketOrdersNotSupported` and `IGMarkets::Errors::TooManyMarketsError`
+- Fixed incorrect exception messages when trying to set an invalid or disallowed value on an attribute
 - Fixed the `ig_markets stream` command not finding the `curses` gem
 - The `curses` gem is now installed automatically on non-Windows platforms
-- Fixed the exception messages when trying to set an invalid or disallowed value on an attribute
 
 ### 0.25 — December 7, 2016
 
