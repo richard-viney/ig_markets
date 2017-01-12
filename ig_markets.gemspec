@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.author = 'Richard Viney'
   s.email = 'richard.viney@gmail.com'
   s.files = Dir['bin/ig_markets', 'lib/**/*.rb', 'CHANGELOG.md', 'LICENSE.md', 'README.md']
+  s.extensions = ['ext/mkrf_conf.rb']
   s.executables = ['ig_markets']
 
   s.required_ruby_version = '>= 2.2.2'
