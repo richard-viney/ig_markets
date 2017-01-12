@@ -19,15 +19,15 @@ describe IGMarkets::CLI::CursesWindow do
   end
 
   it 'checks for the curses gem' do
-    expect(Kernel).to receive(:require).and_raise(LoadError)
+    expect(IGMarkets::CLI::CursesWindow).to receive(:require).and_raise(LoadError)
     expect(IGMarkets::CLI::CursesWindow.available?).to be false
 
-    expect(Kernel).to receive(:require)
+    expect(IGMarkets::CLI::CursesWindow).to receive(:require)
     expect(IGMarkets::CLI::CursesWindow.available?).to be true
   end
 
   it 'prepares curses' do
-    expect(Kernel).to receive(:require)
+    expect(IGMarkets::CLI::CursesWindow).to receive(:require)
     expect(Curses).to receive(:noecho)
     expect(Curses).to receive(:nonl)
     expect(Curses).to receive(:stdscr) { double 'nodelay=' => nil }

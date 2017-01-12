@@ -43,7 +43,7 @@ module IGMarkets
         # Returns whether curses support is available. On Windows the 'curses' gem is optional and so this class may not
         # be usable.
         def available?
-          Kernel.require 'curses'
+          require 'curses'
           true
         rescue LoadError
           false
