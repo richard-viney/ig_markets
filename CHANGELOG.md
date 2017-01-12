@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.27 — Unreleased
+
+- 
+
 ### 0.26 — January 12, 2017
 
 - Fully support Ruby 2.4
