@@ -170,9 +170,7 @@ END
         def print_deal_confirmation_profit_loss(deal_confirmation)
           return unless deal_confirmation.profit
 
-          profit = Format.currency deal_confirmation.profit, deal_confirmation.profit_currency
-
-          puts "Profit/loss: #{profit.colorize(deal_confirmation.profit < 0 ? :red : :green)}"
+          puts "Profit/loss: #{Format.colored_currency deal_confirmation.profit, deal_confirmation.profit_currency}"
         end
       end
     end

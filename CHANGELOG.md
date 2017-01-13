@@ -2,7 +2,7 @@
 
 ### 0.27 — Unreleased
 
-- 
+- Added `IGMarkets::Format.colored_currency`
 
 ### 0.26 — January 12, 2017
 

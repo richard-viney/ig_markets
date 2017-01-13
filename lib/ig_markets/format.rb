@@ -20,17 +20,32 @@ module IGMarkets
     # currencies except the Japanese Yen.
     #
     # @param [Float, Integer] amount The currency amount to format.
-    # @param [String] currency The currency.
+    # @param [String] currency_name The name or symbol of the currency.
     #
     # @return [String] The formatted currency amount, e.g. `"USD -130.40"`, `"AUD 539.10"`, `"JPY 3560"`.
-    def currency(amount, currency)
+    def currency(amount, currency_name)
       return '' unless amount
 
-      if ['JPY', '¥'].include? currency
-        "#{currency} #{format '%i', amount.to_i}"
+      if ['JPY', '¥'].include? currency_name
+        "#{currency_name} #{format '%i', amount.to_i}"
       else
-        "#{currency} #{format '%.2f', amount.to_f}"
+        "#{currency_name} #{format '%.2f', amount.to_f}"
       end
+    end
+
+    # Returns a formatted string for the specified currency amount and currency, and colors it red for negative values
+    # and green for positive values. Two decimal places are used for all currencies except the Japanese Yen.
+    #
+    # @param [Float, Integer] amount The currency amount to format.
+    # @param [String] currency The currency.
+    #
+    # @return [String] The formatted and colored currency amount, e.g. `"USD -130.40"`, `"AUD 539.10"`, `"JPY 3560"`.
+    def colored_currency(amount, currency_name)
+      return '' unless amount
+
+      color = amount < 0 ? :red : :green
+
+      currency(amount, currency_name).send color
     end
 
     # Returns a formatted string for the specified number of seconds in the format `[<hours>:]<minutes>:<seconds>`.

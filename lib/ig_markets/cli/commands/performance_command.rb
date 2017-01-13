@@ -65,7 +65,7 @@ module IGMarkets
 Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
       dividends, or other adjustments that may have occurred over this period.
 
-Total: #{Format.currency(profit_loss, currency).colorize(profit_loss < 0 ? :red : :green)}
+Total: #{Format.colored_currency profit_loss, currency}
 END
       end
     end

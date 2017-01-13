@@ -22,6 +22,18 @@ describe IGMarkets::Format do
     end
   end
 
+  it 'formats colored currencies' do
+    {
+      [120.4, 'USD'] => 'USD 120.40'.green,
+      [-1340, 'USD'] => 'USD -1340.00'.red,
+      [6440, 'JPY'] => 'JPY 6440'.green,
+      [-5200, '¥'] => '¥ -5200'.red,
+      [nil, nil] => ''
+    }.each do |args, result|
+      expect(IGMarkets::Format.colored_currency(*args)).to eq(result)
+    end
+  end
+
   it 'formats seconds' do
     {
       5 => '0:05',
