@@ -3,6 +3,7 @@
 ### 0.27 — Unreleased
 
 - Added `IGMarkets::Format.colored_currency`
+- Fixed `ig_markets help` command not working when using a config file
 
 ### 0.26 — January 12, 2017
 

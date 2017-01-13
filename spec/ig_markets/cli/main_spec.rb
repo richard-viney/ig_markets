@@ -111,6 +111,13 @@ END
     IGMarkets::CLI::Main.bootstrap ['--test']
   end
 
+  it 'ignores config files when running help commands' do
+    expect(IGMarkets::CLI::Main).not_to receive(:config_file)
+    expect(IGMarkets::CLI::Main).to receive(:start).with(['help'])
+
+    IGMarkets::CLI::Main.bootstrap ['help']
+  end
+
   it 'uses a config file if present' do
     config_file = IGMarkets::CLI::ConfigFile.new('profiles' => { 'default' => { 'username' => 'USERNAME' } })
 

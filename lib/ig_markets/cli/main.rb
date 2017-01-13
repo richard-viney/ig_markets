@@ -46,7 +46,7 @@ module IGMarkets
         #
         # @param [Array<String>] argv The array of command-line arguments.
         def bootstrap(argv)
-          config_file.prepend_profile_arguments_to_argv argv
+          config_file.prepend_profile_arguments_to_argv argv unless argv.first == 'help'
 
           if argv.index('--version') || argv.index('-v')
             puts VERSION
