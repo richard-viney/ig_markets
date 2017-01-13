@@ -24,14 +24,14 @@ module IGMarkets
 
       desc 'create', 'Creates a new position'
 
-      option :currency_code, required: true, desc: 'The 3 character currency code, must be one of the instrument\'s ' \
+      option :currency_code, required: true, desc: "The 3 character currency code, must be one of the instrument's " \
                                                    'currencies'
       option :direction, required: true, enum: %w(buy sell), desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
       option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
       option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required'
-      option :level, type: :numeric, desc: 'Required if and only if --order-type is \'limit\' or \'quote\''
+      option :level, type: :numeric, desc: "Required if and only if --order-type is 'limit' or 'quote'"
       option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit, if set then ' \
                                                     '--limit-level must not be used'
       option :limit_level, type: :numeric, desc: 'The limit level, if set then --limit-distance must not be used'
@@ -70,7 +70,7 @@ module IGMarkets
 
       desc 'close DEAL-ID', 'Closes or partially closes a position'
 
-      option :level, type: :numeric, desc: 'Required if and only if --order-type is \'limit\' or \'quote\''
+      option :level, type: :numeric, desc: "Required if and only if --order-type is 'limit' or 'quote'"
       option :order_type, enum: %w(limit market quote), default: 'market', desc: 'The order type'
       option :quote_id, desc: 'The Lightstreamer quote ID, required when using --order-type=quote'
       option :size, type: :numeric, desc: 'The size of the position to close, if not specified then the entire ' \

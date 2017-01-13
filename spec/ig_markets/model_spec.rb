@@ -29,12 +29,12 @@ describe IGMarkets::Model do
     end.to output('').to_stderr
   end
 
-  it 'returns an attribute\'s type' do
+  it "returns an attribute's type" do
     expect(TestModel.attribute_type(:id)).to eq(String)
     expect(TestModel.attribute_type(:time)).to eq(Time)
   end
 
-  it 'returns a deprecated attribute\'s type as NilClass' do
+  it "returns a deprecated attribute's type as NilClass" do
     expect(TestModel.attribute_type(:deprecated_0)).to eq(NilClass)
   end
 

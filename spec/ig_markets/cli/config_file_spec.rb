@@ -10,7 +10,7 @@ describe IGMarkets::CLI::ConfigFile do
 
   let(:config_file) { IGMarkets::CLI::ConfigFile.new config_file_contents }
 
-  it 'prepends the default profile\'s arguments to argv' do
+  it "prepends the default profile's arguments to argv" do
     argv = ['command', '--argument']
 
     config_file.prepend_profile_arguments_to_argv argv
@@ -18,7 +18,7 @@ describe IGMarkets::CLI::ConfigFile do
     expect(argv).to eq(%w(command --username=A --password=B --demo=true --argument))
   end
 
-  it 'prepends a specified profile\'s arguments to argv' do
+  it "prepends a specified profile's arguments to argv" do
     argv = ['command', '--argument', '--profile', 'my-profile']
 
     config_file.prepend_profile_arguments_to_argv argv
