@@ -37,7 +37,7 @@ module IGMarkets
     # and green for positive values. Two decimal places are used for all currencies except the Japanese Yen.
     #
     # @param [Float, Integer] amount The currency amount to format.
-    # @param [String] currency The currency.
+    # @param [String] currency_name The currency.
     #
     # @return [String] The formatted and colored currency amount, e.g. `"USD -130.40"`, `"AUD 539.10"`, `"JPY 3560"`.
     def colored_currency(amount, currency_name)

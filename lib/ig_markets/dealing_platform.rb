@@ -1,6 +1,6 @@
 module IGMarkets
   # This is the primary class for interacting with the IG Markets API. After signing in using {#sign_in} most
-  # functionality is accessed via the following top-level methods:
+  # functionality can be accessed using the following methods:
   #
   # - {#account}
   # - {#client_sentiment}
@@ -11,9 +11,9 @@ module IGMarkets
   # - {#working_orders}
   # - {#streaming}
   #
-  # See `README.md` for examples.
+  # See `README.md` for code examples.
   #
-  # If any errors occur while executing requests to the IG Markets API then an {IGMarketsError} will be raised.
+  # If any errors occur while executing requests to the IG Markets API then an {IGMarketsError} subclass will be raised.
   class DealingPlatform
     # The session used by this dealing platform.
     #
@@ -25,7 +25,7 @@ module IGMarkets
     # @return [ClientAccountSummary]
     attr_reader :client_account_summary
 
-    # Methods for working with the logged in account.
+    # Methods for working with the balances and history of the logged in account.
     #
     # @return [AccountMethods]
     attr_reader :account
@@ -80,13 +80,13 @@ module IGMarkets
 
     # Signs in to the IG Markets Dealing Platform, either the live platform or the demo platform.
     #
-    # @param [String] username The account username.
-    # @param [String] password The account password.
-    # @param [String] api_key The account API key.
+    # @param [String] username The IG Markets username.
+    # @param [String] password The IG Markets password.
+    # @param [String] api_key The IG Markets API key.
     # @param [:live, :demo] platform The platform to use.
     #
     # @return [ClientAccountSummary] The client account summary returned by the sign in request. This result can also
-    #                                be accessed through the {#client_account_summary} accessor.
+    #                                be accessed later using {#client_account_summary}.
     def sign_in(username, password, api_key, platform)
       session.username = username
       session.password = password
@@ -118,9 +118,9 @@ module IGMarkets
       instantiate_models Application, session.get('operations/application')
     end
 
-    # Disables the API key currently in use by the logged in session. This means that any further requests to the IG
-    # Markets API with this key will fail with the error `error.security.api-key-disabled`. Disabled API keys can only
-    # be re-enabled through the web platform.
+    # Disables the API key currently being used by the logged in session. This means that any further requests to the IG
+    # Markets API with this key will raise {Errors::APIKeyDisabledError}. Disabled API keys can only be re-enabled
+    # through the web platform.
     #
     # @return [Application]
     def disable_api_key
