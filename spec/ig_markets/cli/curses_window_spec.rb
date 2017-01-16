@@ -2,8 +2,7 @@ describe IGMarkets::CLI::CursesWindow do
   class Curses
     A_NORMAL = 0
 
-    def self.color_pair(_)
-    end
+    def self.color_pair(_); end
 
     class Window
       def attron(_); end

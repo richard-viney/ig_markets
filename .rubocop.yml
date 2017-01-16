@@ -2,7 +2,7 @@ ClassLength:
   Max: 120
 
 Metrics/BlockLength:
-  Max: 32
+  Enabled: false
 
 Metrics/LineLength:
   Max: 120
