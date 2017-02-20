@@ -9,17 +9,17 @@ module IGMarkets
       end
 
       def headings
-        ['Date', 'Reference', 'Type', 'Instrument', 'Size', 'Open', 'Close', 'Profit/loss']
+        ['Date', 'Open Date', 'Reference', 'Type', 'Instrument', 'Size', 'Open', 'Close', 'Profit/loss']
       end
 
       def right_aligned_columns
-        [4, 5, 6, 7]
+        [5, 6, 7, 8]
       end
 
       def row(transaction)
-        [transaction.date_utc, transaction.reference, formatted_type(transaction.transaction_type),
-         transaction.instrument_name, transaction.size, Format.level(transaction.open_level),
-         Format.level(transaction.close_level),
+        [transaction.date_utc, transaction.open_date_utc, transaction.reference,
+         formatted_type(transaction.transaction_type), transaction.instrument_name, transaction.size,
+         Format.level(transaction.open_level), Format.level(transaction.close_level),
          Format.currency(transaction.profit_and_loss_amount, transaction.currency)]
       end
 

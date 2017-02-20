@@ -7,6 +7,7 @@ module IGMarkets
     attribute :currency
     attribute :date_utc, Time, format: '%FT%T'
     attribute :instrument_name
+    attribute :open_date_utc, Time, format: '%FT%T'
     attribute :open_level, String, nil_if: %w(- 0)
     attribute :period, Time, nil_if: %w(- DFB), format: ['%FT%T', '%d-%b-%y', '%b-%y']
     attribute :profit_and_loss
