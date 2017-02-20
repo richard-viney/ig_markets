@@ -1,7 +1,7 @@
 module IGMarkets
   # This class is intended to be subclassed in order to create models that contain a set of attributes, where each
-  # attribute is defined by a call to {attribute}. Attributes have standard getter and setter methods and can also
-  # be subject to a variety of constraints and validations, see {attribute} for further details.
+  # attribute is defined by a call to {attribute}. Attributes have standard accessor methods and can also be subject to
+  # a variety of constraints and validations, see {attribute} for further details.
   class Model
     # The current attribute values set on this model.
     #
