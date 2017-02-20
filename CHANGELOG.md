@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.28 — Unreleased
+
+- 
+
 ### 0.27 — January 18, 2017
 
 - Added `IGMarkets::Format.colored_currency`
