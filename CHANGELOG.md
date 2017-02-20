@@ -2,6 +2,7 @@
 
 ### 0.28 — Unreleased
 
+- Added IGMarkets::Instrument#limited_risk_premium
 - Added IGMarkets::Transaction#open_date_utc
 
 ### 0.27 — January 18, 2017

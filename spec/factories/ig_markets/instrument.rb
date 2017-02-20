@@ -9,6 +9,7 @@ FactoryGirl.define do
     expiry '20-DEC-40'
     expiry_details { build :instrument_expiry_details }
     force_open_allowed false
+    limited_risk_premium { build :instrument_limited_risk_premium }
     lot_size 1000.0
     margin_deposit_bands { [build(:instrument_margin_deposit_band)] }
     margin_factor 0.01
@@ -41,6 +42,11 @@ FactoryGirl.define do
   factory :instrument_expiry_details, class: IGMarkets::Instrument::ExpiryDetails do
     last_dealing_date '2022-12-20T23:59'
     settlement_info 'Info'
+  end
+
+  factory :instrument_limited_risk_premium, class: IGMarkets::Instrument::LimitedRiskPremium do
+    unit 'POINTS'
+    value 10
   end
 
   factory :instrument_margin_deposit_band, class: IGMarkets::Instrument::MarginDepositBand do
