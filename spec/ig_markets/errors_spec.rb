@@ -43,11 +43,14 @@ describe IGMarkets::IGMarketsError do
       'error.security.client-token-invalid' => IGMarkets::Errors::ClientTokenInvalidError,
       'error.security.client-token-missing' => IGMarkets::Errors::ClientTokenMissingError,
       'error.security.generic' => IGMarkets::Errors::SecurityError,
+      'error.security.get.session.timeout' => IGMarkets::Errors::GetSessionTimeoutError,
       'error.security.invalid-application' => IGMarkets::Errors::InvalidApplicationError,
       'error.security.invalid-details' => IGMarkets::Errors::InvalidCredentialsError,
       'error.security.invalid-website' => IGMarkets::Errors::InvalidWebsiteError,
       'error.security.oauth-token-invalid' => IGMarkets::Errors::OAuthTokenInvalidError,
       'error.security.too-many-failed-attempts' => IGMarkets::Errors::TooManyFailedLoginAttemptsError,
+      'error.service.create.stockbroking.share-order.instrumentdata-invalid' =>
+        IGMarkets::Errors::InvalidShareOrderInstrumentDataError,
       'error.service.watchlists.add-instrument.invalid-epic' => IGMarkets::Errors::WatchlistInvalidEPICError,
       'error.sprintmarket.create-position.expiry.outside-valid-range' =>
         IGMarkets::Errors::SprintMarketPositionInvalidExpiryError,
@@ -67,6 +70,7 @@ describe IGMarkets::IGMarketsError do
       'invalid.input' => IGMarkets::Errors::InvalidInputError,
       'invalid.input.too.many.markets' => IGMarkets::Errors::TooManyMarketsError,
       'invalid.url' => IGMarkets::Errors::InvalidURLError,
+      'service.clientsecurity.error.authentication.failure-generic' => IGMarkets::Errors::SecurityError,
       'system.error' => IGMarkets::Errors::SystemError,
       'unauthorised.access.to.equity.exception' => IGMarkets::Errors::UnauthorisedAccessToEquityError,
       'unauthorised.api-key.revoked' => IGMarkets::Errors::APIKeyRevokedError,

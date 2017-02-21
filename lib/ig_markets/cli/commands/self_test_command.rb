@@ -20,7 +20,7 @@ module IGMarkets
       def run_self_test
         test_markets
         test_positions
-        test_sprint_market_positions
+        test_sprint_market_positions # not working on demo account ?
         test_working_orders
         test_watchlists
         test_client_sentiment

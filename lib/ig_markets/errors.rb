@@ -170,6 +170,10 @@ module IGMarkets
     class SecurityError < IGMarketsError
     end
 
+    # This error is raised when there is a timeout while retrieving session details.
+    class GetSessionTimeoutError < IGMarketsError
+    end
+
     # This error is raised when the provided user agent string is not valid.
     class InvalidApplicationError < IGMarketsError
     end
@@ -216,6 +220,10 @@ module IGMarkets
 
     # This error is raised when setting the default account is not allowed.
     class CannotSetDefaultAccountError < IGMarketsError
+    end
+
+    # This error is raised when the specified instrument data for a share order is invalid.
+    class InvalidShareOrderInstrumentDataError < IGMarketsError
     end
 
     # This error is raised when an invalid account ID was specified.
@@ -347,11 +355,13 @@ module IGMarkets
       'error.security.client-token-invalid' => Errors::ClientTokenInvalidError,
       'error.security.client-token-missing' => Errors::ClientTokenMissingError,
       'error.security.generic' => Errors::SecurityError,
+      'error.security.get.session.timeout' => Errors::GetSessionTimeoutError,
       'error.security.invalid-application' => Errors::InvalidApplicationError,
       'error.security.invalid-details' => Errors::InvalidCredentialsError,
       'error.security.invalid-website' => Errors::InvalidWebsiteError,
       'error.security.oauth-token-invalid' => Errors::OAuthTokenInvalidError,
       'error.security.too-many-failed-attempts' => Errors::TooManyFailedLoginAttemptsError,
+      'error.service.create.stockbroking.share-order.instrumentdata-invalid' => Errors::InvalidShareOrderInstrumentDataError,
       'error.service.watchlists.add-instrument.invalid-epic' => Errors::WatchlistInvalidEPICError,
       'error.sprintmarket.create-position.expiry.outside-valid-range' => Errors::SprintMarketPositionInvalidExpiryError,
       'error.sprintmarket.create-position.failure' => Errors::SprintMarketPositionCreateError,
@@ -370,6 +380,7 @@ module IGMarkets
       'invalid.input' => Errors::InvalidInputError,
       'invalid.input.too.many.markets' => Errors::TooManyMarketsError,
       'invalid.url' => Errors::InvalidURLError,
+      'service.clientsecurity.error.authentication.failure-generic' => Errors::SecurityError,
       'system.error' => Errors::SystemError,
       'unauthorised.access.to.equity.exception' => Errors::UnauthorisedAccessToEquityError,
       'unauthorised.api-key.revoked' => Errors::APIKeyRevokedError,
