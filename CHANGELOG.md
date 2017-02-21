@@ -4,6 +4,9 @@
 
 - Added IGMarkets::Instrument#limited_risk_premium
 - Added IGMarkets::Transaction#open_date_utc
+- Added `#currency`, `#good_till_date`, `#order_type` and `#time_in_force` attributes to
+  `IGMarkets::Streaming::WorkingOrderUpdate`
+- Fixed `IGMarkets::AccountState` not updating its working orders when a level update is received
 
 ### 0.27 — January 18, 2017
 

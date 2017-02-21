@@ -50,13 +50,18 @@ describe IGMarkets::Streaming::AccountState, :dealing_platform do
     trades_on_data_callback.call build(:streaming_position_update, status: :open, deal_id: '2')
     trades_on_data_callback.call build(:streaming_position_update, status: :updated, deal_id: '1')
     trades_on_data_callback.call build(:streaming_position_update, status: :deleted, deal_id: '1')
+    trades_on_data_callback.call build(:streaming_position_update, status: :updated, deal_id: '2', stop_level: 1.23)
     trades_on_data_callback.call build(:streaming_working_order_update, status: :open, deal_id: '2')
     trades_on_data_callback.call build(:streaming_working_order_update, status: :updated, deal_id: '1')
     trades_on_data_callback.call build(:streaming_working_order_update, status: :deleted, deal_id: '1')
+    trades_on_data_callback.call build(:streaming_working_order_update, status: :updated, deal_id: '2', level: 123)
 
     account_state.process_queued_data
 
     expect(account_state.positions.map(&:deal_id)).to eq(['2'])
+    expect(account_state.positions.first.stop_level).to be(1.23)
+
     expect(account_state.working_orders.map(&:deal_id)).to eq(['2'])
+    expect(account_state.working_orders.first.order_level).to eq(123)
   end
 end
