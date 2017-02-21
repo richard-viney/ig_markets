@@ -361,7 +361,8 @@ module IGMarkets
       'error.security.invalid-website' => Errors::InvalidWebsiteError,
       'error.security.oauth-token-invalid' => Errors::OAuthTokenInvalidError,
       'error.security.too-many-failed-attempts' => Errors::TooManyFailedLoginAttemptsError,
-      'error.service.create.stockbroking.share-order.instrumentdata-invalid' => Errors::InvalidShareOrderInstrumentDataError,
+      'error.service.create.stockbroking.share-order.instrumentdata-invalid' =>
+        Errors::InvalidShareOrderInstrumentDataError,
       'error.service.watchlists.add-instrument.invalid-epic' => Errors::WatchlistInvalidEPICError,
       'error.sprintmarket.create-position.expiry.outside-valid-range' => Errors::SprintMarketPositionInvalidExpiryError,
       'error.sprintmarket.create-position.failure' => Errors::SprintMarketPositionCreateError,
