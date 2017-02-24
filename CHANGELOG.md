@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.28 — Unreleased
+### 0.28 — February 24, 2017
 
 - Added IGMarkets::Instrument#limited_risk_premium
 - Added IGMarkets::Transaction#open_date_utc
