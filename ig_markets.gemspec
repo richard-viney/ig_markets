@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'excon', '~> 0.51'
   s.add_runtime_dependency 'lightstreamer', '~> 0.14'
   s.add_runtime_dependency 'pry', '~> 0.10.4'
-  s.add_runtime_dependency 'rainbow', '~> 2.1.0'              # See https://github.com/sickill/rainbow/issues/48
+  s.add_runtime_dependency 'rainbow', '~> 2.1.0' # See https://github.com/sickill/rainbow/issues/48
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_runtime_dependency 'thor', '~> 0.19'
 

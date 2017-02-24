@@ -20,7 +20,6 @@ module IGMarkets
       def run_self_test
         test_markets
         test_positions
-        test_sprint_market_positions # not working on demo account ?
         test_working_orders
         test_watchlists
         test_client_sentiment
@@ -68,17 +67,6 @@ module IGMarkets
         @position.close
 
         raise 'Error: failed closing position' if @dealing_platform.positions[@position.deal_id]
-      end
-
-      def test_sprint_market_positions
-        create_options = { direction: :buy, expiry_period: :sixty_minutes, epic: 'FM.D.EURUSD24.EURUSD24.IP',
-                           size: 100 }
-
-        deal_reference = @dealing_platform.sprint_market_positions.create create_options
-        deal_confirmation = @dealing_platform.deal_confirmation deal_reference
-        sprint_market_position = @dealing_platform.sprint_market_positions[deal_confirmation.deal_id]
-
-        raise 'Error: failed creating sprint market position' unless sprint_market_position
       end
 
       def test_working_orders
