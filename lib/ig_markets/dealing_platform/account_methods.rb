@@ -18,11 +18,11 @@ module IGMarkets
         @dealing_platform.instantiate_models Account, result
       end
 
-      # Returns activities for this account in the specified date range.
+      # Returns activities for this account in the specified time range.
       #
       # @param [Hash] options The options hash.
-      # @option options [Date] :from The start of the period to return activities for. Required.
-      # @option options [Date] :to The end of the period to return activities for. Defaults to today.
+      # @option options [Time] :from The start of the period to return activities for. Required.
+      # @option options [Time] :to The end of the period to return activities for. Defaults to `Time.now`.
       #
       # @return [Array<Activity>]
       def activities(options)
@@ -33,13 +33,13 @@ module IGMarkets
                                  collection_name: :activities, model_class: Activity, date_attribute: :date
       end
 
-      # Returns transactions for this account in the specified date range.
+      # Returns transactions for this account in the specified time range.
       #
       # @param [Hash] options The options hash.
       # @option options [:all, :all_deal, :deposit, :withdrawal] :type The type of transactions to return. Defaults to
       #                 `:all`.
-      # @option options [Date] :from The start of the period to return transactions for. Required.
-      # @option options [Date] :to The end of the period to return transactions for. Defaults to today.
+      # @option options [Time] :from The start of the period to return transactions for. Required.
+      # @option options [Time] :to The end of the period to return transactions for. Defaults to `Time.now`.
       #
       # @return [Array<Transaction>]
       def transactions(options)
@@ -59,7 +59,7 @@ module IGMarkets
       # The maximum number of results the IG Markets API will return in one request.
       MAXIMUM_PAGE_SIZE = 500
 
-      # Retrieves historical data for this account (either activities or transactions) in the specified date range. This
+      # Retrieves historical data for this account (either activities or transactions) in the specified time range. This
       # methods sends a single GET request with the passed URL parameters and returns the response. The maximum number
       # of items this method can return is capped at 500 ({MAXIMUM_PAGE_SIZE}).
       def history_request(options)
@@ -82,7 +82,7 @@ module IGMarkets
           break if request_result.size < MAXIMUM_PAGE_SIZE
 
           # Update the :to parameter so the next GET request returns older results
-          options[:url_parameters][:to] = request_result.last.send(options[:date_attribute]).utc.to_date + 1
+          options[:url_parameters][:to] = request_result.last.send(options[:date_attribute]).utc.strftime('%FT%T')
         end
 
         models.uniq
@@ -90,10 +90,10 @@ module IGMarkets
 
       # Parses and formats options shared by {#activities} and {#transactions} into a set of URL parameters.
       def history_url_parameters(options)
-        options[:to] ||= Date.today + 1
+        options[:to] ||= Time.now
 
-        options[:from] = options.fetch(:from).strftime('%F')
-        options[:to] = options.fetch(:to).strftime('%F')
+        options[:from] = options.fetch(:from).utc.strftime('%FT%T')
+        options[:to] = options.fetch(:to).utc.strftime('%FT%T')
 
         options[:pageSize] = MAXIMUM_PAGE_SIZE
 

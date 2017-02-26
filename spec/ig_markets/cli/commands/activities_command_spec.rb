@@ -4,7 +4,7 @@ describe IGMarkets::CLI::Main, :cli_command do
   end
 
   before do
-    allow(Date).to receive(:today).and_return(Date.new(2016, 1, 5))
+    allow(Time).to receive(:now).and_return(Time.new(2016, 1, 5))
   end
 
   it 'prints activities from a recent number of days' do
@@ -13,21 +13,21 @@ describe IGMarkets::CLI::Main, :cli_command do
       build(:activity, date: Time.new(2015, 12, 15, 15, 0, 0, 0))
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(from: Date.new(2016, 1, 2)).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with(from: Time.new(2016, 1, 2)).and_return(activities)
 
     expect do
       cli(days: 3, sort_by: 'date').activities
     end.to output("#{IGMarkets::CLI::ActivitiesTable.new [activities[1], activities[0]]}\n").to_stdout
   end
 
-  it 'prints activities from a number of days and a from date' do
-    from = Date.new 2015, 1, 15
-    to = Date.new 2015, 1, 18
+  it 'prints activities from a number of days and a from time' do
+    from = Time.new 2015, 1, 15, 6, 0, 0
+    to = Time.new 2015, 1, 18, 6, 0, 0
 
     expect(dealing_platform.account).to receive(:activities).with(from: from, to: to).and_return([])
 
     expect do
-      cli(days: 3, from: '2015-01-15', sort_by: 'date').activities
+      cli(days: 3, from: '2015-01-15T06:00:00', sort_by: 'date').activities
     end.to output("#{IGMarkets::CLI::ActivitiesTable.new []}\n").to_stdout
   end
 
@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Main, :cli_command do
       build(:activity, epic: 'CS.D.NZDUSD.CFD.IP')
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(from: Date.new(2016, 1, 2)).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with(from: Time.new(2016, 1, 2)).and_return(activities)
 
     expect do
       cli(days: 3, sort_by: 'date', epic: 'NZD').activities

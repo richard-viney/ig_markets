@@ -30,13 +30,15 @@ module IGMarkets
       # Turns the `:days` and `:from` options into a hash with `:from` and `:to` keys that can be passed to
       # {AccountMethods#activities} and {AccountMethods#transactions}.
       def history_options
+        days_in_seconds = options[:days] * 24 * 60 * 60
+
         if options[:from]
-          from = Date.strptime options[:from], '%F'
-          to = from + options[:days]
+          from = Time.strptime options[:from], '%FT%T'
+          to = from + days_in_seconds
 
           { from: from, to: to }
         else
-          { from: Date.today - options[:days] }
+          { from: Time.now - days_in_seconds }
         end
       end
 

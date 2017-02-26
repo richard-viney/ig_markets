@@ -119,7 +119,7 @@ ig_markets account
 # Print EUR/USD transactions from the last week, excluding interest transactions
 ig_markets transactions --days 7 --instrument EUR/USD --no-interest
 
-# Search for EURUSD markets
+# Search for EURUSD currency markets
 ig_markets search EURUSD --type currencies
 
 # Print details for the EURUSD pair and the Dow Jones Industrial Average
@@ -181,13 +181,16 @@ ig = IGMarkets::DealingPlatform.new
 ig.sign_in 'username', 'password', 'api_key', :demo
 ig.sign_out
 
+one_week = 7 * 24 * 60 * 60
+two_weeks = 14 * 24 * 60 * 60
+
 # Account
 ig.account.all
-ig.account.activities from: Date.today - 7
-ig.account.activities from: Date.today - 14, to: Date.today - 7
-ig.account.transactions from: Date.today - 7
-ig.account.transactions from: Date.today - 14, to: Date.today - 7
-ig.account.transactions from: Date.today - 14, to: Date.today - 7, type: :withdrawal
+ig.account.activities from: Time.now - one_week
+ig.account.activities from: Time.now - one_week, to: Time.now - one_week
+ig.account.transactions from: Time.now - one_week
+ig.account.transactions from: Time.now - two_weeks, to: Time.now - one_week
+ig.account.transactions from: Time.now - two_weeks, to: Time.now - one_week, type: :withdrawal
 
 # Dealing
 ig.deal_confirmation 'deal_reference'

@@ -2,7 +2,12 @@
 
 ### 0.29 — Unreleased
 
-- 
+- The `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` now take `Time`
+  values for `:from` and `:to` instead of `Date` values
+- The `ig_markets activities`, `ig_markets performance` and `ig_markets transactions` commands now expect
+  their optional `--from` option to be formatted as `yyyy-mm-ddThh:mm:ss`
+- Fixed `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` never returning
+  if there were more than 500 activities or transactions in a single day during the specified period
 
 ### 0.28 — February 24, 2017
 

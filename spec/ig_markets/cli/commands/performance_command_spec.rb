@@ -4,7 +4,7 @@ describe IGMarkets::CLI::Main, :cli_command do
   end
 
   before do
-    allow(Date).to receive(:today).and_return(Date.new(2016, 1, 15))
+    allow(Time).to receive(:now).and_return(Time.new(2016, 1, 15))
   end
 
   it 'prints performance' do
@@ -24,8 +24,8 @@ describe IGMarkets::CLI::Main, :cli_command do
     markets = [build(:market, instrument: build(:instrument, epic: eur_usd, name: 'EUR/USD')),
                build(:market, instrument: build(:instrument, epic: aud_usd, name: 'AUD/USD'))]
 
-    expect(dealing_platform.account).to receive(:activities).with(from: Date.new(2016, 1, 5)).and_return(activities)
-    expect(dealing_platform.account).to receive(:transactions).with(from: Date.new(2016, 1, 5)).and_return(transactions)
+    expect(dealing_platform.account).to receive(:activities).with(from: Time.new(2016, 1, 5)).and_return(activities)
+    expect(dealing_platform.account).to receive(:transactions).with(from: Time.new(2016, 1, 5)).and_return(transactions)
     expect(dealing_platform.markets).to receive(:find).with(aud_usd, eur_usd).and_return(markets)
 
     performances = [{ epic: aud_usd, instrument_name: 'AUD/USD', transactions: transactions[0..1], profit_loss: -3 },
