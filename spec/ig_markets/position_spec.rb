@@ -76,17 +76,17 @@ describe IGMarkets::Position, :dealing_platform do
 
     expect(session).to receive(:delete).exactly(3).times.and_return(deal_reference: 'reference')
 
-    expect { close_position_proc.call }.to_not raise_error
+    expect { close_position_proc.call }.not_to raise_error
     expect { close_position_proc.call order_type: :quote }
       .to raise_error(ArgumentError, 'set quote_id if and only if order_type is :quote')
     expect { close_position_proc.call order_type: :quote, quote_id: 'a' }
       .to raise_error(ArgumentError, 'set level if and only if order_type is :limit or :quote')
     expect { close_position_proc.call order_type: :quote, level: 1 }
       .to raise_error(ArgumentError, 'set quote_id if and only if order_type is :quote')
-    expect { close_position_proc.call order_type: :quote, quote_id: 'a', level: 1 }.to_not raise_error
+    expect { close_position_proc.call order_type: :quote, quote_id: 'a', level: 1 }.not_to raise_error
     expect { close_position_proc.call order_type: :limit }
       .to raise_error(ArgumentError, 'set level if and only if order_type is :limit or :quote')
-    expect { close_position_proc.call order_type: :limit, level: 1 }.to_not raise_error
+    expect { close_position_proc.call order_type: :limit, level: 1 }.not_to raise_error
     expect { close_position_proc.call order_type: :limit, time_in_force: nil }
       .to raise_error(ArgumentError, 'time_in_force attribute must be set')
   end

@@ -9,7 +9,7 @@ describe IGMarkets::CLI::Positions, :cli_command do
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
     expect { cli.list }.to output(<<-END
-#{IGMarkets::CLI::PositionsTable.new positions}
+#{IGMarkets::CLI::Tables::PositionsTable.new positions}
 
 Total profit/loss: #{'USD -104.00'.red}
 END
@@ -22,7 +22,7 @@ END
     expect(dealing_platform.positions).to receive(:all).and_return(positions)
 
     expect { cli(aggregate: true).list }.to output(<<-END
-#{IGMarkets::CLI::PositionsTable.new positions, aggregate: true}
+#{IGMarkets::CLI::Tables::PositionsTable.new positions, aggregate: true}
 
 Total profit/loss: #{'USD -6000.00'.red}
 END

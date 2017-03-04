@@ -10,7 +10,7 @@ module IGMarkets
 
           markets = dealing_platform.markets.find sprints.map(&:epic).uniq
 
-          table = SprintMarketPositionsTable.new sprints, markets: markets
+          table = Tables::SprintMarketPositionsTable.new sprints, markets: markets
 
           puts table
         end

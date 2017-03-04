@@ -8,6 +8,8 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect(dealing_platform.markets).to receive(:find).with('ABCDEF', '123456').and_return(markets)
 
-    expect { cli.markets('ABCDEF', '123456') }.to output("#{IGMarkets::CLI::MarketsTable.new markets}\n").to_stdout
+    expect do
+      cli.markets('ABCDEF', '123456')
+    end.to output("#{IGMarkets::CLI::Tables::MarketsTable.new markets}\n").to_stdout
   end
 end

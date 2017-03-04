@@ -8,7 +8,7 @@ describe IGMarkets::CLI::ConfigFile do
     }
   end
 
-  let(:config_file) { IGMarkets::CLI::ConfigFile.new config_file_contents }
+  let(:config_file) { described_class.new config_file_contents }
 
   it "prepends the default profile's arguments to argv" do
     argv = ['command', '--argument']
@@ -31,6 +31,6 @@ describe IGMarkets::CLI::ConfigFile do
     expect(File).to receive(:exist?).with('present').and_return(true)
     expect(YAML).to receive(:load_file).with('present').and_return(config_file_contents)
 
-    IGMarkets::CLI::ConfigFile.find 'absent', 'present', 'ignored'
+    described_class.find 'absent', 'present', 'ignored'
   end
 end

@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 ClassLength:
   Max: 120
 
@@ -6,3 +8,15 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Max: 120
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false

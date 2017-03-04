@@ -1,4 +1,4 @@
-describe IGMarkets::CLI::ClientSentimentsTable do
+describe IGMarkets::CLI::Tables::ClientSentimentsTable do
   it 'prints client sentiments' do
     client_sentiments = [
       build(:client_sentiment, market_id: 'A'),
@@ -6,7 +6,7 @@ describe IGMarkets::CLI::ClientSentimentsTable do
       build(:client_sentiment, market_id: 'C', long_position_percentage: 10, short_position_percentage: 90)
     ]
 
-    expect(IGMarkets::CLI::ClientSentimentsTable.new(client_sentiments, title: 'Title').to_s).to eql(<<-END.strip
+    expect(described_class.new(client_sentiments, title: 'Title').to_s).to eql(<<-END.strip
 +--------+--------+---------+
 |           Title           |
 +--------+--------+---------+
@@ -17,6 +17,6 @@ describe IGMarkets::CLI::ClientSentimentsTable do
 | #{'C'.red}      |     #{'10'.red} |      #{'90'.red} |
 +--------+--------+---------+
 END
-                                                                                                    )
+                                                                              )
   end
 end

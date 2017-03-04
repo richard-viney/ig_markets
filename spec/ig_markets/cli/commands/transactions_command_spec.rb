@@ -13,7 +13,7 @@ describe IGMarkets::CLI::Main, :cli_command do
     expect(dealing_platform.account).to receive(:transactions).with(from: Time.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, interest: true, sort_by: 'date').transactions }.to output(<<-END
-#{IGMarkets::CLI::TransactionsTable.new transactions}
+#{IGMarkets::CLI::Tables::TransactionsTable.new transactions}
 
 Interest: US 0.00
 Profit/loss: US -1.00
@@ -29,7 +29,7 @@ END
 
     expect do
       cli(days: 3, from: '2015-02-15T06:00:00', interest: true).transactions
-    end.to output("#{IGMarkets::CLI::TransactionsTable.new []}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::TransactionsTable.new []}\n").to_stdout
   end
 
   it 'prints transactions filtered by instrument without interest transactions' do
@@ -42,7 +42,7 @@ END
     expect(dealing_platform.account).to receive(:transactions).with(from: Time.new(2016, 1, 2)).and_return(transactions)
 
     expect { cli(days: 3, instrument: 'TEST', interest: false, sort_by: 'date').transactions }.to output(<<-END
-#{IGMarkets::CLI::TransactionsTable.new [transactions[2], transactions[1]]}
+#{IGMarkets::CLI::Tables::TransactionsTable.new [transactions[2], transactions[1]]}
 
 Profit/loss: US 0.00
 END

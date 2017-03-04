@@ -1,6 +1,6 @@
 describe IGMarkets::Session do
   let(:session) do
-    IGMarkets::Session.new.tap do |session|
+    described_class.new.tap do |session|
       session.username = 'username'
       session.password = 'password'
       session.api_key = 'api_key'

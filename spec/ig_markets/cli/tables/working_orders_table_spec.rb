@@ -1,8 +1,8 @@
-describe IGMarkets::CLI::WorkingOrdersTable do
+describe IGMarkets::CLI::Tables::WorkingOrdersTable do
   it 'prints working orders' do
     working_orders = [build(:working_order)]
 
-    expect(IGMarkets::CLI::WorkingOrdersTable.new(working_orders).to_s).to eql(<<-END.strip
+    expect(described_class.new(working_orders).to_s).to eql(<<-END.strip
 +-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
 |                                                                         Working orders                                                                         |
 +-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
@@ -11,6 +11,6 @@ describe IGMarkets::CLI::WorkingOrdersTable do
 | 2014-10-20 13:30:03 UTC | UA.D.AAPL.CASH.IP | USD      | Limit | Buy       |    1 | 100.0 |             10 |            10 | 2015-10-30 12:59:00 UTC | DEAL    |
 +-------------------------+-------------------+----------+-------+-----------+------+-------+----------------+---------------+-------------------------+---------+
 END
-                                                                              )
+                                                           )
   end
 end

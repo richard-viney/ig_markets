@@ -7,7 +7,7 @@ module IGMarkets
       def list
         Main.begin_session(options) do |dealing_platform|
           dealing_platform.watchlists.all.each_with_index do |watchlist, index|
-            table = MarketOverviewsTable.new watchlist.markets, title: table_title(watchlist)
+            table = Tables::MarketOverviewsTable.new watchlist.markets, title: table_title(watchlist)
 
             puts '' if index > 0
             puts table

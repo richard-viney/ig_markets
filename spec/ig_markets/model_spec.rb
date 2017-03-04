@@ -101,7 +101,7 @@ describe IGMarkets::Model do
   end
 
   it 'raises an exception when a model attribute is set to the wrong type' do
-    expect { NestedModel.new test: nil }.to_not raise_error
+    expect { NestedModel.new test: nil }.not_to raise_error
 
     expect { NestedModel.new test: 'string' }
       .to raise_error(ArgumentError, 'incorrect type set on NestedModel#test: "string"')

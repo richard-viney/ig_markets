@@ -76,14 +76,14 @@ describe IGMarkets::IGMarketsError do
       'unauthorised.api-key.revoked' => IGMarkets::Errors::APIKeyRevokedError,
       'unauthorised.clientId.api-key.mismatch' => IGMarkets::Errors::InvalidAPIKeyForClientError
     }.each do |error_code, error_class|
-      expect(IGMarkets::IGMarketsError.build(error_code)).to be_a(error_class)
+      expect(described_class.build(error_code)).to be_a(error_class)
     end
   end
 
   it 'builds a base error and writes a one-time warning to stderr when the error code is unknown' do
     expect do
-      expect(IGMarkets::IGMarketsError.build('error.unknown')).to be_a(IGMarkets::IGMarketsError)
-      expect(IGMarkets::IGMarketsError.build('error.unknown')).to be_a(IGMarkets::IGMarketsError)
+      expect(described_class.build('error.unknown')).to be_a(described_class)
+      expect(described_class.build('error.unknown')).to be_a(described_class)
     end.to output("ig_markets: unrecognized error code error.unknown\n").to_stderr
   end
 end

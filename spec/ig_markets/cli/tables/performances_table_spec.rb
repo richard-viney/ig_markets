@@ -1,9 +1,9 @@
-describe IGMarkets::CLI::PerformancesTable do
+describe IGMarkets::CLI::Tables::PerformancesTable do
   it 'prints performances' do
     performances = [{ epic: 'ABCDEF', instrument_name: 'ABC', transactions: [build(:transaction)], profit_loss: 10 },
                     { epic: '123456', instrument_name: '123', transactions: [build(:transaction)], profit_loss: -5 }]
 
-    expect(IGMarkets::CLI::PerformancesTable.new(performances).to_s).to eql(<<-END.strip
+    expect(described_class.new(performances).to_s).to eql(<<-END.strip
 +--------+-----------------+-------------------+-------------+
 |                    Dealing performance                     |
 +--------+-----------------+-------------------+-------------+
@@ -13,6 +13,6 @@ describe IGMarkets::CLI::PerformancesTable do
 | 123456 | 123             |                 1 |    #{'US -5.00'.red} |
 +--------+-----------------+-------------------+-------------+
 END
-                                                                           )
+                                                         )
   end
 end

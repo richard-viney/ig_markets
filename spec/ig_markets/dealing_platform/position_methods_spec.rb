@@ -70,7 +70,7 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
 
     expect(session).to receive(:post).exactly(10).times.and_return(deal_reference: 'reference')
 
-    expect { create_position.call }.to_not raise_error
+    expect { create_position.call }.not_to raise_error
 
     expect { create_position.call currency_code: nil }
       .to raise_error(ArgumentError, 'currency_code attribute must be set')
@@ -83,8 +83,8 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
       .to raise_error(ArgumentError, 'set quote_id if and only if order_type is :quote')
     expect { create_position.call order_type: :limit }
       .to raise_error(ArgumentError, 'set level if and only if order_type is :limit or :quote')
-    expect { create_position.call order_type: :limit, level: 1 }.to_not raise_error
-    expect { create_position.call order_type: :quote, quote_id: 'a', level: 1 }.to_not raise_error
+    expect { create_position.call order_type: :limit, level: 1 }.not_to raise_error
+    expect { create_position.call order_type: :quote, quote_id: 'a', level: 1 }.not_to raise_error
 
     expect { create_position.call trailing_stop: true, stop_level: 1 }
       .to raise_error(ArgumentError, 'do not set stop_level when trailing_stop is true')

@@ -11,7 +11,7 @@ module IGMarkets
         self.class.begin_session(options) do |dealing_platform|
           market_overviews = gather_market_overviews dealing_platform, query
 
-          table = MarketOverviewsTable.new market_overviews
+          table = Tables::MarketOverviewsTable.new market_overviews
 
           puts table
         end

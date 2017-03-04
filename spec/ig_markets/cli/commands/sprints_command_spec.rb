@@ -14,7 +14,7 @@ describe IGMarkets::CLI::Sprints, :cli_command do
       expect(sprint_market_position).to receive(:seconds_till_expiry).twice.and_return(125)
     end
 
-    table = IGMarkets::CLI::SprintMarketPositionsTable.new sprint_market_positions, markets: markets
+    table = IGMarkets::CLI::Tables::SprintMarketPositionsTable.new sprint_market_positions, markets: markets
 
     expect { cli.list }.to output("#{table}\n").to_stdout
   end

@@ -17,7 +17,7 @@ module IGMarkets
 
           transactions = gather_transactions dealing_platform
 
-          table = TransactionsTable.new transactions
+          table = Tables::TransactionsTable.new transactions
 
           puts table
 

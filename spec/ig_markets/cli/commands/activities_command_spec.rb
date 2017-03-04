@@ -17,7 +17,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect do
       cli(days: 3, sort_by: 'date').activities
-    end.to output("#{IGMarkets::CLI::ActivitiesTable.new [activities[1], activities[0]]}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::ActivitiesTable.new [activities[1], activities[0]]}\n").to_stdout
   end
 
   it 'prints activities from a number of days and a from time' do
@@ -28,7 +28,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect do
       cli(days: 3, from: '2015-01-15T06:00:00', sort_by: 'date').activities
-    end.to output("#{IGMarkets::CLI::ActivitiesTable.new []}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::ActivitiesTable.new []}\n").to_stdout
   end
 
   it 'prints activities filtered by EPIC' do
@@ -41,6 +41,6 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect do
       cli(days: 3, sort_by: 'date', epic: 'NZD').activities
-    end.to output("#{IGMarkets::CLI::ActivitiesTable.new activities[1]}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::ActivitiesTable.new activities[1]}\n").to_stdout
   end
 end

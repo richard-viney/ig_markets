@@ -19,7 +19,7 @@ module IGMarkets
           result = historical_price_result dealing_platform
           allowance = result.metadata.allowance
 
-          table = HistoricalPriceResultSnapshotsTable.new result.prices, title: "Prices for #{options[:epic]}"
+          table = Tables::HistoricalPriceResultSnapshotsTable.new result.prices, title: "Prices for #{options[:epic]}"
 
           puts <<-END
 #{table}

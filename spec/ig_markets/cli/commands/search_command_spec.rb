@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect(dealing_platform.markets).to receive(:search).with('EURUSD').and_return(markets)
 
-    expect { cli.search 'EURUSD' }.to output("#{IGMarkets::CLI::MarketOverviewsTable.new markets}\n").to_stdout
+    expect { cli.search 'EURUSD' }.to output("#{IGMarkets::CLI::Tables::MarketOverviewsTable.new markets}\n").to_stdout
   end
 
   it 'searches for markets with a specific type' do
@@ -18,6 +18,6 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect do
       cli(type: 'currencies').search 'EURUSD'
-    end.to output("#{IGMarkets::CLI::MarketOverviewsTable.new markets[0]}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::MarketOverviewsTable.new markets[0]}\n").to_stdout
   end
 end

@@ -15,7 +15,7 @@ module IGMarkets
 
           activities = gather_activities dealing_platform
 
-          table = ActivitiesTable.new activities
+          table = Tables::ActivitiesTable.new activities
 
           puts table
         end

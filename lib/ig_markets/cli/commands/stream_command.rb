@@ -109,9 +109,12 @@ module IGMarkets
         account_state.process_queued_data
 
         window.clear
-        window.print_lines AccountsTable.new(account_state.accounts).lines, '',
-                           PositionsTable.new(account_state.positions, aggregate: options[:aggregate]).lines, '',
-                           WorkingOrdersTable.new(account_state.working_orders).lines, ''
+        window.print_lines Tables::AccountsTable.new(account_state.accounts).lines,
+                           '',
+                           Tables::PositionsTable.new(account_state.positions, aggregate: options[:aggregate]).lines,
+                           '',
+                           Tables::WorkingOrdersTable.new(account_state.working_orders).lines,
+                           ''
         window.refresh
       end
     end

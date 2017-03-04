@@ -9,7 +9,7 @@ module IGMarkets
           client_sentiment = dealing_platform.client_sentiment[market]
           client_sentiments = [client_sentiment, :separator, client_sentiment.related_sentiments]
 
-          table = ClientSentimentsTable.new client_sentiments, title: "Client sentiment for '#{market}'"
+          table = Tables::ClientSentimentsTable.new client_sentiments, title: "Client sentiment for '#{market}'"
 
           puts table
         end

@@ -1,4 +1,4 @@
-describe IGMarkets::CLI::SprintMarketPositionsTable do
+describe IGMarkets::CLI::Tables::SprintMarketPositionsTable do
   it 'prints sprint market positions' do
     sprint_market_positions = [build(:sprint_market_position), build(:sprint_market_position, strike_level: 99)]
     markets = [build(:market, instrument: build(:instrument, epic: 'FM.D.FTSE.FTSE.IP'))]
@@ -7,7 +7,7 @@ describe IGMarkets::CLI::SprintMarketPositionsTable do
       expect(sprint_market_position).to receive(:seconds_till_expiry).and_return(125)
     end
 
-    table = IGMarkets::CLI::SprintMarketPositionsTable.new(sprint_market_positions, markets: markets)
+    table = described_class.new(sprint_market_positions, markets: markets)
 
     expect(table.to_s).to eql(<<-END.strip
 +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+

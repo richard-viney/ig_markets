@@ -32,7 +32,7 @@ describe IGMarkets::CLI::Main, :cli_command do
                     { epic: eur_usd, instrument_name: 'EUR/USD', transactions: transactions[2..3], profit_loss: 30 }]
 
     expect { cli(days: 10).performance }.to output(<<-END
-#{IGMarkets::CLI::PerformancesTable.new performances}
+#{IGMarkets::CLI::Tables::PerformancesTable.new performances}
 
 Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
       dividends, or other adjustments that may have occurred over this period.

@@ -1,11 +1,11 @@
-describe IGMarkets::CLI::Table do
+describe IGMarkets::CLI::Tables::Table do
   class TableModel < IGMarkets::Model
     attribute :string
     attribute :boolean, IGMarkets::Boolean
     attribute :float, Float
   end
 
-  class TestTable < IGMarkets::CLI::Table
+  class TestTable < IGMarkets::CLI::Tables::Table
     private
 
     def default_title

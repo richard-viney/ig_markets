@@ -8,6 +8,6 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect(dealing_platform.account).to receive(:all).and_return(accounts)
 
-    expect { cli.account }.to output("#{IGMarkets::CLI::AccountsTable.new accounts}\n").to_stdout
+    expect { cli.account }.to output("#{IGMarkets::CLI::Tables::AccountsTable.new accounts}\n").to_stdout
   end
 end

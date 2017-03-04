@@ -10,9 +10,9 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
     expect(dealing_platform.watchlists).to receive(:all).and_return(watchlists)
     expect(watchlists.first).to receive(:markets).and_return(markets)
 
-    expect do
-      cli.list
-    end.to output("#{IGMarkets::CLI::MarketOverviewsTable.new(markets, title: 'Markets (id: 2547731)')}\n").to_stdout
+    expect { cli.list }
+      .to output("#{IGMarkets::CLI::Tables::MarketOverviewsTable.new(markets, title: 'Markets (id: 2547731)')}\n")
+      .to_stdout
   end
 
   it 'creates a new watchlist' do

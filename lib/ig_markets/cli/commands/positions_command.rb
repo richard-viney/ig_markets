@@ -12,7 +12,7 @@ module IGMarkets
             position.market.instrument_type == :binary
           end
 
-          positions_table = PositionsTable.new positions, aggregate: options[:aggregate]
+          positions_table = Tables::PositionsTable.new positions, aggregate: options[:aggregate]
 
           puts positions_table
 

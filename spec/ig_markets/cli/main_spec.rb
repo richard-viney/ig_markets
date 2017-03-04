@@ -80,7 +80,7 @@ END
                                                                                   ).to_stdout
   end
 
-  it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
+  it 'retries the deal confirmation request five times if the attempts return deal not found and then fails' do
     expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('reference')
       .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)

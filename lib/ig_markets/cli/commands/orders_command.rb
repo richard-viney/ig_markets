@@ -8,7 +8,7 @@ module IGMarkets
         Main.begin_session(options) do |dealing_platform|
           working_orders = dealing_platform.working_orders.all
 
-          table = WorkingOrdersTable.new working_orders
+          table = Tables::WorkingOrdersTable.new working_orders
 
           puts table
         end

@@ -8,7 +8,7 @@ module IGMarkets
         self.class.begin_session(options) do |dealing_platform|
           markets = dealing_platform.markets.find(*epics)
 
-          table = MarketsTable.new markets
+          table = Tables::MarketsTable.new markets
 
           puts table
         end

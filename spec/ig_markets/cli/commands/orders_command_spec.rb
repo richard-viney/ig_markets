@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Orders, :cli_command do
 
     expect(dealing_platform.working_orders).to receive(:all).and_return(working_orders)
 
-    expect { cli.list }.to output("#{IGMarkets::CLI::WorkingOrdersTable.new working_orders}\n").to_stdout
+    expect { cli.list }.to output("#{IGMarkets::CLI::Tables::WorkingOrdersTable.new working_orders}\n").to_stdout
   end
 
   it 'creates a new working order' do

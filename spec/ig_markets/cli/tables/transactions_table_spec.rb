@@ -1,4 +1,4 @@
-describe IGMarkets::CLI::TransactionsTable do
+describe IGMarkets::CLI::Tables::TransactionsTable do
   it 'prints transactions' do
     transactions = [
       build(:transaction),
@@ -6,7 +6,7 @@ describe IGMarkets::CLI::TransactionsTable do
       build(:transaction, instrument_name: 'DEF', profit_and_loss: 'US1.00')
     ]
 
-    expect(IGMarkets::CLI::TransactionsTable.new(transactions).to_s).to eql(<<-END.strip
+    expect(described_class.new(transactions).to_s).to eql(<<-END.strip
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
 |                                                     Transactions                                                      |
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
@@ -17,6 +17,6 @@ describe IGMarkets::CLI::TransactionsTable do
 | 2015-10-27 14:30:00 UTC | 2015-10-26 09:30:00 UTC | Reference | Deal | DEF        |   +1 |  0.8 |   0.8 |     #{'US 1.00'.green} |
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
 END
-                                                                           )
+                                                         )
   end
 end

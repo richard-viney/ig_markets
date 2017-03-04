@@ -12,7 +12,7 @@ module IGMarkets
           performances = gather_performances dealing_platform
           lookup_instrument_names performances, dealing_platform
 
-          table = PerformancesTable.new performances
+          table = Tables::PerformancesTable.new performances
 
           puts table
 

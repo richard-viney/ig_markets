@@ -19,6 +19,6 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     expect do
       cli.sentiment 'query'
-    end.to output("#{IGMarkets::CLI::ClientSentimentsTable.new table_rows, title: table_title}\n").to_stdout
+    end.to output("#{IGMarkets::CLI::Tables::ClientSentimentsTable.new table_rows, title: table_title}\n").to_stdout
   end
 end

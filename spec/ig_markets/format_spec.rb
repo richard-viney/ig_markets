@@ -6,7 +6,7 @@ describe IGMarkets::Format do
       -5209.4 => '-5209.4',
       nil => ''
     }.each do |level, result|
-      expect(IGMarkets::Format.level(level)).to eq(result)
+      expect(described_class.level(level)).to eq(result)
     end
   end
 
@@ -18,7 +18,7 @@ describe IGMarkets::Format do
       [-5200, '¥'] => '¥ -5200',
       [nil, nil] => ''
     }.each do |args, result|
-      expect(IGMarkets::Format.currency(*args)).to eq(result)
+      expect(described_class.currency(*args)).to eq(result)
     end
   end
 
@@ -30,7 +30,7 @@ describe IGMarkets::Format do
       [-5200, '¥'] => '¥ -5200'.red,
       [nil, nil] => ''
     }.each do |args, result|
-      expect(IGMarkets::Format.colored_currency(*args)).to eq(result)
+      expect(described_class.colored_currency(*args)).to eq(result)
     end
   end
 
@@ -41,12 +41,12 @@ describe IGMarkets::Format do
       555 => '9:15',
       5555 => '1:32:35'
     }.each do |seconds, result|
-      expect(IGMarkets::Format.seconds(seconds)).to eq(result)
+      expect(described_class.seconds(seconds)).to eq(result)
     end
   end
 
   it 'formats symbols' do
-    expect(IGMarkets::Format.symbol(:one)).to eq('One')
-    expect(IGMarkets::Format.symbol(:two_three)).to eq('Two three')
+    expect(described_class.symbol(:one)).to eq('One')
+    expect(described_class.symbol(:two_three)).to eq('Two three')
   end
 end

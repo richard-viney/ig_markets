@@ -8,7 +8,7 @@ module IGMarkets
         self.class.begin_session(options) do |dealing_platform|
           accounts = dealing_platform.account.all
 
-          table = AccountsTable.new accounts
+          table = Tables::AccountsTable.new accounts
 
           puts table
         end

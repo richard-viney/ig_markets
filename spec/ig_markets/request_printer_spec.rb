@@ -1,10 +1,10 @@
 describe IGMarkets::RequestPrinter do
   before do
-    IGMarkets::RequestPrinter.enabled = true
+    described_class.enabled = true
   end
 
   after do
-    IGMarkets::RequestPrinter.enabled = false
+    described_class.enabled = false
   end
 
   it 'prints a request' do
@@ -16,7 +16,7 @@ describe IGMarkets::RequestPrinter do
         body: { data: 'ABC' }.to_json
       }
 
-      IGMarkets::RequestPrinter.print_request options
+      described_class.print_request options
     end.to output(<<-END
 GET url
   Headers:
@@ -34,7 +34,7 @@ END
     response = instance_double 'Excon::Response', headers: { 'Name' => 'Value' }, body: { data: 'ABC' }.to_json
 
     expect do
-      IGMarkets::RequestPrinter.print_response response
+      described_class.print_response response
     end.to output(<<-END
   Response:
     Headers:
@@ -51,7 +51,7 @@ END
     response = instance_double 'Excon::Response', headers: { 'Name' => 'Value' }, body: '<html></html>'
 
     expect do
-      IGMarkets::RequestPrinter.print_response response
+      described_class.print_response response
     end.to output(<<-END
   Response:
     Headers:

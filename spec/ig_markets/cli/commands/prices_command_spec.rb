@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Main, :cli_command do
       expect do
         cli(epic: 'A', resolution: :day, number: 1).prices
       end.to output(<<-END
-#{IGMarkets::CLI::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
+#{IGMarkets::CLI::Tables::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
 
 Allowance: 5000
 Remaining: 4990
@@ -59,7 +59,7 @@ END
       expect do
         cli(epic: 'A', resolution: :day, from: '2014-01-02T03:04:05+00:00', to: '2014-02-03T04:05:06+00:00').prices
       end.to output(<<-END
-#{IGMarkets::CLI::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
+#{IGMarkets::CLI::Tables::HistoricalPriceResultSnapshotsTable.new historical_price_result.prices, title: 'Prices for A'}
 
 Allowance: 5000
 Remaining: 4990

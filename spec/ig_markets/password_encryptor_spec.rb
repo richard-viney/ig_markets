@@ -1,5 +1,5 @@
 describe IGMarkets::PasswordEncryptor do
-  let(:encryptor) { IGMarkets::PasswordEncryptor.new }
+  let(:encryptor) { described_class.new }
   let(:rsa_key_pair) { OpenSSL::PKey::RSA.new 2048 }
 
   it 'sets its public key from an encoded public key' do

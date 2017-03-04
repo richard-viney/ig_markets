@@ -1,8 +1,8 @@
-describe IGMarkets::CLI::MarketsTable do
+describe IGMarkets::CLI::Tables::MarketsTable do
   it 'prints markets' do
     markets = [build(:market)]
 
-    expect(IGMarkets::CLI::MarketsTable.new(markets).to_s).to eql(<<-END.strip
+    expect(described_class.new(markets).to_s).to eql(<<-END.strip
 +--------------------+--------+------------+-----------+------------+-------+-------+-------+------+--------------+------------+
 |                                                           Markets                                                            |
 +--------------------+--------+------------+-----------+------------+-------+-------+-------+------+--------------+------------+
@@ -11,6 +11,6 @@ describe IGMarkets::CLI::MarketsTable do
 | CS.D.EURUSD.CFD.IP | Shares | Instrument | Tradeable | 2040-12-20 | 100.0 |  99.0 | 110.0 | 90.0 |         #{'10.0'.green} |       #{'10.0'.green} |
 +--------------------+--------+------------+-----------+------------+-------+-------+-------+------+--------------+------------+
 END
-                                                                 )
+                                                    )
   end
 end
