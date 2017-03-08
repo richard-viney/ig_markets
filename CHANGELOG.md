@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.29 — Unreleased
+### 0.29 — March 8, 2017
 
 - The `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` now take `Time`
   values for `:from` and `:to` instead of `Date` values
