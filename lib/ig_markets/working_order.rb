@@ -11,6 +11,7 @@ module IGMarkets
     attribute :good_till_date, Time, format: '%Y/%m/%d %R'
     attribute :guaranteed_stop, Boolean
     attribute :limit_distance, Integer
+    attribute :limited_risk_premium, LimitedRiskPremium
     attribute :order_level, Float
     attribute :order_size, Float
     attribute :order_type, Symbol, allowed_values: [:limit, :stop]

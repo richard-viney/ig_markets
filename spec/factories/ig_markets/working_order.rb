@@ -10,6 +10,7 @@ FactoryGirl.define do
     good_till_date_iso '2015-10-30T12:59'
     guaranteed_stop false
     limit_distance 10
+    limited_risk_premium { build :limited_risk_premium }
     order_level 100.0
     order_size 1
     order_type 'LIMIT'

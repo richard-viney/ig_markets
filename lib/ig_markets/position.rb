@@ -11,6 +11,7 @@ module IGMarkets
     attribute :direction, Symbol, allowed_values: [:buy, :sell]
     attribute :level, Float
     attribute :limit_level, Float
+    attribute :limited_risk_premium, LimitedRiskPremium
     attribute :size, Float
     attribute :stop_level, Float
     attribute :trailing_step, Float

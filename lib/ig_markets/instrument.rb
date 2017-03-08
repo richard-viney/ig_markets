@@ -16,12 +16,6 @@ module IGMarkets
       attribute :settlement_info
     end
 
-    # Contains details on the limited risk premium for an instrument. Returned by {#limited_risk_premium}.
-    class LimitedRiskPremium < Model
-      attribute :unit, Symbol, allowed_values: [:percentage, :points]
-      attribute :value, Float
-    end
-
     # Contains details on the margin deposit requirements for an instrument at a certain price band. Returned by
     # {#margin_deposit_bands}.
     class MarginDepositBand < Model

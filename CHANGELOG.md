@@ -8,11 +8,12 @@
   their optional `--from` option to be formatted as `yyyy-mm-ddThh:mm:ss`
 - Fixed `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` never returning
   if there were more than 500 activities or transactions in a single day during the specified period
+- Added `IGMarkets::Position#limited_risk_premium` and `IGMarkets::WorkingOrder#limited_risk_premium`
 
 ### 0.28 — February 24, 2017
 
-- Added IGMarkets::Instrument#limited_risk_premium
-- Added IGMarkets::Transaction#open_date_utc
+- Added `IGMarkets::Instrument#limited_risk_premium`
+- Added `IGMarkets::Transaction#open_date_utc`
 - Added `#currency`, `#good_till_date`, `#order_type` and `#time_in_force` attributes to
   `IGMarkets::Streaming::WorkingOrderUpdate`
 - Fixed `IGMarkets::AccountState` not updating its working orders when a level update is received
