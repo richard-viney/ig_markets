@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.30 — Unreleased
+
+-
+
 ### 0.29 — March 8, 2017
 
 - The `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` now take `Time`
