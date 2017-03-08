@@ -115,8 +115,8 @@ module IGMarkets
 
       def test_account_methods
         @dealing_platform.account.all
-        @dealing_platform.account.activities from: Date.today - 14
-        @dealing_platform.account.transactions from: Date.today - 14
+        @dealing_platform.account.activities from: Time.now - 14
+        @dealing_platform.account.transactions from: Time.now - 14
       end
 
       def test_client_sentiment

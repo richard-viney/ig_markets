@@ -2,7 +2,7 @@
 
 ### 0.30 — Unreleased
 
--
+- Fixed `ig_markets self-test` command
 
 ### 0.29 — March 8, 2017
 
