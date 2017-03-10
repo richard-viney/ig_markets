@@ -1,8 +1,9 @@
 # IG Markets Changelog
 
-### 0.30 — Unreleased
+### 0.30 — March 10, 2017
 
 - Fixed `ig_markets self-test` command
+- Support the `chart` transaction type
 
 ### 0.29 — March 8, 2017
 
@@ -13,7 +14,7 @@
 - Fixed `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` never returning
   if there were more than 500 activities or transactions in a single day during the specified period
 - Added `IGMarkets::Position#limited_risk_premium` and `IGMarkets::WorkingOrder#limited_risk_premium`
-- Supprt the `chart` transaction type
+- Support the `chart` transaction type
 
 ### 0.28 — February 24, 2017
 
