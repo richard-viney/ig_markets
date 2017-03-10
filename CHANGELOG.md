@@ -3,7 +3,7 @@
 ### 0.30 — March 10, 2017
 
 - Fixed `ig_markets self-test` command
-- Support the `chart` transaction type
+- Support the `trade` transaction type
 
 ### 0.29 — March 8, 2017
 
