@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.31 — Unreleased
+
+- 
+
 ### 0.30 — March 10, 2017
 
 - Fixed `ig_markets self-test` command
