@@ -36,7 +36,7 @@ module IGMarkets
 
         def formatted_type(type)
           { chart: 'Chart', deal: 'Deal', depo: 'Deposit', dividend: 'Dividend', exchange: 'Exchange',
-            with: 'Withdrawal' }.fetch type
+            trade: 'Trade', with: 'Withdrawal' }.fetch type
         end
       end
     end

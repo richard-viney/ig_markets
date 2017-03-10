@@ -13,7 +13,7 @@ module IGMarkets
     attribute :profit_and_loss
     attribute :reference
     attribute :size, String, nil_if: '-'
-    attribute :transaction_type, Symbol, allowed_values: [:chart, :deal, :depo, :dividend, :exchange, :with]
+    attribute :transaction_type, Symbol, allowed_values: [:chart, :deal, :depo, :dividend, :exchange, :trade, :with]
 
     deprecated_attribute :date
 
