@@ -54,7 +54,11 @@ module IGMarkets
 
       def update(deal_id)
         Main.begin_session(options) do |dealing_platform|
-          deal_reference = dealing_platform.working_orders[deal_id].update working_order_attributes
+          working_order = dealing_platform.working_orders[deal_id]
+
+          raise 'No working order with the specified deal ID' unless working_order
+
+          deal_reference = working_order.update working_order_attributes
 
           Main.report_deal_confirmation deal_reference
         end

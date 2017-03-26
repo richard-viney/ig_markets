@@ -3,6 +3,7 @@
 ### 0.31 — Unreleased
 
 - Added `IGMarkets::Streaming::PositionUpdate#currency` attribute.
+- Added proper detection of an invalid deal ID passed to `ig_markets orders update`.
 - Fixed errors caused by a missing millisecond component on certain timestamps.
 
 ### 0.30 — March 10, 2017
