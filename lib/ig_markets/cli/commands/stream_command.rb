@@ -109,13 +109,16 @@ module IGMarkets
         account_state.process_queued_data
 
         window.clear
-        window.print_lines Tables::AccountsTable.new(account_state.accounts).lines,
-                           '',
-                           Tables::PositionsTable.new(account_state.positions, aggregate: options[:aggregate]).lines,
-                           '',
-                           Tables::WorkingOrdersTable.new(account_state.working_orders).lines,
-                           ''
+        window.print_lines window_content(account_state)
         window.refresh
+
+        sleep 0.5
+      end
+
+      def window_content(account_state)
+        [Tables::AccountsTable.new(account_state.accounts).lines, '',
+         Tables::PositionsTable.new(account_state.positions, aggregate: options[:aggregate]).lines, '',
+         Tables::WorkingOrdersTable.new(account_state.working_orders).lines, '']
       end
     end
   end

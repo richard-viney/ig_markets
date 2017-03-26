@@ -4,6 +4,8 @@
 
 - Added `IGMarkets::Streaming::PositionUpdate#currency` attribute.
 - Added proper detection of an invalid deal ID passed to `ig_markets orders update`.
+- Limited the update rate of `ig_markets stream` to 2Hz to avoid flickering caused by large numbers of simultaneous
+  updates.
 - Fixed errors caused by a missing millisecond component on certain timestamps.
 
 ### 0.30 — March 10, 2017
