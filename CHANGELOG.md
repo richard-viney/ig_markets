@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.32 — Unreleased
+
+- 
+
 ### 0.31 — March 26, 2017
 
 - Added `IGMarkets::Streaming::PositionUpdate#currency` attribute.
