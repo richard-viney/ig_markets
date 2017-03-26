@@ -2,7 +2,7 @@
 
 ### 0.31 — Unreleased
 
-- 
+- Fixed errors caused by a missing millisecond component on certain timestamps.
 
 ### 0.30 — March 10, 2017
 

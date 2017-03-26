@@ -10,7 +10,7 @@ module IGMarkets
     attribute :account_id
     attribute :affected_deals, AffectedDeal
     attribute :channel
-    attribute :date, Time, format: '%FT%T.%L'
+    attribute :date, Time, format: ['%FT%T.%L', '%FT%T']
     attribute :deal_id
     attribute :deal_reference
     attribute :deal_status, Symbol, allowed_values: [:accepted, :fund_account, :rejected]

@@ -21,7 +21,7 @@ module IGMarkets
       attribute :status, Symbol, allowed_values: [:deleted, :open, :updated]
       attribute :stop_distance, Integer
       attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
-      attribute :timestamp, Time, format: '%FT%T.%L'
+      attribute :timestamp, Time, format: ['%FT%T.%L', '%FT%T']
     end
   end
 end
