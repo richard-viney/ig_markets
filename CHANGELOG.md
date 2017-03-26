@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.31 — Unreleased
+### 0.31 — March 26, 2017
 
 - Added `IGMarkets::Streaming::PositionUpdate#currency` attribute.
 - Added proper detection of an invalid deal ID passed to `ig_markets orders update`.
