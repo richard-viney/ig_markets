@@ -4,6 +4,7 @@ module IGMarkets
     class PositionUpdate < Model
       attribute :account_id
       attribute :channel
+      attribute :currency
       attribute :deal_id
       attribute :deal_id_origin
       attribute :deal_reference

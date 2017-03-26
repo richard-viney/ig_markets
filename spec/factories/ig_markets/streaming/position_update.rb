@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :streaming_position_update, class: IGMarkets::Streaming::PositionUpdate do
     account_id 'ACCOUNT'
     channel 'web'
+    currency 'USD'
     deal_id 'DEAL'
     deal_id_origin 'DEAL2'
     deal_reference 'reference'
