@@ -68,7 +68,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   it 'accepts all valid transaction types' do
     transactions = [build(:transaction)]
 
-    [:all, :all_deal, :withdrawal, :deposit].each do |type|
+    %i(all all_deal withdrawal deposit).each do |type|
       url = "history/transactions?from=2014-05-20T14:30:00&to=2014-10-27T06:45:00&type=#{type.to_s.upcase}&pageSize=500"
       expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 

@@ -24,7 +24,7 @@ module IGMarkets
       attribute :ofr_high, Float
       attribute :ofr_low, Float
       attribute :ofr_open, Float
-      attribute :scale, Symbol, allowed_values: [:one_second, :one_minute, :five_minutes, :one_hour]
+      attribute :scale, Symbol, allowed_values: %i(one_second one_minute five_minutes one_hour)
       attribute :ttv, Float
       attribute :utm, Time, format: '%Q'
     end

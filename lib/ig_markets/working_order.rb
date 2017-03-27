@@ -5,7 +5,7 @@ module IGMarkets
     attribute :created_date_utc, Time, format: '%FT%T'
     attribute :currency_code, String, regex: Regex::CURRENCY
     attribute :deal_id
-    attribute :direction, Symbol, allowed_values: [:buy, :sell]
+    attribute :direction, Symbol, allowed_values: %i(buy sell)
     attribute :dma, Boolean
     attribute :epic, String, regex: Regex::EPIC
     attribute :good_till_date, Time, format: '%Y/%m/%d %R'
@@ -14,9 +14,9 @@ module IGMarkets
     attribute :limited_risk_premium, LimitedRiskPremium
     attribute :order_level, Float
     attribute :order_size, Float
-    attribute :order_type, Symbol, allowed_values: [:limit, :stop]
+    attribute :order_type, Symbol, allowed_values: %i(limit stop)
     attribute :stop_distance, Integer
-    attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
+    attribute :time_in_force, Symbol, allowed_values: %i(good_till_cancelled good_till_date)
 
     attribute :market, MarketOverview
 
@@ -70,8 +70,8 @@ module IGMarkets
       attribute :limit_level, Float
       attribute :stop_distance, Integer
       attribute :stop_level, Float
-      attribute :time_in_force, Symbol, allowed_values: [:good_till_cancelled, :good_till_date]
-      attribute :type, Symbol, allowed_values: [:limit, :stop]
+      attribute :time_in_force, Symbol, allowed_values: %i(good_till_cancelled good_till_date)
+      attribute :type, Symbol, allowed_values: %i(limit stop)
 
       def initialize(existing_attributes, new_attributes)
         existing_attributes.delete :limit_distance if new_attributes.key? :limit_level

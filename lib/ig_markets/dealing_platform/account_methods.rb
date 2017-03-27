@@ -45,7 +45,7 @@ module IGMarkets
       def transactions(options)
         options[:type] ||= :all
 
-        unless [:all, :all_deal, :deposit, :withdrawal].include? options[:type]
+        unless %i(all all_deal deposit withdrawal).include? options[:type]
           raise ArgumentError, "invalid transaction type: #{options[:type]}"
         end
 

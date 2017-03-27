@@ -55,9 +55,9 @@ END
       end
 
       def historical_price_result_from_date_range(market)
-        filtered_options = self.class.filter_options options, [:from, :to]
+        filtered_options = self.class.filter_options options, %i(from to)
 
-        [:from, :to].each do |attribute|
+        %i(from to).each do |attribute|
           self.class.parse_date_time filtered_options, attribute, Time, '%FT%T%z', 'yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
         end
 

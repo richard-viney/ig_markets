@@ -49,8 +49,8 @@ module IGMarkets
         accounts ||= @dealing_platform.client_account_summary.accounts
 
         items = Array(accounts).map { |account| "ACCOUNT:#{account.account_id}" }
-        fields = [:available_cash, :available_to_deal, :deposit, :equity, :equity_used, :funds, :margin, :margin_lr,
-                  :margin_nlr, :pnl, :pnl_lr, :pnl_nlr]
+        fields = %i(available_cash available_to_deal deposit equity equity_used funds margin margin_lr
+                    margin_nlr pnl pnl_lr pnl_nlr)
 
         build_subscription items: items, fields: fields, mode: :merge
       end
@@ -64,8 +64,8 @@ module IGMarkets
       # @return [Streaming::Subscription]
       def build_markets_subscription(epics)
         items = Array(epics).map { |epic| "MARKET:#{epic}" }
-        fields = [:bid, :change, :change_pct, :high, :low, :market_delay, :market_state, :mid_open, :odds, :offer,
-                  :strike_price, :update_time]
+        fields = %i(bid change change_pct high low market_delay market_state mid_open odds offer
+                    strike_price update_time)
 
         build_subscription items: items, fields: fields, mode: :merge
       end
@@ -82,7 +82,7 @@ module IGMarkets
         accounts ||= @dealing_platform.client_account_summary.accounts
 
         items = Array(accounts).map { |account| "TRADE:#{account.account_id}" }
-        fields = [:confirms, :opu, :wou]
+        fields = %i(confirms opu wou)
 
         build_subscription items: items, fields: fields, mode: :distinct
       end
@@ -96,8 +96,8 @@ module IGMarkets
       # @return [Streaming::Subscription]
       def build_chart_ticks_subscription(epics)
         items = Array(epics).map { |epic| "CHART:#{epic}:TICK" }
-        fields = [:bid, :day_high, :day_low, :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp, :ltv, :ofr, :ttv,
-                  :utm]
+        fields = %i(bid day_high day_low day_net_chg_mid day_open_mid day_perc_chg_mid ltp ltv ofr ttv
+                    utm)
 
         build_subscription items: items, fields: fields, mode: :distinct
       end
@@ -114,9 +114,9 @@ module IGMarkets
         scale = { one_second: 'SECOND', one_minute: '1MINUTE', five_minutes: '5MINUTE', one_hour: 'HOUR' }.fetch scale
         items = ["CHART:#{epic}:#{scale}"]
 
-        fields = [:bid_close, :bid_high, :bid_low, :bid_open, :cons_end, :cons_tick_count, :day_high, :day_low,
-                  :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp_close, :ltp_high, :ltp_low, :ltp_open, :ltv,
-                  :ofr_close, :ofr_high, :ofr_low, :ofr_open, :ttv, :utm]
+        fields = %i(bid_close bid_high bid_low bid_open cons_end cons_tick_count day_high day_low
+                    day_net_chg_mid day_open_mid day_perc_chg_mid ltp_close ltp_high ltp_low ltp_open ltv
+                    ofr_close ofr_high ofr_low ofr_open ttv utm)
 
         build_subscription items: items, fields: fields, mode: :merge
       end

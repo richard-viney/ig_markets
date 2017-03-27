@@ -49,8 +49,8 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['ACCOUNT:ACCOUNT'],
-              fields: [:available_cash, :available_to_deal, :deposit, :equity, :equity_used, :funds, :margin,
-                       :margin_lr, :margin_nlr, :pnl, :pnl_lr, :pnl_nlr], mode: :merge)
+              fields: %i(available_cash available_to_deal deposit equity equity_used funds margin
+                         margin_lr margin_nlr pnl pnl_lr pnl_nlr), mode: :merge)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_accounts_subscription).to be_a(IGMarkets::Streaming::Subscription)
@@ -63,8 +63,8 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['MARKET:ABC1234', 'MARKET:DEF5678'],
-              fields: [:bid, :change, :change_pct, :high, :low, :market_delay, :market_state, :mid_open, :odds, :offer,
-                       :strike_price, :update_time], mode: :merge)
+              fields: %i(bid change change_pct high low market_delay market_state mid_open odds offer
+                         strike_price update_time), mode: :merge)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_markets_subscription(%w(ABC1234 DEF5678)))
@@ -77,7 +77,7 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
       expect(subscription).to receive(:on_data)
 
       expect(lightstreamer_session).to receive(:build_subscription)
-        .with(items: ['TRADE:ACCOUNT'], fields: [:confirms, :opu, :wou], mode: :distinct)
+        .with(items: ['TRADE:ACCOUNT'], fields: %i(confirms opu wou), mode: :distinct)
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_trades_subscription).to be_a(IGMarkets::Streaming::Subscription)
@@ -90,8 +90,8 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['CHART:ABC1234:TICK', 'CHART:DEF5678:TICK'], mode: :distinct,
-              fields: [:bid, :day_high, :day_low, :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp, :ltv, :ofr,
-                       :ttv, :utm])
+              fields: %i(bid day_high day_low day_net_chg_mid day_open_mid day_perc_chg_mid ltp ltv ofr
+                         ttv utm))
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_chart_ticks_subscription(%w(ABC1234 DEF5678)))
@@ -105,9 +105,9 @@ describe IGMarkets::DealingPlatform::StreamingMethods, :dealing_platform do
 
       expect(lightstreamer_session).to receive(:build_subscription)
         .with(items: ['CHART:ABC1234:1MINUTE'], mode: :merge,
-              fields: [:bid_close, :bid_high, :bid_low, :bid_open, :cons_end, :cons_tick_count, :day_high, :day_low,
-                       :day_net_chg_mid, :day_open_mid, :day_perc_chg_mid, :ltp_close, :ltp_high, :ltp_low, :ltp_open,
-                       :ltv, :ofr_close, :ofr_high, :ofr_low, :ofr_open, :ttv, :utm])
+              fields: %i(bid_close bid_high bid_low bid_open cons_end cons_tick_count day_high day_low
+                         day_net_chg_mid day_open_mid day_perc_chg_mid ltp_close ltp_high ltp_low ltp_open
+                         ltv ofr_close ofr_high ofr_low ofr_open ttv utm))
         .and_return(subscription)
 
       expect(dealing_platform.streaming.build_consolidated_chart_data_subscription('ABC1234', :one_minute))

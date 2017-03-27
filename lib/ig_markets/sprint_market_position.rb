@@ -5,7 +5,7 @@ module IGMarkets
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :description
-    attribute :direction, Symbol, allowed_values: [:buy, :sell]
+    attribute :direction, Symbol, allowed_values: %i(buy sell)
     attribute :epic, String, regex: Regex::EPIC
     attribute :expiry_time, Time, format: '%FT%T'
     attribute :instrument_name

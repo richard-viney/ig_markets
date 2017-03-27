@@ -48,7 +48,7 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
 
   class DealingPlatformSpecModel < IGMarkets::Model
     attribute :test
-    attribute :test2, Symbol, allowed_values: [:one, :two, :three]
+    attribute :test2, Symbol, allowed_values: %i(one two three)
 
     deprecated_attribute :deprecated
 

@@ -22,10 +22,12 @@ module IGMarkets
           status = { disabled: 'Disabled', enabled: 'Enabled',
                      suspended_from_dealing: 'Suspended' }.fetch account.status
 
-          [account.account_name, account.account_id, type, account.currency, status, account.preferred] +
-            [:available, :balance, :deposit, :profit_loss].map do |attribute|
-              Format.currency account.balance.send(attribute), account.currency
-            end
+          currency_values = %i(available balance deposit profit_loss).map do |attribute|
+            Format.currency account.balance.send(attribute), account.currency
+          end
+
+          [account.account_name, account.account_id, type, account.currency, status,
+           account.preferred] + currency_values
         end
 
         def cell_color(value, _model, _row_index, column_index)

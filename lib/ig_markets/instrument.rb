@@ -69,7 +69,7 @@ module IGMarkets
     attribute :lot_size, Float
     attribute :margin_deposit_bands, MarginDepositBand
     attribute :margin_factor, Float
-    attribute :margin_factor_unit, Symbol, allowed_values: [:percentage, :points]
+    attribute :margin_factor_unit, Symbol, allowed_values: %i(percentage points)
     attribute :market_id
     attribute :name
     attribute :news_code
@@ -82,11 +82,11 @@ module IGMarkets
     attribute :sprint_markets_minimum_expiry_time, Float
     attribute :stops_limits_allowed, Boolean
     attribute :streaming_prices_available, Boolean
-    attribute :type, Symbol, allowed_values: [:binary, :bungee_capped, :bungee_commodities, :bungee_currencies,
-                                              :bungee_indices, :commodities, :currencies, :indices, :opt_commodities,
-                                              :opt_currencies, :opt_indices, :opt_rates, :opt_shares, :rates, :sectors,
-                                              :shares, :sprint_market, :test_market, :unknown]
-    attribute :unit, Symbol, allowed_values: [:amount, :contracts, :shares]
+    attribute :type, Symbol, allowed_values: %i(binary bungee_capped bungee_commodities bungee_currencies
+                                                bungee_indices commodities currencies indices opt_commodities
+                                                opt_currencies opt_indices opt_rates opt_shares rates sectors
+                                                shares sprint_market test_market unknown)
+    attribute :unit, Symbol, allowed_values: %i(amount contracts shares)
     attribute :value_of_one_pip
   end
 end

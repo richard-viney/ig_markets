@@ -92,8 +92,8 @@ module IGMarkets
 
       private
 
-      ATTRIBUTES = [:currency_code, :direction, :epic, :expiry, :force_open, :good_till_date, :guaranteed_stop, :level,
-                    :limit_distance, :limit_level, :size, :stop_distance, :stop_level, :type].freeze
+      ATTRIBUTES = %i(currency_code direction epic expiry force_open good_till_date guaranteed_stop level
+                      limit_distance limit_level size stop_distance stop_level type).freeze
 
       def working_order_attributes
         attributes = Main.filter_options options, ATTRIBUTES

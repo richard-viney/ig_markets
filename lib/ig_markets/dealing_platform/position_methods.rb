@@ -80,7 +80,7 @@ module IGMarkets
       # Internal model used by {#create}
       class PositionCreateAttributes < Model
         attribute :currency_code, String, regex: Regex::CURRENCY
-        attribute :direction, Symbol, allowed_values: [:buy, :sell]
+        attribute :direction, Symbol, allowed_values: %i(buy sell)
         attribute :epic, String, regex: Regex::EPIC
         attribute :expiry, Date, format: '%d-%b-%y'
         attribute :force_open, Boolean
@@ -88,12 +88,12 @@ module IGMarkets
         attribute :level, Float
         attribute :limit_distance, Integer
         attribute :limit_level, Float
-        attribute :order_type, Symbol, allowed_values: [:limit, :market, :quote]
+        attribute :order_type, Symbol, allowed_values: %i(limit market quote)
         attribute :quote_id
         attribute :size, Float
         attribute :stop_distance, Integer
         attribute :stop_level, Float
-        attribute :time_in_force, Symbol, allowed_values: [:execute_and_eliminate, :fill_or_kill]
+        attribute :time_in_force, Symbol, allowed_values: %i(execute_and_eliminate fill_or_kill)
         attribute :trailing_stop, Boolean
         attribute :trailing_stop_increment, Integer
 
@@ -124,8 +124,8 @@ module IGMarkets
 
         # Checks that all required attributes for position creation are present.
         def validate_required_attributes
-          required = [:currency_code, :direction, :epic, :force_open, :guaranteed_stop, :order_type, :size,
-                      :time_in_force]
+          required = %i(currency_code direction epic force_open guaranteed_stop order_type size
+                        time_in_force)
 
           required.each do |attribute|
             raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?

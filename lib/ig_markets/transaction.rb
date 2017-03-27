@@ -13,7 +13,7 @@ module IGMarkets
     attribute :profit_and_loss
     attribute :reference
     attribute :size, String, nil_if: '-'
-    attribute :transaction_type, Symbol, allowed_values: [:chart, :deal, :depo, :dividend, :exchange, :trade, :with]
+    attribute :transaction_type, Symbol, allowed_values: %i(chart deal depo dividend exchange trade with)
 
     deprecated_attribute :date
 
@@ -23,7 +23,7 @@ module IGMarkets
     #
     # @return [Boolean]
     def interest?
-      [:depo, :with].include?(transaction_type) && !(instrument_name.downcase =~ /(^|[^a-z])interest([^a-z]|$)/).nil?
+      %i(depo with).include?(transaction_type) && !(instrument_name.downcase =~ /(^|[^a-z])interest([^a-z]|$)/).nil?
     end
 
     # Returns this transaction's {#profit_and_loss} as a `Float`, denominated in this transaction's {#currency}.
