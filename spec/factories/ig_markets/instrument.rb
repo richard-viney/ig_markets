@@ -21,7 +21,7 @@ FactoryGirl.define do
     opening_hours { [build(:instrument_opening_hours)] }
     rollover_details { build :instrument_rollover_details }
     slippage_factor { build :instrument_slippage_factor }
-    special_info %w(INFO)
+    special_info %w[INFO]
     sprint_markets_maximum_expiry_time 100.0
     sprint_markets_minimum_expiry_time 10.0
     stops_limits_allowed true

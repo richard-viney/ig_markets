@@ -4,7 +4,7 @@ module IGMarkets
     # Contains details on a specific deal that was affected by a dealing event. Returned by {#affected_deals}.
     class AffectedDeal < Model
       attribute :deal_id
-      attribute :status, Symbol, allowed_values: %i(amended deleted fully_closed opened partially_closed)
+      attribute :status, Symbol, allowed_values: %i[amended deleted fully_closed opened partially_closed]
     end
 
     attribute :account_id
@@ -13,17 +13,17 @@ module IGMarkets
     attribute :date, Time, format: ['%FT%T.%L', '%FT%T']
     attribute :deal_id
     attribute :deal_reference
-    attribute :deal_status, Symbol, allowed_values: %i(accepted fund_account rejected)
-    attribute :direction, Symbol, allowed_values: %i(buy sell)
+    attribute :deal_status, Symbol, allowed_values: %i[accepted fund_account rejected]
+    attribute :direction, Symbol, allowed_values: %i[buy sell]
     attribute :epic, String, regex: Regex::EPIC
-    attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
+    attribute :expiry, Date, nil_if: %w[- DFB], format: ['%d-%b-%y', '%b-%y']
     attribute :guaranteed_stop, Boolean
     attribute :level, Float
     attribute :limit_distance, Integer
     attribute :limit_level, Float
     attribute :profit, Float
     attribute :profit_currency, String, regex: Regex::CURRENCY
-    attribute :reason, Symbol, allowed_values: %i(account_not_enabled_to_trading attached_order_level_error
+    attribute :reason, Symbol, allowed_values: %i[account_not_enabled_to_trading attached_order_level_error
                                                   attached_order_trailing_stop_error cannot_change_stop_type
                                                   cannot_remove_stop closing_only_trades_accepted_on_this_market
                                                   conflicting_order contact_support_instrument_error cr_spacing
@@ -42,9 +42,9 @@ module IGMarkets
                                                   reject_spreadbet_order_on_cfd_account size_increment
                                                   sprint_market_expiry_after_market_close stop_or_limit_not_allowed
                                                   stop_required_error strike_level_tolerance success
-                                                  trailing_stop_not_allowed unknown wrong_side_of_market)
+                                                  trailing_stop_not_allowed unknown wrong_side_of_market]
     attribute :size, Float
-    attribute :status, Symbol, allowed_values: %i(amended closed deleted open partially_closed)
+    attribute :status, Symbol, allowed_values: %i[amended closed deleted open partially_closed]
     attribute :stop_distance, Integer
     attribute :stop_level, Float
     attribute :trailing_stop, Boolean

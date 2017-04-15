@@ -13,7 +13,7 @@ describe IGMarkets::CLI::Tables::Table do
     end
 
     def headings
-      %w(First Second Third)
+      %w[First Second Third]
     end
 
     def right_aligned_columns

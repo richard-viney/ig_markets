@@ -22,7 +22,7 @@ module IGMarkets
           status = { disabled: 'Disabled', enabled: 'Enabled',
                      suspended_from_dealing: 'Suspended' }.fetch account.status
 
-          currency_values = %i(available balance deposit profit_loss).map do |attribute|
+          currency_values = %i[available balance deposit profit_loss].map do |attribute|
             Format.currency account.balance.send(attribute), account.currency
           end
 

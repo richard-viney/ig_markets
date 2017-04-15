@@ -9,10 +9,7 @@ describe IGMarkets::CLI::Sprints, :cli_command do
 
     expect(dealing_platform.sprint_market_positions).to receive(:all).and_return(sprint_market_positions)
     expect(dealing_platform.markets).to receive(:find).with(['FM.D.FTSE.FTSE.IP']).and_return(markets)
-
-    sprint_market_positions.each do |sprint_market_position|
-      expect(sprint_market_position).to receive(:seconds_till_expiry).twice.and_return(125)
-    end
+    expect(sprint_market_positions).to all(receive(:seconds_till_expiry).twice.and_return(125))
 
     table = IGMarkets::CLI::Tables::SprintMarketPositionsTable.new sprint_market_positions, markets: markets
 

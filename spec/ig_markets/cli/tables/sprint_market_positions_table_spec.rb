@@ -3,9 +3,7 @@ describe IGMarkets::CLI::Tables::SprintMarketPositionsTable do
     sprint_market_positions = [build(:sprint_market_position), build(:sprint_market_position, strike_level: 99)]
     markets = [build(:market, instrument: build(:instrument, epic: 'FM.D.FTSE.FTSE.IP'))]
 
-    sprint_market_positions.each do |sprint_market_position|
-      expect(sprint_market_position).to receive(:seconds_till_expiry).and_return(125)
-    end
+    expect(sprint_market_positions).to all(receive(:seconds_till_expiry).and_return(125))
 
     table = described_class.new(sprint_market_positions, markets: markets)
 

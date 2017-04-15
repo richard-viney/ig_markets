@@ -72,7 +72,7 @@ module IGMarkets
       # Internal model used by {#create}.
       class WorkingOrderCreateAttributes < Model
         attribute :currency_code, String, regex: Regex::CURRENCY
-        attribute :direction, Symbol, allowed_values: %i(buy sell)
+        attribute :direction, Symbol, allowed_values: %i[buy sell]
         attribute :epic, String, regex: Regex::EPIC
         attribute :expiry, Date, format: '%d-%b-%y'
         attribute :force_open, Boolean
@@ -84,8 +84,8 @@ module IGMarkets
         attribute :size, Float
         attribute :stop_distance, Integer
         attribute :stop_level, Float
-        attribute :time_in_force, Symbol, allowed_values: %i(good_till_cancelled good_till_date)
-        attribute :type, Symbol, allowed_values: %i(limit stop)
+        attribute :time_in_force, Symbol, allowed_values: %i[good_till_cancelled good_till_date]
+        attribute :type, Symbol, allowed_values: %i[limit stop]
 
         def initialize(attributes)
           super
@@ -104,7 +104,7 @@ module IGMarkets
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
         # Markets API.
         def validate
-          required = %i(currency_code direction epic guaranteed_stop level size time_in_force type)
+          required = %i[currency_code direction epic guaranteed_stop level size time_in_force type]
           required.each do |attribute|
             raise ArgumentError, "#{attribute} attribute must be set" if send(attribute).nil?
           end

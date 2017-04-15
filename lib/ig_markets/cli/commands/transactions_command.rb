@@ -8,7 +8,7 @@ module IGMarkets
       option :from, desc: 'The date and time to print account transactions from, format: yyyy-mm-ddThh:mm:ss'
       option :instrument, desc: 'Regex for filtering transactions based on their instrument'
       option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
-      option :sort_by, enum: %w(date instrument profit-loss type), default: 'date', desc: 'The attribute to sort ' \
+      option :sort_by, enum: %w[date instrument profit-loss type], default: 'date', desc: 'The attribute to sort ' \
                                                                                           'transactions by'
 
       def transactions

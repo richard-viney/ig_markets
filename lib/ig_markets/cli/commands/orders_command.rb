@@ -20,7 +20,7 @@ module IGMarkets
 
       option :currency_code, required: true, desc: "The 3 character currency code, must be one of the instrument's " \
                                                    'currencies'
-      option :direction, enum: %w(buy sell), required: true, desc: 'The trade direction'
+      option :direction, enum: %w[buy sell], required: true, desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
       option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
@@ -32,7 +32,7 @@ module IGMarkets
       option :size, type: :numeric, required: true, desc: 'The size of the order'
       option :stop_distance, type: :numeric, desc: 'The distance away in pips to place the stop'
       option :stop_level, type: :numeric, desc: 'The level at which to place the stop'
-      option :type, enum: %w(limit stop), required: true, desc: 'The order type'
+      option :type, enum: %w[limit stop], required: true, desc: 'The order type'
 
       def create
         Main.begin_session(options) do |dealing_platform|
@@ -50,7 +50,7 @@ module IGMarkets
       option :limit_level, type: :numeric, desc: 'The level at which to place the limit'
       option :stop_distance, desc: 'The distance away in pips to place the stop'
       option :stop_level, type: :numeric, desc: 'The level at which to place the stop'
-      option :type, enum: %w(limit stop), desc: 'The order type'
+      option :type, enum: %w[limit stop], desc: 'The order type'
 
       def update(deal_id)
         Main.begin_session(options) do |dealing_platform|
@@ -92,8 +92,8 @@ module IGMarkets
 
       private
 
-      ATTRIBUTES = %i(currency_code direction epic expiry force_open good_till_date guaranteed_stop level
-                      limit_distance limit_level size stop_distance stop_level type).freeze
+      ATTRIBUTES = %i[currency_code direction epic expiry force_open good_till_date guaranteed_stop level
+                      limit_distance limit_level size stop_distance stop_level type].freeze
 
       def working_order_attributes
         attributes = Main.filter_options options, ATTRIBUTES

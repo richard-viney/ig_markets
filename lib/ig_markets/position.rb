@@ -8,7 +8,7 @@ module IGMarkets
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :deal_id
     attribute :deal_reference
-    attribute :direction, Symbol, allowed_values: %i(buy sell)
+    attribute :direction, Symbol, allowed_values: %i[buy sell]
     attribute :level, Float
     attribute :limit_level, Float
     attribute :limited_risk_premium, LimitedRiskPremium
@@ -134,7 +134,7 @@ module IGMarkets
         raise ArgumentError, 'set quote_id if and only if order_type is :quote'
       end
 
-      return unless %i(limit quote).include?(attributes[:order_type]) == attributes[:level].nil?
+      return unless %i[limit quote].include?(attributes[:order_type]) == attributes[:level].nil?
 
       raise ArgumentError, 'set level if and only if order_type is :limit or :quote'
     end
@@ -142,17 +142,17 @@ module IGMarkets
     # Internal model used by {#close}.
     class PositionCloseAttributes < Model
       attribute :deal_id
-      attribute :direction, Symbol, allowed_values: %i(buy sell)
+      attribute :direction, Symbol, allowed_values: %i[buy sell]
       attribute :level, Float
-      attribute :order_type, Symbol, allowed_values: %i(limit market quote)
+      attribute :order_type, Symbol, allowed_values: %i[limit market quote]
       attribute :quote_id
       attribute :size, Float
-      attribute :time_in_force, Symbol, allowed_values: %i(execute_and_eliminate fill_or_kill)
+      attribute :time_in_force, Symbol, allowed_values: %i[execute_and_eliminate fill_or_kill]
 
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
       # Markets API.
       def validate
-        %i(deal_id direction order_type size time_in_force).each do |attribute|
+        %i[deal_id direction order_type size time_in_force].each do |attribute|
           raise ArgumentError, "#{attribute} attribute must be set" if attributes[attribute].nil?
         end
 

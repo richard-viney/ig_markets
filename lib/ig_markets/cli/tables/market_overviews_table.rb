@@ -34,7 +34,7 @@ module IGMarkets
         end
 
         def levels(market_overview)
-          %i(bid offer high low net_change percentage_change).map do |attribute|
+          %i[bid offer high low net_change percentage_change].map do |attribute|
             Format.level market_overview.send(attribute)
           end
         end

@@ -16,7 +16,7 @@ describe IGMarkets::Streaming::MarketSubscriptionManager, :dealing_platform do
       .with([subscription, subscription], snapshot: true)
     expect(dealing_platform.streaming).to receive(:remove_subscriptions).with([])
 
-    market_subscriptions.epics = %w(1 2)
+    market_subscriptions.epics = %w[1 2]
 
     expect(dealing_platform.streaming).to receive(:start_subscriptions).with([], snapshot: true)
     expect(dealing_platform.streaming).to receive(:remove_subscriptions).with([subscription])

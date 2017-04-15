@@ -10,7 +10,7 @@ module IGMarkets
         end
 
         def headings
-          %w(Date Channel Type Status EPIC Market Size Level Limit Stop Result)
+          %w[Date Channel Type Status EPIC Market Size Level Limit Stop Result]
         end
 
         def right_aligned_columns

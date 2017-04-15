@@ -15,7 +15,7 @@ describe IGMarkets::CLI::ConfigFile do
 
     config_file.prepend_profile_arguments_to_argv argv
 
-    expect(argv).to eq(%w(command --username=A --password=B --demo=true --argument))
+    expect(argv).to eq(%w[command --username=A --password=B --demo=true --argument])
   end
 
   it "prepends a specified profile's arguments to argv" do
@@ -23,7 +23,7 @@ describe IGMarkets::CLI::ConfigFile do
 
     config_file.prepend_profile_arguments_to_argv argv
 
-    expect(argv).to eq(%w(command --username=C --password=D --argument))
+    expect(argv).to eq(%w[command --username=C --password=D --argument])
   end
 
   it 'finds the first config file that exists and loads it' do

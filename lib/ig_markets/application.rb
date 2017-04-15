@@ -15,7 +15,7 @@ module IGMarkets
     attribute :id
     attribute :name
     attribute :restricted_to_self, Boolean
-    attribute :status, Symbol, allowed_values: %i(disabled enabled revoked)
+    attribute :status, Symbol, allowed_values: %i[disabled enabled revoked]
     attribute :terms_accepted_date, Time, format: '%Q'
     attribute :tier
   end

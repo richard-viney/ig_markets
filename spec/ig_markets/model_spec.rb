@@ -6,7 +6,7 @@ describe IGMarkets::Model do
     attribute :date, Date, format: ['%F', '%b-%y']
     attribute :time, Time, format: ['%FT%T', '%d-%b-%y']
     attribute :float, Float
-    attribute :symbol, Symbol, allowed_values: %i(a b)
+    attribute :symbol, Symbol, allowed_values: %i[a b]
 
     deprecated_attribute :deprecated_0, :deprecated_1
   end
@@ -14,7 +14,7 @@ describe IGMarkets::Model do
   let(:model) { TestModel.new }
 
   it 'returns the attribute names' do
-    expect(TestModel.defined_attribute_names).to eq(%i(id bool string date time float symbol))
+    expect(TestModel.defined_attribute_names).to eq(%i[id bool string date time float symbol])
   end
 
   it 'reports unrecognized attributes' do
@@ -61,15 +61,15 @@ describe IGMarkets::Model do
   end
 
   it 'has attribute getter and setter methods' do
-    %i(id id= bool bool= string string= date date= time time=
-       float float= symbol symbol=).each do |method_name|
+    %i[id id= bool bool= string string= date date= time time=
+       float float= symbol symbol=].each do |method_name|
       expect(model.respond_to?(method_name)).to eq(true)
     end
   end
 
   it 'has sanitize attribute class methods' do
-    %i(sanitize_id_value sanitize_bool_value sanitize_string_value sanitize_date_value sanitize_time_value
-       sanitize_float_value sanitize_symbol_value).each do |method_name|
+    %i[sanitize_id_value sanitize_bool_value sanitize_string_value sanitize_date_value sanitize_time_value
+       sanitize_float_value sanitize_symbol_value].each do |method_name|
       expect(TestModel.respond_to?(method_name)).to eq(true)
     end
   end
@@ -152,7 +152,7 @@ describe IGMarkets::Model do
   end
 
   it 'returns the allowed values for an attribute' do
-    expect(TestModel.allowed_values(:symbol)).to eq(%i(a b))
+    expect(TestModel.allowed_values(:symbol)).to eq(%i[a b])
   end
 
   it 'sets attribute to nil when value matches a nil_if' do

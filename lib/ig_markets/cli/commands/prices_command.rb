@@ -5,8 +5,8 @@ module IGMarkets
       desc 'prices', 'Prints historical prices for a market'
 
       option :epic, required: true, desc: 'The EPIC of the market to print historical prices for'
-      option :resolution, enum: %w(second minute minute-2 minute-3 minute-5 minute-10 minute-15 minute-30 hour hour-2
-                                   hour-3 hour-4 day week month), required: true, desc: 'The price resolution'
+      option :resolution, enum: %w[second minute minute-2 minute-3 minute-5 minute-10 minute-15 minute-30 hour hour-2
+                                   hour-3 hour-4 day week month], required: true, desc: 'The price resolution'
       option :number, type: :numeric, desc: 'The number of historical prices to return, if this is specified then ' \
                                             '--from and --to are ignored, otherwise they are required'
       option :from, desc: 'The start of the period to return prices for, required unless --number is specified, ' \
@@ -55,9 +55,9 @@ END
       end
 
       def historical_price_result_from_date_range(market)
-        filtered_options = self.class.filter_options options, %i(from to)
+        filtered_options = self.class.filter_options options, %i[from to]
 
-        %i(from to).each do |attribute|
+        %i[from to].each do |attribute|
           self.class.parse_date_time filtered_options, attribute, Time, '%FT%T%z', 'yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
         end
 

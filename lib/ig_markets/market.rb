@@ -7,18 +7,18 @@ module IGMarkets
     class DealingRules < Model
       # Contains specfics for a single dealing rule.
       class RuleDetails < Model
-        attribute :unit, Symbol, allowed_values: %i(percentage points)
+        attribute :unit, Symbol, allowed_values: %i[percentage points]
         attribute :value, Float
       end
 
-      attribute :market_order_preference, Symbol, allowed_values: %i(available_default_off available_default_on
-                                                                     not_available)
+      attribute :market_order_preference, Symbol, allowed_values: %i[available_default_off available_default_on
+                                                                     not_available]
       attribute :max_stop_or_limit_distance, RuleDetails
       attribute :min_controlled_risk_stop_distance, RuleDetails
       attribute :min_deal_size, RuleDetails
       attribute :min_normal_stop_or_limit_distance, RuleDetails
       attribute :min_step_distance, RuleDetails
-      attribute :trailing_stops_preference, Symbol, allowed_values: %i(available not_available)
+      attribute :trailing_stops_preference, Symbol, allowed_values: %i[available not_available]
     end
 
     # Contains details on a snapshot of a market. Returned by {#snapshot}.
@@ -30,8 +30,8 @@ module IGMarkets
       attribute :delay_time, Float
       attribute :high, Float
       attribute :low, Float
-      attribute :market_status, Symbol, allowed_values: %i(closed edits_only offline on_auction
-                                                           on_auction_no_edits suspended tradeable)
+      attribute :market_status, Symbol, allowed_values: %i[closed edits_only offline on_auction
+                                                           on_auction_no_edits suspended tradeable]
       attribute :net_change, Float
       attribute :offer, Float
       attribute :percentage_change, Float
@@ -75,12 +75,12 @@ module IGMarkets
 
     # Validates the options passed to {#historical_prices}.
     def validate_historical_prices_options(options)
-      resolutions = %i(second minute minute_2 minute_3 minute_5 minute_10 minute_15 minute_30 hour
-                       hour_2 hour_3 hour_4 day week month)
+      resolutions = %i[second minute minute_2 minute_3 minute_5 minute_10 minute_15 minute_30 hour
+                       hour_2 hour_3 hour_4 day week month]
 
       raise ArgumentError, 'resolution is invalid' unless resolutions.include? options[:resolution]
 
-      return if options.keys == %i(resolution from to) || options.keys == %i(resolution number)
+      return if options.keys == %i[resolution from to] || options.keys == %i[resolution number]
 
       raise ArgumentError, 'options must specify either :number or :from and :to'
     end

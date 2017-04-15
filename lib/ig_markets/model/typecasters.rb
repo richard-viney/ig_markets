@@ -20,7 +20,7 @@ module IGMarkets
 
       def typecaster_boolean(value, _options, name)
         return value if [nil, true, false].include? value
-        return value == '1' if %w(0 1).include? value
+        return value == '1' if %w[0 1].include? value
 
         raise ArgumentError, "#{self}##{name}: invalid boolean value: #{value}"
       end

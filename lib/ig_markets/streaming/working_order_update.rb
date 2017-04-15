@@ -8,19 +8,19 @@ module IGMarkets
       attribute :currency, String, regex: Regex::CURRENCY
       attribute :deal_id
       attribute :deal_reference
-      attribute :deal_status, Symbol, allowed_values: %i(accepted rejected)
-      attribute :direction, Symbol, allowed_values: %i(buy sell)
+      attribute :deal_status, Symbol, allowed_values: %i[accepted rejected]
+      attribute :direction, Symbol, allowed_values: %i[buy sell]
       attribute :epic, String, regex: Regex::EPIC
-      attribute :expiry, Date, nil_if: %w(- DFB), format: ['%d-%b-%y', '%b-%y']
+      attribute :expiry, Date, nil_if: %w[- DFB], format: ['%d-%b-%y', '%b-%y']
       attribute :good_till_date, Time, format: '%FT%T'
       attribute :guaranteed_stop, Boolean
       attribute :level, Float
       attribute :limit_distance, Integer
-      attribute :order_type, Symbol, allowed_values: %i(limit stop)
+      attribute :order_type, Symbol, allowed_values: %i[limit stop]
       attribute :size, Float
-      attribute :status, Symbol, allowed_values: %i(deleted open updated)
+      attribute :status, Symbol, allowed_values: %i[deleted open updated]
       attribute :stop_distance, Integer
-      attribute :time_in_force, Symbol, allowed_values: %i(good_till_cancelled good_till_date)
+      attribute :time_in_force, Symbol, allowed_values: %i[good_till_cancelled good_till_date]
       attribute :timestamp, Time, format: ['%FT%T.%L', '%FT%T']
     end
   end

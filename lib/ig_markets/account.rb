@@ -12,13 +12,13 @@ module IGMarkets
     attribute :account_alias
     attribute :account_id
     attribute :account_name
-    attribute :account_type, Symbol, allowed_values: %i(cfd physical spreadbet)
+    attribute :account_type, Symbol, allowed_values: %i[cfd physical spreadbet]
     attribute :balance, Balance
     attribute :can_transfer_from, Boolean
     attribute :can_transfer_to, Boolean
     attribute :currency, String, regex: Regex::CURRENCY
     attribute :preferred, Boolean
-    attribute :status, Symbol, allowed_values: %i(disabled enabled suspended_from_dealing)
+    attribute :status, Symbol, allowed_values: %i[disabled enabled suspended_from_dealing]
 
     # Reloads this account's attributes by re-querying the IG Markets API.
     def reload

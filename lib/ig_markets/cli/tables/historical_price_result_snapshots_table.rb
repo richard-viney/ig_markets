@@ -6,7 +6,7 @@ module IGMarkets
         private
 
         def headings
-          %w(Date Open Close Low High)
+          %w[Date Open Close Low High]
         end
 
         def right_aligned_columns

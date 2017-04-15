@@ -174,7 +174,7 @@ module IGMarkets
           working_order.currency_code = working_order_update.currency
           working_order.order_level = working_order_update.level
 
-          %i(good_till_date limit_distance order_type stop_distance time_in_force).each do |attribute|
+          %i[good_till_date limit_distance order_type stop_distance time_in_force].each do |attribute|
             working_order.send "#{attribute}=", working_order_update.send(attribute)
           end
         end
