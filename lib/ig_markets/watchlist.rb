@@ -3,7 +3,7 @@ module IGMarkets
   # {DealingPlatform::WatchlistMethods#[]}.
   class Watchlist < Model
     attribute :default_system_watchlist, Boolean
-    attribute :deleteable, Boolean
+    attribute :deletable, Boolean
     attribute :editable, Boolean
     attribute :id
     attribute :name
