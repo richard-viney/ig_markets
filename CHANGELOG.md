@@ -2,15 +2,15 @@
 
 ### 0.32 — Unreleased
 
-- 
+- Support the `unavailable` state on `IGMarkets::Streaming::MarketUpdate#market_state`
 
 ### 0.31 — March 26, 2017
 
-- Added `IGMarkets::Streaming::PositionUpdate#currency` attribute.
-- Added proper detection of an invalid deal ID passed to `ig_markets orders update`.
+- Added `IGMarkets::Streaming::PositionUpdate#currency` attribute
+- Added proper detection of an invalid deal ID passed to `ig_markets orders update`
 - Limited the update rate of `ig_markets stream` to 2Hz to avoid flickering caused by large numbers of simultaneous
-  updates.
-- Fixed errors caused by a missing millisecond component on certain timestamps.
+  updates
+- Fixed errors caused by a missing millisecond component on certain timestamps
 
 ### 0.30 — March 10, 2017
 
