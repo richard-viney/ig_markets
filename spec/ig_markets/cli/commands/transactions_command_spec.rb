@@ -22,13 +22,13 @@ END
   end
 
   it 'prints transactions from a number of days and a start time' do
-    from = Time.new 2015, 2, 15, 6, 0, 0
-    to = Time.new 2015, 2, 18, 6, 0, 0
+    from = Time.new 2015, 2, 15, 6, 0, 0, '-04:00'
+    to = Time.new 2015, 2, 18, 6, 0, 0, '-04:00'
 
     expect(dealing_platform.account).to receive(:transactions).with(from: from, to: to).and_return([])
 
     expect do
-      cli(days: 3, from: '2015-02-15T06:00:00', interest: true).transactions
+      cli(days: 3, from: '2015-02-15T06:00:00-04:00', interest: true).transactions
     end.to output("#{IGMarkets::CLI::Tables::TransactionsTable.new []}\n").to_stdout
   end
 

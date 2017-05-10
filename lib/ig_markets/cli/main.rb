@@ -33,7 +33,7 @@ module IGMarkets
         days_in_seconds = options[:days] * 24 * 60 * 60
 
         if options[:from]
-          from = Time.strptime options[:from], '%FT%T'
+          from = Time.strptime options[:from], '%FT%T%z'
           to = from + days_in_seconds
 
           { from: from, to: to }
@@ -97,7 +97,7 @@ module IGMarkets
         end
 
         # Parses and validates a `Date` or `Time` option received as a command-line argument. Raises `ArgumentError` if
-        # it is been specified in an invalid format.
+        # it has been specified in an invalid format.
         #
         # @param [Hash] attributes The attributes hash.
         # @param [Symbol] attribute The name of the date or time attribute to parse and validate.
