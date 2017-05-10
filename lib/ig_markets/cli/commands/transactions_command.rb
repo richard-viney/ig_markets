@@ -4,8 +4,9 @@ module IGMarkets
     class Main
       desc 'transactions', 'Prints account transactions'
 
-      option :days, type: :numeric, required: true, desc: 'The number of days to print account transactions for'
+      option :days, type: :numeric, desc: 'The number of days to print account transactions for'
       option :from, desc: 'The date and time to print account transactions from, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+      option :to, desc: 'The end date and time to print account transactions for, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
       option :instrument, desc: 'Regex for filtering transactions based on their instrument'
       option :interest, type: :boolean, default: true, desc: 'Whether to show interest deposits and withdrawals'
       option :sort_by, enum: %w[date instrument profit-loss type], default: 'date', desc: 'The attribute to sort ' \

@@ -20,14 +20,14 @@ describe IGMarkets::CLI::Main, :cli_command do
     end.to output("#{IGMarkets::CLI::Tables::ActivitiesTable.new [activities[1], activities[0]]}\n").to_stdout
   end
 
-  it 'prints activities from a number of days and a from time' do
+  it 'prints activities using a from and to time' do
     from = Time.new 2015, 1, 15, 6, 0, 0, '+04:00'
     to = Time.new 2015, 1, 18, 6, 0, 0, '+04:00'
 
     expect(dealing_platform.account).to receive(:activities).with(from: from, to: to).and_return([])
 
     expect do
-      cli(days: 3, from: '2015-01-15T06:00:00+04:00', sort_by: 'date').activities
+      cli(from: '2015-01-15T06:00:00+04:00', to: '2015-01-18T06:00:00+04:00').activities
     end.to output("#{IGMarkets::CLI::Tables::ActivitiesTable.new []}\n").to_stdout
   end
 

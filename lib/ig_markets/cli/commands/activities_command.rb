@@ -4,8 +4,9 @@ module IGMarkets
     class Main
       desc 'activities', 'Prints account activities'
 
-      option :days, type: :numeric, required: true, desc: 'The number of days to print account activities for'
+      option :days, type: :numeric, desc: 'The number of days to print account activities for'
       option :from, desc: 'The date and time to print account activities from, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+      option :to, desc: 'The end date and time to print account transactions for, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
       option :epic, desc: 'Regex for filtering activities based on their EPIC'
       option :sort_by, enum: %w[channel date epic type], default: 'date', desc: 'The attribute to sort activities by'
 

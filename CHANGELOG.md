@@ -2,8 +2,10 @@
 
 ### 0.32 — Unreleased
 
+- Added `--to` option to the `ig_markets activities`, `ig_markets transactions`, and `ig_markets performance`
+  commands
 - All timestamps provided to the `ig_markets activities`, `ig_markets transactions`, and `ig_markets performance`
-  commands must now specify their time zone explicitly
+  commands must now specify an explicit time zone
 - Support the `unavailable` state on `IGMarkets::Streaming::MarketUpdate#market_state`
 
 ### 0.31 — March 26, 2017

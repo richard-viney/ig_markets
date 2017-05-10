@@ -4,8 +4,9 @@ module IGMarkets
     class Main
       desc 'performance', 'Prints a summary of trading performance over a period'
 
-      option :days, type: :numeric, required: true, desc: 'The number of days to print performance for'
+      option :days, type: :numeric, desc: 'The number of days to print performance for'
       option :from, desc: 'The date and time to show performance from, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
+      option :to, desc: 'The end date and time to show transactions for, format: yyyy-mm-ddThh:mm:ss(+|-)zz:zz'
 
       def performance
         self.class.begin_session(options) do |dealing_platform|
