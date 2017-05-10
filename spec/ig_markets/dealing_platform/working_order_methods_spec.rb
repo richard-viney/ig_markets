@@ -41,7 +41,7 @@ describe IGMarkets::DealingPlatform::WorkingOrderMethods, :dealing_platform do
       direction: 'BUY',
       epic: 'CS.D.EURUSD.CFD.IP',
       expiry: '-',
-      forceOpen: false,
+      forceOpen: true,
       goodTillDate: '2015/10/30 12:59:00',
       guaranteedStop: false,
       level: 1.0,

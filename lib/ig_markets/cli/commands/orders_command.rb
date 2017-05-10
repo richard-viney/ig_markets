@@ -23,7 +23,7 @@ module IGMarkets
       option :direction, enum: %w[buy sell], required: true, desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
-      option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
+      option :force_open, type: :boolean, default: true, desc: 'Whether a force open is required'
       option :good_till_date, desc: 'The date that the order will live till, format: yyyy-mm-ddThh:mm(+|-)zz:zz'
       option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required'
       option :level, type: :numeric, required: true, desc: 'The level at which the order will be triggered'

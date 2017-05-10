@@ -39,7 +39,7 @@ module IGMarkets
       # @option attributes [:buy, :sell] :direction Order direction. Required.
       # @option attributes [String] :epic The EPIC of the instrument for the order. Required.
       # @option attributes [Date] :expiry The expiry date of the instrument (if applicable). Optional.
-      # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `false`.
+      # @option attributes [Boolean] :force_open Whether a force open is required. Defaults to `true`.
       # @option attributes [Time] :good_till_date The date that the working order will live till. If not specified then
       #                    the working order will remain until it is cancelled.
       # @option attributes [Boolean] :guaranteed_stop Whether a guaranteed stop is required. Defaults to `false`.
@@ -96,7 +96,7 @@ module IGMarkets
         private
 
         def set_defaults
-          self.force_open = false if force_open.nil?
+          self.force_open = true if force_open.nil?
           self.guaranteed_stop = false if guaranteed_stop.nil?
           self.time_in_force = good_till_date ? :good_till_date : :good_till_cancelled
         end

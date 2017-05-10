@@ -106,10 +106,17 @@ module IGMarkets
         private
 
         def set_defaults
-          self.force_open = false if force_open.nil?
+          set_default_force_open
+
           self.guaranteed_stop = false if guaranteed_stop.nil?
           self.order_type ||= :market
           self.time_in_force = :execute_and_eliminate if order_type == :market
+        end
+
+        def set_default_force_open
+          self.force_open = false if force_open.nil?
+          self.force_open = true if attributes[:limit_distance] || attributes[:limit_level] ||
+                                    attributes[:stop_distance] || attributes[:stop_level]
         end
 
         # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG

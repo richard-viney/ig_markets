@@ -29,7 +29,9 @@ module IGMarkets
       option :direction, required: true, enum: %w[buy sell], desc: 'The trade direction'
       option :epic, required: true, desc: 'The EPIC of the market to trade'
       option :expiry, desc: 'The expiry date of the instrument (if applicable), format: yyyy-mm-dd'
-      option :force_open, type: :boolean, default: false, desc: 'Whether a force open is required'
+      option :force_open, type: :boolean, desc: 'Whether a force open is required, defaults to true if ' \
+                                                '--limit-distance, --limit-level, --stop-distance or --stop-level ' \
+                                                'are specified'
       option :guaranteed_stop, type: :boolean, default: false, desc: 'Whether a guaranteed stop is required'
       option :level, type: :numeric, desc: "Required if and only if --order-type is 'limit' or 'quote'"
       option :limit_distance, type: :numeric, desc: 'The distance away in pips to place the limit, if set then ' \

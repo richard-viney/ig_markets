@@ -34,7 +34,8 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
       currency_code: 'USD',
       direction: :buy,
       epic: 'CS.D.EURUSD.CFD.IP',
-      size: 2.0
+      size: 2.0,
+      limit_distance: 100
     }
 
     body = {
@@ -42,7 +43,8 @@ describe IGMarkets::DealingPlatform::PositionMethods, :dealing_platform do
       direction: 'BUY',
       epic: 'CS.D.EURUSD.CFD.IP',
       expiry: '-',
-      forceOpen: false,
+      forceOpen: true,
+      limitDistance: 100,
       guaranteedStop: false,
       orderType: 'MARKET',
       size: 2.0,
