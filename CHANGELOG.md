@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.32 — Unreleased
+### 0.32 — May 27, 2017
 
 - The `force_open` option now defaults to true for working orders, and is automatically set to true when creating a
   position that specifies a limit distance, limit level, stop distance, or stop level
