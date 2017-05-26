@@ -17,7 +17,7 @@ module IGMarkets
 
           puts table
 
-          print_summary performances
+          print_summary performances if performances.any?
         end
       end
 

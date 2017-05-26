@@ -8,8 +8,8 @@
   commands
 - All timestamps provided to the `ig_markets activities`, `ig_markets transactions`, and `ig_markets performance`
   commands must now specify an explicit time zone
-- 
 - Support the `unavailable` state on `IGMarkets::Streaming::MarketUpdate#market_state`
+- Fix exception in the `ig_markets performance` command when no performance data is found
 
 ### 0.31 — March 26, 2017
 
