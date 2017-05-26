@@ -85,7 +85,7 @@ module IGMarkets
           options[:url_parameters][:to] = request_result.last.send(options[:date_attribute]).utc.strftime('%FT%T')
         end
 
-        models.uniq
+        models.uniq(&:to_h)
       end
 
       # Parses and formats options shared by {#activities} and {#transactions} into a set of URL parameters.

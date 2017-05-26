@@ -35,11 +35,25 @@ module IGMarkets
 
     # Compares this model to another, the attributes and class must match for them to be considered equal.
     #
-    # @param [#class, #attributes] other The other model to compare to.
+    # @param [Model] other The other model to compare to.
     #
     # @return [Boolean]
     def ==(other)
-      self.class == other.class && attributes == other.attributes
+      self.class == other.class && to_h == other.to_h
+    end
+
+    # Converts this model into a nested hash of attributes. This is simlar to just calling {#attributes}, but in this
+    # case any attributes that are instances of {Model} will also be transformed into a hash in the return value.
+    #
+    # @return [Hash]
+    def to_h
+      attributes.each_with_object({}) do |(key, value), hash|
+        hash[key] = if value.is_a? Model
+                      value.to_h
+                    else
+                      value
+                    end
+      end
     end
 
     # Returns a human-readable string containing this model's type and all its current attribute values.

@@ -87,6 +87,12 @@ describe IGMarkets::Model do
     attribute :test, TestModel
   end
 
+  it 'converts a nested model to a nested hash' do
+    model = NestedModel.new test: TestModel.new
+
+    expect(model.to_h).to eq(test: { id: nil, bool: nil, string: nil, date: nil, time: nil, float: nil, symbol: nil })
+  end
+
   it 'inspects attributes in nested models' do
     model = NestedModel.new test: TestModel.new
 

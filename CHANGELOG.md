@@ -10,6 +10,8 @@
   commands must now specify an explicit time zone
 - Support the `unavailable` state on `IGMarkets::Streaming::MarketUpdate#market_state`
 - Fix exception in the `ig_markets performance` command when no performance data is found
+- Fixed `IGMarkets::AccountMethods#activities` and `IGMarkets::AccountMethods#transactions` sometimes returning
+  duplicate entries
 
 ### 0.31 — March 26, 2017
 
