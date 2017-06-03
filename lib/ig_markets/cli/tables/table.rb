@@ -62,7 +62,7 @@ module IGMarkets
 
           content = format_cell_value(value).strip
 
-          color ? content.colorize(color) : content
+          color ? ColorizedString[content].colorize(color) : content
         end
 
         def format_cell_value(value)

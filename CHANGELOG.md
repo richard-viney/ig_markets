@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.33 — Unreleased
+
+- Switch to using the `ColorizedString` class instead of relying on extensions to the `String` class for colorizing
+
 ### 0.32 — May 27, 2017
 
 - The `force_open` option now defaults to true for working orders, and is automatically set to true when creating a

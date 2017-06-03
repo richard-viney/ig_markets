@@ -45,7 +45,7 @@ module IGMarkets
 
       color = amount < 0 ? :red : :green
 
-      currency(amount, currency_name).send color
+      ColorizedString[currency(amount, currency_name)].colorize color
     end
 
     # Returns a formatted string for the specified number of seconds in the format `[<hours>:]<minutes>:<seconds>`.

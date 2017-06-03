@@ -73,7 +73,7 @@ describe IGMarkets::CLI::CursesWindow do
       expect(curses_window).to receive(:setpos).with(2, 0)
       expect(curses_window).to receive(:<<).with('c')
 
-      window.print_lines ['a', 'b'.red, 'c']
+      window.print_lines ['a', ColorizedString['b'].red, 'c']
     end
   end
 end

@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
       dividends, or other adjustments that may have occurred over this period.
 
-Total: #{'US 27.00'.green}
+Total: #{ColorizedString['US 27.00'].green}
 END
                                                   ).to_stdout
   end

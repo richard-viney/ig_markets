@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Tables::MarketOverviewsTable do
 +--------------------+------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
 | EPIC               | Type       | Instrument      | Status    | Expiry | Bid   | Offer | High  | Low  | Change (net) | Change (%) |
 +--------------------+------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
-| CS.D.EURUSD.CFD.IP | Currencies | Spot FX EUR/USD | Tradeable |        | 100.0 |  99.0 | 110.0 | 90.0 |         #{'-1.0'.red} |        #{'5.0'.green} |
+| CS.D.EURUSD.CFD.IP | Currencies | Spot FX EUR/USD | Tradeable |        | 100.0 |  99.0 | 110.0 | 90.0 |         #{ColorizedString['-1.0'].red} |        #{ColorizedString['5.0'].green} |
 +--------------------+------------+-----------------+-----------+--------+-------+-------+-------+------+--------------+------------+
 END
                                                     )

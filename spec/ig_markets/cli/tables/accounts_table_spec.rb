@@ -11,8 +11,8 @@ describe IGMarkets::CLI::Tables::AccountsTable do
 +------+---------+------+----------+---------+-----------+------------+------------+----------+-------------+
 | Name | ID      | Type | Currency | Status  | Preferred | Available  | Balance    | Margin   | Profit/loss |
 +------+---------+------+----------+---------+-----------+------------+------------+----------+-------------+
-| CFD  | ACCOUNT | CFD  | USD      | Enabled | Yes       | USD 500.00 | USD 500.00 | USD 0.00 |   #{'USD 20.00'.green} |
-| CFD  | ACCOUNT | CFD  | USD      | Enabled | Yes       | USD 500.00 | USD 500.00 | USD 0.00 |  #{'USD -20.00'.red} |
+| CFD  | ACCOUNT | CFD  | USD      | Enabled | Yes       | USD 500.00 | USD 500.00 | USD 0.00 |   #{ColorizedString['USD 20.00'].green} |
+| CFD  | ACCOUNT | CFD  | USD      | Enabled | Yes       | USD 500.00 | USD 500.00 | USD 0.00 |  #{ColorizedString['USD -20.00'].red} |
 +------+---------+------+----------+---------+-----------+------------+------------+----------+-------------+
 END
                                                      )

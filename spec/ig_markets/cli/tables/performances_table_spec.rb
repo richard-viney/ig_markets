@@ -9,8 +9,8 @@ describe IGMarkets::CLI::Tables::PerformancesTable do
 +--------+-----------------+-------------------+-------------+
 | EPIC   | Instrument name | # of closed deals | Profit/loss |
 +--------+-----------------+-------------------+-------------+
-| ABCDEF | ABC             |                 1 |    #{'US 10.00'.green} |
-| 123456 | 123             |                 1 |    #{'US -5.00'.red} |
+| ABCDEF | ABC             |                 1 |    #{ColorizedString['US 10.00'].green} |
+| 123456 | 123             |                 1 |    #{ColorizedString['US -5.00'].red} |
 +--------+-----------------+-------------------+-------------+
 END
                                                          )

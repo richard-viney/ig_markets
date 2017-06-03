@@ -5,7 +5,7 @@ require 'securerandom'
 require 'time'
 require 'yaml'
 
-require 'colorize'
+require 'colorized_string'
 require 'excon'
 require 'lightstreamer'
 require 'pry'

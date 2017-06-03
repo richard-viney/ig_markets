@@ -24,10 +24,10 @@ describe IGMarkets::Format do
 
   it 'formats colored currencies' do
     {
-      [120.4, 'USD'] => 'USD 120.40'.green,
-      [-1340, 'USD'] => 'USD -1340.00'.red,
-      [6440, 'JPY'] => 'JPY 6440'.green,
-      [-5200, '¥'] => '¥ -5200'.red,
+      [120.4, 'USD'] => ColorizedString['USD 120.40'].green,
+      [-1340, 'USD'] => ColorizedString['USD -1340.00'].red,
+      [6440, 'JPY'] => ColorizedString['JPY 6440'].green,
+      [-5200, '¥'] => ColorizedString['¥ -5200'].red,
       [nil, nil] => ''
     }.each do |args, result|
       expect(described_class.colored_currency(*args)).to eq(result)

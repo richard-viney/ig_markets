@@ -11,7 +11,7 @@ describe IGMarkets::CLI::Positions, :cli_command do
     expect { cli.list }.to output(<<-END
 #{IGMarkets::CLI::Tables::PositionsTable.new positions}
 
-Total profit/loss: #{'USD -104.00'.red}
+Total profit/loss: #{ColorizedString['USD -104.00'].red}
 END
                                  ).to_stdout
   end
@@ -24,7 +24,7 @@ END
     expect { cli(aggregate: true).list }.to output(<<-END
 #{IGMarkets::CLI::Tables::PositionsTable.new positions, aggregate: true}
 
-Total profit/loss: #{'USD -6000.00'.red}
+Total profit/loss: #{ColorizedString['USD -6000.00'].red}
 END
                                                   ).to_stdout
   end

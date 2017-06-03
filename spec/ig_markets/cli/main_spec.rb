@@ -39,7 +39,7 @@ Deal reference: reference
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
-Profit/loss: #{'USD -1.50'.colorize :red}
+Profit/loss: #{ColorizedString['USD -1.50'].red}
 END
                                                                                   ).to_stdout
   end
@@ -54,7 +54,7 @@ Deal reference: reference
 Deal ID: DEAL
 Status: Rejected
 Result: Amended
-Profit/loss: #{'USD 150.00'.colorize :green}
+Profit/loss: #{ColorizedString['USD 150.00'].green}
 Reason: Unknown
 END
                                                                                   ).to_stdout
@@ -75,7 +75,7 @@ Deal not found, retrying ...
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
-Profit/loss: #{'USD 150.00'.colorize :green}
+Profit/loss: #{ColorizedString['USD 150.00'].green}
 END
                                                                                   ).to_stdout
   end

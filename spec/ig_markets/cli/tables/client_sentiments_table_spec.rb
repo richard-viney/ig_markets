@@ -13,8 +13,8 @@ describe IGMarkets::CLI::Tables::ClientSentimentsTable do
 | Market | Long % | Short % |
 +--------+--------+---------+
 | A      |     60 |      40 |
-| #{'B'.yellow}      |     #{'75'.yellow} |      #{'25'.yellow} |
-| #{'C'.red}      |     #{'10'.red} |      #{'90'.red} |
+| #{ColorizedString['B'].yellow}      |     #{ColorizedString['75'].yellow} |      #{ColorizedString['25'].yellow} |
+| #{ColorizedString['C'].red}      |     #{ColorizedString['10'].red} |      #{ColorizedString['90'].red} |
 +--------+--------+---------+
 END
                                                                               )
