@@ -12,8 +12,9 @@ describe IGMarkets::DealingPlatform::SprintMarketPositionMethods, :dealing_platf
   it 'retrieves a single sprint market position' do
     positions = [build(:sprint_market_position)]
 
-    expect(session).to receive(:get).twice
-      .with('positions/sprintmarkets', IGMarkets::API_V2)
+    expect(session)
+      .to receive(:get)
+      .twice.with('positions/sprintmarkets', IGMarkets::API_V2)
       .and_return(sprint_market_positions: positions)
 
     expect(dealing_platform.sprint_market_positions['DEAL']).to eq(positions.first)

@@ -3,6 +3,11 @@ require: rubocop-rspec
 ClassLength:
   Max: 120
 
+# If required_ruby_version is increased to 2.3 then this can cop can be enabled and the code updated
+# to use the squiggly heredoc feature.
+Layout/IndentHeredoc:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 
@@ -19,9 +24,4 @@ RSpec/MessageSpies:
   Enabled: false
 
 RSpec/MultipleExpectations:
-  Enabled: false
-
-# If required_ruby_version is increased to 2.3 then this can cop can be enabled and the code updated
-# to use the squiggly heredoc feature.
-Style/IndentHeredoc:
   Enabled: false

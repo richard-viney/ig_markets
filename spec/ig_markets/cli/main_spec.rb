@@ -63,7 +63,9 @@ END
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
     deal_confirmation = build :deal_confirmation
 
-    expect(dealing_platform).to receive(:deal_confirmation).twice.with('reference')
+    expect(dealing_platform)
+      .to receive(:deal_confirmation)
+      .twice.with('reference')
       .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).twice.with(2)
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
@@ -81,7 +83,9 @@ END
   end
 
   it 'retries the deal confirmation request five times if the attempts return deal not found and then fails' do
-    expect(dealing_platform).to receive(:deal_confirmation).exactly(5).times.with('reference')
+    expect(dealing_platform)
+      .to receive(:deal_confirmation)
+      .exactly(5).times.with('reference')
       .and_raise(IGMarkets::Errors::DealNotFoundError)
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)
 
