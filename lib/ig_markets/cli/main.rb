@@ -159,11 +159,11 @@ module IGMarkets
 
         # Prints out details of the passed deal confirmation.
         def print_deal_confirmation(deal_confirmation)
-          puts <<-END
+          puts <<-MSG
 Deal ID: #{deal_confirmation.deal_id}
 Status: #{Format.symbol deal_confirmation.deal_status}
 Result: #{Format.symbol deal_confirmation.status}
-END
+MSG
 
           print_deal_confirmation_profit_loss deal_confirmation
 

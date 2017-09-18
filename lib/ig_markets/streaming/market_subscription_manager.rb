@@ -67,7 +67,7 @@ module IGMarkets
       def remove_unused_subscriptions(epics)
         old_subscriptions = []
 
-        @subscriptions.keys.each do |epic|
+        @subscriptions.each_key do |epic|
           next if epics.include? epic
 
           old_subscriptions << @subscriptions.delete(epic)

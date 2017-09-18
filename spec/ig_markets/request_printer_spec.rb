@@ -17,7 +17,7 @@ describe IGMarkets::RequestPrinter do
       }
 
       described_class.print_request options
-    end.to output(<<-END
+    end.to output(<<-MSG
 GET url
   Headers:
     Name: value
@@ -26,7 +26,7 @@ GET url
     {
       "data": "ABC"
     }
-END
+    MSG
                  ).to_stdout
   end
 
@@ -35,7 +35,7 @@ END
 
     expect do
       described_class.print_response response
-    end.to output(<<-END
+    end.to output(<<-MSG
   Response:
     Headers:
       Name: Value
@@ -43,7 +43,7 @@ END
       {
         "data": "ABC"
       }
-END
+MSG
                  ).to_stdout
   end
 
@@ -52,13 +52,13 @@ END
 
     expect do
       described_class.print_response response
-    end.to output(<<-END
+    end.to output(<<-MSG
   Response:
     Headers:
       Name: Value
     Body:
       <html></html>
-END
+MSG
                  ).to_stdout
   end
 end

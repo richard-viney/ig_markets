@@ -110,7 +110,7 @@ module IGMarkets
     end
 
     def request(options)
-      options[:url] = "#{HOST_URLS.fetch(platform)}#{URI.escape(options[:url])}"
+      options[:url] = HOST_URLS.fetch(platform) + options.fetch(:url)
       options[:headers] = request_headers(options)
 
       # The IG Markets API requires that DELETE requests with a body are sent as POST requests with a special header

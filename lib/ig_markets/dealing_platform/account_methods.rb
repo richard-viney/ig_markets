@@ -63,7 +63,7 @@ module IGMarkets
       # methods sends a single GET request with the passed URL parameters and returns the response. The maximum number
       # of items this method can return is capped at 500 ({MAXIMUM_PAGE_SIZE}).
       def history_request(options)
-        url = "#{options[:url]}?#{options[:url_parameters].map { |key, value| "#{key}=#{value.to_s.upcase}" }.join '&'}"
+        url = "#{options[:url]}?#{URI.encode_www_form options[:url_parameters]}"
 
         get_result = @dealing_platform.session.get url, options.fetch(:api_version)
 
@@ -96,6 +96,7 @@ module IGMarkets
         options[:to] = options.fetch(:to).utc.strftime('%FT%T')
 
         options[:pageSize] = MAXIMUM_PAGE_SIZE
+        options[:type] = options[:type].to_s.upcase if options.key? :type
 
         options
       end

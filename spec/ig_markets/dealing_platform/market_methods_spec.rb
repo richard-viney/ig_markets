@@ -1,4 +1,14 @@
 describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
+  let(:markets_get_result) do
+    {
+      market_details: [{
+        dealing_rules: build(:market_dealing_rules),
+        instrument: build(:instrument),
+        snapshot: build(:market_snapshot)
+      }]
+    }
+  end
+
   it 'retrieves the market hierarchy root' do
     result = build :market_hierarchy_result
 
@@ -11,16 +21,6 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
 
     expect(session).to receive(:get).with('marketnavigation/1').and_return(result)
     expect(dealing_platform.markets.hierarchy(1)).to eq(result)
-  end
-
-  let(:markets_get_result) do
-    {
-      market_details: [{
-        dealing_rules: build(:market_dealing_rules),
-        instrument: build(:instrument),
-        snapshot: build(:market_snapshot)
-      }]
-    }
   end
 
   it 'retrieves a market from an EPIC' do

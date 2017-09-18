@@ -34,13 +34,13 @@ describe IGMarkets::CLI::Main, :dealing_platform do
 
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-MSG
 Deal reference: reference
 Deal ID: DEAL
 Status: Accepted
 Result: Amended
 Profit/loss: #{ColorizedString['USD -1.50'].red}
-END
+MSG
                                                                                   ).to_stdout
   end
 
@@ -49,14 +49,14 @@ END
 
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-MSG
 Deal reference: reference
 Deal ID: DEAL
 Status: Rejected
 Result: Amended
 Profit/loss: #{ColorizedString['USD 150.00'].green}
 Reason: Unknown
-END
+MSG
                                                                                   ).to_stdout
   end
 
@@ -70,7 +70,7 @@ END
     expect(IGMarkets::CLI::Main).to receive(:sleep).twice.with(2)
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
-    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-END
+    expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }.to output(<<-MSG
 Deal reference: reference
 Deal not found, retrying ...
 Deal not found, retrying ...
@@ -78,7 +78,7 @@ Deal ID: DEAL
 Status: Accepted
 Result: Amended
 Profit/loss: #{ColorizedString['USD 150.00'].green}
-END
+MSG
                                                                                   ).to_stdout
   end
 
@@ -90,13 +90,13 @@ END
     expect(IGMarkets::CLI::Main).to receive(:sleep).exactly(4).times.with(2)
 
     expect { IGMarkets::CLI::Main.report_deal_confirmation 'reference' }
-      .to output(<<-END
+      .to output(<<-MSG
 Deal reference: reference
 Deal not found, retrying ...
 Deal not found, retrying ...
 Deal not found, retrying ...
 Deal not found, retrying ...
-END
+MSG
                 ).to_stdout.and raise_error(IGMarkets::Errors::DealNotFoundError)
   end
 

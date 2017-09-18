@@ -17,7 +17,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   it 'retrieves activities in a date range' do
     activities = [build(:activity)]
 
-    url = 'history/activity?from=2014-05-20T14:30:00&to=2014-10-27T06:45:00&pageSize=500&detailed=TRUE'
+    url = 'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-10-27T06%3A45%3A00&pageSize=500&detailed=true'
     expect(session).to receive(:get).with(url, IGMarkets::API_V3).and_return(activities: activities)
 
     expect(dealing_platform.account.activities(from: from, to: to)).to eq(activities)
@@ -26,7 +26,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   it 'retrieves activities starting at a date' do
     activities = [build(:activity)]
 
-    url = 'history/activity?from=2014-05-20T14:30:00&to=2014-11-01T00:00:00&pageSize=500&detailed=TRUE'
+    url = 'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-11-01T00%3A00%3A00&pageSize=500&detailed=true'
     expect(session).to receive(:get).with(url, IGMarkets::API_V3).and_return(activities: activities)
 
     expect(dealing_platform.account.activities(from: from)).to eq(activities)
@@ -36,9 +36,9 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
     activities = (0...1200).map { |index| build :activity, deal_id: index, date: Time.new(2014, 10, 27) }
 
     urls = [
-      'history/activity?from=2014-05-20T14:30:00&to=2014-11-01T00:00:00&pageSize=500&detailed=TRUE',
-      'history/activity?from=2014-05-20T14:30:00&to=2014-10-27T00:00:00&pageSize=500&detailed=TRUE',
-      'history/activity?from=2014-05-20T14:30:00&to=2014-10-27T00:00:00&pageSize=500&detailed=TRUE'
+      'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-11-01T00%3A00%3A00&pageSize=500&detailed=true',
+      'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-10-27T00%3A00%3A00&pageSize=500&detailed=true',
+      'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-10-27T00%3A00%3A00&pageSize=500&detailed=true'
     ]
     expect(session).to receive(:get).with(urls[0], IGMarkets::API_V3).and_return(activities: activities[0...500])
     expect(session).to receive(:get).with(urls[1], IGMarkets::API_V3).and_return(activities: activities[500...1000])
@@ -50,7 +50,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   it 'retrieves transactions in a date range' do
     transactions = [build(:transaction)]
 
-    url = 'history/transactions?from=2014-05-20T14:30:00&to=2014-10-27T06:45:00&type=ALL&pageSize=500'
+    url = 'history/transactions?from=2014-05-20T14%3A30%3A00&to=2014-10-27T06%3A45%3A00&type=ALL&pageSize=500'
     expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 
     expect(dealing_platform.account.transactions(from: from, to: to)).to eq(transactions)
@@ -59,7 +59,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   it 'retrieves transactions starting at a date' do
     transactions = [build(:transaction)]
 
-    url = 'history/transactions?type=DEPOSIT&from=2014-05-20T14:30:00&to=2014-11-01T00:00:00&pageSize=500'
+    url = 'history/transactions?type=DEPOSIT&from=2014-05-20T14%3A30%3A00&to=2014-11-01T00%3A00%3A00&pageSize=500'
     expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 
     expect(dealing_platform.account.transactions(type: :deposit, from: from)).to eq(transactions)
@@ -69,7 +69,8 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
     transactions = [build(:transaction)]
 
     %i[all all_deal withdrawal deposit].each do |type|
-      url = "history/transactions?from=2014-05-20T14:30:00&to=2014-10-27T06:45:00&type=#{type.to_s.upcase}&pageSize=500"
+      url = 'history/transactions?from=2014-05-20T14%3A30%3A00&to=2014-10-27T06%3A45%3A00&' \
+            "type=#{type.to_s.upcase}&pageSize=500"
       expect(session).to receive(:get).with(url, IGMarkets::API_V2).and_return(transactions: transactions)
 
       expect(dealing_platform.account.transactions(from: from, to: to, type: type)).to eq(transactions)

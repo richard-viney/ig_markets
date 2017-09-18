@@ -21,12 +21,12 @@ module IGMarkets
 
           table = Tables::HistoricalPriceResultSnapshotsTable.new result.prices, title: "Prices for #{options[:epic]}"
 
-          puts <<-END
+          puts <<-MSG
 #{table}
 
 Allowance: #{allowance.total_allowance}
 Remaining: #{allowance.remaining_allowance}
-END
+MSG
         end
       end
 

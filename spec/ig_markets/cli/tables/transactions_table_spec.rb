@@ -6,7 +6,7 @@ describe IGMarkets::CLI::Tables::TransactionsTable do
       build(:transaction, instrument_name: 'DEF', profit_and_loss: 'US1.00')
     ]
 
-    expect(described_class.new(transactions).to_s).to eql(<<-END.strip
+    expect(described_class.new(transactions).to_s).to eql(<<-MSG.strip
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
 |                                                     Transactions                                                      |
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
@@ -16,7 +16,7 @@ describe IGMarkets::CLI::Tables::TransactionsTable do
 | 2015-10-27 14:30:00 UTC | 2015-10-26 09:30:00 UTC | Reference | Deal | ABC        |   +1 |  0.8 |   0.8 |    #{ColorizedString['US -1.00'].red} |
 | 2015-10-27 14:30:00 UTC | 2015-10-26 09:30:00 UTC | Reference | Deal | DEF        |   +1 |  0.8 |   0.8 |     #{ColorizedString['US 1.00'].green} |
 +-------------------------+-------------------------+-----------+------+------------+------+------+-------+-------------+
-END
+MSG
                                                          )
   end
 end

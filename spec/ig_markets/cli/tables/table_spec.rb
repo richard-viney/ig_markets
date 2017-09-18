@@ -38,7 +38,7 @@ describe IGMarkets::CLI::Tables::Table do
   end
 
   it 'prints the table' do
-    expect(TestTable.new(models).to_s + "\n").to eq(<<-END
+    expect(TestTable.new(models).to_s + "\n").to eq(<<-MSG
 +-------+--------+--------+
 |          Test           |
 +-------+--------+--------+
@@ -48,7 +48,7 @@ describe IGMarkets::CLI::Tables::Table do
 +-------+--------+--------+
 | Test  | No     | 0.1234 |
 +-------+--------+--------+
-END
+MSG
                                                    )
   end
 
