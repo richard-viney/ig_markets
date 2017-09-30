@@ -7,14 +7,12 @@ module IGMarkets
       # @param [DealingPlatform] dealing_platform The dealing platform.
       def initialize(dealing_platform)
         @dealing_platform = WeakRef.new dealing_platform
-        @queue = Queue.new
         @on_error_callbacks = []
       end
 
       # Connects the streaming session. Raises a `Lightstreamer::LightstreamerError` if an error occurs.
       def connect
         @lightstreamer.disconnect if @lightstreamer
-        @queue.clear
 
         @lightstreamer = Lightstreamer::Session.new username: username, password: password, server_url: server_url
         @lightstreamer.on_error { |error| @on_error_callbacks.each { |callback| callback.call error } }
