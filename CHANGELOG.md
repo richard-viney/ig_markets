@@ -2,6 +2,7 @@
 
 ### 0.33 — Unreleased
 
+- Added `DealingPlatform::ClientSentimentMethods#find` for retrieving multiple client sentiments in one request
 - Switch to using the `ColorizedString` class instead of relying on extensions to the `String` class for colorizing
 
 ### 0.32 — May 27, 2017
