@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :streaming_position_update, class: IGMarkets::Streaming::PositionUpdate do
     account_id 'ACCOUNT'
     channel 'web'

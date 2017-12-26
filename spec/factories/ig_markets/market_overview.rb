@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :market_overview, class: IGMarkets::MarketOverview do
     bid 100
     delay_time 0.0

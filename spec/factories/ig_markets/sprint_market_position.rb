@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sprint_market_position, class: IGMarkets::SprintMarketPosition do
     created_date '2014-10-22T18:30:15'
     currency 'USD'

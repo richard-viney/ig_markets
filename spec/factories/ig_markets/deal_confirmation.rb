@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :deal_confirmation, class: IGMarkets::DealConfirmation do
     affected_deals []
     date '2015-10-07T18:14:23.885'

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :account, class: IGMarkets::Account do
     account_alias 'Alias'
     account_id 'ACCOUNT'

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_account_summary, class: IGMarkets::ClientAccountSummary do
     account_info { build :account_balance }
     account_type 'CFD'

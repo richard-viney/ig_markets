@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :transaction, class: IGMarkets::Transaction do
     cash_transaction false
     close_level '0.8'

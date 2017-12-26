@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_sentiment, class: IGMarkets::ClientSentiment do
     long_position_percentage 60.0
     market_id 'EURUSD'

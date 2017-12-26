@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :instrument, class: IGMarkets::Instrument do
     chart_code 'CODE'
     contract_size '+1'

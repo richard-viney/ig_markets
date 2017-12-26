@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :position, class: IGMarkets::Position do
     contract_size 1000.0
     controlled_risk false

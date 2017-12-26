@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :streaming_chart_tick_update, class: IGMarkets::Streaming::ChartTickUpdate do
     bid 1.13
     day_high 1.15

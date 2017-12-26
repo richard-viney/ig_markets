@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :working_order, class: IGMarkets::WorkingOrder do
     created_date_utc '2014-10-20T13:30:03'
     currency_code 'USD'

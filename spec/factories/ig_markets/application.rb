@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :application, class: IGMarkets::Application do
     id 1
     client_id '8761232322'

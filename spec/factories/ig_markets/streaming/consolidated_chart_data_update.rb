@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :streaming_consolidated_chart_data_update, class: IGMarkets::Streaming::ConsolidatedChartDataUpdate do
     bid_close 1.10883
     bid_high 1.10886

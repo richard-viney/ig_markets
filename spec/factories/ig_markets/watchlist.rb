@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :watchlist, class: IGMarkets::Watchlist do
     id '2547731'
     name 'Markets'

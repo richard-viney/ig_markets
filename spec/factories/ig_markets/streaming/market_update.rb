@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :streaming_market_update, class: IGMarkets::Streaming::MarketUpdate do
     bid 1.11
     change 0.02

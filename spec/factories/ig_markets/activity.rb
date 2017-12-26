@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :activity, class: IGMarkets::Activity do
     channel 'WEB'
     date '2015-12-15T15:00:00'

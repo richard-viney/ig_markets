@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :streaming_account_update, class: IGMarkets::Streaming::AccountUpdate do
     account_id 'ACCOUNT'
     available_cash 8_000.0

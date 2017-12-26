@@ -5,7 +5,7 @@ require 'support/simplecov'
 
 require 'ig_markets'
 
-require 'support/factory_girl'
+require 'support/factory_bot'
 require 'support/random_test_order'
 require 'support/utc_timezone'
 
