@@ -9,8 +9,8 @@ module IGMarkets
       attribute :high, Float
       attribute :low, Float
       attribute :market_delay, Boolean
-      attribute :market_state, Symbol, allowed_values: %i[closed offline tradeable edit auction
-                                                          auction_no_edit suspended unavailable]
+      attribute :market_state, Symbol, allowed_values: %i[auction auction_no_edit closed edit offline suspended
+                                                          tradeable tradeable_no_edit unavailable]
       attribute :mid_open, Float
       attribute :odds, Float
       attribute :offer, Float

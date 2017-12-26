@@ -31,7 +31,7 @@ module IGMarkets
       attribute :high, Float
       attribute :low, Float
       attribute :market_status, Symbol, allowed_values: %i[closed edits_only offline on_auction
-                                                           on_auction_no_edits suspended tradeable]
+                                                           on_auction_no_edits suspended tradeable tradeable_no_edit]
       attribute :net_change, Float
       attribute :offer, Float
       attribute :percentage_change, Float
