@@ -1,5 +1,8 @@
 require: rubocop-rspec
 
+AllCops:
+  TargetRubyVersion: 2.2
+
 ClassLength:
   Max: 120
 
@@ -24,4 +27,7 @@ RSpec/MessageSpies:
   Enabled: false
 
 RSpec/MultipleExpectations:
+  Enabled: false
+
+Style/FormatStringToken:
   Enabled: false

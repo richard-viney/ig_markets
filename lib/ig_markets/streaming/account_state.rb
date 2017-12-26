@@ -124,7 +124,8 @@ module IGMarkets
       end
 
       def convert_market_status(status)
-        { auction: :on_auction, auction_no_edit: :on_auction_no_edits, closed: :closed, edit: :edits_only,
+        {
+          auction: :on_auction, auction_no_edit: :on_auction_no_edits, closed: :closed, edit: :edits_only,
           offline: :offline, suspended: :suspended, tradeable: :tradeable, tradeable_no_edit: :tradeable_no_edit
         }.fetch status
       end

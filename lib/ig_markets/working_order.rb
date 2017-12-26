@@ -85,9 +85,7 @@ module IGMarkets
       # Runs a series of validations on this model's attributes to check whether it is ready to be sent to the IG
       # Markets API.
       def validate
-        if limit_distance && limit_level
-          raise ArgumentError, 'do not specify both limit_distance and limit_level'
-        end
+        raise ArgumentError, 'do not specify both limit_distance and limit_level' if limit_distance && limit_level
 
         raise ArgumentError, 'do not specify both stop_distance and stop_level' if stop_distance && stop_level
       end

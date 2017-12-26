@@ -14,7 +14,7 @@ describe IGMarkets::Session do
     instance_double 'Excon::Response', options
   end
 
-  context 'a non-signed in session' do
+  context 'with a non-signed in session' do
     it 'is not alive' do
       expect(session.alive?).to eq(false)
     end
@@ -36,7 +36,7 @@ describe IGMarkets::Session do
     end
   end
 
-  context 'a signed in session' do
+  context 'with a signed in session' do
     before do
       session.instance_variable_set :@client_security_token, 'client_security_token'
       session.instance_variable_set :@x_security_token, 'x_security_token'
