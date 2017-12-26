@@ -168,7 +168,7 @@ ig_markets console --verbose
 
 #### Documentation
 
-API documentation is available [here](http://www.rubydoc.info/github/rviney/ig_markets/master).
+API documentation is available [here](http://www.rubydoc.info/github/richard-viney/ig_markets/master).
 
 #### Examples
 
@@ -268,15 +268,15 @@ Gem created by Richard Viney. All contributions welcome.
 
 [gem-link]: https://rubygems.org/gems/ig_markets
 [gem-badge]: https://badge.fury.io/rb/ig_markets.svg
-[travis-ci-link]: http://travis-ci.org/rviney/ig_markets
-[travis-ci-badge]: https://travis-ci.org/rviney/ig_markets.svg?branch=master
-[test-coverage-link]: https://codeclimate.com/github/rviney/ig_markets/coverage
-[test-coverage-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/coverage.svg
-[code-climate-link]: https://codeclimate.com/github/rviney/ig_markets
-[code-climate-badge]: https://codeclimate.com/github/rviney/ig_markets/badges/gpa.svg
-[dependencies-link]: https://gemnasium.com/rviney/ig_markets
-[dependencies-badge]: https://gemnasium.com/rviney/ig_markets.svg
-[documentation-link]: https://inch-ci.org/github/rviney/ig_markets
-[documentation-badge]: https://inch-ci.org/github/rviney/ig_markets.svg?branch=master
-[license-link]: https://github.com/rviney/ig_markets/blob/master/LICENSE.md
+[travis-ci-link]: http://travis-ci.org/richard-viney/ig_markets
+[travis-ci-badge]: https://travis-ci.org/richard-viney/ig_markets.svg?branch=master
+[test-coverage-link]: https://codeclimate.com/github/richard-viney/ig_markets/coverage
+[test-coverage-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/coverage.svg
+[code-climate-link]: https://codeclimate.com/github/richard-viney/ig_markets
+[code-climate-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/gpa.svg
+[dependencies-link]: https://gemnasium.com/richard-viney/ig_markets
+[dependencies-badge]: https://gemnasium.com/richard-viney/ig_markets.svg
+[documentation-link]: https://inch-ci.org/github/richard-viney/ig_markets
+[documentation-badge]: https://inch-ci.org/github/richard-viney/ig_markets.svg?branch=master
+[license-link]: https://github.com/richard-viney/ig_markets/blob/master/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
