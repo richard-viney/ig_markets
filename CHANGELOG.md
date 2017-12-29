@@ -4,6 +4,7 @@
 
 - Added `DealingPlatform::ClientSentimentMethods#find` for retrieving multiple client sentiments in one request
 - Added support for the `tradeable_no_edit` market state
+- Use the paging support provided by the IG API when fetching large numbers of activities and transactions
 - Switch to using the `ColorizedString` class instead of relying on extensions to the `String` class for colorizing
 
 ### 0.32 — May 27, 2017

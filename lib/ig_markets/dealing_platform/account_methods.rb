@@ -26,11 +26,7 @@ module IGMarkets
       #
       # @return [Array<Activity>]
       def activities(options)
-        url_parameters = history_url_parameters options
-        url_parameters[:detailed] = true
-
-        history_request_complete url: 'history/activity', url_parameters: url_parameters, api_version: API_V3,
-                                 collection_name: :activities, model_class: Activity, date_attribute: :date
+        activities_request build_url_parameters(options).merge(detailed: true)
       end
 
       # Returns transactions for this account in the specified time range.
@@ -49,56 +45,70 @@ module IGMarkets
           raise ArgumentError, "invalid transaction type: #{options[:type]}"
         end
 
-        history_request_complete url: 'history/transactions', url_parameters: history_url_parameters(options),
-                                 api_version: API_V2, collection_name: :transactions, model_class: Transaction,
-                                 date_attribute: :date_utc
+        tranaactions_request build_url_parameters(options)
       end
 
       private
 
-      # The maximum number of results the IG Markets API will return in one request.
-      MAXIMUM_PAGE_SIZE = 500
-
-      # Retrieves historical data for this account (either activities or transactions) in the specified time range. This
-      # methods sends a single GET request with the passed URL parameters and returns the response. The maximum number
-      # of items this method can return is capped at 500 ({MAXIMUM_PAGE_SIZE}).
-      def history_request(options)
-        url = "#{options[:url]}?#{URI.encode_www_form options[:url_parameters]}"
-
-        get_result = @dealing_platform.session.get url, options.fetch(:api_version)
-
-        @dealing_platform.instantiate_models options[:model_class], get_result.fetch(options[:collection_name])
-      end
-
-      # This method is the same as {#history_request} except it will send as many GET requests as are needed in order
-      # to circumvent the maximum number of results that can be returned per request.
-      def history_request_complete(options)
-        models = []
-
-        loop do
-          request_result = history_request options
-          models += request_result
-
-          break if request_result.size < MAXIMUM_PAGE_SIZE
-
-          # Update the :to parameter so the next GET request returns older results
-          options[:url_parameters][:to] = request_result.last.send(options[:date_attribute]).utc.strftime('%FT%T')
-        end
-
-        models.uniq(&:to_h)
-      end
-
       # Parses and formats options shared by {#activities} and {#transactions} into a set of URL parameters.
-      def history_url_parameters(options)
+      def build_url_parameters(options)
         options[:to] ||= Time.now
 
         options[:from] = options.fetch(:from).utc.strftime('%FT%T')
         options[:to] = options.fetch(:to).utc.strftime('%FT%T')
 
-        options[:pageSize] = MAXIMUM_PAGE_SIZE
+        options[:pageSize] = 500
         options[:type] = options[:type].to_s.upcase if options.key? :type
 
         options
+      end
+
+      # Performs repeated requests to the IG Markets API to retrieve all pages of activities returned by the given set
+      # of URL parameters.
+      def activities_request(url_parameters)
+        activities = []
+
+        url = 'history/activity'
+
+        while url
+          request_result = history_request url: url, api_version: API_V3, url_parameters: url_parameters
+          activities += @dealing_platform.instantiate_models(Activity, request_result.fetch(:activities))
+
+          url = request_result.fetch(:metadata).fetch(:paging).fetch(:next)
+          url_parameters = {}
+        end
+
+        activities
+      end
+
+      # Performs repeated requests to the IG Markets API to retrieve all pages of transactions returned by the given set
+      # of URL parameters.
+      def tranaactions_request(url_parameters)
+        transactions = []
+
+        page_number = 1
+
+        loop do
+          request_result = history_request url: 'history/transactions', api_version: API_V2,
+                                           url_parameters: url_parameters.merge(pageNumber: page_number)
+
+          transactions += @dealing_platform.instantiate_models Transaction, request_result.fetch(:transactions)
+
+          break if page_number == request_result.fetch(:metadata).fetch(:page_data).fetch(:total_pages)
+
+          page_number += 1
+        end
+
+        transactions
+      end
+
+      def history_request(options)
+        params = URI.encode_www_form options.fetch(:url_parameters)
+
+        url = options[:url]
+        url += "?#{params}" unless params.empty?
+
+        @dealing_platform.session.get url, options.fetch(:api_version)
       end
     end
   end
