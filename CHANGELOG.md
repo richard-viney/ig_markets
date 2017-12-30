@@ -1,5 +1,9 @@
 # IG Markets Changelog
 
+### 0.34 — Unreleased
+
+- 
+
 ### 0.33 — December 30, 2017
 
 - Added `DealingPlatform::ClientSentimentMethods#find` for retrieving multiple client sentiments in one request
