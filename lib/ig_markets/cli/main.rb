@@ -67,9 +67,9 @@ module IGMarkets
         def begin_session(options)
           platform = options[:demo] ? :demo : :live
 
-          RequestPrinter.enabled = true if options[:verbose]
-
           @dealing_platform ||= DealingPlatform.new
+          @dealing_platform.session.log_sinks = [$stdout] if options[:verbose]
+
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield @dealing_platform

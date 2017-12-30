@@ -145,4 +145,12 @@ MSG
 
     IGMarkets::CLI::Main.bootstrap []
   end
+
+  it 'enables logging to stdout when --verbose is set' do
+    expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :live)
+
+    IGMarkets::CLI::Main.begin_session(cli(verbose: true).options) { |_dealing_platform| }
+
+    expect(dealing_platform.session.log_sinks).to match_array([$stdout])
+  end
 end

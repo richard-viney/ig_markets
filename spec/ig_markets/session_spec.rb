@@ -124,12 +124,40 @@ describe IGMarkets::Session do
       expect(session.delete('url', id: 1)).to eq({})
     end
 
-    it 'prints requests' do
-      response = build_response body: { test: 2 }.to_json
+    it 'reports requests to debug output targets' do
+      response = build_response body: { test: 2 }.to_json, headers: { test: '123' }
 
-      expect(IGMarkets::RequestPrinter).to receive(:print_request).with(hash_including(:method, :url, :body, :headers))
+      log_sink = spy
+
+      session.log_sinks = [log_sink]
+
+      expect(log_sink).to receive(:write).with(<<-MSG
+POST https://api.ig.com/gateway/deal/test
+  Headers:
+    Accept: application/json; charset=UTF-8
+    Content-Type: application/json; charset=UTF-8
+    X-IG-API-KEY: api_key
+    Version: 1
+    CST: client_security_token
+    X-SECURITY-TOKEN: x_security_token
+  Body:
+    {
+      "test": 1
+    }
+MSG
+                                              )
+      expect(log_sink).to receive(:write).with(<<-MSG
+  Response:
+    Headers:
+      test: 123
+    Body:
+      {
+        "test": 2
+      }
+MSG
+                                              )
+
       expect(Excon).to receive(:post).with(full_url('test'), request_options(body: { test: 1 })).and_return(response)
-      expect(IGMarkets::RequestPrinter).to receive(:print_response).with(response)
 
       session.post 'test', test: 1
     end

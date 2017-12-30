@@ -183,7 +183,7 @@ module IGMarkets
       # @param [Array<Symbol>] names The names of the deprecated attributes.
       def deprecated_attribute(*names)
         names.each do |name|
-          define_method(name){}
+          define_method(name) {}
           define_method("#{name}=") { |_value| }
           define_singleton_method("sanitize_#{name}_value") { |value| value }
 

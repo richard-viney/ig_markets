@@ -23,6 +23,9 @@ module IGMarkets
     #         is no active session.
     attr_reader :x_security_token
 
+    # @return [Array<#write>] the array of streams to write log output to.
+    attr_accessor :log_sinks
+
     # Signs in to IG Markets using the values of {#username}, {#password}, {#api_key} and {#platform}. If an error
     # occurs then an {IGMarketsError} will be raised.
     #
@@ -138,15 +141,25 @@ module IGMarkets
     end
 
     def execute_request(options)
-      RequestPrinter.print_request options
+      write_to_log_sinks { RequestFormatter.format_request options }
 
       response = Excon.send options[:method], options[:url], headers: options[:headers], body: options[:body]
 
-      RequestPrinter.print_response response
+      write_to_log_sinks { RequestFormatter.format_response response }
 
       process_response response, options
     rescue Excon::Error => error
       raise Errors::ConnectionError, error.message
+    end
+
+    def write_to_log_sinks
+      return if (log_sinks || []).empty?
+
+      content = yield
+
+      log_sinks.each do |sink|
+        sink.write content
+      end
     end
 
     def process_response(response, options)
