@@ -4,7 +4,6 @@
 [![Build Status][travis-ci-badge]][travis-ci-link]
 [![Test Coverage][test-coverage-badge]][test-coverage-link]
 [![Code Climate][code-climate-badge]][code-climate-link]
-[![Dependencies][dependencies-badge]][dependencies-link]
 [![Documentation][documentation-badge]][documentation-link]
 [![License][license-badge]][license-link]
 
@@ -274,8 +273,6 @@ Gem created by Richard Viney. All contributions welcome.
 [test-coverage-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/coverage.svg
 [code-climate-link]: https://codeclimate.com/github/richard-viney/ig_markets
 [code-climate-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/gpa.svg
-[dependencies-link]: https://gemnasium.com/richard-viney/ig_markets
-[dependencies-badge]: https://gemnasium.com/richard-viney/ig_markets.svg
 [documentation-link]: https://inch-ci.org/github/richard-viney/ig_markets
 [documentation-badge]: https://inch-ci.org/github/richard-viney/ig_markets.svg?branch=master
 [license-link]: https://github.com/richard-viney/ig_markets/blob/master/LICENSE.md
