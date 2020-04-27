@@ -34,7 +34,7 @@ module IGMarkets
         return [] if epics.empty?
 
         epics.each do |epic|
-          raise ArgumentError, "invalid EPIC: #{epic}" unless epic.to_s =~ Regex::EPIC
+          raise ArgumentError, "invalid EPIC: #{epic}" unless Regex::EPIC.match?(epic.to_s)
         end
 
         # The API imposes a maximum of 50 EPICs per request

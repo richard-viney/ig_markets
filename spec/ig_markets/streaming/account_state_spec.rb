@@ -6,7 +6,7 @@ describe IGMarkets::Streaming::AccountState, :dealing_platform do
   let(:trades_subscription) { instance_double 'IGMarkets::Streaming::Subscription' }
 
   let(:account_state) do
-    IGMarkets::Streaming::AccountState.new(dealing_platform).tap do |account_state|
+    described_class.new(dealing_platform).tap do |account_state|
       account_state.instance_variable_set :@data_queue, data_queue
     end
   end

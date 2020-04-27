@@ -10,7 +10,7 @@ module IGMarkets
         elsif type
           lambda do |value, _options, name|
             if Array(value).any? { |entry| !entry.is_a? type }
-              raise ArgumentError, "incorrect type set on #{self}##{name}: #{value.inspect}"
+              raise ArgumentError, "incorrect type set on #{self.name}##{name}: #{value.inspect}"
             end
 
             value
@@ -22,14 +22,14 @@ module IGMarkets
         return value if [nil, true, false].include? value
         return value == '1' if %w[0 1].include? value
 
-        raise ArgumentError, "#{self}##{name}: invalid boolean value: #{value}"
+        raise ArgumentError, "#{self.name}##{name}: invalid boolean value: #{value}"
       end
 
       def typecaster_string(value, options, name)
         return nil if value.nil?
 
         if options.key?(:regex) && !options[:regex].match(value.to_s)
-          raise ArgumentError, "#{self}##{name}: invalid string value: #{value}"
+          raise ArgumentError, "#{self.name}##{name}: invalid string value: #{value}"
         end
 
         value.to_s
@@ -46,7 +46,7 @@ module IGMarkets
 
         Float(value)
       rescue ArgumentError
-        raise ArgumentError, "#{self}##{name}: invalid float value: #{value}"
+        raise ArgumentError, "#{self.name}##{name}: invalid float value: #{value}"
       end
 
       def typecaster_symbol(value, _options, _name)
@@ -65,14 +65,12 @@ module IGMarkets
 
       def parse_formatted_date_value(value, options, name)
         Array(options[:format]).each do |format|
-          begin
-            return Date.strptime value, format
-          rescue ArgumentError
-            next
-          end
+          return Date.strptime value, format
+        rescue ArgumentError
+          next
         end
 
-        raise ArgumentError, "#{self}##{name}: failed parsing date: #{value}"
+        raise ArgumentError, "#{self.name}##{name}: failed parsing date: #{value}"
       end
 
       def typecaster_time(value, options, name)
@@ -85,14 +83,12 @@ module IGMarkets
 
       def parse_formatted_time_value(value, options, name)
         Array(options[:format]).each do |format|
-          begin
-            return parse_time_using_format value, format
-          rescue ArgumentError
-            next
-          end
+          return parse_time_using_format value, format
+        rescue ArgumentError
+          next
         end
 
-        raise ArgumentError, "#{self}##{name}: failed parsing time: #{value}"
+        raise ArgumentError, "#{self.name}##{name}: failed parsing time: #{value}"
       end
 
       def parse_time_using_format(value, format)

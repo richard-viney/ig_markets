@@ -211,7 +211,7 @@ module IGMarkets
         model.send "#{attribute}=", value
       else
         unless Array(@reported_unrecognized_values).include? [model.class, attribute, value]
-          warn "ig_markets: received unrecognized value for #{model.class}##{attribute}: #{value}"
+          warn "ig_markets: received unrecognized value for #{model.class.name}##{attribute}: #{value}"
           (@reported_unrecognized_values ||= []) << [model.class, attribute, value]
         end
       end

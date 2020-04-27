@@ -66,7 +66,7 @@ module IGMarkets
         end
       end
 
-      COLORIZE_REGEXP = /^\e\[0(?:;(\d+);49)?m/
+      COLORIZE_REGEXP = /^\e\[0(?:;(\d+);49)?m/.freeze
 
       def print_next_line_segment(line)
         match = line.match COLORIZE_REGEXP

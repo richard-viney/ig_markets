@@ -47,12 +47,12 @@ module IGMarkets
     #
     # @return [Hash]
     def to_h
-      attributes.each_with_object({}) do |(key, value), hash|
-        hash[key] = if value.is_a? Model
-                      value.to_h
-                    else
-                      value
-                    end
+      attributes.transform_values do |value|
+        if value.is_a? Model
+          value.to_h
+        else
+          value
+        end
       end
     end
 
@@ -113,7 +113,7 @@ module IGMarkets
         return true if defined_attribute_names.include?(name) || Array(deprecated_attributes).include?(name)
 
         unless Array(@reported_invalid_attributes).include? name
-          warn "ig_markets: unrecognized attribute #{self}##{name}"
+          warn "ig_markets: unrecognized attribute #{self.name}##{name}"
           (@reported_invalid_attributes ||= []) << name
         end
 
@@ -202,7 +202,7 @@ module IGMarkets
           value = self.class.send "sanitize_#{name}_value", value
 
           unless self.class.attribute_value_allowed? name, value
-            raise ArgumentError, "#{self.class}##{name}: invalid value: #{value.inspect}"
+            raise ArgumentError, "#{self.class.name}##{name}: invalid value: #{value.inspect}"
           end
 
           (@attributes ||= {})[name] = value

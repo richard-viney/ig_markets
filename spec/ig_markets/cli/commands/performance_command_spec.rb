@@ -31,14 +31,14 @@ describe IGMarkets::CLI::Main, :cli_command do
     performances = [{ epic: aud_usd, instrument_name: 'AUD/USD', transactions: transactions[0..1], profit_loss: -3 },
                     { epic: eur_usd, instrument_name: 'EUR/USD', transactions: transactions[2..3], profit_loss: 30 }]
 
-    expect { cli(days: 10).performance }.to output(<<-MSG
-#{IGMarkets::CLI::Tables::PerformancesTable.new performances}
+    expect { cli(days: 10).performance }.to output(<<~MSG
+      #{IGMarkets::CLI::Tables::PerformancesTable.new performances}
 
-Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
-      dividends, or other adjustments that may have occurred over this period.
+      Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
+            dividends, or other adjustments that may have occurred over this period.
 
-Total: #{ColorizedString['US 27.00'].green}
-MSG
+      Total: #{ColorizedString['US 27.00'].green}
+    MSG
                                                   ).to_stdout
   end
 end

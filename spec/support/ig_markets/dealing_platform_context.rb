@@ -1,4 +1,4 @@
-RSpec.shared_context 'dealing_platform', :dealing_platform do
+RSpec.shared_context 'with a dealing platform', :dealing_platform do
   let(:session) { IGMarkets::Session.new }
 
   let(:dealing_platform) do

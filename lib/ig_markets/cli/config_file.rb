@@ -13,8 +13,8 @@ module IGMarkets
       def initialize(content = {})
         @content = content || {}
 
-        @profiles = (@content['profiles'] || {}).each_with_object({}) do |(profile_name, profile_arguments), result|
-          result[profile_name] = profile_arguments.map do |argument, value|
+        @profiles = (@content['profiles'] || {}).transform_values do |profile_arguments|
+          profile_arguments.map do |argument, value|
             "--#{argument}=#{value}"
           end
         end

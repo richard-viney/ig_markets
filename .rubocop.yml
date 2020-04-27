@@ -1,20 +1,18 @@
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 2.2
+  NewCops: enable
+  TargetRubyVersion: 2.5
 
-ClassLength:
+Layout/LineLength:
   Max: 120
-
-# If required_ruby_version is increased to 2.3 then this can cop can be enabled and the code updated
-# to use the squiggly heredoc feature.
-Layout/IndentHeredoc:
-  Enabled: false
 
 Metrics/BlockLength:
   Enabled: false
 
-Metrics/LineLength:
+Metrics/ClassLength:
   Max: 120
 
 RSpec/ExampleLength:
@@ -30,4 +28,7 @@ RSpec/MultipleExpectations:
   Enabled: false
 
 Style/FormatStringToken:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false

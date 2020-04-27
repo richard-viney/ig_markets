@@ -1,22 +1,30 @@
 describe IGMarkets::CLI::CursesWindow do
-  class Curses
-    A_NORMAL = 0
+  before do
+    stub_const(
+      'Curses',
+      Class.new do
+        def self.color_pair(_); end
+      end
+    )
 
-    def self.color_pair(_); end
+    stub_const('Curses::A_NORMAL', 0)
 
-    class Window
-      def attron(_); end
+    stub_const(
+      'Curses::Window',
+      Class.new do
+        def attron(_); end
 
-      def setpos(_, _); end
+        def setpos(_, _); end
 
-      def <<(_); end
+        def <<(_); end
 
-      def clear; end
+        def clear; end
 
-      def refresh; end
+        def refresh; end
 
-      def nodelay=(_); end
-    end
+        def nodelay=(_); end
+      end
+    )
   end
 
   it 'checks for the curses gem' do
@@ -42,7 +50,7 @@ describe IGMarkets::CLI::CursesWindow do
     described_class.prepare
   end
 
-  context do
+  context 'with a curses window' do
     let(:curses_window) { instance_double 'Curses::Window' }
 
     let(:window) do

@@ -131,20 +131,20 @@ describe IGMarkets::Session do
 
       session.log_sinks = [log_sink]
 
-      expect(log_sink).to receive(:write).with(<<-MSG
-POST https://api.ig.com/gateway/deal/test
-  Headers:
-    Accept: application/json; charset=UTF-8
-    Content-Type: application/json; charset=UTF-8
-    X-IG-API-KEY: api_key
-    Version: 1
-    CST: client_security_token
-    X-SECURITY-TOKEN: x_security_token
-  Body:
-    {
-      "test": 1
-    }
-MSG
+      expect(log_sink).to receive(:write).with(<<~MSG
+        POST https://api.ig.com/gateway/deal/test
+          Headers:
+            Accept: application/json; charset=UTF-8
+            Content-Type: application/json; charset=UTF-8
+            X-IG-API-KEY: api_key
+            Version: 1
+            CST: client_security_token
+            X-SECURITY-TOKEN: x_security_token
+          Body:
+            {
+              "test": 1
+            }
+      MSG
                                               )
       expect(log_sink).to receive(:write).with(<<-MSG
   Response:
@@ -154,7 +154,7 @@ MSG
       {
         "test": 2
       }
-MSG
+      MSG
                                               )
 
       expect(Excon).to receive(:post).with(full_url('test'), request_options(body: { test: 1 })).and_return(response)

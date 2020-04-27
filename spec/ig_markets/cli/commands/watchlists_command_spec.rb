@@ -20,9 +20,9 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
 
     expect(dealing_platform.watchlists).to receive(:create).with('name', 'epic1', 'epic2').and_return(watchlist)
 
-    expect { cli.create 'name', 'epic1', 'epic2' }.to output(<<-MSG
-New watchlist ID: 2547731
-MSG
+    expect { cli.create 'name', 'epic1', 'epic2' }.to output(<<~MSG
+      New watchlist ID: 2547731
+    MSG
                                                             ).to_stdout
   end
 

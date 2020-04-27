@@ -27,7 +27,7 @@ module IGMarkets
         def cell_color(value, _transaction, _row_index, column_index)
           return unless headings[column_index] == 'Profit/loss'
 
-          if value =~ /-/
+          if /-/.match?(value)
             :red
           else
             :green

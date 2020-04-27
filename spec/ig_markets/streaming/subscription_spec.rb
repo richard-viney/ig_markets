@@ -1,6 +1,6 @@
 describe IGMarkets::Streaming::Subscription, :dealing_platform do
   let(:lightstreamer_subscription) { instance_double 'Lightstreamer::Subscription', on_data: nil }
-  let(:subscription) { IGMarkets::Streaming::Subscription.new dealing_platform, lightstreamer_subscription }
+  let(:subscription) { described_class.new dealing_platform, lightstreamer_subscription }
 
   it 'unsilences itself' do
     expect(lightstreamer_subscription).to receive(:unsilence)

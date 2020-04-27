@@ -7,16 +7,16 @@ describe IGMarkets::RequestFormatter do
       body: { data: 'ABC' }.to_json
     }
 
-    expect(described_class.format_request(options)).to eq(<<-MSG
-GET url
-  Headers:
-    Name: value
-    _method: DELETE
-  Body:
-    {
-      "data": "ABC"
-    }
-MSG
+    expect(described_class.format_request(options)).to eq(<<~MSG
+      GET url
+        Headers:
+          Name: value
+          _method: DELETE
+        Body:
+          {
+            "data": "ABC"
+          }
+    MSG
                                                          )
   end
 
@@ -31,7 +31,7 @@ MSG
       {
         "data": "ABC"
       }
-MSG
+    MSG
                                                            )
   end
 
@@ -44,7 +44,7 @@ MSG
       Name: Value
     Body:
       <html></html>
-MSG
+    MSG
                                                            )
   end
 end

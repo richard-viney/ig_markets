@@ -44,11 +44,11 @@ module IGMarkets
 
       private
 
-      ACCOUNT_DATA_REGEX = /^ACCOUNT:(.*)$/
-      MARKET_DATA_REGEX = /^MARKET:(.*)$/
-      TRADE_DATA_REGEX = /^TRADE:(.*)$/
-      CHART_TICK_DATA_REGEX = /^CHART:(.*):TICK$/
-      CONSOLIDATED_CHART_DATA_REGEX = /^CHART:(.*):(SECOND|1MINUTE|5MINUTE|HOUR)$/
+      ACCOUNT_DATA_REGEX = /^ACCOUNT:(.*)$/.freeze
+      MARKET_DATA_REGEX = /^MARKET:(.*)$/.freeze
+      TRADE_DATA_REGEX = /^TRADE:(.*)$/.freeze
+      CHART_TICK_DATA_REGEX = /^CHART:(.*):TICK$/.freeze
+      CONSOLIDATED_CHART_DATA_REGEX = /^CHART:(.*):(SECOND|1MINUTE|5MINUTE|HOUR)$/.freeze
 
       def on_raw_data(_subscription, item_name, item_data, new_data)
         {
@@ -58,7 +58,7 @@ module IGMarkets
           CHART_TICK_DATA_REGEX => :on_chart_tick_data,
           CONSOLIDATED_CHART_DATA_REGEX => :on_consolidated_chart_data
         }.each do |regex, handler|
-          send handler, item_name, item_data, new_data if item_name =~ regex
+          send handler, item_name, item_data, new_data if item_name&.match?(regex)
         end
       end
 

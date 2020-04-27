@@ -1,4 +1,4 @@
-$LOAD_PATH.push File.expand_path('../lib', __FILE__)
+$LOAD_PATH.push File.expand_path('lib', __dir__)
 require 'ig_markets/version'
 
 Gem::Specification.new do |s|
@@ -14,23 +14,23 @@ Gem::Specification.new do |s|
   s.extensions = ['ext/mkrf_conf.rb']
   s.executables = ['ig_markets']
 
-  s.required_ruby_version = '>= 2.2.2'
+  s.required_ruby_version = '>= 2.5'
 
   s.add_runtime_dependency 'colorize', '~> 0.8'
-  s.add_runtime_dependency 'excon', '~> 0.51'
-  s.add_runtime_dependency 'lightstreamer', '~> 0.14'
-  s.add_runtime_dependency 'pry', '~> 0.10'
+  s.add_runtime_dependency 'excon', '~> 0.73'
+  s.add_runtime_dependency 'lightstreamer', '~> 0.16'
+  s.add_runtime_dependency 'pry', '~> 0.13'
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
-  s.add_runtime_dependency 'thor', '~> 0.19'
+  s.add_runtime_dependency 'thor', '~> 1.0'
 
-  s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
-  s.add_development_dependency 'factory_bot', '~> 4.8'
-  s.add_development_dependency 'github-markup', '~> 2.0'
+  s.add_development_dependency 'factory_bot', '~> 5.0'
+  s.add_development_dependency 'github-markup', '~> 3.0'
   s.add_development_dependency 'redcarpet', '~> 3.3'
   s.add_development_dependency 'rspec', '~> 3.5'
   s.add_development_dependency 'rspec-mocks', '~> 3.5'
-  s.add_development_dependency 'rubocop', '~> 0.52'
-  s.add_development_dependency 'rubocop-rspec', '~> 1.21'
-  s.add_development_dependency 'simplecov', '~> 0.12'
+  s.add_development_dependency 'rubocop', '~> 0.82'
+  s.add_development_dependency 'rubocop-performance', '~> 1.4'
+  s.add_development_dependency 'rubocop-rspec', '~> 1.35'
+  s.add_development_dependency 'simplecov', '~> 0.18'
   s.add_development_dependency 'yard', '~> 0.9'
 end

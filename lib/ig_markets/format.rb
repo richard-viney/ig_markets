@@ -43,7 +43,7 @@ module IGMarkets
     def colored_currency(amount, currency_name)
       return '' unless amount
 
-      color = amount < 0 ? :red : :green
+      color = amount.negative? ? :red : :green
 
       ColorizedString[currency(amount, currency_name)].colorize color
     end

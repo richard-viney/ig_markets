@@ -1,5 +1,5 @@
-RSpec.shared_context 'cli_command', :cli_command do
-  include_context 'dealing_platform'
+RSpec.shared_context 'with a cli session', :cli_command do
+  include_context 'with a dealing platform'
 
   before do
     dealing_platform_model IGMarkets::CLI::Main

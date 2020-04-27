@@ -73,8 +73,8 @@ module IGMarkets
           @dealing_platform.sign_in options[:username], options[:password], options[:api_key], platform
 
           yield @dealing_platform
-        rescue IGMarketsError => error
-          warn_and_exit error
+        rescue IGMarketsError => e
+          warn_and_exit e
         end
 
         # Requests and displays the deal confirmation for the passed deal reference. If the request for the deal
@@ -87,14 +87,12 @@ module IGMarkets
           puts "Deal reference: #{deal_reference}"
 
           5.times do |index|
-            begin
-              return print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
-            rescue Errors::DealNotFoundError
-              raise if index == 4
+            return print_deal_confirmation @dealing_platform.deal_confirmation(deal_reference)
+          rescue Errors::DealNotFoundError
+            raise if index == 4
 
-              puts 'Deal not found, retrying ...'
-              sleep 2
-            end
+            puts 'Deal not found, retrying ...'
+            sleep 2
           end
         end
 
@@ -159,11 +157,11 @@ module IGMarkets
 
         # Prints out details of the passed deal confirmation.
         def print_deal_confirmation(deal_confirmation)
-          puts <<-MSG
-Deal ID: #{deal_confirmation.deal_id}
-Status: #{Format.symbol deal_confirmation.deal_status}
-Result: #{Format.symbol deal_confirmation.status}
-MSG
+          puts <<~MSG
+            Deal ID: #{deal_confirmation.deal_id}
+            Status: #{Format.symbol deal_confirmation.deal_status}
+            Result: #{Format.symbol deal_confirmation.status}
+          MSG
 
           print_deal_confirmation_profit_loss deal_confirmation
 

@@ -1,5 +1,5 @@
 describe IGMarkets::Streaming::MarketSubscriptionManager, :dealing_platform do
-  let(:market_subscriptions) { IGMarkets::Streaming::MarketSubscriptionManager.new dealing_platform }
+  let(:market_subscriptions) { described_class.new dealing_platform }
 
   it 'clears subscriptions' do
     expect(dealing_platform.streaming).to receive(:remove_subscriptions)

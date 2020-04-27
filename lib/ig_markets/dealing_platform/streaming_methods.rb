@@ -12,7 +12,7 @@ module IGMarkets
 
       # Connects the streaming session. Raises a `Lightstreamer::LightstreamerError` if an error occurs.
       def connect
-        @lightstreamer.disconnect if @lightstreamer
+        @lightstreamer&.disconnect
 
         @lightstreamer = Lightstreamer::Session.new username: username, password: password, server_url: server_url
         @lightstreamer.on_error { |error| @on_error_callbacks.each { |callback| callback.call error } }
@@ -21,7 +21,7 @@ module IGMarkets
 
       # Disconnects the streaming session.
       def disconnect
-        @lightstreamer.disconnect if @lightstreamer
+        @lightstreamer&.disconnect
         @lightstreamer = nil
       end
 

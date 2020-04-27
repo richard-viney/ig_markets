@@ -148,8 +148,8 @@ module IGMarkets
       write_to_log_sinks { RequestFormatter.format_response response }
 
       process_response response, options
-    rescue Excon::Error => error
-      raise Errors::ConnectionError, error.message
+    rescue Excon::Error => e
+      raise Errors::ConnectionError, e.message
     end
 
     def write_to_log_sinks

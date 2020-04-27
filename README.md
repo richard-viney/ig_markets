@@ -271,8 +271,8 @@ Gem created by Richard Viney. All contributions welcome.
 [travis-ci-badge]: https://travis-ci.org/richard-viney/ig_markets.svg?branch=master
 [test-coverage-link]: https://codeclimate.com/github/richard-viney/ig_markets/coverage
 [test-coverage-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/coverage.svg
-[code-climate-link]: https://codeclimate.com/github/richard-viney/ig_markets
-[code-climate-badge]: https://codeclimate.com/github/richard-viney/ig_markets/badges/gpa.svg
+[code-climate-link]: https://codeclimate.com/github/richard-viney/ig_markets/maintainability
+[code-climate-badge]: https://api.codeclimate.com/v1/badges/17163574f4819144efc8/maintainability
 [documentation-link]: https://inch-ci.org/github/richard-viney/ig_markets
 [documentation-badge]: https://inch-ci.org/github/richard-viney/ig_markets.svg?branch=master
 [license-link]: https://github.com/richard-viney/ig_markets/blob/master/LICENSE.md

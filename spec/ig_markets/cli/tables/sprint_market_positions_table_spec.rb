@@ -7,16 +7,16 @@ describe IGMarkets::CLI::Tables::SprintMarketPositionsTable do
 
     table = described_class.new(sprint_market_positions, markets: markets)
 
-    expect(table.to_s).to eql(<<-MSG.strip
-+-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
-|                                            Sprint market positions                                             |
-+-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
-| EPIC              | Direction | Size       | Strike level | Current | Expires in (m:ss) | Payout     | Deal ID |
-+-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
-| FM.D.FTSE.FTSE.IP | Buy       | USD 120.50 |        110.1 |    99.5 |              2:05 | #{ColorizedString['USD 210.80'].red} | DEAL    |
-| FM.D.FTSE.FTSE.IP | Buy       | USD 120.50 |         99.0 |    99.5 |              2:05 | #{ColorizedString['USD 210.80'].green} | DEAL    |
-+-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
-MSG
+    expect(table.to_s).to eql(<<~MSG.strip
+      +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
+      |                                            Sprint market positions                                             |
+      +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
+      | EPIC              | Direction | Size       | Strike level | Current | Expires in (m:ss) | Payout     | Deal ID |
+      +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
+      | FM.D.FTSE.FTSE.IP | Buy       | USD 120.50 |        110.1 |    99.5 |              2:05 | #{ColorizedString['USD 210.80'].red} | DEAL    |
+      | FM.D.FTSE.FTSE.IP | Buy       | USD 120.50 |         99.0 |    99.5 |              2:05 | #{ColorizedString['USD 210.80'].green} | DEAL    |
+      +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
+    MSG
                              )
   end
 end

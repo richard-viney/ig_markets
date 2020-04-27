@@ -61,13 +61,13 @@ module IGMarkets
         profit_loss = performances.map { |h| h[:profit_loss] }.inject(:+)
         currency = performances.first[:transactions].first.currency
 
-        puts <<-MSG
+        puts <<~MSG
 
-Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
-      dividends, or other adjustments that may have occurred over this period.
+          Note: this table only shows the profit/loss made from dealing, it does not include interest payments,
+                dividends, or other adjustments that may have occurred over this period.
 
-Total: #{Format.colored_currency profit_loss, currency}
-MSG
+          Total: #{Format.colored_currency profit_loss, currency}
+        MSG
       end
     end
   end

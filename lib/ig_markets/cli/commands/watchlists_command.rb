@@ -9,7 +9,7 @@ module IGMarkets
           dealing_platform.watchlists.all.each_with_index do |watchlist, index|
             table = Tables::MarketOverviewsTable.new watchlist.markets, title: table_title(watchlist)
 
-            puts '' if index > 0
+            puts '' if index.positive?
             puts table
           end
         end

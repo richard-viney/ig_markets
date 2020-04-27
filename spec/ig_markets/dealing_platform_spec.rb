@@ -1,4 +1,21 @@
 describe IGMarkets::DealingPlatform, :dealing_platform do
+  let(:model_class) do
+    Class.new(IGMarkets::Model) do
+      def self.name
+        'TestModel'
+      end
+
+      attribute :test
+      attribute :test2, Symbol, allowed_values: %i[one two three]
+
+      deprecated_attribute :deprecated
+
+      def self.adjusted_api_attributes(attributes)
+        attributes.keys == [:parent] ? attributes[:parent] : attributes
+      end
+    end
+  end
+
   it 'signs in' do
     client_account_summary = build :client_account_summary, client_id: 'id'
 
@@ -46,30 +63,19 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
     expect(dealing_platform.instantiate_models(IGMarkets::Account, [account])).to eq([account])
   end
 
-  class DealingPlatformSpecModel < IGMarkets::Model
-    attribute :test
-    attribute :test2, Symbol, allowed_values: %i[one two three]
-
-    deprecated_attribute :deprecated
-
-    def self.adjusted_api_attributes(attributes)
-      attributes.keys == [:parent] ? attributes[:parent] : attributes
-    end
-  end
-
   it 'instantiates models from an attributes hash' do
-    result = dealing_platform.instantiate_models(DealingPlatformSpecModel, parent: [{ test: 'value', deprecated: '' }])
-    expect(result).to eq([DealingPlatformSpecModel.new(test: 'value')])
+    result = dealing_platform.instantiate_models(model_class, parent: [{ test: 'value', deprecated: '' }])
+    expect(result).to eq([model_class.new(test: 'value')])
   end
 
   it 'reports unrecognized values when instantiating models exactly once and sets their value to nil' do
     expect do
-      result = dealing_platform.instantiate_models(DealingPlatformSpecModel, test: 'value', test2: 'FOUR')
-      expect(result).to eq(DealingPlatformSpecModel.new(test: 'value', test2: nil))
-    end.to output("ig_markets: received unrecognized value for DealingPlatformSpecModel#test2: four\n").to_stderr
+      result = dealing_platform.instantiate_models(model_class, test: 'value', test2: 'FOUR')
+      expect(result).to eq(model_class.new(test: 'value', test2: nil))
+    end.to output("ig_markets: received unrecognized value for TestModel#test2: four\n").to_stderr
 
     expect do
-      dealing_platform.instantiate_models(DealingPlatformSpecModel, test: 'value', test2: 'FOUR')
+      dealing_platform.instantiate_models(model_class, test: 'value', test2: 'FOUR')
     end.to output('').to_stderr
   end
 
@@ -79,7 +85,7 @@ describe IGMarkets::DealingPlatform, :dealing_platform do
   end
 
   it 'instantiates models from raw JSON' do
-    model = dealing_platform.instantiate_models_from_json DealingPlatformSpecModel, { test2: 'ONE' }.to_json
+    model = dealing_platform.instantiate_models_from_json model_class, { test2: 'ONE' }.to_json
     expect(model.attributes).to eq(test: nil, test2: :one)
   end
 end
