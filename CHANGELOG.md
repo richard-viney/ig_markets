@@ -4,7 +4,8 @@
 
 - Updated supported Ruby version range to 2.5 - 2.7.
 - Updated dependency versions.
-- Switched to `cc-test-reporter` now that the `codeclimate-test-reporter` gem has been deprecated.
+- Switched from Travis CI to GitHub Actions.
+- Removed CodeClimate.
 
 ### 0.33 — December 30, 2017
 

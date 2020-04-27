@@ -8,7 +8,7 @@ describe IGMarkets::Session do
     end
   end
 
-  let(:key) { Base64.strict_encode64 OpenSSL::PKey::RSA.new(256).to_pem }
+  let(:key) { Base64.strict_encode64 OpenSSL::PKey::RSA.new(1024).to_pem }
 
   def build_response(options)
     instance_double 'Excon::Response', options
