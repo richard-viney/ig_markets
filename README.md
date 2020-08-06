@@ -165,7 +165,7 @@ ig_markets console --verbose
 
 #### Documentation
 
-API documentation is available [here](http://www.rubydoc.info/github/richard-viney/ig_markets/master).
+API documentation is available [here](http://www.rubydoc.info/github/richard-viney/ig_markets/main).
 
 #### Examples
 
@@ -266,8 +266,8 @@ Gem created by Richard Viney. All contributions welcome.
 [gem-link]: https://rubygems.org/gems/ig_markets
 [gem-badge]: https://badge.fury.io/rb/ig_markets.svg
 [ci-link]: https://github.com/richard-viney/ig_markets/actions
-[ci-badge]: https://github.com/richard-viney/ig_markets/workflows/ci/badge.svg
-[documentation-link]: https://inch-ci.org/github/richard-viney/ig_markets
-[documentation-badge]: https://inch-ci.org/github/richard-viney/ig_markets.svg?branch=master
-[license-link]: https://github.com/richard-viney/ig_markets/blob/master/LICENSE.md
+[ci-badge]: https://github.com/richard-viney/ig_markets/workflows/ci/badge.svg?branch=main
+[documentation-link]: https://inch-ci.org/github/richard-viney/ig_markets?branch=main
+[documentation-badge]: https://inch-ci.org/github/richard-viney/ig_markets.svg?branch=main
+[license-link]: https://github.com/richard-viney/ig_markets/blob/main/LICENSE.md
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
