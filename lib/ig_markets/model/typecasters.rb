@@ -6,7 +6,7 @@ module IGMarkets
 
       def typecaster_for(type)
         if [Boolean, String, Integer, Float, Symbol, Date, Time].include? type
-          method "typecaster_#{type.to_s.gsub(/\AIGMarkets::/, '').downcase}"
+          method "typecaster_#{type.to_s.delete_prefix('IGMarkets::').downcase}"
         elsif type
           lambda do |value, _options, name|
             if Array(value).any? { |entry| !entry.is_a? type }

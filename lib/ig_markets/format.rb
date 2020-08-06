@@ -60,7 +60,7 @@ module IGMarkets
                  (value / 60).to_s
                end
 
-      result + ':' + Kernel.format('%02i', value % 60)
+      "#{result}:#{Kernel.format('%02i', value % 60)}"
     end
 
     # Formats the passed symbol into a human-readable string, replacing underscores with spaces and capitalizing the

@@ -122,7 +122,7 @@ module IGMarkets
         options[:method] = :post
       end
 
-      options[:body] = options[:body] && options[:body].to_json
+      options[:body] = options[:body]&.to_json
 
       execute_request options
     end

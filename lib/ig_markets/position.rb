@@ -39,9 +39,10 @@ module IGMarkets
     #
     # @return [Float]
     def price_delta
-      if direction == :buy
+      case direction
+      when :buy
         close_level - level
-      elsif direction == :sell
+      when :sell
         level - close_level
       end
     end

@@ -80,9 +80,10 @@ module IGMarkets
 
     # Returns the {#inspect} string for the given value.
     def inspect_value(value)
-      if value.is_a? Time
+      case value
+      when Time
         value.localtime.strftime '%F %T %Z'
-      elsif value.is_a? Date
+      when Date
         value.strftime '%F'
       else
         value.inspect

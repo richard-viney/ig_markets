@@ -50,7 +50,7 @@ module IGMarkets
         result = "  Body:\n    "
         result += JSON.pretty_generate(JSON.parse(body)).gsub("\n", "\n    ")
 
-        result + "\n"
+        "#{result}\n"
       end
 
       def format_response_headers(headers)
@@ -66,9 +66,9 @@ module IGMarkets
       def format_response_body(body)
         result = "    Body:\n      "
         result += JSON.pretty_generate(JSON.parse(body)).gsub "\n", "\n      "
-        result + "\n"
+        "#{result}\n"
       rescue JSON::ParserError
-        result + body + "\n"
+        "#{result}#{body}\n"
       end
     end
   end

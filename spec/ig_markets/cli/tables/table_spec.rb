@@ -42,7 +42,7 @@ describe IGMarkets::CLI::Tables::Table do
   end
 
   it 'prints the table' do
-    expect(table_class.new(models).to_s + "\n").to eq(<<~MSG
+    expect("#{table_class.new(models)}\n").to eq(<<~MSG
       +-------+--------+--------+
       |          Test           |
       +-------+--------+--------+
@@ -53,11 +53,11 @@ describe IGMarkets::CLI::Tables::Table do
       | Test  | No     | 0.1234 |
       +-------+--------+--------+
     MSG
-                                                     )
+                                                )
   end
 
   it 'uses a custom title' do
-    expect(table_class.new(models, title: 'Title').to_s + "\n").to eq(<<~MSG
+    expect("#{table_class.new(models, title: 'Title')}\n").to eq(<<~MSG
       +-------+--------+--------+
       |          Title          |
       +-------+--------+--------+
@@ -68,6 +68,6 @@ describe IGMarkets::CLI::Tables::Table do
       | Test  | No     | 0.1234 |
       +-------+--------+--------+
     MSG
-                                                                     )
+                                                                )
   end
 end

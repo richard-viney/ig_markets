@@ -147,9 +147,10 @@ module IGMarkets
 
       source = prepare_source model_class, source
 
-      if source.is_a? Array
+      case source
+      when Array
         source.map { |entry| instantiate_models model_class, entry }
-      elsif source.is_a? Hash
+      when Hash
         instantiate_model_from_attributes_hash model_class, source
       else
         raise ArgumentError, "#{model_class}: can't instantiate from a source of type #{source.class}"

@@ -14,11 +14,12 @@ module IGMarkets
     #
     # @return [Hash, Array, Object] The parsed object, the type depends on the type of the `response` parameter.
     def parse(response)
-      if response.is_a? Hash
+      case response
+      when Hash
         response.each_with_object({}) do |(key, value), new_hash|
           new_hash[camel_case_to_snake_case(key).to_sym] = parse(value)
         end
-      elsif response.is_a? Array
+      when Array
         response.map { |item| parse item }
       else
         response

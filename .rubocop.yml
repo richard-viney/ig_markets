@@ -9,6 +9,12 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
+Lint/FloatComparison:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 18
+
 Metrics/BlockLength:
   Enabled: false
 
