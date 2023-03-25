@@ -49,7 +49,7 @@ describe IGMarkets::CLI::Positions, :cli_command do
       stop_level: 30
     }
 
-    position = build :position
+    position = build(:position)
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
     expect(position).to receive(:update).with(arguments).and_return('reference')
@@ -61,10 +61,10 @@ describe IGMarkets::CLI::Positions, :cli_command do
   it 'removes a stop and limit from a position' do
     arguments = { limit_level: '', stop_level: 'stop_level' }
 
-    position = build :position
+    position = build(:position)
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
-    expect(position).to receive(:update).with(limit_level: '', stop_level: nil).and_return('reference')
+    expect(position).to receive(:update).with({ limit_level: '', stop_level: nil }).and_return('reference')
     expect(IGMarkets::CLI::Main).to receive(:report_deal_confirmation).with('reference')
 
     cli(arguments).update 'DEAL'
@@ -73,7 +73,7 @@ describe IGMarkets::CLI::Positions, :cli_command do
   it 'closes a position' do
     arguments = { size: 1 }
 
-    position = build :position
+    position = build(:position)
 
     expect(dealing_platform.positions).to receive(:[]).with('DEAL').and_return(position)
     expect(position).to receive(:close).with(arguments).and_return('reference')

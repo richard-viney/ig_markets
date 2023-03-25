@@ -81,14 +81,14 @@ describe IGMarkets::Model do
   it 'has attribute getter and setter methods' do
     %i[id id= bool bool= string string= date date= time time=
        float float= symbol symbol=].each do |method_name|
-      expect(model.respond_to?(method_name)).to eq(true)
+      expect(model.respond_to?(method_name)).to be(true)
     end
   end
 
   it 'has sanitize attribute class methods' do
     %i[sanitize_id_value sanitize_bool_value sanitize_string_value sanitize_date_value sanitize_time_value
        sanitize_float_value sanitize_symbol_value].each do |method_name|
-      expect(test_model_class.respond_to?(method_name)).to eq(true)
+      expect(test_model_class.respond_to?(method_name)).to be(true)
     end
   end
 
@@ -131,7 +131,7 @@ describe IGMarkets::Model do
     model.float = 1.0
     model.float = ''
 
-    expect(model.float).to be nil
+    expect(model.float).to be_nil
   end
 
   it 'accepts 0 and 1 on boolean attributes' do
@@ -177,7 +177,7 @@ describe IGMarkets::Model do
 
   it 'sets attribute to nil when value matches a nil_if' do
     model.string = '-'
-    expect(model.string).to be nil
+    expect(model.string).to be_nil
   end
 
   it 'parses a date in the expected formats' do

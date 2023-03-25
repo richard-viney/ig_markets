@@ -36,7 +36,7 @@ module IGMarkets
           @dealing_platform = dealing_platform
           @queue = Queue.new
 
-          @dealing_platform.streaming.on_error(&method(:on_error))
+          @dealing_platform.streaming.on_error { |error| on_error error }
           @dealing_platform.streaming.connect
           start_raw_subscriptions
 
@@ -51,7 +51,7 @@ module IGMarkets
                          chart_ticks_subscription].compact
 
         subscriptions.each do |subscription|
-          subscription.on_data(&method(:on_data))
+          subscription.on_data { |data, merged_data| on_data data, merged_data }
         end
 
         @dealing_platform.streaming.start_subscriptions subscriptions, snapshot: true

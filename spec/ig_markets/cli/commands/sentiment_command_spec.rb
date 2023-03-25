@@ -4,7 +4,7 @@ describe IGMarkets::CLI::Main, :cli_command do
   end
 
   it 'prints client sentiment' do
-    sentiment = build :client_sentiment
+    sentiment = build(:client_sentiment)
     related_sentiments = [
       build(:client_sentiment, market_id: 'A'),
       build(:client_sentiment, market_id: 'B', long_position_percentage: 75, short_position_percentage: 25),

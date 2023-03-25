@@ -10,7 +10,9 @@ describe IGMarkets::CLI::Main, :cli_command do
   it 'prints transactions from a recent number of days' do
     transactions = [build(:transaction)]
 
-    expect(dealing_platform.account).to receive(:transactions).with(from: Time.new(2016, 1, 2)).and_return(transactions)
+    expect(dealing_platform.account).to receive(:transactions)
+      .with({ from: Time.new(2016, 1, 2) })
+      .and_return(transactions)
 
     expect { cli(days: 3, interest: true, sort_by: 'date').transactions }.to output(<<~MSG
       #{IGMarkets::CLI::Tables::TransactionsTable.new transactions}
@@ -25,7 +27,7 @@ describe IGMarkets::CLI::Main, :cli_command do
     from = Time.new 2015, 2, 15, 6, 0, 0, '-04:00'
     to = Time.new 2015, 2, 18, 6, 0, 0, '-04:00'
 
-    expect(dealing_platform.account).to receive(:transactions).with(from: from, to: to).and_return([])
+    expect(dealing_platform.account).to receive(:transactions).with({ from: from, to: to }).and_return([])
 
     expect do
       cli(from: '2015-02-15T06:00:00-04:00', to: '2015-02-18T06:00:00-04:00').transactions
@@ -39,7 +41,9 @@ describe IGMarkets::CLI::Main, :cli_command do
       build(:transaction, instrument_name: 'Test 456', profit_and_loss: 'US1.00')
     ]
 
-    expect(dealing_platform.account).to receive(:transactions).with(from: Time.new(2016, 1, 2)).and_return(transactions)
+    expect(dealing_platform.account).to receive(:transactions)
+      .with({ from: Time.new(2016, 1, 2) })
+      .and_return(transactions)
 
     expect { cli(days: 3, instrument: 'TEST', interest: false, sort_by: 'date').transactions }.to output(<<~MSG
       #{IGMarkets::CLI::Tables::TransactionsTable.new [transactions[2], transactions[1]]}

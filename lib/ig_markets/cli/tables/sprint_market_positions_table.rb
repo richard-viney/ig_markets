@@ -32,8 +32,8 @@ module IGMarkets
         def cell_color(_value, sprint, _row_index, column_index)
           return unless headings[column_index] == 'Payout'
 
-          if current_level(sprint) > sprint.strike_level && sprint.direction == :buy ||
-             current_level(sprint) < sprint.strike_level && sprint.direction == :sell
+          if (current_level(sprint) > sprint.strike_level && sprint.direction == :buy) ||
+             (current_level(sprint) < sprint.strike_level && sprint.direction == :sell)
             :green
           else
             :red

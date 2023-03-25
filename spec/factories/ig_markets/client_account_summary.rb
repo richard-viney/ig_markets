@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :client_account_summary, class: 'IGMarkets::ClientAccountSummary' do
-    account_info { build :account_balance }
+    account_info { build(:account_balance) }
     account_type { 'CFD' }
     accounts { [build(:client_account_summary_account_details)] }
     authentication_status { 'AUTHENTICATED' }

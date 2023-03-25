@@ -3,7 +3,7 @@ describe IGMarkets::CLI::Tables::PositionsTable do
     positions = [build(:position), build(:position, level: 100.1, contract_size: 100)]
 
     expect(described_class.new(positions).to_s).to eql(<<~MSG.strip
-      +-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------+------+-------------+----------+
+      +-------------------------------------------------------------------------------------------------------------------------------------------------------+
       |                                                                       Positions                                                                       |
       +-------------------------+--------------------+------------+-----------+------+-------+---------+-------+------+-------+------+-------------+----------+
       | Date                    | EPIC               | Type       | Direction | Size | Level | Current | High  | Low  | Limit | Stop | Profit/loss | Deal IDs |
@@ -19,7 +19,7 @@ describe IGMarkets::CLI::Tables::PositionsTable do
     positions = [build(:position, level: 100.0, size: 0.1), build(:position, level: 130.0, size: 0.2)]
 
     expect(described_class.new(positions, aggregate: true).to_s).to eql(<<~MSG.strip
-      +------+--------------------+------------+-----------+------+-------+---------+-------+------+-------+------+--------------+------------+
+      +---------------------------------------------------------------------------------------------------------------------------------------+
       |                                                               Positions                                                               |
       +------+--------------------+------------+-----------+------+-------+---------+-------+------+-------+------+--------------+------------+
       | Date | EPIC               | Type       | Direction | Size | Level | Current | High  | Low  | Limit | Stop | Profit/loss  | Deal IDs   |

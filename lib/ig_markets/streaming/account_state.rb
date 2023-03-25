@@ -170,13 +170,15 @@ module IGMarkets
       end
 
       def on_working_order_updated(working_order_update)
+        working_order_attributes = %i[good_till_date limit_distance order_type stop_distance time_in_force]
+
         @working_orders.each do |working_order|
           next unless working_order.deal_id == working_order_update.deal_id
 
           working_order.currency_code = working_order_update.currency
           working_order.order_level = working_order_update.level
 
-          %i[good_till_date limit_distance order_type stop_distance time_in_force].each do |attribute|
+          working_order_attributes.each do |attribute|
             working_order.send "#{attribute}=", working_order_update.send(attribute)
           end
         end

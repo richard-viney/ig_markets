@@ -16,7 +16,7 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
   end
 
   it 'creates a new watchlist' do
-    watchlist = build :watchlist
+    watchlist = build(:watchlist)
 
     expect(dealing_platform.watchlists).to receive(:create).with('name', 'epic1', 'epic2').and_return(watchlist)
 
@@ -27,7 +27,7 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
   end
 
   it 'adds markets to a watchlist' do
-    watchlist = build :watchlist
+    watchlist = build(:watchlist)
 
     expect(dealing_platform.watchlists).to receive(:[]).and_return(watchlist)
     expect(watchlist).to receive(:add_market).with('epic1')
@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
   end
 
   it 'removes markets from a watchlist' do
-    watchlist = build :watchlist
+    watchlist = build(:watchlist)
 
     expect(dealing_platform.watchlists).to receive(:[]).and_return(watchlist)
     expect(watchlist).to receive(:remove_market).with('epic1')
@@ -47,7 +47,7 @@ describe IGMarkets::CLI::Watchlists, :cli_command do
   end
 
   it 'deletes a watchlist' do
-    watchlist = build :watchlist
+    watchlist = build(:watchlist)
 
     expect(dealing_platform.watchlists).to receive(:[]).and_return(watchlist)
     expect(watchlist).to receive(:delete).and_return(status: 'SUCCESS')

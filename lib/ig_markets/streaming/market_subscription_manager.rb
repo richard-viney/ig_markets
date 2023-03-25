@@ -54,7 +54,7 @@ module IGMarkets
           next if @subscriptions.key? epic
 
           subscription = @dealing_platform.streaming.build_markets_subscription epic
-          subscription.on_data(&method(:run_callbacks))
+          subscription.on_data { |data, merged_data| run_callbacks data, merged_data }
 
           @subscriptions[epic] = subscription
 

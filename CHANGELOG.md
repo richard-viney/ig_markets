@@ -2,7 +2,8 @@
 
 ### 0.35 — Unreleased
 
-- 
+- Updated supported Ruby version range to 2.7 - 3.2.
+- Updated dependency versions.
 
 ### 0.34 — April 29, 2020
 

@@ -4,7 +4,7 @@ describe IGMarkets::CLI::Tables::PerformancesTable do
                     { epic: '123456', instrument_name: '123', transactions: [build(:transaction)], profit_loss: -5 }]
 
     expect(described_class.new(performances).to_s).to eql(<<~MSG.strip
-      +--------+-----------------+-------------------+-------------+
+      +------------------------------------------------------------+
       |                    Dealing performance                     |
       +--------+-----------------+-------------------+-------------+
       | EPIC   | Instrument name | # of closed deals | Profit/loss |

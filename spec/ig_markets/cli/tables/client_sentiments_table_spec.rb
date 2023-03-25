@@ -7,7 +7,7 @@ describe IGMarkets::CLI::Tables::ClientSentimentsTable do
     ]
 
     expect(described_class.new(client_sentiments, title: 'Title').to_s).to eql(<<~MSG.strip
-      +--------+--------+---------+
+      +---------------------------+
       |           Title           |
       +--------+--------+---------+
       | Market | Long % | Short % |

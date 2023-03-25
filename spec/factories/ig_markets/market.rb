@@ -1,18 +1,18 @@
 FactoryBot.define do
   factory :market, class: 'IGMarkets::Market' do
-    dealing_rules { build :market_dealing_rules }
-    instrument { build :instrument }
-    snapshot { build :market_snapshot }
+    dealing_rules { build(:market_dealing_rules) }
+    instrument { build(:instrument) }
+    snapshot { build(:market_snapshot) }
   end
 
   factory :market_dealing_rules, class: 'IGMarkets::Market::DealingRules' do
     market_order_preference { 'AVAILABLE_DEFAULT_ON' }
     trailing_stops_preference { 'AVAILABLE' }
-    max_stop_or_limit_distance { build :market_dealing_rules_rule_details }
-    min_controlled_risk_stop_distance { build :market_dealing_rules_rule_details }
-    min_deal_size { build :market_dealing_rules_rule_details }
-    min_normal_stop_or_limit_distance { build :market_dealing_rules_rule_details }
-    min_step_distance { build :market_dealing_rules_rule_details }
+    max_stop_or_limit_distance { build(:market_dealing_rules_rule_details) }
+    min_controlled_risk_stop_distance { build(:market_dealing_rules_rule_details) }
+    min_deal_size { build(:market_dealing_rules_rule_details) }
+    min_normal_stop_or_limit_distance { build(:market_dealing_rules_rule_details) }
+    min_step_distance { build(:market_dealing_rules_rule_details) }
   end
 
   factory :market_dealing_rules_rule_details, class: 'IGMarkets::Market::DealingRules::RuleDetails' do

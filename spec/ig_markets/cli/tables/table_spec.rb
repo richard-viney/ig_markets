@@ -43,7 +43,7 @@ describe IGMarkets::CLI::Tables::Table do
 
   it 'prints the table' do
     expect("#{table_class.new(models)}\n").to eq(<<~MSG
-      +-------+--------+--------+
+      +-------------------------+
       |          Test           |
       +-------+--------+--------+
       | First | Second | Third  |
@@ -58,7 +58,7 @@ describe IGMarkets::CLI::Tables::Table do
 
   it 'uses a custom title' do
     expect("#{table_class.new(models, title: 'Title')}\n").to eq(<<~MSG
-      +-------+--------+--------+
+      +-------------------------+
       |          Title          |
       +-------+--------+--------+
       | First | Second | Third  |

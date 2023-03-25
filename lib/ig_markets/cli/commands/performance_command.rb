@@ -25,7 +25,7 @@ module IGMarkets
 
       def gather_performances(dealing_platform)
         performances = deal_transactions_by_epic(dealing_platform).map do |epic, transactions|
-          profit_loss = transactions.map(&:profit_and_loss_amount).inject(&:+)
+          profit_loss = transactions.sum(&:profit_and_loss_amount)
 
           { epic: epic, transactions: transactions, profit_loss: profit_loss }
         end
@@ -38,7 +38,7 @@ module IGMarkets
 
         deal_transactions(dealing_platform).group_by do |transaction|
           activities.detect do |activity|
-            Regexp.new("^Position(\/s| partially) closed:.*#{transaction.reference}").match activity.description
+            Regexp.new("^Position(/s| partially) closed:.*#{transaction.reference}").match activity.description
           end.epic
         end
       end
@@ -58,7 +58,7 @@ module IGMarkets
       end
 
       def print_summary(performances)
-        profit_loss = performances.map { |h| h[:profit_loss] }.inject(:+)
+        profit_loss = performances.sum { |h| h[:profit_loss] }
         currency = performances.first[:transactions].first.currency
 
         puts <<~MSG

@@ -7,6 +7,6 @@ module IGMarkets
     CURRENCY = /\A[A-Z]{3}\Z/.freeze
 
     # Regex used to validate an EPIC.
-    EPIC = /\A[A-Z,a-z,0-9,.,_]{6,30}\Z/.freeze
+    EPIC = /\A[A-Za-z0-9.,_]{6,30}\Z/.freeze
   end
 end

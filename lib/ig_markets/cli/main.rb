@@ -36,7 +36,7 @@ module IGMarkets
             to: history_options_parse_time(options[:to])
           }
         else
-          { from: Time.now.utc - options[:days] * 86_400 }
+          { from: Time.now.utc - (options[:days] * 86_400) }
         end
       end
 
@@ -108,14 +108,14 @@ module IGMarkets
         def parse_date_time(attributes, attribute, klass, format, display_format)
           return unless attributes.key? attribute
 
-          if !['', attribute.to_s].include? attributes[attribute].to_s
+          if ['', attribute.to_s].include? attributes[attribute].to_s
+            attributes[attribute] = nil
+          else
             begin
               attributes[attribute] = klass.strptime attributes[attribute], format
             rescue ArgumentError
               raise ArgumentError, %(invalid #{attribute}, use format "#{display_format}")
             end
-          else
-            attributes[attribute] = nil
           end
         end
 

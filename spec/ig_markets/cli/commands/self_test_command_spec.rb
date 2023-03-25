@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     # Markets
 
-    eur_usd = build :market
+    eur_usd = build(:market)
 
     expect(dealing_platform.markets).to receive(:hierarchy).with('264134').and_return([build(:market_hierarchy_result)])
     expect(dealing_platform.markets).to receive(:search).with('EURUSD').and_return([build(:market_overview)])
@@ -52,7 +52,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     # Watchlists
 
-    watchlist = build :watchlist
+    watchlist = build(:watchlist)
 
     expect(dealing_platform.watchlists).to receive(:create).and_return(watchlist)
     expect(dealing_platform.watchlists).to receive(:[]).with('2547731').and_return(watchlist)
@@ -64,7 +64,7 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     # Client sentiment
 
-    client_sentiment = build :client_sentiment
+    client_sentiment = build(:client_sentiment)
 
     expect(dealing_platform.client_sentiment).to receive(:[]).with('EURUSD').and_return(client_sentiment)
     expect(client_sentiment).to receive(:related_sentiments).and_return(build(:client_sentiment))
@@ -81,9 +81,9 @@ describe IGMarkets::CLI::Main, :cli_command do
 
     # Streaming
 
-    accounts_subscription = instance_double 'IGMarkets::Streaming::Subscription'
-    markets_subscription = instance_double 'IGMarkets::Streaming::Subscription'
-    trades_subscription = instance_double 'IGMarkets::Streaming::Subscription'
+    accounts_subscription = instance_double IGMarkets::Streaming::Subscription
+    markets_subscription = instance_double IGMarkets::Streaming::Subscription
+    trades_subscription = instance_double IGMarkets::Streaming::Subscription
 
     expect(accounts_subscription).to receive(:on_data) { |&block| 5.times { block.call '' } }
     expect(markets_subscription).to receive(:on_data) { |&block| 3.times { block.call '' } }

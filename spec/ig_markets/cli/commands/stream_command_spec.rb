@@ -9,10 +9,10 @@ describe IGMarkets::CLI::Main, :cli_command do
     expect(dealing_platform.streaming).to receive(:connect)
     expect(dealing_platform.streaming).to receive(:on_error) { |&block| on_error_block = block }
 
-    curses_window = instance_double 'IGMarkets::CLI::CursesWindow'
+    curses_window = instance_double IGMarkets::CLI::CursesWindow
     expect(IGMarkets::CLI::CursesWindow).to receive(:new).and_return(curses_window)
 
-    account_state = instance_double 'IGMarkets::Streaming::AccountState'
+    account_state = instance_double IGMarkets::Streaming::AccountState
     expect(IGMarkets::Streaming::AccountState).to receive(:new).and_return(account_state)
     expect(account_state).to receive(:start)
 
@@ -30,10 +30,10 @@ describe IGMarkets::CLI::Main, :cli_command do
   it 'streams raw data' do
     cli_instance = cli accounts: true, trades: true, markets: ['ABC'], chart_ticks: ['DEF']
 
-    accounts_subscription = instance_double 'IGMarkets::Streaming::Subscription', on_data: nil
-    markets_subscription = instance_double 'IGMarkets::Streaming::Subscription', on_data: nil
-    trades_subscription = instance_double 'IGMarkets::Streaming::Subscription', on_data: nil
-    chart_ticks_subscription = instance_double 'IGMarkets::Streaming::Subscription', on_data: nil
+    accounts_subscription = instance_double IGMarkets::Streaming::Subscription, on_data: nil
+    markets_subscription = instance_double IGMarkets::Streaming::Subscription, on_data: nil
+    trades_subscription = instance_double IGMarkets::Streaming::Subscription, on_data: nil
+    chart_ticks_subscription = instance_double IGMarkets::Streaming::Subscription, on_data: nil
 
     allow(dealing_platform).to receive(:client_account_summary).and_return(build(:client_account_summary))
 

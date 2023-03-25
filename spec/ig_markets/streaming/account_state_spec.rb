@@ -1,9 +1,9 @@
 describe IGMarkets::Streaming::AccountState, :dealing_platform do
   let(:data_queue) { Queue.new }
-  let(:market_subscriptions_manager) { instance_double 'IGMarkets::Streaming::MarketSubscriptionManager', on_data: nil }
+  let(:market_subscriptions_manager) { instance_double IGMarkets::Streaming::MarketSubscriptionManager, on_data: nil }
 
-  let(:accounts_subscription) { instance_double 'IGMarkets::Streaming::Subscription' }
-  let(:trades_subscription) { instance_double 'IGMarkets::Streaming::Subscription' }
+  let(:accounts_subscription) { instance_double IGMarkets::Streaming::Subscription }
+  let(:trades_subscription) { instance_double IGMarkets::Streaming::Subscription }
 
   let(:account_state) do
     described_class.new(dealing_platform).tap do |account_state|

@@ -8,7 +8,7 @@ describe IGMarkets::CLI::Tables::SprintMarketPositionsTable do
     table = described_class.new(sprint_market_positions, markets: markets)
 
     expect(table.to_s).to eql(<<~MSG.strip
-      +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
+      +----------------------------------------------------------------------------------------------------------------+
       |                                            Sprint market positions                                             |
       +-------------------+-----------+------------+--------------+---------+-------------------+------------+---------+
       | EPIC              | Direction | Size       | Strike level | Current | Expires in (m:ss) | Payout     | Deal ID |

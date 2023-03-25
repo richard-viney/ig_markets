@@ -10,14 +10,14 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
   end
 
   it 'retrieves the market hierarchy root' do
-    result = build :market_hierarchy_result
+    result = build(:market_hierarchy_result)
 
     expect(session).to receive(:get).with('marketnavigation').and_return(result)
     expect(dealing_platform.markets.hierarchy).to eq(result)
   end
 
   it 'retrieves a market hierarchy node' do
-    result = build :market_hierarchy_result
+    result = build(:market_hierarchy_result)
 
     expect(session).to receive(:get).with('marketnavigation/1').and_return(result)
     expect(dealing_platform.markets.hierarchy(1)).to eq(result)
@@ -45,7 +45,7 @@ describe IGMarkets::DealingPlatform::MarketMethods, :dealing_platform do
       .and_return(fifty_markets)
 
     expect(session).to receive(:get)
-      .with("markets?epics=#{epics[50..-1].join ','}", IGMarkets::API_V2)
+      .with("markets?epics=#{epics[50..].join ','}", IGMarkets::API_V2)
       .and_return(ten_markets)
 
     expect(dealing_platform.markets.find(epics).size).to eq(60)

@@ -3,7 +3,7 @@ describe IGMarkets::CLI::Tables::HistoricalPriceResultSnapshotsTable do
     prices = [build(:historical_price_result_snapshot)]
 
     expect(described_class.new(prices, title: 'A').to_s).to eql(<<~MSG.strip
-      +-------------------------+------+-------+-----+------+
+      +-----------------------------------------------------+
       |                          A                          |
       +-------------------------+------+-------+-----+------+
       | Date                    | Open | Close | Low | High |

@@ -19,7 +19,9 @@ module IGMarkets
         @dealing_platform = dealing_platform
 
         @lightstreamer_subscription = lightstreamer_subscription
-        @lightstreamer_subscription.on_data(&method(:on_raw_data))
+        @lightstreamer_subscription.on_data do |subscription, item_name, item_data, new_data|
+          on_raw_data subscription, item_name, item_data, new_data
+        end
 
         @on_data_callbacks = []
       end

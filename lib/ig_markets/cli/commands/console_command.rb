@@ -8,7 +8,7 @@ module IGMarkets
         self.class.begin_session(options) do |dealing_platform|
           ig = dealing_platform
 
-          pry binding
+          pry binding # rubocop:disable Lint/Debugger
         end
       end
     end

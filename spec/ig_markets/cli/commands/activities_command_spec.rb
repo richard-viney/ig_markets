@@ -13,7 +13,7 @@ describe IGMarkets::CLI::Main, :cli_command do
       build(:activity, date: Time.new(2015, 12, 15, 15, 0, 0, 0))
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(from: Time.new(2016, 1, 2)).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with({ from: Time.new(2016, 1, 2) }).and_return(activities)
 
     expect do
       cli(days: 3, sort_by: 'date').activities
@@ -24,7 +24,7 @@ describe IGMarkets::CLI::Main, :cli_command do
     from = Time.new 2015, 1, 15, 6, 0, 0, '+04:00'
     to = Time.new 2015, 1, 18, 6, 0, 0, '+04:00'
 
-    expect(dealing_platform.account).to receive(:activities).with(from: from, to: to).and_return([])
+    expect(dealing_platform.account).to receive(:activities).with({ from: from, to: to }).and_return([])
 
     expect do
       cli(from: '2015-01-15T06:00:00+04:00', to: '2015-01-18T06:00:00+04:00').activities
@@ -37,7 +37,7 @@ describe IGMarkets::CLI::Main, :cli_command do
       build(:activity, epic: 'CS.D.NZDUSD.CFD.IP')
     ]
 
-    expect(dealing_platform.account).to receive(:activities).with(from: Time.new(2016, 1, 2)).and_return(activities)
+    expect(dealing_platform.account).to receive(:activities).with({ from: Time.new(2016, 1, 2) }).and_return(activities)
 
     expect do
       cli(days: 3, sort_by: 'date', epic: 'NZD').activities

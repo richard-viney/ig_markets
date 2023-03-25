@@ -130,7 +130,7 @@ module IGMarkets
 
       def print_position_totals(positions)
         currency_totals = positions.group_by(&:currency).map do |currency, subset|
-          total = subset.map(&:profit_loss).reduce :+
+          total = subset.sum(&:profit_loss)
 
           Format.colored_currency total, currency
         end

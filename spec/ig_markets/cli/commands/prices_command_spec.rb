@@ -29,7 +29,7 @@ describe IGMarkets::CLI::Main, :cli_command do
     end
 
     it 'lists recent prices' do
-      historical_price_result = build :historical_price_result
+      historical_price_result = build(:historical_price_result)
 
       expect(market)
         .to receive(:historical_prices)
@@ -48,7 +48,7 @@ describe IGMarkets::CLI::Main, :cli_command do
     end
 
     it 'lists prices in a date range' do
-      historical_price_result = build :historical_price_result
+      historical_price_result = build(:historical_price_result)
 
       options = {
         resolution: :day,

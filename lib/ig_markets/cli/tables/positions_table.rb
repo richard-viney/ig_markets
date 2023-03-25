@@ -33,7 +33,7 @@ module IGMarkets
         def cell_color(value, _model, _row_index, column_index)
           return unless headings[column_index] == 'Profit/loss'
 
-          if /-/.match?(value)
+          if value.include?('-')
             :red
           else
             :green
@@ -73,15 +73,15 @@ module IGMarkets
           Position.new(contract_size: first.contract_size, currency: first.currency,
                        deal_id: combine_position_deal_ids(positions), direction: first.direction,
                        level: combine_position_levels(positions), market: first.market,
-                       size: positions.map(&:size).reduce(:+)).tap do |combined|
+                       size: positions.sum(&:size)).tap do |combined|
             combined.level /= combined.size
           end
         end
 
         def combine_position_levels(positions)
-          positions.map do |position|
+          positions.sum do |position|
             position.level * position.size
-          end.reduce :+
+          end
         end
 
         def combine_position_deal_ids(positions)

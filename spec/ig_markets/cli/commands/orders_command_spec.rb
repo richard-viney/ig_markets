@@ -53,7 +53,7 @@ describe IGMarkets::CLI::Orders, :cli_command do
       stop_distance: '30'
     }
 
-    working_order = build :working_order
+    working_order = build(:working_order)
     attributes = arguments.merge good_till_date: Time.new(2016, 5, 15, 9, 45, 0, 0)
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
@@ -66,7 +66,7 @@ describe IGMarkets::CLI::Orders, :cli_command do
   it 'updates a working order and removes its good_till_date' do
     arguments = { good_till_date: nil }
 
-    working_order = build :working_order
+    working_order = build(:working_order)
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
     expect(working_order).to receive(:update).with(arguments).and_return('reference')
@@ -76,7 +76,7 @@ describe IGMarkets::CLI::Orders, :cli_command do
   end
 
   it 'deletes a working order' do
-    working_order = build :working_order
+    working_order = build(:working_order)
 
     expect(dealing_platform.working_orders).to receive(:[]).with(working_order.deal_id).and_return(working_order)
     expect(working_order).to receive(:delete).and_return('reference')

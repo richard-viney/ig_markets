@@ -11,12 +11,12 @@ describe IGMarkets::Session do
   let(:key) { Base64.strict_encode64 OpenSSL::PKey::RSA.new(1024).to_pem }
 
   def build_response(options)
-    instance_double 'Excon::Response', options
+    instance_double Excon::Response, options
   end
 
   context 'with a non-signed in session' do
     it 'is not alive' do
-      expect(session.alive?).to eq(false)
+      expect(session.alive?).to be(false)
     end
 
     it 'sign ins' do
@@ -32,7 +32,7 @@ describe IGMarkets::Session do
 
       expect(session.client_security_token).to eq('1')
       expect(session.x_security_token).to match('2')
-      expect(session.alive?).to eq(true)
+      expect(session.alive?).to be(true)
     end
   end
 
@@ -45,7 +45,7 @@ describe IGMarkets::Session do
     end
 
     it 'is alive' do
-      expect(session.alive?).to eq(true)
+      expect(session.alive?).to be(true)
     end
 
     it 'performs a POST request' do
@@ -57,8 +57,8 @@ describe IGMarkets::Session do
     it 'signs out' do
       response = build_response body: {}.to_json
       expect(Excon).to receive(:delete).with(full_url('session'), request_options).and_return(response)
-      expect(session.sign_out).to be nil
-      expect(session.alive?).to eq(false)
+      expect(session.sign_out).to be_nil
+      expect(session.alive?).to be(false)
     end
 
     it 'retries after a pause if the API key allowance was exceeded' do
@@ -106,7 +106,7 @@ describe IGMarkets::Session do
 
       expect(session.client_security_token).to eq('3')
       expect(session.x_security_token).to match('4')
-      expect(session.alive?).to eq(true)
+      expect(session.alive?).to be(true)
     end
 
     it 'performs a PUT request' do

@@ -7,9 +7,9 @@ FactoryBot.define do
     currencies { [build(:instrument_currency)] }
     epic { 'CS.D.EURUSD.CFD.IP' }
     expiry { '20-DEC-40' }
-    expiry_details { build :instrument_expiry_details }
+    expiry_details { build(:instrument_expiry_details) }
     force_open_allowed { false }
-    limited_risk_premium { build :limited_risk_premium }
+    limited_risk_premium { build(:limited_risk_premium) }
     lot_size { 1000.0 }
     margin_deposit_bands { [build(:instrument_margin_deposit_band)] }
     margin_factor { 0.01 }
@@ -19,8 +19,8 @@ FactoryBot.define do
     news_code { 'CODE' }
     one_pip_means { '' }
     opening_hours { [build(:instrument_opening_hours)] }
-    rollover_details { build :instrument_rollover_details }
-    slippage_factor { build :instrument_slippage_factor }
+    rollover_details { build(:instrument_rollover_details) }
+    slippage_factor { build(:instrument_slippage_factor) }
     special_info { %w[INFO] }
     sprint_markets_maximum_expiry_time { 100.0 }
     sprint_markets_minimum_expiry_time { 10.0 }

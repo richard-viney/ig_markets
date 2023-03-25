@@ -51,7 +51,7 @@ describe IGMarkets::CLI::CursesWindow do
   end
 
   context 'with a curses window' do
-    let(:curses_window) { instance_double 'Curses::Window' }
+    let(:curses_window) { instance_double Curses::Window }
 
     let(:window) do
       expect(described_class).to receive(:prepare)

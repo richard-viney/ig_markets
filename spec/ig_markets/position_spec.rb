@@ -2,13 +2,13 @@ describe IGMarkets::Position, :dealing_platform do
   let(:position) { dealing_platform_model build(:position, deal_id: '1') }
 
   let(:profitable_position) do
-    market = build :market_overview, bid: 4.0
-    build :position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :buy, size: 2, market: market
+    market = build(:market_overview, bid: 4.0)
+    build(:position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :buy, size: 2, market: market)
   end
 
   let(:unprofitable_position) do
-    market = build :market_overview, offer: 4.0
-    build :position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :sell, size: 2, market: market
+    market = build(:market_overview, offer: 4.0)
+    build(:position, contract_size: 1000, currency: 'USD', level: 1.0, direction: :sell, size: 2, market: market)
   end
 
   it 'knows if it has a trailing stop' do
@@ -34,8 +34,8 @@ describe IGMarkets::Position, :dealing_platform do
   end
 
   it 'calculates payout amounts for binaries' do
-    market = build :market_overview, instrument_type: :binary
-    position = build :position, size: 100, level: 0.8, market: market
+    market = build(:market_overview, instrument_type: :binary)
+    position = build(:position, size: 100, level: 0.8, market: market)
 
     expect(position.profit_loss).to eq(125)
   end

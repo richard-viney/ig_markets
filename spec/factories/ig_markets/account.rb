@@ -4,7 +4,7 @@ FactoryBot.define do
     account_id { 'ACCOUNT' }
     account_name { 'CFD' }
     account_type { 'CFD' }
-    balance { build :account_balance }
+    balance { build(:account_balance) }
     can_transfer_from { true }
     can_transfer_to { true }
     currency { 'USD' }

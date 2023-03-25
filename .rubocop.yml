@@ -4,7 +4,10 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
+
+Bundler/GemFilename:
+  EnforcedStyle: gems.rb
 
 Layout/LineLength:
   Max: 120
@@ -19,7 +22,10 @@ Metrics/BlockLength:
   Enabled: false
 
 Metrics/ClassLength:
-  Max: 120
+  Max: 150
+
+Naming/VariableNumber:
+  Enabled: false
 
 RSpec/ExampleLength:
   Enabled: false
@@ -31,6 +37,9 @@ RSpec/MessageSpies:
   Enabled: false
 
 RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/StubbedMock:
   Enabled: false
 
 Style/FormatStringToken:

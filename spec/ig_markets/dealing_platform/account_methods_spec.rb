@@ -35,7 +35,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   end
 
   it 'retrieves more activities than the IG Markets API will return in one request' do
-    activities = (0...1200).map { |index| build :activity, deal_id: index, date: Time.new(2014, 10, 27) }
+    activities = (0...1200).map { |index| build(:activity, deal_id: index, date: Time.new(2014, 10, 27)) }
 
     urls = [
       'history/activity?from=2014-05-20T14%3A30%3A00&to=2014-11-01T00%3A00%3A00&pageSize=500&detailed=true',
@@ -98,7 +98,7 @@ describe IGMarkets::DealingPlatform::AccountMethods, :dealing_platform do
   end
 
   it 'retrieves more transactions than the IG Markets API will return in one request' do
-    transactions = Array.new(800) { build :transaction, date: Time.new(2014, 10, 27) }
+    transactions = Array.new(800) { build(:transaction, date: Time.new(2014, 10, 27)) }
 
     urls = [
       'history/transactions?type=ALL&from=2014-05-20T14%3A30%3A00&to=2014-11-01T00%3A00%3A00&pageSize=500&pageNumber=1',

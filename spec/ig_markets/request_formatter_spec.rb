@@ -21,7 +21,7 @@ describe IGMarkets::RequestFormatter do
   end
 
   it 'formats a JSON response' do
-    response = instance_double 'Excon::Response', headers: { 'Name' => 'Value' }, body: { data: 'ABC' }.to_json
+    response = instance_double Excon::Response, headers: { 'Name' => 'Value' }, body: { data: 'ABC' }.to_json
 
     expect(described_class.format_response(response)).to eq(<<-MSG
   Response:
@@ -36,7 +36,7 @@ describe IGMarkets::RequestFormatter do
   end
 
   it 'formats an HTML response' do
-    response = instance_double 'Excon::Response', headers: { 'Name' => 'Value' }, body: '<html></html>'
+    response = instance_double Excon::Response, headers: { 'Name' => 'Value' }, body: '<html></html>'
 
     expect(described_class.format_response(response)).to eq(<<-MSG
   Response:

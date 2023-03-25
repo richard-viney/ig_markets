@@ -24,9 +24,9 @@ module IGMarkets
         end
 
         def cell_color(value, _model, _row_index, column_index)
-          return unless /Change/.match?(headings[column_index])
+          return unless headings[column_index].include?('Change')
 
-          if /-/.match?(value)
+          if value.include?('-')
             :red
           else
             :green

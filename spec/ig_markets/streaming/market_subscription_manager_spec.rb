@@ -8,7 +8,7 @@ describe IGMarkets::Streaming::MarketSubscriptionManager, :dealing_platform do
   end
 
   it 'adjusts subscriptions when EPICs change' do
-    subscription = instance_double 'IGMarkets::Streaming::Subscription', on_data: nil
+    subscription = instance_double IGMarkets::Streaming::Subscription, on_data: nil
 
     expect(dealing_platform.streaming).to receive(:build_markets_subscription).with('1').and_return(subscription)
     expect(dealing_platform.streaming).to receive(:build_markets_subscription).with('2').and_return(subscription)

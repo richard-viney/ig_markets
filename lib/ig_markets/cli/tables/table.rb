@@ -95,7 +95,7 @@ module IGMarkets
 
           return '' if value.empty?
 
-          value[0].upcase + value[1..-1]
+          value[0].upcase + value[1..]
         end
       end
     end

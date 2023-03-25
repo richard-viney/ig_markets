@@ -10,14 +10,14 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   it 'signs in' do
     expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :live)
 
-    described_class.begin_session(cli.options) { |_dealing_platform| }
+    described_class.begin_session(cli.options) { |_dealing_platform| } # rubocop:disable Lint/EmptyBlock
   end
 
   it 'reports a connection error' do
     expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::Errors::ConnectionError)
 
     expect do
-      described_class.begin_session(cli.options) { |_dealing_platform| }
+      described_class.begin_session(cli.options)
     end.to output("ig_markets: ConnectionError\n").to_stderr.and raise_error(SystemExit)
   end
 
@@ -25,12 +25,12 @@ describe IGMarkets::CLI::Main, :dealing_platform do
     expect(dealing_platform).to receive(:sign_in).and_raise(IGMarkets::Errors::ConnectionError.new('details'))
 
     expect do
-      described_class.begin_session(cli.options) { |_dealing_platform| }
+      described_class.begin_session(cli.options)
     end.to output("ig_markets: ConnectionError, details\n").to_stderr.and raise_error(SystemExit)
   end
 
   it 'reports a deal confirmation' do
-    deal_confirmation = build :deal_confirmation, profit: -1.5
+    deal_confirmation = build(:deal_confirmation, profit: -1.5)
 
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
@@ -45,7 +45,7 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   end
 
   it 'reports a deal confirmation that was rejected' do
-    deal_confirmation = build :deal_confirmation, deal_status: :rejected, reason: :unknown
+    deal_confirmation = build(:deal_confirmation, deal_status: :rejected, reason: :unknown)
 
     expect(dealing_platform).to receive(:deal_confirmation).with('reference').and_return(deal_confirmation)
 
@@ -61,7 +61,7 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   end
 
   it 'retries the deal confirmation request multiple times if the attempts return deal not found' do
-    deal_confirmation = build :deal_confirmation
+    deal_confirmation = build(:deal_confirmation)
 
     expect(dealing_platform)
       .to receive(:deal_confirmation)
@@ -149,8 +149,8 @@ describe IGMarkets::CLI::Main, :dealing_platform do
   it 'enables logging to stdout when --verbose is set' do
     expect(dealing_platform).to receive(:sign_in).with('username', 'password', 'api-key', :live)
 
-    described_class.begin_session(cli(verbose: true).options) { |_dealing_platform| }
+    described_class.begin_session(cli(verbose: true).options) { |_dealing_platform| } # rubocop:disable Lint/EmptyBlock
 
-    expect(dealing_platform.session.log_sinks).to match_array([$stdout])
+    expect(dealing_platform.session.log_sinks).to contain_exactly($stdout)
   end
 end
