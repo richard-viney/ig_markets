@@ -1,6 +1,6 @@
 # IG Markets Changelog
 
-### 0.35 — Unreleased
+### 0.35 — March 26, 2023
 
 - Updated supported Ruby version range to 2.7 - 3.2.
 - Updated dependency versions.
